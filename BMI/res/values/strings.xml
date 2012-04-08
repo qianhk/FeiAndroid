@@ -9,5 +9,10 @@
 	<string name="advice_light">你该多吃点</string>
 	<string name="advice_average">体型很棒喔</string>
 	<string name="advice_heavy">你该节食了</string>
+	<string name="about_title">关于 Android BMI</string>
+	<string name="about_msg">Android BMI Calc\n
+作者: kai\n\n
+Body Mass Index</string>
+	<string name="ok_label">OK</string>
 
 </resources>
