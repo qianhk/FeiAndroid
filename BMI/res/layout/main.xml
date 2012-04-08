@@ -7,6 +7,25 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello" />
+        android:text="@string/stature" />
+    <EditText android:id="@+id/stature"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:numeric="integer"
+        android:text="" />
+
+     <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/weight" />
+    <EditText android:id="@+id/weight"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:numeric="integer"
+        android:text="" />
+
+    <Button android:id="@+id/submit" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/submit"/>
+    <TextView android:id="@+id/result" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" />
+    <TextView android:id="@+id/suggest" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" />
 
 </LinearLayout>
