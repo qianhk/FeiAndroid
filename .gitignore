@@ -1,6 +1,5 @@
 #### eclipse
 *.pydevproject
-.project
 .metadata
 bin/**
 tmp/**
