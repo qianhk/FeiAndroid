@@ -43,8 +43,12 @@ public class JavaHttp {
 	    	System.out.println("------------------");
 	    	System.out.println(response.getStatusLine());
 	    	if (entity != null) {
-	    		System.out.println("Response content length: " + entity.getContentLength());
-	    		System.out.println("Response content: " + EntityUtils.toString(entity));
+	    		String charset = EntityUtils.getContentCharSet(entity);
+	    		System.out.println("Response content length: " + entity.getContentLength() + " CharSet:" + charset);
+//	    		String ls_content = EntityUtils.toString(entity);
+	    		String ls_content = EntityUtils.toString(entity, ((charset == null) ? "UTF-8" : charset));
+//	    		String ls_content = EntityUtils.toString(entity, "UTF-8");
+	    		System.out.println("Response content: " + ((ls_content.length() > 1000) ? ls_content.substring(0, 1000) : ls_content));
 	    	}
 	    	System.out.println("--------------------");
 	    }
@@ -57,8 +61,10 @@ public class JavaHttp {
 		System.out.println("hello, java http");
 		exeHttpClient("http://wap.baidu.com");
 		exeHttpClient("http://wap.google.com");
-		exeHttpClient("http://192.168.1.61:8008/apt/Release");
-		exeHttpClient("http://whatsmyua.com/");
+		exeHttpClient("http://apt.ttpod.com/ttpod.html");
+		exeHttpClient("https://github.com/qhkyzf/FeiAndroid");
+//		exeHttpClient("http://whatsmyua.com/");
+//		exeHttpClient("http://www.devdiv.com/%E7%81%8C%E6%B0%B4%E5%8C%BA-forum-14-1.html");
 	}
 
 }
