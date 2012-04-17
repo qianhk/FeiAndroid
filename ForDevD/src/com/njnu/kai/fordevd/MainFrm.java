@@ -62,9 +62,11 @@ public class MainFrm {
 		tabbedPane.addTab("Friend", null, panel, null);
 		panel.setLayout(null);
 
-		JButton btnFriendStart = new JButton("Start");
+		final JButton btnFriendStart = new JButton("Start");
 		btnFriendStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				_lastContent = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/forum-154-1.html");
+				System.out.println("\r\n\r\n------------\r\n\r\n" + _lastContent);
 			}
 		});
 		btnFriendStart.setBounds(656, 13, 117, 29);
@@ -87,4 +89,10 @@ public class MainFrm {
 		JMenuItem mntmItem = new JMenuItem("Item1");
 		mnFile.add(mntmItem);
 	}
+
+	private String _lastContent = null;
+	private final static String devUserAccount = "abc";
+	private final static String devUserPW = "def";
+	private final static String devUid = "123";
+
 }
