@@ -3,6 +3,8 @@ package com.njnu.kai;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -59,11 +61,11 @@ public class JavaHttp {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("hello, java http");
-		exeHttpClient("http://wap.baidu.com");
-		exeHttpClient("http://wap.google.com");
-		exeHttpClient("http://apt.ttpod.com/ttpod.html");
-		exeHttpClient("https://github.com/qhkyzf/FeiAndroid");
-//		exeHttpClient("http://whatsmyua.com/");
+//		exeHttpClient("http://wap.baidu.com");
+//		exeHttpClient("http://wap.google.com");
+//		exeHttpClient("http://apt.ttpod.com/ttpod.html");
+//		exeHttpClient("https://github.com/qhkyzf/FeiAndroid");
+		exeHttpClient("http://whatsmyua.com/");
 //		exeHttpClient("http://www.devdiv.com/%E7%81%8C%E6%B0%B4%E5%8C%BA-forum-14-1.html");
 	}
 

@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class MainFrm {
 
@@ -62,21 +65,37 @@ public class MainFrm {
 		tabbedPane.addTab("Friend", null, panel, null);
 		panel.setLayout(null);
 
-		final JButton btnFriendStart = new JButton("Start");
+		btnFriendStart = new JButton("Start");
 		btnFriendStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				_lastContent = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/forum-154-1.html");
-				System.out.println("\r\n\r\n------------\r\n\r\n" + _lastContent);
+				txtFriendResult.setText("Start......\r\n");
+				if (!IsValidDevdCookie()) {
+					txtFriendResult.setText("Cookie无效了，重新登录......\r\n");
+					if (LoginDevdBBs()) {
+						AddLineToResult("登录成功......");
+					} else {
+						AddLineToResult("登录失败，Over！");
+						return;
+					}
+				} else {
+					txtFriendResult.setText("Cookie有效，无需重新登录!\r\n");
+				}
 			}
 		});
 		btnFriendStart.setBounds(656, 13, 117, 29);
 		panel.add(btnFriendStart);
 
-		JTextArea txtFriendResult = new JTextArea();
+		txtFriendResult = new JTextArea();
+		panel.add(txtFriendResult);
+		txtFriendResult.setText("welcome.");
 		txtFriendResult.setColumns(64);
 		txtFriendResult.setRows(10);
-		txtFriendResult.setBounds(6, 54, 767, 434);
-		panel.add(txtFriendResult);
+		txtFriendResult.setBounds(2, 2, 425, 309);
+
+		JScrollPane scrollPane = new JScrollPane(txtFriendResult);
+		scrollPane.setBounds(0, 54, 773, 434);
+		panel.add(scrollPane);
+
 		tabbedPane.addTab("Tab 2", new JLabel("Tab 2 Content"));
 		tabbedPane.addTab("Tab 3", new JLabel("Tab 3 Content"));
 
@@ -90,9 +109,60 @@ public class MainFrm {
 		mnFile.add(mntmItem);
 	}
 
-	private String _lastContent = null;
-	private final static String devUserAccount = "abc";
-	private final static String devUserPW = "def";
-	private final static String devUid = "123";
+	private boolean LoginDevdBBs() {
+		_lastContent = HttpUtility
+				.GetUseAutoEncoding("http://www.devdiv.com/member.php?mod=logging&action=login");
+		if (_lastContent.indexOf("登录   DEVDIV.COM") < 0) {
+			return false;
+		}
+		// AddLineToResult(_lastContent);
+		Pattern pattern = Pattern
+				.compile("<input type=\"hidden\" name=\"formhash\" value=\"(\\w+?)\" />");
+		Matcher match = pattern.matcher(_lastContent);
+		match.find();
+		String formhash = match.group(1);
 
+		pattern = Pattern.compile("action=\"(member.php\\?mod=logging.+?)\">");
+		match = pattern.matcher(_lastContent);
+		match.find();
+		String posturl = match.group(1).replace("&amp;", "&");
+
+		pattern = Pattern.compile("value=\"(\\d+?)\"  />自动登录</label>");
+		match = pattern.matcher(_lastContent);
+		match.find();
+		String cookietime = match.group(1);
+
+		String md5pw = HttpUtility.getMD5(devUserPW.getBytes());
+		String postdata = String
+				.format("formhash=%s&referer=&username=%s&password=%s&questionid=0&answer=&cookietime=%s",
+						formhash, devUserAccount, md5pw, cookietime);
+//		AddLineToResult(posturl + " " + postdata);
+//		_lastContent = _hh.PostUseAutoEncoding("http://www.devdiv.com/" + posturl, postdata);
+
+		return true;
+	}
+
+	private boolean IsValidDevdCookie() {
+		String needStr = String
+				.format(".com/home.php?mod=space&amp;uid=%s\" target=\"_blank\" title=\"访问我的空间\">%s</a></strong>",
+						devUid, devUserAccount);
+		_lastContent = HttpUtility
+				.GetUseAutoEncoding("http://www.devdiv.com/forum-154-1.html");
+		return _lastContent.indexOf(needStr) >= 0;
+		// System.out.println("\r\n\r\n------------\r\n\r\n" + _lastContent);
+		// txtFriendResult.setText(String.format("indexofs=%d", indexOfStr));
+	}
+
+	private void AddLineToResult(String text) {
+		String oriText = txtFriendResult.getText();
+		txtFriendResult.setText(oriText + text + "\r\n");
+	}
+
+	private String _lastContent = null;
+	private JTextArea txtFriendResult = null;
+	private JButton btnFriendStart = null;
+
+	private final static String devUserAccount = "waring1983";
+	private final static String devUserPW = "qwertasdf";
+	private final static String devUid = "215055";
 }
