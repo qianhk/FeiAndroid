@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -187,6 +188,8 @@ public class MainFrm {
 						ls_task = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=view&id=70");
 						Thread.sleep(2000);
 
+						countDownLatch = new CountDownLatch(doTaskThreadAmount);
+						taskSucessTimes = 0;
 						Thread[] arrThread = new Thread[doTaskThreadAmount];
 						for (int i = 0; i < doTaskThreadAmount; ++i) {
 							arrThread[i] = new Thread(new Runnable() {
@@ -194,18 +197,22 @@ public class MainFrm {
 								public void run() {
 									String returnContent = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=draw&id=70");
 									if (returnContent == null) {
-										AddLineToResult("Do Task: Timeout.");
+//										AddLineToResult("Do Task: Timeout.");
 									} else if (returnContent.indexOf("不是进行中的") >= 0) {
-										AddLineToResult("Do Task: 不是进行中的");
+//										AddLineToResult("Do Task: 不是进行中的");
 									} else {
-										AddLineToResult("Do Task: Ok");
+//										AddLineToResult("Do Task: Ok");
+										++taskSucessTimes;
 									}
+									countDownLatch.countDown();
 								}
 							});
 						}
 						for (Thread thread : arrThread) {
 							thread.start();
 						}
+						countDownLatch.await();
+						AddLineToResult(String.format("本次任务完成。 (%d of %d)", taskSucessTimes, doTaskThreadAmount));
 					}
 					Thread.sleep(doTaskInterval);
 				} catch (InterruptedException e) {
@@ -295,12 +302,14 @@ public class MainFrm {
 	private JButton btnFriendStart = null;
 
 	private int checkFriendTimes = 0;
+	private CountDownLatch countDownLatch = null;
+	private int taskSucessTimes = 0;
 
 	private final static String devUserAccount = "waring1983";
 	private final static String devUserPW = "qwertasdf";
 	private final static String devUid = "215055";
 
-	private final static int doTaskThreadAmount = 30;
+	private final static int doTaskThreadAmount = 20;
 	private final static int doTaskInterval = 5 * 60 * 1000;
 
 	private class UIOperator implements Runnable {
