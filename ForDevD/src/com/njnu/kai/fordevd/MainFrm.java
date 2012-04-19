@@ -296,9 +296,10 @@ public class MainFrm {
 
 	private int checkFriendTimes = 0;
 
-	private final static String devUserAccount = "Flying";
-	private final static String devUserPW = "qhkdcdyzf";
-	private final static String devUid = "666";
+	private final static String devUserAccount = "waring1983";
+	private final static String devUserPW = "qwertasdf";
+	private final static String devUid = "215055";
+
 	private final static int doTaskThreadAmount = 30;
 	private final static int doTaskInterval = 5 * 60 * 1000;
 
