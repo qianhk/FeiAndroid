@@ -1,21 +1,20 @@
 package com.njnu.kai.fordevd;
 
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
@@ -23,15 +22,20 @@ import org.apache.http.util.EntityUtils;
 public class HttpUtility {
 
 	static public String GetUseAutoEncoding(String url) {
-		HttpClient client = new DefaultHttpClient();
+		AbstractHttpClient client = new DefaultHttpClient();
 		HttpParams httpParam = client.getParams();
-		httpParam.setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, Http_Timeout_Time);
-		httpParam.setIntParameter(CoreConnectionPNames.SO_TIMEOUT, Http_Timeout_Time);
+		httpParam.setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT,
+				Http_Timeout_Time);
+		httpParam.setIntParameter(CoreConnectionPNames.SO_TIMEOUT,
+				Http_Timeout_Time);
 		String ls_content = null;
 		try {
 			HttpGet httpGet = new HttpGet(url);
-			// System.out.println("GetUseAutoEncoding: " + httpGet.getURI());
+			httpGet.setHeader("Referer", _lastUrl);
+			httpGet.setHeader("User-Agent", _user_agent);
+			client.setCookieStore(_cookieStore);
 			HttpResponse response = client.execute(httpGet);
+			_lastUrl = url;
 			HttpEntity entity = response.getEntity();
 			// System.out.println(response.getStatusLine());
 			if (entity != null) {
@@ -48,11 +52,15 @@ public class HttpUtility {
 		return ls_content;
 	}
 
-	static public String PostUseAutoEncoding(String url, String postData, String encoding) {
+	static public String PostUseAutoEncoding(String url, String postData,
+			String encoding) {
 		String content = null;
 		try {
 			StringEntity postEntity = new StringEntity(postData, encoding);
-			postEntity.setContentType(URLEncodedUtils.CONTENT_TYPE + HTTP.CHARSET_PARAM + (encoding != null ? encoding : HTTP.DEFAULT_CONTENT_CHARSET));
+			postEntity.setContentType(URLEncodedUtils.CONTENT_TYPE
+					+ HTTP.CHARSET_PARAM
+					+ (encoding != null ? encoding
+							: HTTP.DEFAULT_CONTENT_CHARSET));
 			content = PostUseAutoEncoding(url, postEntity);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -60,30 +68,39 @@ public class HttpUtility {
 		return content;
 	}
 
-	static public String PostUseAutoEncoding(String url, List<NameValuePair> formparams, String encoding) {
+	static public String PostUseAutoEncoding(String url,
+			List<NameValuePair> formparams, String encoding) {
 		String postData = URLEncodedUtils.format(formparams, encoding);
 		return PostUseAutoEncoding(url, postData, encoding);
 	}
 
 	static private String PostUseAutoEncoding(String url, HttpEntity postEntity) {
-		HttpClient client = new DefaultHttpClient();
+		AbstractHttpClient client = new DefaultHttpClient();
 		HttpParams httpParam = client.getParams();
-//		HttpConnectionParams.setConnectionTimeout(httpParam, Http_Timeout_Time);
-		httpParam.setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, Http_Timeout_Time);
-		httpParam.setIntParameter(CoreConnectionPNames.SO_TIMEOUT, Http_Timeout_Time);
+		// HttpConnectionParams.setConnectionTimeout(httpParam,
+		// Http_Timeout_Time);
+		httpParam.setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT,
+				Http_Timeout_Time);
+		httpParam.setIntParameter(CoreConnectionPNames.SO_TIMEOUT,
+				Http_Timeout_Time);
 		String ls_content = null;
 		try {
 			HttpPost httpPost = new HttpPost(url);
-//			InputStream ins = postEntity.getContent();
-//			int len = ins.available();
-//			System.out.println(len);
-//			byte[] datahah = new byte[len];
-//			ins.read(datahah);
-//			String haha = new String(datahah, HTTP.UTF_8);
-//			System.out.println(haha);
+			// InputStream ins = postEntity.getContent();
+			// int len = ins.available();
+			// System.out.println(len);
+			// byte[] datahah = new byte[len];
+			// ins.read(datahah);
+			// String haha = new String(datahah, HTTP.UTF_8);
+			// System.out.println(haha);
 
+			// httpPost.setHeader(name, value)
+			httpPost.setHeader("Referer", _lastUrl);
+			httpPost.setHeader("User-Agent", _user_agent);
 			httpPost.setEntity(postEntity);
+			client.setCookieStore(_cookieStore);
 			HttpResponse response = client.execute(httpPost);
+			_lastUrl = url;
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
 				String charset = EntityUtils.getContentCharSet(entity);
@@ -129,5 +146,9 @@ public class HttpUtility {
 		return s;
 	}
 
-	private final static int Http_Timeout_Time = 15000;
+	private static String _lastUrl = "";
+	private static CookieStore _cookieStore = new BasicCookieStore();
+
+	private final static int Http_Timeout_Time = 30000;
+	private final static String _user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.163 Safari/535.19";
 }

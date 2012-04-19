@@ -153,7 +153,7 @@ public class MainFrm {
 	}
 
 	private void threadDoAddFriendTask() {
-		AddLineToResult("Start......");
+		AddLineToResult("Start，祝好运，检查cookie是否有效......");
 		boolean operateSucess = true;
 		if (!IsValidDevdCookie()) {
 			AddLineToResult("Cookie无效了，重新登录......");

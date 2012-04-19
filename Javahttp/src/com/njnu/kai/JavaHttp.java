@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -39,7 +40,13 @@ public class JavaHttp {
 	    HttpClient client = new DefaultHttpClient();
 	    try {
 	    	HttpGet httpGet = new HttpGet(urlAsString);
+	    	httpGet.setHeader("Referer", "http://baidu.com");
+	    	httpGet.setHeader("User-Agent", "kai kai browser 1983.12.24");
 	    	System.out.println("execting request: " + httpGet.getURI());
+	    	Header[] allHeader = httpGet.getAllHeaders();
+	    	for (Header h : allHeader) {
+	    		System.out.println(h);
+	    	}
 	    	HttpResponse response = client.execute(httpGet);
 	    	HttpEntity entity = response.getEntity();
 	    	System.out.println("------------------");
