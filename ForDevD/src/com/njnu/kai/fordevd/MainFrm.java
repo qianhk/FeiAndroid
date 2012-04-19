@@ -168,16 +168,58 @@ public class MainFrm {
 		}
 
 		if (operateSucess) {
+			checkFriendTimes = 0;
+			AddLineToResult("开始每5分钟检查一次!");
 
+			while(true) {
+				++checkFriendTimes;
+				AddLineToResult(String.format("第 %d 次检查开始.....", checkFriendTimes));
+				try {
+					String ls_task = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=apply&id=70");
+					if (ls_task == null) {
+						AddLineToResult("网络链接超时，本次忽略");
+					} else if (ls_task.indexOf("抱歉，本期您已") >= 0) {
+						AddLineToResult("No Task, 本次忽略");
+						ls_task = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=draw&id=70");
+					} else {
+						AddLineToResult("Have Task, Doing...");
+						Thread.sleep(2000);
+						ls_task = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=view&id=70");
+						Thread.sleep(2000);
+
+						Thread[] arrThread = new Thread[doTaskThreadAmount];
+						for (int i = 0; i < doTaskThreadAmount; ++i) {
+							arrThread[i] = new Thread(new Runnable() {
+								@Override
+								public void run() {
+									String returnContent = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=draw&id=70");
+									if (returnContent == null) {
+										AddLineToResult("Do Task: Timeout.");
+									} else if (returnContent.indexOf("不是进行中的") >= 0) {
+										AddLineToResult("Do Task: 不是进行中的");
+									} else {
+										AddLineToResult("Do Task: Ok");
+									}
+								}
+							});
+						}
+						for (Thread thread : arrThread) {
+							thread.start();
+						}
+					}
+					Thread.sleep(doTaskInterval);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-
-		EnableButton(true);
+//		EnableButton(true);
 	}
 
 	private boolean LoginDevdBBs() {
 		_lastContent = HttpUtility
 				.GetUseAutoEncoding("http://www.devdiv.com/member.php?mod=logging&action=login");
-		if (_lastContent.indexOf("登录   DEVDIV.COM") < 0) {
+		if (_lastContent == null || _lastContent.indexOf("登录   DEVDIV.COM") < 0) {
 			return false;
 		}
 		// AddLineToResult(_lastContent);
@@ -210,7 +252,7 @@ public class MainFrm {
 //		AddLineToResult(posturl + " " + postdata);
 		_lastContent = HttpUtility.PostUseAutoEncoding("http://www.devdiv.com/" + posturl, postdata, HTTP.UTF_8);
 //		AddLineToResult(_lastContent);
-		return _lastContent.indexOf("欢迎您回来") >= 0;
+		return _lastContent != null && _lastContent.indexOf("欢迎您回来") >= 0;
 	}
 
 	private boolean IsValidDevdCookie() {
@@ -219,7 +261,7 @@ public class MainFrm {
 						devUid, devUserAccount);
 		_lastContent = HttpUtility
 				.GetUseAutoEncoding("http://www.devdiv.com/forum-154-1.html");
-		return _lastContent.indexOf(needStr) >= 0;
+		return _lastContent != null && _lastContent.indexOf(needStr) >= 0;
 		// System.out.println("\r\n\r\n------------\r\n\r\n" + _lastContent);
 		// txtFriendResult.setText(String.format("indexofs=%d", indexOfStr));
 	}
@@ -252,9 +294,13 @@ public class MainFrm {
 	private JTextArea txtFriendResult = null;
 	private JButton btnFriendStart = null;
 
-	private final static String devUserAccount = "waring1983";
-	private final static String devUserPW = "qwertasdf";
-	private final static String devUid = "215055";
+	private int checkFriendTimes = 0;
+
+	private final static String devUserAccount = "Flying";
+	private final static String devUserPW = "qhkdcdyzf";
+	private final static String devUid = "666";
+	private final static int doTaskThreadAmount = 30;
+	private final static int doTaskInterval = 5 * 60 * 1000;
 
 	private class UIOperator implements Runnable {
 		@Override

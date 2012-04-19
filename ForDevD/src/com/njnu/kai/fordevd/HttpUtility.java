@@ -9,6 +9,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.AbstractHttpClient;
@@ -23,17 +25,21 @@ public class HttpUtility {
 
 	static public String GetUseAutoEncoding(String url) {
 		AbstractHttpClient client = new DefaultHttpClient();
+//		client.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
 		HttpParams httpParam = client.getParams();
 		httpParam.setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT,
 				Http_Timeout_Time);
 		httpParam.setIntParameter(CoreConnectionPNames.SO_TIMEOUT,
 				Http_Timeout_Time);
+		httpParam.setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
+//		System.out.println(httpParam.getParameter(ClientPNames.COOKIE_POLICY));
 		String ls_content = null;
 		try {
 			HttpGet httpGet = new HttpGet(url);
 			httpGet.setHeader("Referer", _lastUrl);
 			httpGet.setHeader("User-Agent", _user_agent);
 			client.setCookieStore(_cookieStore);
+//			httpGet.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
 			HttpResponse response = client.execute(httpGet);
 			_lastUrl = url;
 			HttpEntity entity = response.getEntity();
@@ -83,6 +89,7 @@ public class HttpUtility {
 				Http_Timeout_Time);
 		httpParam.setIntParameter(CoreConnectionPNames.SO_TIMEOUT,
 				Http_Timeout_Time);
+		httpParam.setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
 		String ls_content = null;
 		try {
 			HttpPost httpPost = new HttpPost(url);
