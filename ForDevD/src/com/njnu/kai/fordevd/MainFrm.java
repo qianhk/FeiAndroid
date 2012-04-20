@@ -34,6 +34,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class MainFrm {
 
@@ -117,6 +119,13 @@ public class MainFrm {
 		btnFriendStart = new JButton("Start");
 		btnFriendStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				devUid = txtDevUID.getText().trim();
+				devUserAccount = txtDevAccount.getText().trim();
+				devUserPW = String.valueOf(pwUidPw.getPassword()).trim();
+				if (devUid.length() == 0 || devUserAccount.length() == 0 || devUserPW.length() == 0) {
+					return;
+				}
+
 				btnFriendStart.setEnabled(false);
 				new Thread(new Runnable() {
 					@Override
@@ -139,6 +148,33 @@ public class MainFrm {
 		JScrollPane scrollPane = new JScrollPane(txtFriendResult);
 		scrollPane.setBounds(0, 54, 773, 434);
 		panel.add(scrollPane);
+
+		txtDevUID = new JTextField();
+		txtDevUID.setBounds(57, 12, 61, 28);
+		panel.add(txtDevUID);
+		txtDevUID.setColumns(10);
+
+		JLabel UID = new JLabel("UID:");
+		UID.setBounds(9, 18, 36, 16);
+		panel.add(UID);
+
+		JLabel lblNewLabel_1 = new JLabel("Account:");
+		lblNewLabel_1.setBounds(143, 18, 61, 16);
+		panel.add(lblNewLabel_1);
+
+		txtDevAccount = new JTextField();
+		txtDevAccount.setBounds(216, 12, 94, 28);
+		panel.add(txtDevAccount);
+		txtDevAccount.setColumns(10);
+
+		JLabel lblNewLabel = new JLabel("PW:");
+		lblNewLabel.setBounds(330, 18, 36, 16);
+		panel.add(lblNewLabel);
+
+		pwUidPw = new JPasswordField();
+		pwUidPw.setColumns(16);
+		pwUidPw.setBounds(366, 12, 104, 28);
+		panel.add(pwUidPw);
 
 		tabbedPane.addTab("Tab 2", new JLabel("Tab 2 Content"));
 		tabbedPane.addTab("Tab 3", new JLabel("Tab 3 Content"));
@@ -284,16 +320,16 @@ public class MainFrm {
 		}
 	}
 
-	private void EnableButton(boolean enable) {
-		uiOperator.btnEnable = enable;
-		try {
-			SwingUtilities.invokeAndWait(uiOperator);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-	}
+//	private void EnableButton(boolean enable) {
+//		uiOperator.btnEnable = enable;
+//		try {
+//			SwingUtilities.invokeAndWait(uiOperator);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		} catch (InvocationTargetException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	private UIOperator uiOperator = new UIOperator();
 
@@ -305,12 +341,15 @@ public class MainFrm {
 	private CountDownLatch countDownLatch = null;
 	private int taskSucessTimes = 0;
 
-	private final static String devUserAccount = "waring1983";
-	private final static String devUserPW = "qwertasdf";
-	private final static String devUid = "215055";
+	private String devUserAccount = "";
+	private String devUserPW = "";
+	private String devUid = "";
 
 	private final static int doTaskThreadAmount = 20;
 	private final static int doTaskInterval = 5 * 60 * 1000;
+	private JTextField txtDevUID;
+	private JTextField txtDevAccount;
+	private JPasswordField pwUidPw;
 
 	private class UIOperator implements Runnable {
 		@Override
