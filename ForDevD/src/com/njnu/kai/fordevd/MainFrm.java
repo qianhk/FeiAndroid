@@ -248,7 +248,40 @@ public class MainFrm {
 							thread.start();
 						}
 						countDownLatch.await();
-						AddLineToResult(String.format("本次任务完成。 (%d of %d)", taskSucessTimes, doTaskThreadAmount));
+
+						operateSucess = false;
+						String leiAmount = null;
+						String ls_seeMagic = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=magic&action=mybox");
+						if (ls_seeMagic != null) {
+							Pattern pattern = Pattern.compile("我的道具包容量: <span class=\"xi1\">(\\d+)</span>/(\\d+).+?<strong>雷鸣之声.+?数量: <font class=\"xi1 xw1\">(\\d+)", Pattern.DOTALL);
+							Matcher match = pattern.matcher(ls_seeMagic);
+							if (match.find()) {
+								int curMagicAmount = Integer.parseInt(match.group(1));
+								int canMagicAmount = Integer.parseInt(match.group(2));
+								leiAmount = match.group(3);
+								if ((curMagicAmount + 20) >= canMagicAmount) {
+									String ls_sellMagic = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=magic&action=mybox&operation=sell&magicid=14");
+									if (ls_sellMagic != null) {
+										pattern = Pattern.compile("name=\"formhash\" value=\"(\\w+?)\"");
+										match = pattern.matcher(ls_sellMagic);
+										if (match.find()) {
+											String formHash = match.group(1);
+											String sellPostUrl = String.format("http://www.devdiv.com/home.php?mod=magic&action=mybox&infloat=yes&inajax=1&formhash=%s&handlekey=magics&magicid=14&magicnum=%s&operatesubmit=yes&operation=sell", formHash, leiAmount);
+											String sellPostData = String.format("formhash=%s&handlekey=magics&operation=sell&magicid=14&magicnum=%s&operatesubmit=yes", formHash, leiAmount);
+											ls_sellMagic = HttpUtility.PostUseAutoEncoding(sellPostUrl, sellPostData, HTTP.UTF_8);
+											if (ls_sellMagic != null && ls_sellMagic.indexOf("雷鸣之声") >= 0) {
+												operateSucess = true;
+											}
+										}
+									}
+								}
+							}
+						}
+						ls_seeMagic = ".";
+						if (operateSucess) {
+							ls_seeMagic = String.format(", and Sell %s.", leiAmount);
+						}
+						AddLineToResult(String.format("本次任务完成, %d of %d%s", taskSucessTimes, doTaskThreadAmount, ls_seeMagic));
 					}
 					Thread.sleep(doTaskInterval);
 				} catch (InterruptedException e) {
