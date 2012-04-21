@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Sat Apr 21 16:37:34 CST 2012
+onejar.license.required=false
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=ForDevD_fat.jar
+manifest.mergeall=true
+manifest.mainclass=com.njnu.kai.fordevd.MainFrm
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=<po|ForDevD>~com/~njnu/~kai/~.DS_Store;<po|ForDevD>~com/~njnu/~.DS_Store;<po|ForDevD>~com/~.DS_Store;<po|ForDevD>~.DS_Store
+includes=

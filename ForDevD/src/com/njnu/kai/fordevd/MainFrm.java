@@ -204,51 +204,51 @@ public class MainFrm {
 			AddLineToResult("Cookie有效，无需重新登录!");
 		}
 
-		if (operateSucess) {
-			checkFriendTimes = 0;
-			AddLineToResult("开始每5分钟检查一次!");
-
-			while(true) {
-				++checkFriendTimes;
-				AddLineToResult(String.format("第 %d 次检查开始.....", checkFriendTimes));
-				try {
-					String ls_task = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=apply&id=70");
-					if (ls_task == null) {
-						AddLineToResult("网络链接超时，本次忽略");
-					} else if (ls_task.indexOf("抱歉，本期您已") >= 0) {
-						AddLineToResult("No Task, 本次忽略");
-						ls_task = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=draw&id=70");
-					} else {
-						AddLineToResult("Have Task, Doing...");
-						Thread.sleep(2000);
-						ls_task = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=view&id=70");
-						Thread.sleep(2000);
-
-						countDownLatch = new CountDownLatch(doTaskThreadAmount);
-						taskSucessTimes = 0;
-						Thread[] arrThread = new Thread[doTaskThreadAmount];
-						for (int i = 0; i < doTaskThreadAmount; ++i) {
-							arrThread[i] = new Thread(new Runnable() {
-								@Override
-								public void run() {
-									String returnContent = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=draw&id=70");
-									if (returnContent == null) {
-//										AddLineToResult("Do Task: Timeout.");
-									} else if (returnContent.indexOf("不是进行中的") >= 0) {
-//										AddLineToResult("Do Task: 不是进行中的");
-									} else {
-//										AddLineToResult("Do Task: Ok");
-										++taskSucessTimes;
-									}
-									countDownLatch.countDown();
-								}
-							});
-						}
-						for (Thread thread : arrThread) {
-							thread.start();
-						}
-						countDownLatch.await();
-
+//		if (operateSucess) {
+//			checkFriendTimes = 0;
+//			AddLineToResult("开始每5分钟检查一次!");
+//
+//			while(true) {
+//				++checkFriendTimes;
+//				AddLineToResult(String.format("第 %d 次检查开始.....", checkFriendTimes));
+//				try {
+//					String ls_task = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=apply&id=70");
+//					if (ls_task == null) {
+//						AddLineToResult("网络链接超时，本次忽略");
+//					} else if (ls_task.indexOf("抱歉，本期您已") >= 0) {
+//						AddLineToResult("No Task, 本次忽略");
+//						ls_task = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=draw&id=70");
+//					} else {
+//						AddLineToResult("Have Task, Doing...");
+//						Thread.sleep(2000);
+//						ls_task = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=view&id=70");
+//						Thread.sleep(2000);
+//
+//						countDownLatch = new CountDownLatch(doTaskThreadAmount);
+//						taskSucessTimes = 0;
+//						Thread[] arrThread = new Thread[doTaskThreadAmount];
+//						for (int i = 0; i < doTaskThreadAmount; ++i) {
+//							arrThread[i] = new Thread(new Runnable() {
+//								@Override
+//								public void run() {
+//									String returnContent = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=task&do=draw&id=70");
+//									if (returnContent == null) {
+////										AddLineToResult("Do Task: Timeout.");
+//									} else if (returnContent.indexOf("不是进行中的") >= 0) {
+////										AddLineToResult("Do Task: 不是进行中的");
+//									} else {
+////										AddLineToResult("Do Task: Ok");
+//										++taskSucessTimes;
+//									}
+//									countDownLatch.countDown();
+//								}
+//							});
+//						}
+//						for (Thread thread : arrThread) {
+//							thread.start();
+//						}
+//						countDownLatch.await();
+//
 						operateSucess = false;
 						String leiAmount = null;
 						String ls_seeMagic = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/home.php?mod=magic&action=mybox");
@@ -257,6 +257,7 @@ public class MainFrm {
 							Matcher match = pattern.matcher(ls_seeMagic);
 							if (match.find()) {
 								int curMagicAmount = Integer.parseInt(match.group(1));
+								curMagicAmount = 300;
 								int canMagicAmount = Integer.parseInt(match.group(2));
 								leiAmount = match.group(3);
 								if ((curMagicAmount + 20) >= canMagicAmount) {
@@ -266,29 +267,54 @@ public class MainFrm {
 										match = pattern.matcher(ls_sellMagic);
 										if (match.find()) {
 											String formHash = match.group(1);
-											String sellPostUrl = String.format("http://www.devdiv.com/home.php?mod=magic&action=mybox&infloat=yes&inajax=1&formhash=%s&handlekey=magics&magicid=14&magicnum=%s&operatesubmit=yes&operation=sell", formHash, leiAmount);
-											String sellPostData = String.format("formhash=%s&handlekey=magics&operation=sell&magicid=14&magicnum=%s&operatesubmit=yes", formHash, leiAmount);
-											ls_sellMagic = HttpUtility.PostUseAutoEncoding(sellPostUrl, sellPostData, HTTP.UTF_8);
-											if (ls_sellMagic != null && ls_sellMagic.indexOf("雷鸣之声") >= 0) {
-												operateSucess = true;
+											sellPostUrl = String.format("http://www.devdiv.com/home.php?mod=magic&action=mybox&infloat=yes&inajax=1&formhash=%s&handlekey=magics&magicid=14&magicnum=%s&operatesubmit=yes&operation=sell", formHash, leiAmount);
+											sellPostData = String.format("formhash=%s&handlekey=magics&operation=sell&magicid=14&magicnum=%s&operatesubmit=yes", formHash, leiAmount);
+//											ls_sellMagic = HttpUtility.PostUseAutoEncoding(sellPostUrl, sellPostData, HTTP.UTF_8);
+//											if (ls_sellMagic != null && ls_sellMagic.indexOf("雷鸣之声") >= 0) {
+//												operateSucess = true;
+//											}
+
+											countDownLatch = new CountDownLatch(doTaskThreadAmount);
+											taskSucessTimes = 0;
+											Thread[] arrThread = new Thread[doTaskThreadAmount];
+											for (int i = 0; i < doTaskThreadAmount; ++i) {
+												arrThread[i] = new Thread(new Runnable() {
+													@Override
+													public void run() {
+														String ls_sellMagic = HttpUtility.PostUseAutoEncoding(sellPostUrl, sellPostData, HTTP.UTF_8);
+														if (ls_sellMagic != null && ls_sellMagic.indexOf("雷鸣之声") >= 0) {
+															++taskSucessTimes;
+														}
+														countDownLatch.countDown();
+													}
+												});
+											}
+											for (Thread thread : arrThread) {
+												thread.start();
+											}
+											try {
+												countDownLatch.await();
+											} catch (InterruptedException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
 											}
 										}
 									}
 								}
 							}
 						}
-						ls_seeMagic = ".";
-						if (operateSucess) {
-							ls_seeMagic = String.format(", and Sell %s.", leiAmount);
-						}
-						AddLineToResult(String.format("本次任务完成, %d of %d%s", taskSucessTimes, doTaskThreadAmount, ls_seeMagic));
-					}
-					Thread.sleep(doTaskInterval);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+//						ls_seeMagic = ".";
+//						if (operateSucess) {
+//							ls_seeMagic = String.format(", and Sell %s.", leiAmount);
+//						}
+//						AddLineToResult(String.format("本次任务完成, %d of %d%s", taskSucessTimes, doTaskThreadAmount, ls_seeMagic));
+//					}
+//					Thread.sleep(doTaskInterval);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
 //		EnableButton(true);
 	}
 
@@ -377,6 +403,9 @@ public class MainFrm {
 	private String devUserAccount = "";
 	private String devUserPW = "";
 	private String devUid = "";
+
+	private String sellPostUrl = "";
+	private String sellPostData = "";
 
 	private final static int doTaskThreadAmount = 20;
 	private final static int doTaskInterval = 5 * 60 * 1000;
