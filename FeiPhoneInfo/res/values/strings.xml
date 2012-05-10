@@ -3,5 +3,10 @@
 
     <string name="hello">Hello World, PhoneInfoMainActivity!</string>
     <string name="app_name">PhoneInfo</string>
+    <string name="tab_general">General</string>
+    <string name="tab_task">Task</string>
+    <string name="tab_gpu">GPU</string>
+    <string name="tab_hardware">Hardware</string>
+    <string name="tab_about">About</string>
 
 </resources>
