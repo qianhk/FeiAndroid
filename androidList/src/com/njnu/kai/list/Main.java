@@ -2,7 +2,7 @@
  * @author allin.dev
  * http://allin.cnblogs.com/
  */
-package org.lee.android;
+package com.njnu.kai.list;
 
 import android.app.Activity;
 import android.content.Intent;

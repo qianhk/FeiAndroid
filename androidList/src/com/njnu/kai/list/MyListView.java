@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.lee.android;
+package com.njnu.kai.list;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 /**
- * 
+ *
  */
-package org.lee.android;
+package com.njnu.kai.list;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import android.widget.SimpleAdapter;
 
 /**
  * @author allin
- * 
+ *
  */
 public class MyListView3 extends ListActivity {
 
@@ -50,7 +50,7 @@ public class MyListView3 extends ListActivity {
 		map.put("info", "google 3");
 		map.put("img", R.drawable.i3);
 		list.add(map);
-		
+
 		return list;
 	}
 }
