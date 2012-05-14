@@ -26,7 +26,6 @@ public class TaskActivity extends Activity {
 	}
 
 	public void showProcessInfo() {
-
 		// 更新进程列表
 		List<HashMap<String, String>> infoList = new ArrayList<HashMap<String, String>>();
 		for (Iterator<RunningAppProcessInfo> iterator = procList.iterator(); iterator
