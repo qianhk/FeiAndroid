@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">allin android</string>
+	<string name="hello">listview Tutorial</string>
+
+
+
+
+	<string name="s_mylistview_btn">简单的listview</string>
+	
+	<string name="s_simpleCursorAdapter_btn">simpleCursorAdapter</string>
+	<string name="s_simpleAdapter_btn">simpleAdapter</string>
+	<string name="s_myAdapter_btn">myAdapter</string>
+	<string name="s_view_btn">more</string>
+	
+</resources>
