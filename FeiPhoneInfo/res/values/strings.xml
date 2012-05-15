@@ -8,5 +8,16 @@
     <string name="tab_gpu">GPU</string>
     <string name="tab_hardware">Hardware</string>
     <string name="tab_about">About</string>
-
+	<string name="detail_process_name">detail_process_name</string>
+	<string name="kill_process">Kill Process</string>
+	<string name="detail_process_copyright">Copyright</string>
+	<string name="detail_process_install_dir">Install dir</string>
+	<string name="detail_process_data_dir">Data dir</string>
+	<string name="detail_process_package_size">Package size</string>
+	<string name="detail_process_permission">Permission</string>
+	<string name="detail_process_service">Service</string>
+	<string name="detail_process_activity">Activity</string>
+	<string name="no_use">no_use</string>
+	<string name="progress_tips_title">Flush Process</string>
+	<string name="progress_tips_content">Flush Processing&#8230;\nPlease Wait&#8230;</string>
 </resources>

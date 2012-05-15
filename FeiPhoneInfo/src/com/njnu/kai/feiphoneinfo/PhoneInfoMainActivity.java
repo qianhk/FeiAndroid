@@ -4,6 +4,9 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TabHost;
 
 public class PhoneInfoMainActivity extends TabActivity {
@@ -35,5 +38,21 @@ public class PhoneInfoMainActivity extends TabActivity {
         tabHost.addTab(spec);
 
         tabHost.setCurrentTab(0);
+    }
+
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+//		menu.addSubMenu(0, 0, 0, "Main");
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+//		Log.v("MainActivity", item.getTitle().toString());
+        switch (item.getItemId()) {
+
+        default:
+            return super.onOptionsItemSelected(item);
+        }
     }
 }
