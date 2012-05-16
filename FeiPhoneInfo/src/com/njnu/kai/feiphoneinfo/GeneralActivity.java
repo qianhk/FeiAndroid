@@ -106,7 +106,7 @@ public class GeneralActivity extends Activity {
 			}
 			GsmCellLocation logsm = (GsmCellLocation) lo;
 			cellType = String.format("GSM Cid=%08X Lac=%08X Mcc=%s Mnc=%s", logsm.getCid(), logsm.getLac(), gsmMcc, gsmMnc);
-		} else {
+		} else if (lo != null){
 			CdmaCellLocation cdma = (CdmaCellLocation) lo;
 			String mccMnc = phoneMgr.getNetworkOperator();
 			String cdmaMcc = "";

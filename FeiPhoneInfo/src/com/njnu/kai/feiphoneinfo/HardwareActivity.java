@@ -183,7 +183,9 @@ public class HardwareActivity extends Activity implements OnItemClickListener {
 		list.add(map);
 
 		String netInfo = cmd.execute(new String[] { "/system/bin/netcfg" });
-		netInfo = netInfo.substring(0, netInfo.length() - 1);
+		if (netInfo.length() > 0) {
+			netInfo = netInfo.substring(0, netInfo.length() - 1);
+		}
 		map = new HashMap<String, Object>();
 		map.put("title", "Network");
 		map.put("info", netInfo);
