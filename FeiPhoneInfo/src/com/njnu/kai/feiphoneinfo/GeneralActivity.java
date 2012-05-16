@@ -125,9 +125,15 @@ public class GeneralActivity extends Activity {
 		list.add(map);
 
 		map = new HashMap<String, Object>();
+		map.put("title", "MCC MNC");
+		map.put("info", "mcc="+getResources().getConfiguration().mcc + " mnc=" + getResources().getConfiguration().mnc);
+		map.put("no", 9);
+		list.add(map);
+
+		map = new HashMap<String, Object>();
 		map.put("title", "IMEI/MEID");
 		map.put("info", phoneMgr.getDeviceId());
-		map.put("no", 9);
+		map.put("no", 10);
 		list.add(map);
 
 		return list;

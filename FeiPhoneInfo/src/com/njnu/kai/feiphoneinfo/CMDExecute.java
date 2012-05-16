@@ -15,12 +15,28 @@ public class CMDExecute {
 			Process process = builder.start();
 			InputStream is = process.getInputStream();
 			byte[] buffer = new byte[1024];
-			while (is.read(buffer) != -1) {
-				result = result + new String(buffer);
+			int readLen = -1;
+			while ((readLen = is.read(buffer)) != -1) {
+				result += new String(buffer, 0, readLen);
 			}
 			is.close();
 		}
 		return result;
+	}
+
+	public String execute(String[] command) {
+		String result = "";
+		try {
+			result = execute(command, "/system/bin/");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public String executeCat(String file) {
+		String[] args = {"/system/bin/cat", file};
+		return execute(args);
 	}
 
 	public String getProcesRunningInfo() {

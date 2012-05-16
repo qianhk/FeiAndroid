@@ -12,6 +12,7 @@
         android:paddingRight="8dp"
         android:paddingTop="5dp"
         android:text="60"
+        android:width="24dp"
         android:textSize="10dp" android:gravity="right"/>
 
     <LinearLayout
