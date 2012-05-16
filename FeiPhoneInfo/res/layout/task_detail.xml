@@ -2,7 +2,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:scrollbars="vertical">
     <LinearLayout
         android:id="@+id/linearlayout1"
@@ -13,7 +13,7 @@
         android:paddingRight="3dip"
         android:paddingTop="1dip"
         android:paddingBottom="1dip">
-        <RelativeLayout android:layout_width="match_parent"
+        <RelativeLayout android:layout_width="fill_parent"
             android:layout_height="27dip"
             android:background="#555555"
             android:id="@+id/relativeLayout1">

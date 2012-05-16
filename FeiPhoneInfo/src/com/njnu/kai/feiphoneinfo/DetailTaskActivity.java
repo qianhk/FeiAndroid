@@ -1,5 +1,7 @@
 package com.njnu.kai.feiphoneinfo;
 
+import java.lang.reflect.Method;
+
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Intent;
@@ -25,6 +27,10 @@ public class DetailTaskActivity extends Activity {
 		Log.v("DetailTaskActivity", "detailInfo=" + detailInfo);
 		TextView tv = null;
 		tv = (TextView) findViewById(R.id.detail_process_name);
+		if (detailInfo == null) {
+			tv.setText("no infomation.");
+			return;
+		}
 		tv.setText(detailInfo.getProcessName());
 
 		tv = (TextView) findViewById(R.id.detail_process_copyright);
@@ -58,7 +64,15 @@ public class DetailTaskActivity extends Activity {
 //					android.os.Process.killProcess(android.os.Process.myPid());
 //					System.exit(0);
 				} else {
-					activityManager.killBackgroundProcesses(detailInfo.getProcessName());
+					try {
+						Method ms = activityManager.getClass().getDeclaredMethod("killBackgroundProcesses", String.class);
+						ms.invoke(activityManager, detailInfo.getProcessName());
+					}
+					catch (Exception e) {
+						Log.v("DetailTaskActivity", "No method killBackgroundProcesses");
+						activityManager.restartPackage(detailInfo.getProcessName());
+					}
+//					activityManager.killBackgroundProcesses(detailInfo.getProcessName());
 				}
 			}
 		});

@@ -214,7 +214,7 @@ public class TaskActivity extends ListActivity implements OnItemClickListener {
 			programUtil.setProgramName(tempAppInfo.loadLabel(packageManager).toString());
 		} else {
 			// 如果获取失败，则使用默认的图标和程序名
-			programUtil.setIcon(getApplicationContext().getResources().getDrawable(R.drawable.ic_launcher));
+			programUtil.setIcon(getApplicationContext().getResources().getDrawable(R.drawable.unknow));
 			programUtil.setProgramName(procNameString);
 		}
 
@@ -252,8 +252,8 @@ public class TaskActivity extends ListActivity implements OnItemClickListener {
 		complexProgramUtil.setSourceDir(tempAppInfo.sourceDir);
 
 		// 以下注释部分的信息暂时获取不到
-		 complexProgramUtil.setFirstInstallTime(tempPkgInfo.firstInstallTime);
-		 complexProgramUtil.setLastUpdateTime(tempPkgInfo.lastUpdateTime);
+//		 complexProgramUtil.setFirstInstallTime(tempPkgInfo.firstInstallTime);
+//		 complexProgramUtil.setLastUpdateTime(tempPkgInfo.lastUpdateTime);
 
 //		 complexProgramUtil.setCodeSize(tempPkgInfo.codeSize);
 //		 complexProgramUtil.setDataSize(tempPkgInfo.dataSize);
