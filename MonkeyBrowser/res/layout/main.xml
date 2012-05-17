@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/root" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<GridView android:id="@+id/GridView_toolbar"
+		android:layout_height="wrap_content" android:layout_width="fill_parent"
+		android:background="@drawable/bluebg" android:numColumns="5"
+		android:horizontalSpacing="15.0dip" android:verticalSpacing="20.0dip"
+		android:layout_alignParentBottom="true" android:gravity="center"
+		android:listSelector="@drawable/item_selector">
+	</GridView>
+
+	<FrameLayout android:id="@+id/mainscreen"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:layout_above="@id/GridView_toolbar">
+		<!-- screen one -->
+		<RelativeLayout android:id="@+id/screen1"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:background="#ffffff">
+			<com.monkeybrowser.ProgressBarLayout
+				android:id="@+id/progressbar" android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+			</com.monkeybrowser.ProgressBarLayout>
+			<WebView
+				android:id="@+id/webviewmain" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:layout_gravity="center"
+				android:layout_weight="1.0" android:background="@color/bgcolor"
+				android:layout_below="@+id/progressbar"/>
+		</RelativeLayout>
+
+		<!-- screen two -->
+		<RelativeLayout android:id="@+id/screen2"
+			android:layout_width="fill_parent" android:layout_height="fill_parent">
+			<com.monkeybrowser.AddressBar
+				android:id="@+id/addressbar" android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+			</com.monkeybrowser.AddressBar>
+
+			<FrameLayout android:id="@+id/mainlayout"
+				android:orientation="vertical" android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:layout_below="@+id/addressbar"
+				android:layout_above="@id/GridView_toolbar" android:background="@color/bgcolor"
+				android:gravity="center">
+				<android.support.v4.view.ViewPager
+					android:id="@+id/vPager" android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:layout_gravity="center"
+					android:layout_weight="1.0" android:background="@color/bgcolor"
+					android:flipInterval="30" android:persistentDrawingCache="animation" />
+
+				<ImageView android:id="@+id/pagecount"
+					android:layout_height="wrap_content" android:layout_width="wrap_content"
+					android:src="@drawable/pagecount_image_list" android:layout_above="@id/GridView_toolbar"
+					android:layout_gravity="bottom|center">
+				</ImageView>
+
+			</FrameLayout>
+		</RelativeLayout>
+
+		<!-- <WebView android:id="@+id/webview001" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:layout_above="@+id/GridView_toolbar"
+			android:layout_below="@+id/progressbar" android:layout_alignParentBottom="true"
+			android:background="#fff722f2"> </WebView> -->
+
+	</FrameLayout>
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent" android:background="@color/bgcolor">
+
+<!-- 团购 -->
+	<LinearLayout android:id="@+id/tuangou"
+		android:orientation="horizontal" android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:layout_marginLeft="10dip"
+		android:layout_marginRight="10dip" android:layout_marginTop="15dip"
+		android:background="@drawable/moreaddress_lable_shape">
+
+		<TextView android:text="团购" android:id="@+id/tuangoulabel"
+			android:layout_width="fill_parent" android:layout_height="30dip"
+			android:textColor="#ed8318" android:background="#e7e6e5"
+			android:textSize="18dip" android:layout_weight="1">
+		</TextView>
+		<ImageView android:id="@+id/tuangouAdd"
+			android:layout_width="wrap_content" android:layout_height="30dip"
+			android:src="@drawable/moreaddress_iv_selector"
+			android:layout_weight="0" android:background="#e7e6e5"
+			android:clickable="true">
+		</ImageView>
+	</LinearLayout>
+	<GridView android:id="@+id/GridViewTuangou"
+		android:visibility="gone" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:numColumns="4"
+		android:layout_below="@+id/tuangou" android:layout_marginLeft="10dip"
+		android:layout_marginRight="10dip" android:horizontalSpacing="1dp"
+		android:verticalSpacing="10dp" 
+		android:background="@drawable/moreaddress_lable_shape">
+	</GridView>
+
+<!-- 论坛 -->
+	<LinearLayout android:id="@+id/forum" android:orientation="horizontal"
+		android:layout_width="match_parent" android:layout_height="wrap_content"
+		android:layout_marginLeft="10dip" android:layout_marginRight="10dip"
+		android:layout_marginTop="5dip"
+		android:background="@drawable/moreaddress_lable_shape"
+		android:layout_below="@+id/GridViewTuangou">
+
+		<TextView android:text="论坛" android:id="@+id/forumlabel"
+			android:layout_width="fill_parent" android:layout_height="30dip"
+			android:textColor="#ed8318" android:background="#e7e6e5"
+			android:textSize="18dip" android:layout_weight="1">
+		</TextView>
+		<ImageView android:id="@+id/forumAdd" android:layout_width="wrap_content"
+			android:layout_height="30dip" android:src="@drawable/moreaddress_iv_selector"
+			android:layout_weight="0" android:background="#e7e6e5"
+			android:clickable="true">
+		</ImageView>
+	</LinearLayout>
+	
+	<GridView android:id="@+id/GridViewForum"
+		android:visibility="gone" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:numColumns="4"
+		android:layout_below="@+id/forum" android:layout_marginLeft="10dip"
+		android:layout_marginRight="10dip" android:horizontalSpacing="1dp"
+		android:verticalSpacing="10dp" android:layout_marginBottom="5px"
+		android:background="@drawable/moreaddress_lable_shape">
+	</GridView>
+	
+<!-- BBS -->
+
+</RelativeLayout>
