@@ -120,14 +120,12 @@ public class MonkeyBrowserActivity extends Activity {
 
 	@Override
 	public boolean onMenuOpened(int featureId, Menu menu) {
-		// TODO Auto-generated method stub
-		showMenuWindow();
+//		showMenuWindow();
 		return false;
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
 		menu.add("menu");
 		return super.onCreateOptionsMenu(menu);
 
@@ -291,19 +289,22 @@ public class MonkeyBrowserActivity extends Activity {
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
-			// TODO Auto-generated method stub
-
+//			Log.v("MonkeyBrowserActivity", "onPageScrollStateChanged " + arg0);
+			////状态有三个0空闲，1是增在滑行中，2目标加载完毕
+			//public static final int SCROLL_STATE_IDLE = 0;
+			//public static final int SCROLL_STATE_DRAGGING = 1;
+			//public static final int SCROLL_STATE_SETTLING = 2;
 		}
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
-			// TODO Auto-generated method stub
-
+//			Log.v("MonkeyBrowserActivity", "onPageScrolled " + arg0 + " " + arg1 + " " + arg2);
+			//貌似停止时arg0是2，其他时候是1 arg1貌似是拖过view宽度的比例 向左变大，向右变小 arg2貌似是拖了多少像素 向左变大，向右变小
 		}
 
 		@Override
 		public void onPageSelected(int arg0) {
-			// TODO Auto-generated method stub
+//			Log.v("MonkeyBrowserActivity", "onPageSelected " + arg0);
 			mPageCountIv.setImageLevel(arg0);
 
 		}
@@ -319,39 +320,47 @@ public class MonkeyBrowserActivity extends Activity {
 		@Override
 		public void destroyItem(View container, int position, Object object) {
 			((ViewPager) container).removeView(mListViews.get(position));
+//			Log.v("MonkeyBrowserActivity", "destroyItem " + position + " " + object);
 		}
 
 		@Override
 		public void finishUpdate(View container) {
+//			Log.v("MonkeyBrowserActivity", "finishUpdate");
 		}
 
 		@Override
 		public int getCount() {
+//			Log.v("MonkeyBrowserActivity", "getCount");
 			return mListViews.size();
 		}
 
 		@Override
 		public Object instantiateItem(View container, int position) {
+//			Log.v("MonkeyBrowserActivity", "instantiateItem " + position);
 			((ViewPager) container).addView(mListViews.get(position), 0);
 			return mListViews.get(position);
 		}
 
 		@Override
 		public boolean isViewFromObject(View view, Object object) {
+//			Log.v("MonkeyBrowserActivity", "isViewFromObject " + view + " " + object);
 			return view == object;
 		}
 
 		@Override
 		public void restoreState(Parcelable state, ClassLoader loader) {
+//			Log.v("MonkeyBrowserActivity", "restoreState");
 		}
 
 		@Override
 		public Parcelable saveState() {
+//			Log.v("MonkeyBrowserActivity", "saveState");
 			return null;
 		}
 
 		@Override
 		public void startUpdate(View container) {
+//			Log.v("MonkeyBrowserActivity", "startUpdate");
 		}
 	}
 

@@ -57,6 +57,7 @@ public class HomepageBtnAdapter extends BaseAdapter {
 
 		button.setShakeAnimation(R.anim.shake_button_anim,
 				R.anim.shake_cross_anim);
+		
 
 		return button;
 	}

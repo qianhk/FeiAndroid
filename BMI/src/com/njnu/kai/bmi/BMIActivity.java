@@ -1,4 +1,4 @@
-package com.njnu.kai;
+package com.njnu.kai.bmi;
 
 import java.text.DecimalFormat;
 
@@ -28,6 +28,11 @@ public class BMIActivity extends Activity {
         button.setOnClickListener(calcBMI);
     }
 
+    public double calcBMI(double weight, double height) {
+    	double BMI = weight / (height * height);
+    	return BMI;
+    }
+
     private Button.OnClickListener calcBMI = new OnClickListener()
     {
 		@Override
@@ -38,7 +43,7 @@ public class BMIActivity extends Activity {
 			EditText fieldWeight = (EditText)findViewById(R.id.weight);
 			double height = Double.parseDouble(fieldHeight.getText().toString()) / 100;
 			double weight = Double.parseDouble(fieldWeight.getText().toString());
-			double BMI = weight / (height * height);
+			double BMI = calcBMI(weight, height);
 
 			TextView result = (TextView)findViewById(R.id.result);
 			result.setText("Your BMI is " + nf.format(BMI));
