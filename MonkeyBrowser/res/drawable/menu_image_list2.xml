@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+ <item android:maxLevel="0" android:drawable="@drawable/menu_auto_landscape" />
+ <item android:maxLevel="1" android:drawable="@drawable/menu_read_mode" />
+ <item android:maxLevel="2" android:drawable="@drawable/menu_page_updown"/>
+ <item android:maxLevel="3" android:drawable="@drawable/menu_page_paste"/>
+ <item android:maxLevel="4" android:drawable="@drawable/menu_refreshtimer"/> 
+ <item android:maxLevel="5" android:drawable="@drawable/menu_input_select_word" />
+ <item android:maxLevel="6" android:drawable="@drawable/menu_syssettings" />
+ <item android:maxLevel="7" android:drawable="@drawable/menu_checkupdate" />
+ <item android:maxLevel="8" android:drawable="@drawable/menu_checknet" />
+ <item android:maxLevel="9" android:drawable="@drawable/menu_help" />
+ <item android:maxLevel="10" android:drawable="@drawable/menu_about" />
+ <item android:maxLevel="11" android:drawable="@drawable/menu_return" />             
+</level-list>

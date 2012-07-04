@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent" android:background="@color/bgcolor">
+
+	<ListView android:layout_height="300dip" android:id="@+id/comment"
+		android:layout_width="300dip" android:layout_centerVertical="true"
+		android:layout_centerHorizontal="true" android:layout_marginLeft="10dip"
+		android:layout_marginRight="10dip" 
+		android:layout_alignParentTop="true"
+		android:background="@drawable/moreaddress_lable_shape"
+		android:layout_marginBottom ="10dip">
+	</ListView>
+
+
+    <LinearLayout android:id="@+id/forum" android:orientation="horizontal"
+		android:layout_width="match_parent" android:layout_height="wrap_content"
+		android:layout_marginLeft="10dip" android:layout_marginRight="10dip"
+		android:layout_marginTop="5dip"
+		android:layout_below="@+id/comment"
+	>
+	<EditText android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:id="@+id/commentET"
+		android:layout_marginLeft="10dip" android:layout_marginRight="10dip"
+		android:layout_weight="1"/>
+	<Button android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/commentlabel"
+		android:textColor="#6c6b66"
+		android:layout_weight="0"/>	
+	</LinearLayout>
+	
+
+</RelativeLayout>

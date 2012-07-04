@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/screen1" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<LinearLayout android:id="@+id/progressTitle"
+		android:layout_width="match_parent" android:layout_height="wrap_content"
+		android:orientation="vertical" android:paddingLeft="0dip"
+		android:paddingRight="0dip" android:paddingTop="2dip"
+		android:paddingBottom="1dip" android:background="@drawable/bluebg">
+
+		<LinearLayout android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:orientation="horizontal"
+			android:gravity="center">
+			<LinearLayout android:id="@+id/page_title"
+				android:layout_width="match_parent" android:layout_height="wrap_content"
+				android:orientation="horizontal" android:gravity="left"
+				android:layout_weight="1">
+				<ImageView android:id="@+id/favor_icon"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_gravity="left" />
+				<TextView android:id="@+id/favor_title"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_gravity="left" />
+			</LinearLayout>
+
+			<LinearLayout android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:orientation="horizontal"
+				android:gravity="right" android:layout_weight="1">
+				<ImageView android:id="@+id/closeWebView"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:src="@drawable/close_selector" />
+			</LinearLayout>
+
+		</LinearLayout>
+
+		<ProgressBar android:id="@+id/progress"
+			style="?android:attr/progressBarStyleHorizontal"
+			android:layout_width="match_parent" android:layout_height="5dip"
+			android:layout_marginLeft="0dip" android:max="100" />
+	</LinearLayout>
+
+
+</RelativeLayout>

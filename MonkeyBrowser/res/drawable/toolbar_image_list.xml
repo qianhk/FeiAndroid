@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+ <item android:maxLevel="0" android:drawable="@drawable/controlbar_backward_normal" />
+ <item android:maxLevel="1" android:drawable="@drawable/controlbar_forward_normal" />
+ <item android:maxLevel="2" android:drawable="@drawable/controlbar_home_normal" />
+ <item android:maxLevel="3" android:drawable="@drawable/controlbar_menu_normal" />
+ <item android:maxLevel="4" android:drawable="@drawable/controlbar_mulwindow_normal" />            
+</level-list>

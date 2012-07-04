@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string-array name="tuangou">
+		<item>糯米网</item>
+		<item>高朋</item>
+		<item>拉手网</item>
+		<item>聚划算</item>
+	</string-array>
+
+
+	<string-array name="menu_item_name_array1">
+		<item>"输入网址"</item>
+		<item>"文件管理"</item>
+		  
+		    
+		<item>"下载管理"</item>
+		  
+		    
+		<item>"刷新"</item>
+		  
+		    
+		<item>"全屏模式"</item>
+		  
+		    
+		<item>"夜间模式"</item>
+		  
+		    
+		<item>"适应屏幕"</item>
+		 
+		    
+		<item>"搜索"</item>
+		 
+		    
+		<item>"书签"</item>
+		 
+		    
+		<item>"加入书签"</item>
+		 
+		    
+		<item>"退出"</item>
+		 
+		    
+		<item>"更多"</item>
+		 
+	</string-array>
+
+
+
+
+	<string-array name="menu_item_name_array2">
+		<item>"自动横屏"</item>
+		<item>"阅读模式"</item>
+		  
+		    
+		<item>"快捷翻页"</item>
+		  
+		    
+		<item>"页面属性"</item>
+		  
+		    
+		<item>"定时刷新"</item>
+		  
+		    
+		<item>"笔选模式"</item>
+		  
+		    
+		<item>"系统设置"</item>
+		 
+		    
+		<item>"检查更新"</item>
+		 
+		    
+		<item>"检查网络"</item>
+		 
+		    
+		<item>"帮助"</item>
+		 
+		    
+		<item>"关于"</item>
+		 
+		    
+		<item>"返回"</item>
+		 
+	</string-array>
+
+
+
+
+	<string-array name="toolbar_name_array">
+		<item>"主页"</item>
+		<item>"后退"</item>
+		  
+		    
+		<item>"前进"</item>
+		  
+		    
+		<item>"新建窗口"</item>
+		  
+		    
+		<item>"菜单"</item>
+		  
+	</string-array>
+
+
+
+	<string-array name="list_item_name_array">
+		<item>"有新版本下载！"</item>
+		<item>"我经常访问的网站"</item>
+		  
+		    
+		<item>"酷站推荐"</item>
+		  
+		    
+		<item>"新闻 综合"</item>
+		  
+		    
+		<item>"小说$文学"</item>
+		  
+		    
+		<item>"android专区"</item>
+		  
+		    
+		<item>"财经$股票"</item>
+		  
+		    
+		<item>"社区$交友"</item>
+		  
+		    
+		<item>"车房$博客"</item>
+		  
+		    
+		<item>"体育$NBA"</item>
+		  
+		    
+		<item>"搜索$邮箱"</item>
+		  
+		    
+		<item>"我的历史"</item>
+		  
+	</string-array>
+
+
+</resources>
