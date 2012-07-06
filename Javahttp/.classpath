@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/PSrcAndroid/httpcomponents-client-4.1.3/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="/PSrcAndroid/httpcomponents-client-4.1.3/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/PSrcAndroid/httpcomponents-client-4.1.3/lib/httpclient-4.1.3.jar"/>
+	<classpathentry kind="lib" path="/PSrcAndroid/httpcomponents-client-4.1.3/lib/httpclient-cache-4.1.3.jar"/>
+	<classpathentry kind="lib" path="/PSrcAndroid/httpcomponents-client-4.1.3/lib/httpcore-4.1.4.jar"/>
+	<classpathentry kind="lib" path="/PSrcAndroid/httpcomponents-client-4.1.3/lib/httpmime-4.1.3.jar" sourcepath="/PSrcAndroid/httpcomponents-client-4.1.3/httpcomponents-client-4.1.3-src/httpmime"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
