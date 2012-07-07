@@ -5,22 +5,40 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="5" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
             android:name=".DivSigninActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity android:name=".DivPreferenceActivity"></activity>
-        <activity android:name=".qianglou.DivQiangLouActivity"></activity>
+        <activity android:name=".DivPreferenceActivity" android:configChanges="orientation|keyboardHidden">
+        </activity>
+        <activity android:name=".qianglou.DivQiangLouActivity" android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <!-- <receiver android:name="com.njnu.kai.divsignin.qianglou.DivQiangLouReceiver" >
+            <intent-filter>
+                <action android:name="com.njnu.kai.divsignin.action.qianglou.notify" />
+            </intent-filter>
+        </receiver> -->
+
+        <service android:name="com.njnu.kai.divsignin.DivSigninService" >
+
+            <!--
+            <intent-filter>
+                <action android:name="com.njnu.kai.divsignin.service" />
+            </intent-filter>
+            -->
+        </service>
     </application>
 
 </manifest>

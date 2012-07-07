@@ -4,6 +4,10 @@
 
     <PreferenceCategory android:title="Div Account" >
         <EditTextPreference
+            android:key="div_user_uid"
+            android:summary="Input your div account Uid"
+            android:title="User Uid" />
+        <EditTextPreference
             android:key="div_user_name"
             android:summary="Input your div account name"
             android:title="User Name" />
@@ -14,11 +18,11 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="QiangLou Setting" >
         <EditTextPreference
-            android:key="divsignin_title"
+            android:key="divsignin_qianglou_title"
             android:summary="Input QiangLou Title"
             android:title="QiangLou Title" />
         <EditTextPreference
-            android:key="divsignin_content"
+            android:key="divsignin_qianglou_content"
             android:summary="Input QiangLou Content"
             android:title="QiangLou Content" />
     </PreferenceCategory>

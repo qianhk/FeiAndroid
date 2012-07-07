@@ -67,6 +67,8 @@ public class JavaHttp {
 	}
 
 	public static void main(String[] args) throws IOException {
+		String ls_test = "红\u7ea2";
+		System.out.println(ls_test);;
 		System.out.println("hello, java http");
 //		exeHttpClient("http://wap.baidu.com");
 //		exeHttpClient("http://wap.google.com");
