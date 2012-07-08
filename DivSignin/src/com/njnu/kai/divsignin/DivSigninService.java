@@ -1,5 +1,6 @@
 package com.njnu.kai.divsignin;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,11 +32,15 @@ public class DivSigninService extends Service {
 		@Override
 		public void run() {
 			Log.i(PREFIX, "run");
-			doThreadQiangLou();
+			try {
+				doThreadQiangLou();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	});
 
-	private void doThreadQiangLou() {
+	private void doThreadQiangLou() throws InterruptedException {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		mDevAccountUid = settings.getString("div_user_uid", "");
 		mDevAccountName = settings.getString("div_user_name", "");
@@ -55,12 +60,12 @@ public class DivSigninService extends Service {
 
 		sendNotifyBroadcast("Start，Check Cookie ? [" + mDevAccountName + "]");
 		if (IsValidDevdCookie()) {
-			sendNotifyBroadcast("Sucess, Cookie Valid.");
+			sendNotifyBroadcast("Success, Cookie Valid.");
 		} else {
 			sendNotifyBroadcast("need login, login...");
-			boolean loginSucess = loginDevdBBs();
-			if (loginSucess) {
-				sendNotifyBroadcast("login Sucess.");
+			boolean loginSuccess = loginDevdBBs();
+			if (loginSuccess) {
+				sendNotifyBroadcast("login Success, will QiangLou...");
 			} else {
 				sendNotifyBroadcast(1, "Error: Login Failed.");
 				stopSelf();
@@ -68,112 +73,29 @@ public class DivSigninService extends Service {
 			}
 		}
 
-		if (!mThreadContinue)
-			return;
-
-		String _lastContent = HttpUtility
-				.GetUseAutoEncoding("http://www.devdiv.com/forum.php?mod=post&action=newthread&fid=151&specialextra=donglin8_signin");
-		if (_lastContent.indexOf(mDevAccountName) < 0) {
-			sendNotifyBroadcast(1, "Error: Open qianglou url failed.");
+		int qlResult = doTaskQiangLou(); // 0:Success, 1:need reply others subject, else Error need stop.
+		if (!mThreadContinue) return;
+		if (qlResult == 0) {
+			sendNotifyBroadcast(2, "Congratulations, Qianglou success.");
 			stopSelf();
 			return;
+		} else if (qlResult == 1) {
+			sendNotifyBroadcast("Qianglou failed, will reply others subject.");
 		} else {
-			sendNotifyBroadcast("Open qianglou url Sucess.");
-		}
-
-		if (!mThreadContinue)
+			sendNotifyBroadcast(3, "Qianglou Error, Terminate task.");
+			stopSelf();
 			return;
-
-		Pattern pattern = Pattern.compile("<input type=\"hidden\" name=\"formhash\".+? value=\"(\\w+?)\" />");
-		Matcher match = pattern.matcher(_lastContent);
-		match.find();
-		String formhash = match.group(1);
-
-		pattern = Pattern.compile("<input type=\"hidden\" name=\"posttime\".+? value=\"(\\w+?)\" />");
-		match = pattern.matcher(_lastContent);
-		match.find();
-		String posttime = match.group(1);
-		
-		String postData = String
-				.format("formhash=%s&posttime=%s&wysiwyg=0&special=127&specialextra=donglin8_signin&subject=%s&checkbox=0&message=%s&replycredit_extcredits=0&replycredit_times=1&replycredit_membertimes=1&replycredit_random=100&readperm=&tags=&rushreplyfrom=&rushreplyto=&rewardfloor=&stopfloor=&save=&uploadalbum=307&newalbum=&usesig=1&allownoticeauthor=1",
-						formhash, posttime, mQiangLouTitle, mQiangLouContent);
-		String postUrl = "http://www.devdiv.com/forum.php?mod=post&action=newthread&fid=151&extra=&topicsubmit=yes";
-		_lastContent = HttpUtility.PostUseAutoEncoding(postUrl, postData, "GBK");
-		if (_lastContent.indexOf("对不起，已有人先你") > 0) {
-			Log.i(PREFIX, "Sorry, Too Late.");
-		} else if (_lastContent.indexOf("未到\u62a2\u697c时间") > 0) {
-			Log.i(PREFIX, "QiangLou not begin.");
-		} else if (_lastContent.indexOf(mQiangLouContent) > 0) {
-			Log.i(PREFIX, "QiangLou Sucess.");
-		} else {
-			Log.i(PREFIX, _lastContent);
 		}
 
-		sendNotifyBroadcast(2, "Operate Finish.");
+		int replyResult = doTaskReplyOthersSubject(); // 0:Success 1:Error
+		if (!mThreadContinue) return;
+		if (replyResult == 0) {
+			sendNotifyBroadcast(4, "Congratulations, Reply others subject success.");
+		} else {
+			sendNotifyBroadcast(4, "Reply others subject Error, Terminate task.");
+		}
 		stopSelf();
 
-		/*
-		 * L_BEGINQIANG: //抢楼签到 if (bBegin==-1) { goto L_BEGINQIANG_END; } // goto L_BEGINQIANG_END; //goto L_GUANSHUI2; //
-		 * http://www.devdiv.net/bbs/post.php?action=newthread&fid=151&specialextra=grab_signin content =
-		 * _hh.Get("http://www.devdiv.net/bbs/post.php?action=newthread&fid=151&specialextra=grab_signin");
-		 * 
-		 * //txtQianglouResult.Text += content; if (content.IndexOf(devzh) != -1) { AddMessageToTxt("打开抢楼签到发贴页面成功.....\r\n"); } else {
-		 * AddMessageToTxt("打开抢楼签到发贴页面失败!\r\n\r\n"); Thread.Sleep(2000); goto L_BEGINQIANG; } string Pattern =
-		 * "<input type=\"hidden\" name=\"formhash\" id=\"formhash\" value=\"(\\w*)\" />"; Match verifyVar = Regex.Match(content, Pattern,
-		 * RegexOptions.Multiline); string formhash = verifyVar.Result("$1").ToString().Trim(); //txtQianglouResult.Text += formhash;
-		 * //txtQianglouResult.Text += "\r\n";
-		 * 
-		 * Pattern = "<input type=\"hidden\" name=\"posttime\" id=\"posttime\" value=\"(\\w*)\" />"; verifyVar = Regex.Match(content, Pattern,
-		 * RegexOptions.Multiline); string posttime = verifyVar.Result("$1").ToString().Trim(); //txtQianglouResult.Text += posttime;
-		 * //txtQianglouResult.Text += "\r\n";
-		 * 
-		 * //string posttime = "1270482003"; //string secanswer= "9"; //string formhash = "63e73374"; command = "formhash=" + formhash + "&posttime="
-		 * + posttime + "&wysiwyg=0&special=127&subject=" + HttpHelper.ChineseEncode(txtQianglouTitle.Text) + "&checkbox=0&message=" +
-		 * HttpHelper.ChineseEncode(txtQianglouContent.Text) + "&tags=&readperm=&attention_add=1&addfeed=1"; //&secanswer=" + secanswer;
-		 * //txtQianglouResult.Text += command; //txtQianglouResult.Text += "\r\n\r\n"; ijs++;
-		 * //formhash=04411b82&posttime=1341674824&wysiwyg=0&special
-		 * =127&specialextra=donglin8_signin&subject=uiui&checkbox=0&message=abcdef&replycredit_extcredits
-		 * =0&replycredit_times=1&replycredit_membertimes
-		 * =1&replycredit_random=100&readperm=&tags=&rushreplyfrom=&rushreplyto=&rewardfloor=&stopfloor=&
-		 * save=&uploadalbum=307&newalbum=&usesig=1&allownoticeauthor=1 content =
-		 * _hh.Post("http://www.devdiv.com/forum.php?mod=post&action=newthread&fid=151&extra=&topicsubmit=yes", command);
-		 * 
-		 * 
-		 * if (content.IndexOf("对不起，已有人先你抢到今日楼主了，请返回明日继续。") != -1) { Pattern = @"GMT\+8, (.+) (\d\d:\d\d)\."; verifyVar = Regex.Match(content,
-		 * Pattern, RegexOptions.Multiline); string nowtime = verifyVar.Result("$2").ToString().Trim();
-		 * AddMessageToTxt("对不起，已有人先你抢到今日楼主了，请返回明日继续。"+nowtime+"\r\n\r\n"); TipNotify("Devdiv：已有人先你抢到今日楼主了 "+ijs.ToString()); string st1 = "23:59";
-		 * string st2 = "00:02"; DateTime dtNowtime = DateTime.Parse(nowtime); DateTime dttime1 = DateTime.Parse(st1); DateTime dttime2 =
-		 * DateTime.Parse(st2); if (DateTime.Compare(dtNowtime, dttime2) <= 0) { //被其他人抢了，转抢楼跟帖流程 AddMessageToTxt("转抢楼跟帖流程....\r\n\r\n");
-		 * TipNotify("Devdiv转抢楼跟帖流程...."); goto L_QIANLOUGENTIAN; } if (DateTime.Compare(dtNowtime, dttime1) >= 0) { //sleeptime = 1000; sleeptime =
-		 * (sleeptime > 1000) ? 1000 : sleeptime; sleeptime -= 40; sleeptime = (sleeptime < 30) ? 30 : sleeptime; }
-		 * 
-		 * //AddMessageToTxt(content); //return;
-		 * 
-		 * Thread.Sleep(sleeptime); goto L_BEGINQIANG; } else if (content.IndexOf(txtQianglouTitle.Text) != -1) {
-		 * AddMessageToTxt("发帖子抢楼签到成功....\r\n\r\n"); TipNotify("Devdiv发帖子抢楼签到成功"); goto L_GUANSHUI; } else if (content.IndexOf("验证问答回答错误，无法提交，请返回修改。")
-		 * > -1) { AddMessageToTxt("验证问答回答错误，无法提交，请返回修改。\r\n停止操作！！！！！\r\n\r\n"); goto L_BEGINQIANG_END; } else { string tmpstr = "未知错误重试…………\r\n\r\n";
-		 * TipNotify("Devdiv未知错误重试"); tmpstr += content; tmpstr += "\r\n\r\n"; AddMessageToTxt(tmpstr); Thread.Sleep(2000); goto L_BEGINQIANG; }
-		 * L_QIANLOUGENTIAN: //抢楼跟帖 content = _hh.Get("http://www.devdiv.net/bbs/forum-151-1.html"); if (content.IndexOf("版块主题") == -1) {
-		 * AddMessageToTxt("打开抢楼签到板块失败，重试....\r\n\r\n"); Thread.Sleep(1000); goto L_QIANLOUGENTIAN; } Pattern =
-		 * 
-		 * @"版块主题<(.+?)<a href=""thread([-\d]+).html"" title=""新窗口打开"" target=""_blank"">"; verifyVar = Regex.Match(content, Pattern,
-		 * RegexOptions.Singleline); string urlnew = verifyVar.Result("$2").ToString().Trim(); string thistianziid = urlnew.Substring(1,5); urlnew =
-		 * "http://www.devdiv.net/bbs/thread" + urlnew + ".html"; L_QLST: AddMessageToTxt("打开抢楼签到首贴:"+urlnew+"....\r\n"); content = _hh.Get(urlnew);
-		 * if (content.IndexOf("感谢大家对论坛支持决定举办每日签到活动") == -1) { AddMessageToTxt("打开抢楼签到首贴失败，重试....\r\n\r\n"); Thread.Sleep(1000); goto L_QLST; }
-		 * Pattern = @"<form method=""post"" id=""fastpostform"" action="
-		 * "post\.php\?action=reply&amp;fid=(.+)&amp;replysubmit=yes&amp;infloat=yes&amp;handlekey=fastpost"" onSubmit=""return
-		 * fastpostvalidate\(this\)"">"; verifyVar = Regex.Match(content, Pattern, RegexOptions.Singleline); string posturl =
-		 * verifyVar.Result("$1").ToString().Trim(); posturl = "http://www.devdiv.net/bbs/post.php?action=reply&fid=" + posturl +
-		 * "&replysubmit=yes&infloat=yes&handlekey=fastpost&inajax=1"; string postparam; Pattern =
-		 * 
-		 * @"<input type=""hidden"" name=""formhash"" value=""(.+?)"" />"; verifyVar = Regex.Match(content, Pattern, RegexOptions.Singleline);
-		 * postparam = verifyVar.Result("$1").ToString().Trim(); postparam = "formhash=" + postparam + "&subject=&usesig=0&addfeed=1&message=" +
-		 * HttpHelper.ChineseEncode(txtQianglouGentian.Text); posturl = posturl.Replace("&amp;", "&"); L_QLSTFT: content = _hh.Post(posturl,
-		 * postparam); if (content.IndexOf("非常感谢，您的回复已经发布，现在将转入主题页") == -1) { AddMessageToTxt("发帖到抢楼签到首贴失败，重试....\r\n\r\n"); Thread.Sleep(1000); goto
-		 * L_QLSTFT; } posturl = "http://www.devdiv.net/bbs/plugin.php?id=grab_signin:submit&tid=" + thistianziid; L_QLSTLF: content =
-		 * _hh.Get(posturl); if (content.IndexOf(devzh) == -1) { AddMessageToTxt("领分失败， 重试....\r\n\r\n"); Thread.Sleep(1000); goto L_QLSTLF; }
-		 * AddMessageToTxt("领分成功....\r\n"); TipNotify("Devdiv抢楼签到跟帖并领分成功");
-		 */
 		// int i = 0;
 		// while (mThreadContinue) {
 		// ++i;
@@ -184,6 +106,101 @@ public class DivSigninService extends Service {
 		// e.printStackTrace();
 		// }
 		// }
+	}
+
+	private int doTaskReplyOthersSubject() {
+		return 0;
+	}
+
+	private int doTaskQiangLou() throws InterruptedException {
+		int breakReason = 0;
+		int openUrlFailedTimes = 0;
+		int retryQiangInterval = 0;
+		while (true) {
+
+			if (!mThreadContinue) break;
+
+			String _lastContent = HttpUtility
+					.GetUseAutoEncoding("http://www.devdiv.com/forum.php?mod=post&action=newthread&fid=151&specialextra=donglin8_signin");
+			if (_lastContent.indexOf(mDevAccountName) < 0) {
+				++openUrlFailedTimes;
+				if (openUrlFailedTimes > 5) {
+					sendNotifyBroadcast(1, "Error: Open qianglou url failed.");
+					breakReason = -1;
+					break;
+				} else {
+					if (!mThreadContinue) break;
+					sendNotifyBroadcast("Open qianglou url failed, will retry...");
+					Thread.sleep(2000);
+					continue;
+				}
+			} else {
+				sendNotifyBroadcast("Open qianglou url Success.");
+				openUrlFailedTimes = 0;
+			}
+
+			if (!mThreadContinue) break;
+
+			Pattern pattern = Pattern.compile("<input type=\"hidden\" name=\"formhash\".+? value=\"(\\w+?)\" />");
+			Matcher match = pattern.matcher(_lastContent);
+			match.find();
+			String formhash = match.group(1);
+
+			pattern = Pattern.compile("<input type=\"hidden\" name=\"posttime\".+? value=\"(\\w+?)\" />");
+			match = pattern.matcher(_lastContent);
+			match.find();
+			String posttime = match.group(1);
+
+			String postData = String
+					.format("formhash=%s&posttime=%s&wysiwyg=0&special=127&specialextra=donglin8_signin&subject=%s&checkbox=0&message=%s&replycredit_extcredits=0&replycredit_times=1&replycredit_membertimes=1&replycredit_random=100&readperm=&tags=&rushreplyfrom=&rushreplyto=&rewardfloor=&stopfloor=&save=&uploadalbum=307&newalbum=&usesig=1&allownoticeauthor=1",
+							formhash, posttime, mQiangLouTitle, mQiangLouContent);
+			String postUrl = "http://www.devdiv.com/forum.php?mod=post&action=newthread&fid=151&extra=&topicsubmit=yes";
+			_lastContent = HttpUtility.PostUseAutoEncoding(postUrl, postData, "GBK");
+			if (!mThreadContinue) break;
+			if (_lastContent.indexOf("对不起，已有人先你") > 0) {
+				sendNotifyBroadcast("Sorry, Too Late, will reply.");
+				breakReason = 1;
+				break;
+			} else if (_lastContent.indexOf("未到\u62a2\u697c时间") > 0) {
+				if (!mThreadContinue) break;
+				sendNotifyBroadcast("QiangLou not begin. will try again...");
+				pattern = Pattern.compile("GMT\\+8, \\d+?(-\\d+?){2} (\\d+?):(\\d+?)<");
+				match = pattern.matcher(_lastContent);
+				match.find();//				GMT+8, 2012-7-9 00:33<span id="debuginfo">
+				int curTimeH = Integer.parseInt(match.group(2));
+				int curTimeM = Integer.parseInt(match.group(3));
+				if (curTimeH < 7 || curTimeM < 59) {
+					retryQiangInterval = 10000;
+				} else {
+					retryQiangInterval = (retryQiangInterval > 1000) ? 1000 : retryQiangInterval;
+					retryQiangInterval -= 40;
+					retryQiangInterval = (retryQiangInterval < 30) ? 30 : retryQiangInterval;
+				}
+				Log.i(PREFIX, "server curTime=" + curTimeH + ":" + curTimeM + " retryQiangInterval=" + retryQiangInterval);
+				Thread.sleep(retryQiangInterval);
+				continue;
+			} else if (_lastContent.indexOf("无法提交") > 0) {
+				sendNotifyBroadcast("无法提交，可能验证码问题.");
+				breakReason = -2;
+				break;
+			} else if (_lastContent.indexOf(mQiangLouContent) > 0) {
+				breakReason = 0;
+				break;
+			} else {
+				++openUrlFailedTimes;
+				if (openUrlFailedTimes > 5) {
+					sendNotifyBroadcast("Unknow Error");
+					breakReason = -3;
+					break;
+				} else {
+					if (!mThreadContinue) break;
+					sendNotifyBroadcast("Open qianglou url failed, will retry...");
+					Thread.sleep(2000);
+					continue;
+				}
+			}
+		}
+		return breakReason;
 	}
 
 	private boolean loginDevdBBs() {
