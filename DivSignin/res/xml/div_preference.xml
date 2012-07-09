@@ -5,6 +5,7 @@
     <PreferenceCategory android:title="Div Account" >
         <EditTextPreference
             android:key="div_user_uid"
+            android:numeric="integer"
             android:summary="Input your div account Uid"
             android:title="User Uid" />
         <EditTextPreference
@@ -13,6 +14,7 @@
             android:title="User Name" />
         <EditTextPreference
             android:key="div_user_pw"
+            android:password="true"
             android:summary="Input your div account password"
             android:title="User PW" />
     </PreferenceCategory>
