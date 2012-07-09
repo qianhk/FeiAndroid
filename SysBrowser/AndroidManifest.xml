@@ -16,10 +16,10 @@
  */
 -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.android.browser">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.android.browser.kai">
 
-    <original-package android:name="com.android.browser" />
-
+    <uses-permission android:name="com.google.android.googleapps.permission.GOOGLE_AUTH" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -27,21 +27,20 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS"/>
     <uses-permission android:name="com.android.browser.permission.WRITE_HISTORY_BOOKMARKS"/>
-    <uses-permission android:name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
+    <uses-permission android:name="android.permission.BACKUP_DATA" />
 
-    <application   android:name="Browser"
+    <application   android:name=".Browser"
                    android:label="@string/application_name"
                    android:icon="@drawable/ic_launcher_browser"
                    android:backupAgent=".BrowserBackupAgent"
                    android:taskAffinity="android.task.browser" >
 
-        <provider android:name="BrowserProvider"
-                  android:authorities="browser"
+        <provider android:name=".BrowserProvider"
+                  android:authorities="browserkai"
                   android:multiprocess="true"
                   android:readPermission="com.android.browser.permission.READ_HISTORY_BOOKMARKS"
                   android:writePermission="com.android.browser.permission.WRITE_HISTORY_BOOKMARKS">
@@ -53,12 +52,7 @@
                   android:launchMode="singleTask"
                   android:alwaysRetainTaskState="true"
                   android:configChanges="orientation|keyboardHidden"
-                  android:theme="@style/BrowserTheme"
-                  android:windowSoftInputMode="adjustResize" >
-            <intent-filter>
-                <action android:name="android.speech.action.VOICE_SEARCH_RESULTS" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+                  android:theme="@style/BrowserTheme" >
             <!-- For these schemes were not particular MIME type has been
                  supplied, we are a good candidate. -->
             <intent-filter>
@@ -119,20 +113,18 @@
                     android:resource="@xml/searchable" />
         </activity>
 
-        <activity android:name="CombinedBookmarkHistoryActivity" android:label="@string/bookmarks"
-                  android:excludeFromRecents="true"
+        <activity android:name="CombinedBookmarkHistoryActivity" android:label=""
                   android:launchMode="singleTop" android:configChanges="orientation|keyboardHidden"
                   android:theme="@style/BookmarkTheme" >
             <meta-data android:name="android.app.default_searchable"
                     android:value=".BrowserActivity" />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
         </activity>
 
         <activity android:name="BrowserBookmarksPage" android:label="@string/bookmarks"
                   android:launchMode="singleTop" android:configChanges="orientation|keyboardHidden">
         </activity>
+        <activity android:name="MostVisitedActivity" android:label=""
+                android:launchMode="singleTop" android:configChanges="orientation|keyboardHidden"/>
 
         <activity-alias android:name="ShortcutBookmarksPage"
             android:targetActivity="BrowserBookmarksPage"
@@ -155,6 +147,10 @@
         </activity>
 
         <activity android:name="BrowserHistoryPage" android:label=""
+                  android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name="BrowserPluginList" android:label=""
                   android:configChanges="orientation|keyboardHidden">
         </activity>
 
@@ -184,25 +180,16 @@
             </intent-filter>
         </activity>
 
-        <!--receiver android:name=".widget.BookmarkWidgetProvider" android:label="@string/bookmarks">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/bookmarkwidget"/>
-        </receiver>
-
-        <service android:name=".widget.BookmarkWidgetService" /-->
-
         <!-- Makes .BrowserActivity the search target for any activity in Browser -->
         <meta-data android:name="android.app.default_searchable" android:value=".BrowserActivity" />
 
-        <receiver android:name=".OpenDownloadReceiver">
+        <activity android:name="android.webkit.PluginActivity">
             <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED"/>
-                <action android:name="android.intent.action.DELETE"/>
-                <data android:scheme="content" android:mimeType="vnd.android.cursor.item/download"/>
+                <action android:name="android.intent.webkit.PLUGIN" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </receiver>
+        </activity>
+
     </application>
 
 </manifest>
