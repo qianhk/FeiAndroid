@@ -54,10 +54,10 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 				mButtonQiangLou.setText(mDoingQiangLou ? "Start" : "Stop");
 				if (mDoingQiangLou) {
 					stopService(intent);
-					mNotificationManager.cancel(R.string.app_name);
+					afterStopQiangLou();
 				} else {
 					startService(intent);
-					sendNotification();
+					afterStartQiangLou();
 				}
 				mDoingQiangLou = !mDoingQiangLou;
 			}
@@ -94,13 +94,25 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 				|| TextUtils.isEmpty(qiangLouTitle) || TextUtils.isEmpty(qiangLouContent);
 		return !invalid;
 	}
+	
+	private void afterStartQiangLou() {
+		sendNotification();
+		getWindow().getDecorView().setKeepScreenOn(true);
+	}
+	
+	private void afterStopQiangLou() {
+		mDoingQiangLou = false;
+		mButtonQiangLou.setText("Start");
+		mNotificationManager.cancel(R.string.app_name);
+		getWindow().getDecorView().setKeepScreenOn(false);
+	}
 
 	@Override
 	protected void onDestroy() {
 		Log.i(PREFIX, "onDestroy");
 		if (mDoingQiangLou) {
 			stopService(new Intent(this, DivSigninService.class));
-			mNotificationManager.cancel(R.string.app_name);
+			afterStopQiangLou();
 		}
 		unregisterReceiver(mReceiver);
 		super.onDestroy();
@@ -111,9 +123,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 //		Log.i(PREFIX, "notifyMessage=" + message);
 		mTextEditResult.append(message + "\n");
 		if (type != 0) {
-			mDoingQiangLou = false;
-			mButtonQiangLou.setText("Start");
-			mNotificationManager.cancel(R.string.app_name);
+			afterStopQiangLou();
 		}
 	}
 
