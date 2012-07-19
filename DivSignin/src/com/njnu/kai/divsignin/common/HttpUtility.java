@@ -31,7 +31,7 @@ public class HttpUtility {
 		httpParam.setIntParameter(CoreConnectionPNames.SO_TIMEOUT, Http_Timeout_Time);
 		httpParam.setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
 		// System.out.println(httpParam.getParameter(ClientPNames.COOKIE_POLICY));
-		String ls_content = null;
+		String ls_content = "";
 		try {
 			HttpGet httpGet = new HttpGet(url);
 			httpGet.setHeader("Referer", _lastUrl);
@@ -56,7 +56,7 @@ public class HttpUtility {
 	}
 
 	static public String PostUseAutoEncoding(String url, String postData, String encoding) {
-		String content = null;
+		String content = "";
 		try {
 			StringEntity postEntity = new StringEntity(postData, encoding);
 			postEntity.setContentType(URLEncodedUtils.CONTENT_TYPE + HTTP.CHARSET_PARAM
@@ -81,7 +81,7 @@ public class HttpUtility {
 		httpParam.setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, Http_Timeout_Time);
 		httpParam.setIntParameter(CoreConnectionPNames.SO_TIMEOUT, Http_Timeout_Time);
 		httpParam.setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
-		String ls_content = null;
+		String ls_content = "";
 		try {
 			HttpPost httpPost = new HttpPost(url);
 			// InputStream ins = postEntity.getContent();

@@ -26,6 +26,7 @@ public class DivSigninService extends Service {
 	private String mDevAccountPw;
 	private String mQiangLouTitle;
 	private String mQiangLouContent;
+	private int mOpenUrlFailedTimes = 0;
 
 	private Thread mThreadQiangLou = new Thread(new Runnable() {
 
@@ -90,9 +91,9 @@ public class DivSigninService extends Service {
 		int replyResult = doTaskReplyOthersSubject(); // 0:Success 1:Error
 		if (!mThreadContinue) return;
 		if (replyResult == 0) {
-			sendNotifyBroadcast(4, "Congratulations, Reply others subject success.");
+			sendNotifyBroadcast(4, "Congratulations, Reply others subject and get score success.");
 		} else {
-			sendNotifyBroadcast(4, "Reply others subject Error, Terminate task.");
+			sendNotifyBroadcast(4, "Reply others subject or get score Error, Terminate task.");
 		}
 		stopSelf();
 
@@ -108,13 +109,127 @@ public class DivSigninService extends Service {
 		// }
 	}
 
-	private int doTaskReplyOthersSubject() {
-		return 0;
+	private int doTaskReplyOthersSubject() throws InterruptedException {
+		mOpenUrlFailedTimes = 0;
+		int breakReason = 0;
+		while (true) {
+			String _lastContent = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/forum-151-1.html");
+			if (_lastContent.indexOf("\u62a2\u697c\u7b7e\u5230\u002d\u0044\u0045\u0056\u0044\u0049\u0056\u002e\u0043\u004f\u004d") < 0) {
+				breakReason = dealHttpFailed(-100, "open board qianglou failed, will retry...", "Error: Open board qianglou failed");
+				if (breakReason == 0)
+					continue;
+				else
+					break;
+			} else {
+				sendNotifyBroadcast("open board qianglou sucess.");
+				mOpenUrlFailedTimes = 0;
+			}
+
+			if (!mThreadContinue) break;
+
+			int topicIndex = _lastContent.indexOf("版块主题");
+			_lastContent = _lastContent.substring(topicIndex, topicIndex + 10000);
+			Pattern pattern = Pattern.compile("版块主题<.+?<a href=\"(.+?)\" title=\"(有新回复 - ){0,1}新窗口打开\" target=\"_blank\">", Pattern.DOTALL);
+			Matcher matcher = pattern.matcher(_lastContent);
+			matcher.find();
+			String firstFloorUrl = matcher.group(1);
+			// Log.i(PREFIX, firstFloorUrl);
+			sendNotifyBroadcast("get qianglou 首帖 Sucess.");
+
+			while (true) {
+				if (!mThreadContinue) break;
+				
+				_lastContent = HttpUtility.GetUseAutoEncoding(firstFloorUrl);
+				if (_lastContent.indexOf("\u6240\u6709\u4f1a\u5458\u5747\u53ef\u62a2\u697c\u548c\u7b7e\u5230") < 0) {
+					breakReason = dealHttpFailed(-101, "Open 跟帖 url Failed, will retry...", "Error: Open 跟帖 url Failed.");
+					if (breakReason == 0)
+						continue;
+					else
+						break;
+				} else {
+					mOpenUrlFailedTimes = 0;
+					sendNotifyBroadcast("Open 跟帖 url Sucess, reply...");
+					if (!mThreadContinue) break;
+					
+					pattern = Pattern.compile("<form method=\"post\" autocomplete=\"off\" id=\"fastpostform\" action=\"(.+?)\" onSubmit",
+							Pattern.DOTALL);
+					_lastContent = _lastContent.substring(_lastContent.indexOf("<form method=\"post\""));
+					matcher = pattern.matcher(_lastContent);
+					matcher.find();
+					String postUrl = matcher.group(1);
+					postUrl = "http://www.devdiv.com/" + postUrl.replace("&amp;", "&") + "&inajax=1";
+//					Log.i(PREFIX, postUrl);
+					pattern = Pattern.compile("<input type=\"hidden\" name=\"formhash\".*? value=\"(\\w+?)\" />");
+					matcher = pattern.matcher(_lastContent);
+					matcher.find();
+					String formhash = matcher.group(1);
+					
+					pattern = Pattern.compile("<input type=\"hidden\" name=\"posttime\".*? value=\"(\\w+?)\" />");
+					matcher = pattern.matcher(_lastContent);
+					matcher.find();
+					String posttime = matcher.group(1);
+					
+					String postData = "formhash=" + formhash + "&subject=&message=" + mQiangLouContent + "&posttime=" + posttime;
+					_lastContent = HttpUtility.PostUseAutoEncoding(postUrl, postData, "GBK");
+					if (_lastContent.indexOf("succeedhandle_fastpost") < 0) {
+						breakReason = dealHttpFailed(-102, "Reply 跟帖 Failed, will retry...", "Error: Reply 跟帖 Failed.");
+						if (breakReason == 0)
+							continue;
+						else
+							break;
+					} else {
+						mOpenUrlFailedTimes = 0;
+						sendNotifyBroadcast("reply 跟帖 sucess, will get score.");
+						
+						pattern = Pattern.compile("&tid=(\\d+?)&");
+						matcher = pattern.matcher(_lastContent);
+						matcher.find();
+						String tidStr = matcher.group(1);
+						postUrl = "http://www.devdiv.com/plugin.php?id=donglin8_signin:submit&tid=" + tidStr;
+						
+						while (true) {
+							if (!mThreadContinue) break;
+							
+							_lastContent = HttpUtility.GetUseAutoEncoding(postUrl);
+							if (_lastContent.indexOf(mDevAccountName) < 0) {
+								breakReason = dealHttpFailed(-103, "Get score failed, will retry...", "Error: Get score Failed.");
+								if (breakReason == 0)
+									continue;
+								else
+									break;
+							} else {
+								mOpenUrlFailedTimes = 0;
+								
+								sendNotifyBroadcast("Get score sucess.");
+							}
+							break;
+						}
+					}
+				}
+				break;
+			}
+
+			break;
+		}
+		return breakReason;
+	}
+
+	private int dealHttpFailed(int breakNo, String warningText, String errorText) throws InterruptedException {
+		int dealResult = 0;
+		++mOpenUrlFailedTimes;
+		if (mOpenUrlFailedTimes > 5) {
+			sendNotifyBroadcast(breakNo, errorText);
+			dealResult = breakNo;
+		} else {
+			sendNotifyBroadcast(warningText);
+			Thread.sleep(2000);
+		}
+		return dealResult;
 	}
 
 	private int doTaskQiangLou() throws InterruptedException {
 		int breakReason = 0;
-		int openUrlFailedTimes = 0;
+		mOpenUrlFailedTimes = 0;
 		int retryQiangInterval = 0;
 		while (true) {
 
@@ -123,20 +238,14 @@ public class DivSigninService extends Service {
 			String _lastContent = HttpUtility
 					.GetUseAutoEncoding("http://www.devdiv.com/forum.php?mod=post&action=newthread&fid=151&specialextra=donglin8_signin");
 			if (_lastContent.indexOf(mDevAccountName) < 0) {
-				++openUrlFailedTimes;
-				if (openUrlFailedTimes > 5) {
-					sendNotifyBroadcast(1, "Error: Open qianglou url failed.");
-					breakReason = -1;
-					break;
-				} else {
-					if (!mThreadContinue) break;
-					sendNotifyBroadcast("Open qianglou url failed, will retry...");
-					Thread.sleep(2000);
+				breakReason = dealHttpFailed(-1, "Open qianglou url failed, will retry...", "Error: Open qianglou url failed.");
+				if (breakReason == 0)
 					continue;
-				}
+				else
+					break;
 			} else {
 				sendNotifyBroadcast("Open qianglou url Success.");
-				openUrlFailedTimes = 0;
+				mOpenUrlFailedTimes = 0;
 			}
 
 			if (!mThreadContinue) break;
@@ -166,7 +275,7 @@ public class DivSigninService extends Service {
 				sendNotifyBroadcast("QiangLou not begin. will try again...");
 				pattern = Pattern.compile("GMT\\+8, \\d+?(-\\d+?){2} (\\d+?):(\\d+?)<");
 				match = pattern.matcher(_lastContent);
-				match.find();//				GMT+8, 2012-7-9 00:33<span id="debuginfo">
+				match.find();// GMT+8, 2012-7-9 00:33<span id="debuginfo">
 				int curTimeH = Integer.parseInt(match.group(2));
 				int curTimeM = Integer.parseInt(match.group(3));
 				if (curTimeH < 7 || curTimeM < 59) {
@@ -187,17 +296,11 @@ public class DivSigninService extends Service {
 				breakReason = 0;
 				break;
 			} else {
-				++openUrlFailedTimes;
-				if (openUrlFailedTimes > 5) {
-					sendNotifyBroadcast("Unknow Error");
-					breakReason = -3;
-					break;
-				} else {
-					if (!mThreadContinue) break;
-					sendNotifyBroadcast("Open qianglou url failed, will retry...");
-					Thread.sleep(2000);
+				breakReason = dealHttpFailed(-3, "Open qianglou url failed(unknow error), will retry...", "Unknow Error");
+				if (breakReason == 0)
 					continue;
-				}
+				else
+					break;
 			}
 		}
 		return breakReason;
