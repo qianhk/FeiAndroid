@@ -59,6 +59,7 @@ public class DivSigninService extends Service {
 			return;
 		}
 
+		sendNotifyBroadcast("title=" + mQiangLouTitle + " content=" + mQiangLouContent);
 		sendNotifyBroadcast("Start，Check Cookie ? [" + mDevAccountName + "]");
 		if (IsValidDevdCookie()) {
 			sendNotifyBroadcast("Success, Cookie Valid.");
@@ -272,7 +273,6 @@ public class DivSigninService extends Service {
 				break;
 			} else if (_lastContent.indexOf("未到\u62a2\u697c时间") > 0) {
 				if (!mThreadContinue) break;
-				sendNotifyBroadcast("QiangLou not begin. will try again...");
 				pattern = Pattern.compile("GMT\\+8, \\d+?(-\\d+?){2} (\\d+?):(\\d+?)<");
 				match = pattern.matcher(_lastContent);
 				match.find();// GMT+8, 2012-7-9 00:33<span id="debuginfo">
@@ -285,7 +285,8 @@ public class DivSigninService extends Service {
 					retryQiangInterval -= 40;
 					retryQiangInterval = (retryQiangInterval < 30) ? 30 : retryQiangInterval;
 				}
-				Log.i(PREFIX, "server curTime=" + curTimeH + ":" + curTimeM + " retryQiangInterval=" + retryQiangInterval);
+//				Log.i(PREFIX, "server curTime=" + curTimeH + ":" + curTimeM + " retryQiangInterval=" + retryQiangInterval);
+				sendNotifyBroadcast("QiangLou not begin(" + curTimeM + "), will try again after " + retryQiangInterval + "ms.");
 				Thread.sleep(retryQiangInterval);
 				continue;
 			} else if (_lastContent.indexOf("无法提交") > 0) {
