@@ -278,7 +278,7 @@ public class DivSigninService extends Service {
 				match.find();// GMT+8, 2012-7-9 00:33<span id="debuginfo">
 				int curTimeH = Integer.parseInt(match.group(2));
 				int curTimeM = Integer.parseInt(match.group(3));
-				if (curTimeH < 7 || curTimeM < 59) {
+				if (curTimeH < 7 || curTimeM < 58) {
 					retryQiangInterval = 10000;
 				} else {
 					retryQiangInterval = (retryQiangInterval > 1000) ? 1000 : retryQiangInterval;
