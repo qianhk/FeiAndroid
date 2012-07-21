@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.njnu.kai.widget.time"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="15" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="app_time_widget" >
+        <receiver
+            android:name=".WidgetTimeProvider"
+            android:label="time_widget_receiver" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" >
+                </action>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.njnu.kai.widgettime.fresh" >
+                </action>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/my_widget_provider" >
+            </meta-data>
+        </receiver>
+        <service android:name=".WidgetTimeProvider$UpdateService" />
+    </application>
+
+</manifest>
