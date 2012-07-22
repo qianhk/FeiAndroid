@@ -17,25 +17,23 @@
             android:visibility="gone" />
 
         <RadioGroup
-            android:id="@+id/radio_group_main"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@drawable/maintab_toolbar_bg"
             android:gravity="center_vertical"
+            android:checkedButton="@+id/radio_button_sms"
             android:orientation="horizontal" >
 
             <RadioButton
                 android:id="@+id/radio_button_sms"
                 style="@style/main_tab_bottom"
-                android:checked="true"
-                android:drawableTop="@drawable/tab_contact"
+                android:drawableTop="@drawable/tab_sms"
                 android:text="本组短信" />
 
             <RadioButton
                 android:id="@+id/radio_button_contact"
                 style="@style/main_tab_bottom"
-                android:checked="false"
                 android:drawableTop="@drawable/tab_contact"
                 android:text="本组联系人" />
         </RadioGroup>
