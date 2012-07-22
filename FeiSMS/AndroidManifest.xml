@@ -29,8 +29,8 @@
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/ContentOverlay" >
         </activity>
-        <activity android:name=".TabSMSContentActivity" />
-        <activity android:name=".TabContactActivity" />
+        <activity android:name=".TabSMSContentActivity" android:windowSoftInputMode="adjustResize|stateVisible"/>
+        <activity android:name=".TabContactActivity" android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
     </application>
 
 </manifest>

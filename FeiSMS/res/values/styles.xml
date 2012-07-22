@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="main_tab_bottom">
-        <item name="android:textSize">9dip</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:background">@drawable/tab_btn_bg</item>

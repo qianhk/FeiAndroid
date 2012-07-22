@@ -3,10 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-<TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+
+        <ListView
+            android:id="@id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@id/android:empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Please add contact from menu." />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/summary"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="tab_contact" />
+        android:gravity="center"
+        android:layout_margin="6dip"
+        android:text="Total %d contacts." />
+
 </LinearLayout>

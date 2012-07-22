@@ -5,9 +5,35 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="tab_sms" />
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dip"
+        android:text="组名称：" />
+
+    <EditText
+        android:id="@+id/edittext_group_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dip"
+        android:text="组名称测试" >
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginTop="5dip"
+        android:text="短信内容：" />
+
+    <EditText
+        android:id="@+id/edittext_group_sms"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dip"
+        android:text="测试内容，测试内容2好，测试测试再测试、批评批评再批评，android，我来也"
+        android:gravity="top"
+        android:maxLength="70"
+        android:singleLine="false" />
 
 </LinearLayout>
