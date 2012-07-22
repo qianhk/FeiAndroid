@@ -347,7 +347,7 @@ public class DivSigninService extends Service {
 	}
 
 	private boolean IsValidDevdCookie() {
-		String needStr = String.format("<a href=\"http://www.devdiv.com/space-uid-%s.html\" target=\"_blank\" title=\"访问我的空间\">%s</a>",
+		String needStr = String.format("<a href=\"http://www.devdiv.com/home.php?mod=space&amp;uid=%s\" target=\"_blank\" title=\"访问我的空间\">%s</a>",
 				mDevAccountUid, mDevAccountName);
 		String _lastContent = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/forum-154-1.html");
 		// Log.i(PREFIX, _lastContent);
