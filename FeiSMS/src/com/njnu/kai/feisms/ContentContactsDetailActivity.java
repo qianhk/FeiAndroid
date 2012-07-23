@@ -11,18 +11,18 @@ import android.widget.RadioButton;
 import android.widget.TabHost;
 
 @SuppressWarnings("deprecation")
-public class ContentContactDetailActivity extends TabActivity implements OnCheckedChangeListener {
+public class ContentContactsDetailActivity extends TabActivity implements OnCheckedChangeListener {
 	private TabHost mTabHost;
 	private Intent mIntentSMS;
-	private Intent mIntentContact;
+	private Intent mIntentContacts;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.content_contact_detail);
+		setContentView(R.layout.content_contacts_detail);
 		
 		mIntentSMS = new Intent(this, TabSMSContentActivity.class);
-		mIntentContact = new Intent(this, TabContactActivity.class);
+		mIntentContacts = new Intent(this, TabContactsActivity.class);
 		initRadios();
 		setupIntent();
 	}
@@ -32,7 +32,7 @@ public class ContentContactDetailActivity extends TabActivity implements OnCheck
 	 */
 	private void initRadios() {
 		((RadioButton) findViewById(R.id.radio_button_sms)).setOnCheckedChangeListener(this);
-		((RadioButton) findViewById(R.id.radio_button_contact)).setOnCheckedChangeListener(this);
+		((RadioButton) findViewById(R.id.radio_button_contacts)).setOnCheckedChangeListener(this);
 	}
 
 	/**
@@ -45,8 +45,8 @@ public class ContentContactDetailActivity extends TabActivity implements OnCheck
 			case R.id.radio_button_sms:
 				this.mTabHost.setCurrentTabByTag("tab_sms");
 				break;
-			case R.id.radio_button_contact:
-				this.mTabHost.setCurrentTabByTag("tab_contact");
+			case R.id.radio_button_contacts:
+				this.mTabHost.setCurrentTabByTag("tab_contacts");
 				break;
 			}
 		}
@@ -55,7 +55,7 @@ public class ContentContactDetailActivity extends TabActivity implements OnCheck
 	private void setupIntent() {
 		mTabHost = getTabHost();
 		mTabHost.addTab(buildTabSpec("tab_sms", mIntentSMS));
-		mTabHost.addTab(buildTabSpec("tab_contact", mIntentContact));
+		mTabHost.addTab(buildTabSpec("tab_contacts", mIntentContacts));
 	}
 
 	private TabHost.TabSpec buildTabSpec(String tag, final Intent content) {

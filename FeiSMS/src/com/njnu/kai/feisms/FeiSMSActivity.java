@@ -16,11 +16,10 @@ import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 
 public class FeiSMSActivity extends ListActivity {
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.content_contact_preview);
+		setContentView(R.layout.content_contacts_preview);
 //		String[] aa = { "Test1", "Test2" };
 //		ArrayAdapter<String> a = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, aa);
 //		setListAdapter(a);
@@ -40,7 +39,7 @@ public class FeiSMSActivity extends ListActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(FeiSMSActivity.this, ContentContactDetailActivity.class);
+				Intent intent = new Intent(FeiSMSActivity.this, ContentContactsDetailActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -48,11 +47,25 @@ public class FeiSMSActivity extends ListActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 0, 0, "Add Group");
+		menu.add(0, 1, 1, "Modify Group");
+		menu.add(0, 2, 2, "Delete Group");
+		menu.add(0, 3, 3, "Send Selected Group");
+		menu.add(0, 4, 4, "Send All Group");
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case 0: //Add group
+			break;
+		}
 		return super.onOptionsItemSelected(item);
 	}
 }

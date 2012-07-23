@@ -32,9 +32,9 @@
                 android:text="本组短信" />
 
             <RadioButton
-                android:id="@+id/radio_button_contact"
+                android:id="@+id/radio_button_contacts"
                 style="@style/main_tab_bottom"
-                android:drawableTop="@drawable/tab_contact"
+                android:drawableTop="@drawable/tab_contacts"
                 android:text="本组联系人" />
         </RadioGroup>
 

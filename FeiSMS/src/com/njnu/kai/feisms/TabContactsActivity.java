@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-public class TabContactActivity extends ListActivity {
+public class TabContactsActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,8 +18,6 @@ public class TabContactActivity extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		Log.i("TabContact", "onResume");
-//		getListView().requestFocus();
 
 		View currentFocus = getListView();
 		IBinder windowToken = currentFocus != null ? currentFocus.getWindowToken() : null;
