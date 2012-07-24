@@ -16,10 +16,22 @@ import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 
 public class FeiSMSActivity extends ListActivity {
+	private FeiSMSDataManager mDataManager;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.content_contacts_preview);
+		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
+//		mDataManager.AppendSMSGroup("groupName1", "groupSmS1");
+//		mDataManager.AppendSMSGroup("groupName2", "groupSmS2");
+//		mDataManager.AppendSMSGroup("groupName3", "groupSmS3");
+//		mDataManager.AppendContactsToGroup(1, 1, "contactsName1", "contactsPhoneNumber1");
+//		mDataManager.AppendContactsToGroup(1, 2, "contactsName2", "contactsPhoneNumber2");
+//		mDataManager.AppendContactsToGroup(1, 3, "contactsName3", "contactsPhoneNumber3");
+//		mDataManager.AppendContactsToGroup(2, 4, "contactsName4", "contactsPhoneNumber4");
+//		mDataManager.AppendContactsToGroup(2, 5, "contactsName5", "contactsPhoneNumber5");
+//		mDataManager.AppendContactsToGroup(2, 6, "contactsName6", "contactsPhoneNumber6");
+//		mDataManager.AppendContactsToGroup(2, 7, "contactsName77", "contactsPhoneNumber7");
 //		String[] aa = { "Test1", "Test2" };
 //		ArrayAdapter<String> a = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, aa);
 //		setListAdapter(a);

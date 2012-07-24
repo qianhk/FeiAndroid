@@ -12,7 +12,7 @@ public class FeiSMSDBHelper extends SQLiteOpenHelper {
 
 	private static final String PREFIX = "[FeiSMSDBHelper]:";
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 3;
 
 	private static final String DATABASE_NAME = "feismsdata.db";
 
@@ -25,6 +25,9 @@ public class FeiSMSDBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_NAME_CONTACTS_ID = "contacts_id";
 	public static final String COLUMN_NAME_CONTACTS_NAME = "contacts_name";
 	public static final String COLUMN_NAME_CONTACTS_PHONE_NUMBER = "contacts_phone_number";
+	
+	public static final String V_TABLE_NAME_GROUP_INFO = "v_group_info";
+	public static final String V_COLUMN_NAME_CONTACTS_AMOUNT = "contacts_amount";
 
 	public FeiSMSDBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,28 +35,50 @@ public class FeiSMSDBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		Log.i(PREFIX, "onCreate");
 		db.beginTransaction();
 		String sqlCreateTable = String.format("CREATE TABLE IF NOT EXISTS %s (%s integer PRIMARY KEY AutoIncrement, "
-				+ "%s text not null,  %s text not null);", TABLE_NAME_SMS_GROUP, BaseColumns._ID, COLUMN_NAME_GROUP_NAME, COLUMN_NAME_GROUP_SMS);
+				+ "%s text not null,  %s text not null);", TABLE_NAME_SMS_GROUP, BaseColumns._ID, COLUMN_NAME_GROUP_NAME,
+				COLUMN_NAME_GROUP_SMS);
 		db.execSQL(sqlCreateTable);
-		sqlCreateTable = String.format("create table if not exists %s (%s integer PRIMARY KEY AUTOINCREMENT, %s integer not null, %s integer not null,"
-				+ "%s text not null, %s text not null);", TABLE_NAME_SMS_CONTACTS, BaseColumns._ID, COLUMN_NAME_GROUP_ID, COLUMN_NAME_CONTACTS_ID,
-				COLUMN_NAME_CONTACTS_NAME, COLUMN_NAME_CONTACTS_PHONE_NUMBER);
+		sqlCreateTable = String.format(
+				"create table if not exists %s (%s integer PRIMARY KEY AUTOINCREMENT, %s integer not null, %s integer not null,"
+						+ "%s text not null, %s text not null);", TABLE_NAME_SMS_CONTACTS, BaseColumns._ID, COLUMN_NAME_GROUP_ID,
+				COLUMN_NAME_CONTACTS_ID, COLUMN_NAME_CONTACTS_NAME, COLUMN_NAME_CONTACTS_PHONE_NUMBER);
 		db.execSQL(sqlCreateTable);
-		String sqlCreateTrigger = String.format("CREATE TRIGGER tr_sms_group_delete AFTER DELETE ON %s FOR EACH ROW BEGIN DELETE FROM %s WHERE %s=old.id; END;"
-				, TABLE_NAME_SMS_GROUP, TABLE_NAME_SMS_CONTACTS, COLUMN_NAME_GROUP_ID);
+		String sqlCreateTrigger = String.format(
+				"CREATE TRIGGER tr_sms_group_delete AFTER DELETE ON %s FOR EACH ROW BEGIN DELETE FROM %s WHERE %s=old._id; END;",
+				TABLE_NAME_SMS_GROUP, TABLE_NAME_SMS_CONTACTS, COLUMN_NAME_GROUP_ID);
 		db.execSQL(sqlCreateTrigger);
 		db.setTransactionSuccessful();
 		db.endTransaction();
+		if (DATABASE_VERSION > 1) {
+			onUpgrade(db, 1, DATABASE_VERSION);
+		}
+	}
+
+	private void upgradeFromVersion1(SQLiteDatabase db) {
+	}
+	
+	private void upgradeFromVersion2(SQLiteDatabase db) {
+		String sqlCreateView = String.format("create view %s as select t1._id, t1.%s,(select count(*) from %s t2 where t2.%s=t1._id) as %s from %s t1;"
+				, V_TABLE_NAME_GROUP_INFO, COLUMN_NAME_GROUP_NAME, TABLE_NAME_SMS_CONTACTS, COLUMN_NAME_GROUP_ID, V_COLUMN_NAME_CONTACTS_AMOUNT, TABLE_NAME_SMS_GROUP);
+		db.execSQL(sqlCreateView);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		String sqlDrop = "DROP TABLE IF EXISTS " + TABLE_NAME_SMS_CONTACTS;
-		db.execSQL(sqlDrop);
-		sqlDrop = "drop table if exists " + TABLE_NAME_SMS_GROUP;
-		db.execSQL(sqlDrop);
-		onCreate(db);
+		Log.i(PREFIX, "onUpgrade oldVersion=" + oldVersion + " newVersion=" + newVersion);
+		db.beginTransaction();
+		if (oldVersion == 1) {
+			upgradeFromVersion1(db);
+			++oldVersion;
+		}
+		if (oldVersion < newVersion) { //2
+			upgradeFromVersion2(db);
+			++oldVersion;
+		}
+		db.setTransactionSuccessful();
+		db.endTransaction();
 	}
-
 }

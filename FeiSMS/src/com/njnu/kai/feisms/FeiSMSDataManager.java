@@ -14,6 +14,12 @@ class SMSGroupInfo {
 	public int mGroupId;
 	public int mPersonAmount;
 	public String mGroupName;
+
+	public SMSGroupInfo(int groupId, String groupName, int personAmount) {
+		mGroupId = groupId;
+		mGroupName = groupName;
+		mPersonAmount = personAmount;
+	}
 }
 
 public final class FeiSMSDataManager {
@@ -46,14 +52,40 @@ public final class FeiSMSDataManager {
 		}
 		return operateSucess;
 	}
-	
+
+	public boolean AppendContactsToGroup(int groupId, int contactsId, String contactsName, String contactsPhoneNumber) {
+		boolean operateSucess = true;
+		if (TextUtils.isEmpty(contactsName) || TextUtils.isEmpty(contactsPhoneNumber)) {
+			operateSucess = false;
+		} else {
+			SQLiteDatabase database = mDbHelper.getWritableDatabase();
+			ContentValues contentValues = new ContentValues(4);
+			contentValues.put(FeiSMSDBHelper.COLUMN_NAME_GROUP_ID, groupId);
+			contentValues.put(FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID, contactsId);
+			contentValues.put(FeiSMSDBHelper.COLUMN_NAME_CONTACTS_NAME, contactsName);
+			contentValues.put(FeiSMSDBHelper.COLUMN_NAME_CONTACTS_PHONE_NUMBER, contactsPhoneNumber);
+			operateSucess = database.insert(FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS, null, contentValues) != -1;
+			database.close();
+		}
+		return operateSucess;
+	}
+
 	public List<SMSGroupInfo> getAllSMSGroupInfo() {
 		List<SMSGroupInfo> listSmsGroupInfo = null;
-		String[] columns = new String[] {BaseColumns._ID, FeiSMSDBHelper.COLUMN_NAME_GROUP_NAME, FeiSMSDBHelper.COLUMN_NAME_GROUP_SMS};
+		String[] columns = new String[] {BaseColumns._ID, FeiSMSDBHelper.COLUMN_NAME_GROUP_NAME,
+				FeiSMSDBHelper.V_COLUMN_NAME_CONTACTS_AMOUNT};
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
-//		Cursor cursor = db.
-		//select t1._id, t1.group_name,(select count(*) from t2 where t2.gid=t1._id) as amount from t1;
-		
+		Cursor cursor = db.query(FeiSMSDBHelper.V_TABLE_NAME_GROUP_INFO, columns, null, null, null, null, null);
+
+		int resultCount = cursor.getCount();
+		if (resultCount > 0) {
+			listSmsGroupInfo = new ArrayList<SMSGroupInfo>(resultCount);
+			cursor.moveToFirst();
+			do {
+				listSmsGroupInfo.add(new SMSGroupInfo(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
+			} while (cursor.moveToNext());
+		}
+
 		return listSmsGroupInfo;
 	}
 
