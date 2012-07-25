@@ -2,23 +2,35 @@ package com.njnu.kai.feisms;
 
 import java.util.List;
 
-import android.app.ListActivity;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.res.ColorStateList;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.SimpleCursorAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 public class SMSGroupInfoAdapter extends BaseAdapter {
 	private static final String PREFIX = "[SMSGroupInfoAdapter]:";
 	private Context mContext;
 	private List<SMSGroupInfo> mListGroupInfo;
+	private int mColorTextHighlight;
+	private int mColorTextNormal;
+	
+	private class ViewHolder {
+		CheckBox mCheckBox;
+		TextView mTextViewTitle;
+		TextView mTextViewContent;
+	}
 
 	public SMSGroupInfoAdapter(Context context) {
 		mContext = context;
+		mColorTextHighlight = mContext.getResources().getColor(R.color.yellow);
+		mColorTextNormal = mContext.getResources().getColor(R.color.gray_white);
 	}
 
 	public void refreshGroupInfo(List<SMSGroupInfo> listGroupInfo) {
@@ -48,19 +60,39 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		final ViewHolder holder;
 		if (convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(mContext);
 			convertView = inflater.inflate(R.layout.content_contacts_preview_item, null);
+			holder = new ViewHolder();
+			holder.mTextViewTitle = (TextView) convertView.findViewById(R.id.textview_title);
+			holder.mTextViewContent= (TextView) convertView.findViewById(R.id.textview_content);
+			holder.mCheckBox = (CheckBox)convertView.findViewById(R.id.checkbox_select);
+			convertView.setTag(holder);
+			holder.mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					Log.i(PREFIX, "onCheckedChanged " + isChecked);
+					if (isChecked) {
+						holder.mTextViewTitle.setTextColor(mColorTextHighlight);
+						holder.mTextViewContent.setTextColor(mColorTextHighlight);
+					} else {
+						holder.mTextViewTitle.setTextColor(mColorTextNormal);
+						holder.mTextViewContent.setTextColor(mColorTextNormal);
+					}
+				}
+			});
+		} else {
+			holder = (ViewHolder)convertView.getTag();
 		}
 		SMSGroupInfo groupInfo = mListGroupInfo.get(position);
-		TextView textviewTitle = (TextView) convertView.findViewById(R.id.textview_title);
-		textviewTitle.setText(groupInfo.getGroupName());
-		TextView textviewContent = (TextView) convertView.findViewById(R.id.textview_content);
+		holder.mTextViewTitle.setText(groupInfo.getGroupName());
 		int personAmount = groupInfo.getPersonAmount();
 		if (personAmount > 0) {
-			textviewContent.setText("本组共 " + groupInfo.getPersonAmount() + " 位联系人");
+			holder.mTextViewContent.setText("本组共 " + groupInfo.getPersonAmount() + " 位联系人");
 		} else {
-			textviewContent.setText("本组暂无联系人");
+			holder.mTextViewContent.setText("本组暂无联系人");
 		}
 		return convertView;
 	}

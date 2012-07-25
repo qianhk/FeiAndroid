@@ -27,9 +27,19 @@ public class FeiSMSActivity extends ListActivity {
 		setContentView(R.layout.content_contacts_preview);
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
 		mGroupInfoAdapter = new SMSGroupInfoAdapter(this);
+		
 //		mDataManager.AppendSMSGroup("groupName1", "groupSmS1");
 //		mDataManager.AppendSMSGroup("groupName2", "groupSmS2");
 //		mDataManager.AppendSMSGroup("groupName3", "groupSmS3");
+//		mDataManager.AppendSMSGroup("groupName4", "groupSmS4");
+//		mDataManager.AppendSMSGroup("groupName5", "groupSmS5");
+//		mDataManager.AppendSMSGroup("groupName6", "groupSmS6");
+//		mDataManager.AppendSMSGroup("groupName14", "groupSmS14");
+//		mDataManager.AppendSMSGroup("groupName15", "groupSmS15");
+//		mDataManager.AppendSMSGroup("groupName16", "groupSmS16");
+//		mDataManager.AppendSMSGroup("groupName24", "groupSmS24");
+//		mDataManager.AppendSMSGroup("groupName25", "groupSmS25");
+//		mDataManager.AppendSMSGroup("groupName26", "groupSmS26");
 //		mDataManager.AppendContactsToGroup(1, 1, "contactsName1", "contactsPhoneNumber1");
 //		mDataManager.AppendContactsToGroup(1, 2, "contactsName2", "contactsPhoneNumber2");
 //		mDataManager.AppendContactsToGroup(1, 3, "contactsName3", "contactsPhoneNumber3");
@@ -37,9 +47,6 @@ public class FeiSMSActivity extends ListActivity {
 //		mDataManager.AppendContactsToGroup(2, 5, "contactsName5", "contactsPhoneNumber5");
 //		mDataManager.AppendContactsToGroup(2, 6, "contactsName6", "contactsPhoneNumber6");
 //		mDataManager.AppendContactsToGroup(2, 7, "contactsName7", "contactsPhoneNumber7");
-//		String[] aa = { "Test1", "Test2" };
-//		ArrayAdapter<String> a = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, aa);
-//		setListAdapter(a);
 
 		setListAdapter(mGroupInfoAdapter);
 		
