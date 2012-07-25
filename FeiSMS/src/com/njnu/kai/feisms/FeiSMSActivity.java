@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,14 +15,18 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleCursorAdapter;
 
 public class FeiSMSActivity extends ListActivity {
 	private FeiSMSDataManager mDataManager;
+	private SMSGroupInfoAdapter mGroupInfoAdapter;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.content_contacts_preview);
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
+		mGroupInfoAdapter = new SMSGroupInfoAdapter(this);
 //		mDataManager.AppendSMSGroup("groupName1", "groupSmS1");
 //		mDataManager.AppendSMSGroup("groupName2", "groupSmS2");
 //		mDataManager.AppendSMSGroup("groupName3", "groupSmS3");
@@ -31,21 +36,12 @@ public class FeiSMSActivity extends ListActivity {
 //		mDataManager.AppendContactsToGroup(2, 4, "contactsName4", "contactsPhoneNumber4");
 //		mDataManager.AppendContactsToGroup(2, 5, "contactsName5", "contactsPhoneNumber5");
 //		mDataManager.AppendContactsToGroup(2, 6, "contactsName6", "contactsPhoneNumber6");
-//		mDataManager.AppendContactsToGroup(2, 7, "contactsName77", "contactsPhoneNumber7");
+//		mDataManager.AppendContactsToGroup(2, 7, "contactsName7", "contactsPhoneNumber7");
 //		String[] aa = { "Test1", "Test2" };
 //		ArrayAdapter<String> a = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, aa);
 //		setListAdapter(a);
 
-		List<Hashtable<String, Object>> listContent = new ArrayList<Hashtable<String, Object>>();
-		for (int i = 0; i < 5; ++i) {
-			Hashtable<String, Object> table = new Hashtable<String, Object>();
-			table.put("group", "Group" + i);
-			table.put("persons", "Persons" + i);
-			listContent.add(table);
-		}
-		ListAdapter adapter = new SimpleAdapter(this, listContent, android.R.layout.simple_list_item_2, new String[] { "group", "persons" },
-				new int[] { android.R.id.text1, android.R.id.text2 });
-		setListAdapter(adapter);
+		setListAdapter(mGroupInfoAdapter);
 		
 		this.getListView().setOnItemClickListener(new OnItemClickListener() {
 
@@ -59,9 +55,8 @@ public class FeiSMSActivity extends ListActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 0, 0, "Add Group");
-		menu.add(0, 1, 1, "Modify Group");
-		menu.add(0, 2, 2, "Delete Group");
+		menu.add(0, 1, 1, "Add Group");
+		menu.add(0, 2, 2, "Delete Selected Group");
 		menu.add(0, 3, 3, "Send Selected Group");
 		menu.add(0, 4, 4, "Send All Group");
 		return super.onCreateOptionsMenu(menu);
@@ -79,5 +74,12 @@ public class FeiSMSActivity extends ListActivity {
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		List<SMSGroupInfo> listGroupInfo = mDataManager.getAllSMSGroupInfo();
+		mGroupInfoAdapter.refreshGroupInfo(listGroupInfo);
 	}
 }

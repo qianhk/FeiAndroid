@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item type="drawable" name="transparent">#00000000</item>
+    <item type="color" name="gray_white">#CCCCCC</item>
 </resources>

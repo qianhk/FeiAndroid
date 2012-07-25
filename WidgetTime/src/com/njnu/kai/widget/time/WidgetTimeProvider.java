@@ -17,7 +17,7 @@ public class WidgetTimeProvider extends AppWidgetProvider {
 
 	private static final String FRESH = "com.njnu.kai.widgettime.fresh";
 	private Context mContext;
-	private static boolean mRun = false;
+	private boolean mRun = false;
 	private Thread myThread = new Thread() {
 
 		@Override

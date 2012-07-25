@@ -11,14 +11,26 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 
 class SMSGroupInfo {
-	public int mGroupId;
-	public int mPersonAmount;
-	public String mGroupName;
+	private int mGroupId;
+	private int mPersonAmount;
+	private String mGroupName;
 
 	public SMSGroupInfo(int groupId, String groupName, int personAmount) {
 		mGroupId = groupId;
 		mGroupName = groupName;
 		mPersonAmount = personAmount;
+	}
+
+	public int getGroupId() {
+		return mGroupId;
+	}
+
+	public int getPersonAmount() {
+		return mPersonAmount;
+	}
+
+	public String getGroupName() {
+		return mGroupName;
 	}
 }
 
@@ -85,6 +97,8 @@ public final class FeiSMSDataManager {
 				listSmsGroupInfo.add(new SMSGroupInfo(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
+		db.close();
 
 		return listSmsGroupInfo;
 	}
