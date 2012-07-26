@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <Button 
+        android:id="@+id/btn_default_ui_check_mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DefaultCheckeMarkUI"
+        android:onClick="clickEventHandler"
+        />
+    <Button 
+        android:id="@+id/btn_custom_ui_check_mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CustomCheckeMarkUI"
+        android:onClick="clickEventHandler"
+        />
+    <Button 
+        android:id="@+id/btn_checkable_layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CheckableLinearLayoutUI1"
+        android:onClick="clickEventHandler"
+        />
+    <Button 
+        android:id="@+id/btn_checkable_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CheckableLinearLayoutUI2"
+        android:onClick="clickEventHandler"
+        />
+    <Button 
+        android:id="@+id/btn_checkable_layout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CheckableRelativeLayoutUI"
+        android:onClick="clickEventHandler"
+        />
+</LinearLayout>
