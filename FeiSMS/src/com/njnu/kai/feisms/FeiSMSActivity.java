@@ -1,25 +1,23 @@
 package com.njnu.kai.feisms;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 import android.app.ListActivity;
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
+import android.widget.Checkable;
+import android.widget.ListView;
 
 public class FeiSMSActivity extends ListActivity {
 	private FeiSMSDataManager mDataManager;
 	private SMSGroupInfoAdapter mGroupInfoAdapter;
+	private static final String PREFIX = "[FeiSMSActivity]:";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,10 +52,29 @@ public class FeiSMSActivity extends ListActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(FeiSMSActivity.this, ContentContactsDetailActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(FeiSMSActivity.this, ContentContactsDetailActivity.class);
+//				startActivity(intent);
+//				SparseBooleanArray bA = getListView().getCheckedItemPositions();
+//				int bASize = bA.size();
+//				Log.i(PREFIX, "baSize=" + bASize + " positon=" + position);
+//				for (int idx = 0; idx < bASize; ++idx) {
+//					int key = bA.keyAt(idx);
+//					boolean v1 = bA.get(key);
+//					boolean v2 = bA.valueAt(idx);
+//					Log.i(PREFIX, "idx=" + idx + " key=" + key + " v1=" + v1 + " v2=" + v2);
+//				}
+//				boolean checked = getListView().getCheckedItemPositions().get(position);
+//				Log.i(PREFIX, "parent=" + parent + " view=" + view + " position=" + position + " id=" + id + " getListView=" + getListView());
+//				getListView().setItemChecked(position, !checked);
+//				if (view instanceof Checkable) {
+//					Log.i(PREFIX, "view is instanceof Checkable, checked=" + checked);
+//					Checkable cc = (Checkable)view;
+//					cc.setChecked(checked);
+//				}
 			}
 		});
+		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//		getListView().seti
 	}
 	
 	@Override
