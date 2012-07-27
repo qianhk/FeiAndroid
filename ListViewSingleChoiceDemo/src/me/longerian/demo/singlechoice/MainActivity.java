@@ -25,6 +25,14 @@ public class MainActivity extends Activity {
 			intent.setClass(getApplicationContext(), CustomUICheckMarkDemo.class);
 			startActivity(intent);
 			break;
+		case R.id.btn_custom_ui_check_mark2:
+			intent.setClass(getApplicationContext(), CustomUICheckMarkDemo2.class);
+			startActivity(intent);
+			break;
+		case R.id.btn_custom_ui_check_mark3:
+			intent.setClass(getApplicationContext(), CustomUICheckMarkDemo3.class);
+			startActivity(intent);
+			break;
 		case R.id.btn_checkable_layout1:
 			intent.setClass(getApplicationContext(), CheckableLinearLayoutDemo1.class);
 			startActivity(intent);

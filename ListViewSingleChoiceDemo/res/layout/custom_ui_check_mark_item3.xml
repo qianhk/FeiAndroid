@@ -5,7 +5,7 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:gravity="center_vertical"
-    android:checkMark="@drawable/check_selector"
+    android:checkMark="@null"
     android:textColor="@color/preview_text_color"
     android:paddingLeft="6dip"
     android:paddingRight="6dip"

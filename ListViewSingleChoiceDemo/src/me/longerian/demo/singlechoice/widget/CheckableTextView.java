@@ -1,4 +1,3 @@
-package me.longerian.demo.singlechoice.widget;
 ///*
 // * Copyright (C) 2007 The Android Open Source Project
 // *
@@ -15,7 +14,7 @@ package me.longerian.demo.singlechoice.widget;
 // * limitations under the License.
 // */
 //
-//package me.yek.demo;
+//package me.longerian.demo.singlechoice.widget;
 //
 //import android.content.Context;
 //import android.content.res.TypedArray;
@@ -23,6 +22,7 @@ package me.longerian.demo.singlechoice.widget;
 //import android.graphics.drawable.Drawable;
 //import android.util.AttributeSet;
 //import android.view.Gravity;
+//import android.view.ViewDebug;
 //import android.view.accessibility.AccessibilityEvent;
 //import android.widget.Checkable;
 //import android.widget.TextView;
@@ -35,7 +35,7 @@ package me.longerian.demo.singlechoice.widget;
 // * something other than {@link android.widget.ListView#CHOICE_MODE_NONE CHOICE_MODE_NONE}.
 // *
 // */
-//public class CheckedTextView extends TextView implements Checkable {
+//public class CheckableTextView extends TextView implements Checkable {
 //    private boolean mChecked;
 //    private int mCheckMarkResource;
 //    private Drawable mCheckMarkDrawable;
@@ -46,19 +46,19 @@ package me.longerian.demo.singlechoice.widget;
 //        android.R.attr.state_checked
 //    };
 //
-//    public CheckedTextView(Context context) {
+//    public CheckableTextView(Context context) {
 //        this(context, null);
 //    }
 //
-//    public CheckedTextView(Context context, AttributeSet attrs) {
+//    public CheckableTextView(Context context, AttributeSet attrs) {
 //        this(context, attrs, 0);
 //    }
 //
-//    public CheckedTextView(Context context, AttributeSet attrs, int defStyle) {
+//    public CheckableTextView(Context context, AttributeSet attrs, int defStyle) {
 //        super(context, attrs, defStyle);
 //
 //        TypedArray a = context.obtainStyledAttributes(attrs,
-//                R.styleable.CheckedTextView, defStyle, 0);
+//        		 android.R.styleable.CheckedTextView, defStyle, 0);
 //
 //        Drawable d = a.getDrawable(R.styleable.CheckedTextView_checkMark);
 //        if (d != null) {
@@ -74,7 +74,8 @@ package me.longerian.demo.singlechoice.widget;
 //    public void toggle() {
 //        setChecked(!mChecked);
 //    }
-//    
+//
+//    @ViewDebug.ExportedProperty
 //    public boolean isChecked() {
 //        return mChecked;
 //    }
@@ -118,11 +119,11 @@ package me.longerian.demo.singlechoice.widget;
 //     * @param d The Drawable to use for the checkmark.
 //     */
 //    public void setCheckMarkDrawable(Drawable d) {
+//        if (mCheckMarkDrawable != null) {
+//            mCheckMarkDrawable.setCallback(null);
+//            unscheduleDrawable(mCheckMarkDrawable);
+//        }
 //        if (d != null) {
-//            if (mCheckMarkDrawable != null) {
-//                mCheckMarkDrawable.setCallback(null);
-//                unscheduleDrawable(mCheckMarkDrawable);
-//            }
 //            d.setCallback(this);
 //            d.setVisible(getVisibility() == VISIBLE, false);
 //            d.setState(CHECKED_STATE_SET);
@@ -131,10 +132,10 @@ package me.longerian.demo.singlechoice.widget;
 //            mCheckMarkWidth = d.getIntrinsicWidth();
 //            mPaddingRight = mCheckMarkWidth + mBasePaddingRight;
 //            d.setState(getDrawableState());
-//            mCheckMarkDrawable = d;
 //        } else {
 //            mPaddingRight = mBasePaddingRight;
 //        }
+//        mCheckMarkDrawable = d;
 //        requestLayout();
 //    }
 //    

@@ -23,6 +23,7 @@ public class CheckableLinearLayoutWithCheckedTextView extends LinearLayout imple
 			View v = getChildAt(i);
 			if (v instanceof CheckedTextView) {
 				checkbox = (CheckedTextView) v;
+				break;
 			}
 		}    	
     }
