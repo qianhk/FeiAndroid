@@ -28,20 +28,22 @@
             android:layout_marginLeft="3dip"
             android:orientation="vertical" >
 
-            <TextView
+            <CheckedTextView
                 android:id="@+id/textview_title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dip"
                 android:text="@+id/textview_title"
+                android:checkMark="@null"
                 android:textColor="@color/preview_text_color"
                 android:textSize="18sp" />
 
-            <TextView
+            <CheckedTextView
                 android:id="@+id/textview_content"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:duplicateParentState="true"
+                android:checkMark="@null"
                 android:text="@+id/textview_content"
                 android:textColor="@color/preview_text_color"
                 android:textSize="18sp" />

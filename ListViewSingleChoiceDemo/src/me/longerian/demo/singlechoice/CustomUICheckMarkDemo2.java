@@ -48,8 +48,6 @@ private List<String> mListString;
 		});
     }
 
-
-
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		final ListView customUIListView = (ListView) findViewById(R.id.listview);
