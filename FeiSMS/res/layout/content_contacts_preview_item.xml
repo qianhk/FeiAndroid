@@ -6,48 +6,39 @@
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
+    <CheckBox
+        android:id="@+id/checkbox_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:focusable="false" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginBottom="8dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginLeft="3dip"
         android:duplicateParentState="true"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
-        <CheckBox
-            android:id="@+id/checkbox_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-            android:focusable="false" />
-
-        <LinearLayout
+        <CheckedTextView
+            android:id="@+id/textview_title"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dip"
+            android:checkMark="@null"
+            android:text="@+id/textview_title"
+            android:textColor="@color/preview_text_color"
+            android:textSize="18sp" />
+
+        <CheckedTextView
+            android:id="@+id/textview_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:checkMark="@null"
             android:duplicateParentState="true"
-            android:layout_marginLeft="3dip"
-            android:orientation="vertical" >
-
-            <CheckedTextView
-                android:id="@+id/textview_title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dip"
-                android:text="@+id/textview_title"
-                android:checkMark="@null"
-                android:textColor="@color/preview_text_color"
-                android:textSize="18sp" />
-
-            <CheckedTextView
-                android:id="@+id/textview_content"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:duplicateParentState="true"
-                android:checkMark="@null"
-                android:text="@+id/textview_content"
-                android:textColor="@color/preview_text_color"
-                android:textSize="18sp" />
-        </LinearLayout>
+            android:text="@+id/textview_content"
+            android:textColor="@color/preview_text_color"
+            android:textSize="18sp" />
     </LinearLayout>
 
 </com.njnu.kai.feisms.CheckableLinearLayout>

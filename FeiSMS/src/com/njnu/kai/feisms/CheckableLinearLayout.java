@@ -1,15 +1,21 @@
 package com.njnu.kai.feisms;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Checkable;
+import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 
 public class CheckableLinearLayout extends LinearLayout implements Checkable {
 	private static final String PREFIX = "[CheckableLinearLayout]:";
-	private boolean mChecked;
-	private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
+	private boolean mChecked = false;
+	private List<CheckedTextView> mListCheckedTextView = new ArrayList<CheckedTextView>();
 
 	public CheckableLinearLayout(Context context) {
 		super(context);
@@ -26,13 +32,35 @@ public class CheckableLinearLayout extends LinearLayout implements Checkable {
 
 	}
 
+	private void putSubCheckedTextViewToList(View parent) {
+		if (parent instanceof CheckedTextView) {
+			mListCheckedTextView.add((CheckedTextView) parent);
+		} else if (parent instanceof ViewGroup) {
+			ViewGroup vg = (ViewGroup) parent;
+			int childCount = vg.getChildCount();
+			for (int i = 0; i < childCount; ++i) {
+				View v = vg.getChildAt(i);
+				putSubCheckedTextViewToList(v);
+			}
+		}
+	}
+
+	@Override
+	protected void onFinishInflate() {
+		super.onFinishInflate();
+
+		putSubCheckedTextViewToList(this);
+		Log.i(PREFIX, "when onFinishInflate, all CheckedTextView amout=" + mListCheckedTextView.size());
+	}
+
 	@Override
 	public void setChecked(boolean checked) {
 		if (mChecked != checked) {
 			mChecked = checked;
-			refreshDrawableState();
+			for (CheckedTextView v : mListCheckedTextView) {
+				v.setChecked(mChecked);
+			}
 		}
-//		Log.i(PREFIX, "setChecked " + checked);
 	}
 
 	@Override
@@ -43,17 +71,6 @@ public class CheckableLinearLayout extends LinearLayout implements Checkable {
 	@Override
 	public void toggle() {
 		setChecked(!mChecked);
-	}
-
-	@Override
-	protected void drawableStateChanged() {
-		super.drawableStateChanged();
-		if (isChecked()) {
-//			Log.i(PREFIX, "drawableStateChanged");
-//            mCheckMarkDrawable.setState(myDrawableState);
-			this.getBackground().setState(CHECKED_STATE_SET);
-			invalidate();
-		}
 	}
 
 }

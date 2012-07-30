@@ -3,8 +3,8 @@ package com.njnu.kai.feisms;
 import java.util.List;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,20 +19,19 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 	private static final String PREFIX = "[SMSGroupInfoAdapter]:";
 	private Context mContext;
 	private List<SMSGroupInfo> mListGroupInfo;
-	private int mColorTextHighlight;
-	private int mColorTextNormal;
+	private SparseBooleanArray mBooleanArray;
 
 	private class ViewHolder {
 		CheckBox mCheckBox;
 		TextView mTextViewTitle;
 		TextView mTextViewContent;
 		View mParentView;
+		int mDataId;
 	}
 
 	public SMSGroupInfoAdapter(Context context) {
 		mContext = context;
-		mColorTextHighlight = mContext.getResources().getColor(R.color.yellow);
-		mColorTextNormal = mContext.getResources().getColor(R.color.gray_white);
+		mBooleanArray = new SparseBooleanArray();
 	}
 
 	public void refreshGroupInfo(List<SMSGroupInfo> listGroupInfo) {
@@ -59,6 +58,15 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 		SMSGroupInfo groupInfo = getItem(position);
 		return (groupInfo == null) ? -1 : groupInfo.getGroupId();
 	}
+	
+	private void setRowState(ViewHolder holder) {
+		if (holder.mParentView instanceof CheckableLinearLayout) {
+			CheckableLinearLayout cll = (CheckableLinearLayout)holder.mParentView;
+			Boolean checked = mBooleanArray.get(holder.mDataId);
+			cll.setChecked(checked);
+			holder.mCheckBox.setChecked(checked);
+		}
+	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -76,18 +84,8 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (holder.mParentView instanceof Checkable) {
-						Log.i(PREFIX, "onCheckedChanged " + isChecked + " convertView=" + holder.mParentView);
-						Checkable cc = (Checkable)holder.mParentView;
-//						cc.setChecked(isChecked);
-						if (isChecked) {
-//							holder.mTextViewTitle.setTextColor(mColorTextHighlight);
-//							holder.mTextViewContent.setTextColor(mColorTextHighlight);
-						} else {
-//							holder.mTextViewTitle.setTextColor(mColorTextNormal);
-//							holder.mTextViewContent.setTextColor(mColorTextNormal);
-						}
-					}
+					mBooleanArray.put(holder.mDataId, isChecked);
+					setRowState(holder);
 				}
 			});
 		} else {
@@ -101,6 +99,8 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 		} else {
 			holder.mTextViewContent.setText("本组暂无联系人");
 		}
+		holder.mDataId = groupInfo.getGroupId();
+		setRowState(holder);
 		return convertView;
 	}
 

@@ -12,6 +12,7 @@ public class TabSMSContentActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_sms);
+		int groupId = getIntent().getIntExtra(FeiSMSConst.GROUP_ID, 0);
 	}
 
 	@Override

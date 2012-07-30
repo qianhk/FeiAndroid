@@ -3,16 +3,14 @@ package com.njnu.kai.feisms;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Checkable;
-import android.widget.ListView;
 
 public class FeiSMSActivity extends ListActivity {
 	private FeiSMSDataManager mDataManager;
@@ -52,29 +50,11 @@ public class FeiSMSActivity extends ListActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//				Intent intent = new Intent(FeiSMSActivity.this, ContentContactsDetailActivity.class);
-//				startActivity(intent);
-//				SparseBooleanArray bA = getListView().getCheckedItemPositions();
-//				int bASize = bA.size();
-//				Log.i(PREFIX, "baSize=" + bASize + " positon=" + position);
-//				for (int idx = 0; idx < bASize; ++idx) {
-//					int key = bA.keyAt(idx);
-//					boolean v1 = bA.get(key);
-//					boolean v2 = bA.valueAt(idx);
-//					Log.i(PREFIX, "idx=" + idx + " key=" + key + " v1=" + v1 + " v2=" + v2);
-//				}
-//				boolean checked = getListView().getCheckedItemPositions().get(position);
-//				Log.i(PREFIX, "parent=" + parent + " view=" + view + " position=" + position + " id=" + id + " getListView=" + getListView());
-//				getListView().setItemChecked(position, !checked);
-//				if (view instanceof Checkable) {
-//					Log.i(PREFIX, "view is instanceof Checkable, checked=" + checked);
-//					Checkable cc = (Checkable)view;
-//					cc.setChecked(checked);
-//				}
+				Intent intent = new Intent(FeiSMSActivity.this, ContentContactsDetailActivity.class);
+				intent.putExtra(FeiSMSConst.GROUP_ID, id);
+				startActivity(intent);
 			}
 		});
-		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//		getListView().seti
 	}
 	
 	@Override
@@ -83,6 +63,7 @@ public class FeiSMSActivity extends ListActivity {
 		menu.add(0, 2, 2, "Delete Selected Group");
 		menu.add(0, 3, 3, "Send Selected Group");
 		menu.add(0, 4, 4, "Send All Group");
+		Log.i(PREFIX, "onCreateOptionsMenu");
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -105,5 +86,11 @@ public class FeiSMSActivity extends ListActivity {
 		super.onResume();
 		List<SMSGroupInfo> listGroupInfo = mDataManager.getAllSMSGroupInfo();
 		mGroupInfoAdapter.refreshGroupInfo(listGroupInfo);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.i(PREFIX, "onDestroy");
 	}
 }
