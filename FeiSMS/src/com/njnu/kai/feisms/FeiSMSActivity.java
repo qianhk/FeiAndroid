@@ -6,24 +6,42 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 public class FeiSMSActivity extends ListActivity {
 	private FeiSMSDataManager mDataManager;
 	private SMSGroupInfoAdapter mGroupInfoAdapter;
 	private static final String PREFIX = "[FeiSMSActivity]:";
-	
+
+	ListView.OnCreateContextMenuListener mMenuLis = new ListView.OnCreateContextMenuListener() {
+		@Override
+		public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+			AdapterView.AdapterContextMenuInfo _menuInfo = (AdapterView.AdapterContextMenuInfo)menuInfo;
+			String groupName = mGroupInfoAdapter.getItem(_menuInfo.position).getGroupName();
+			menu.setHeaderTitle(groupName);
+			menu.add(0, 1, 1, "position");
+			menu.add(0, 2, 2, "Delete Group");
+			menu.add(0, 3, 3, "Send Group");
+//			menu.addSubMenu(1, 100, 100, "sub1");
+//			menu.addSubMenu(1, 101, 101, "sub2");
+			Log.i(PREFIX, "onCreateContextMenu1 menuInfo=" + menuInfo);
+		}
+	};
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.content_contacts_preview);
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
 		mGroupInfoAdapter = new SMSGroupInfoAdapter(this);
-		
+
 //		mDataManager.AppendSMSGroup("groupName1", "groupSmS1");
 //		mDataManager.AppendSMSGroup("groupName2", "groupSmS2");
 //		mDataManager.AppendSMSGroup("groupName3", "groupSmS3");
@@ -45,7 +63,7 @@ public class FeiSMSActivity extends ListActivity {
 //		mDataManager.AppendContactsToGroup(2, 7, "contactsName7", "contactsPhoneNumber7");
 
 		setListAdapter(mGroupInfoAdapter);
-		
+
 		this.getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -55,18 +73,46 @@ public class FeiSMSActivity extends ListActivity {
 				startActivity(intent);
 			}
 		});
+		getListView().setOnCreateContextMenuListener(mMenuLis);
+//		registerForContextMenu(getListView());
 	}
-	
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.add(0, 1, 1, "Edit Group");
+		menu.add(0, 2, 2, "Delete Group");
+		menu.add(0, 3, 3, "Send Group");
+		Log.i(PREFIX, "onCreateContextMenu2");
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		String groupName = mGroupInfoAdapter.getItem(menuInfo.position).getGroupName();
+		Log.i(PREFIX, "onContextItemSelected " + item.getItemId() + " groupName=" + groupName);
+		switch (item.getItemId()) {
+		case 1:
+
+			break;
+
+		default:
+			break;
+		}
+		return super.onContextItemSelected(item);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 1, "Add Group");
 		menu.add(0, 2, 2, "Delete Selected Group");
 		menu.add(0, 3, 3, "Send Selected Group");
 		menu.add(0, 4, 4, "Send All Group");
-		Log.i(PREFIX, "onCreateOptionsMenu");
-		return super.onCreateOptionsMenu(menu);
+		boolean sss = super.onCreateOptionsMenu(menu);
+//		Log.i(PREFIX, "onCreateOptionsMenu " + menu.size());
+		return sss;
 	}
-	
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		return super.onPrepareOptionsMenu(menu);
@@ -74,11 +120,19 @@ public class FeiSMSActivity extends ListActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean consumed = true;
 		switch (item.getItemId()) {
-		case 0: //Add group
+		case 0: // Add group
+			break;
+
+		default:
+			consumed = false;
 			break;
 		}
-		return super.onOptionsItemSelected(item);
+		boolean sss = super.onOptionsItemSelected(item);
+//		Log.i(PREFIX, "onOptionsItemSelected " + sss);
+		return sss;
+//		return consumed ? true : super.onOptionsItemSelected(item);
 	}
 
 	@Override
