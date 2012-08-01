@@ -46,7 +46,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 
 		IntentFilter intentFilter = new IntentFilter(DivConst.ACTION_QIANGLOU_NOTIFY);
 		intentFilter.addAction(DivConst.ACTION_QIANGLOU_ALARM);
-		intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+//		intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
 		mReceiver = new DivQiangLouReceiver(this);
 		registerReceiver(mReceiver, intentFilter);
 		mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -71,13 +71,13 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 					stopService(intent);
 					mAlarmManager.cancel(pintentAlarm);
 				} else {
+					mTextEditResult.setText("");
 					boolean isTimeQL = TimeUtility.isTimeToQiangLou();
 					if (isTimeQL) {
 						startService(intent);
 					}
 					Calendar cal = TimeUtility.getNextStartTime(isTimeQL);
-					mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), TimeUtility.ONE_DAY_IN_MILLISECOND,
-							pintentAlarm);
+					mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintentAlarm);
 				}
 				mDoingQiangLou = !mDoingQiangLou;
 			}
@@ -133,7 +133,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 	}
 
 	private PendingIntent getQiangLouAlarmPendingIntent() {
-		Intent intentAlarm = new Intent(DivQiangLouActivity.this, DivQiangLouReceiver.class);
+		Intent intentAlarm = new Intent();
 		intentAlarm.setAction(DivConst.ACTION_QIANGLOU_ALARM);
 		PendingIntent pintentAlarm = PendingIntent.getBroadcast(DivQiangLouActivity.this, 1, intentAlarm, 0);
 		return pintentAlarm;
@@ -148,7 +148,9 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 				sendNotification();
 				getWindow().getDecorView().setKeepScreenOn(true);
 			} else {
-				if (type != DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_STOP) {
+				if (type == DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_STOP) {
+					mTextEditResult.append("Waiting for next qianglou...\n");
+				} else {
 					mDoingQiangLou = false;
 					mButtonQiangLou.setText("Start");
 					mAlarmManager.cancel(getQiangLouAlarmPendingIntent());
@@ -157,6 +159,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 				getWindow().getDecorView().setKeepScreenOn(false);
 			}
 		}
+		mTextEditResult.setSelection(mTextEditResult.length());
 	}
 
 }

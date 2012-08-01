@@ -1,6 +1,5 @@
 package com.njnu.kai.divsignin;
 
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,47 +60,43 @@ public class DivSigninService extends Service {
 
 		sendNotifyBroadcast(DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_START, "Start, title=" + mQiangLouTitle + " content=" + mQiangLouContent);
 		sendNotifyBroadcast("Check Cookie ? [" + mDevAccountName + "]");
-		Thread.sleep(5000);
-		sendNotifyBroadcast(DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_STOP, "Congratulations, Qianglou success.");
-		stopSelf();
-		return;
 		
-//		if (IsValidDevdCookie()) {
-//			sendNotifyBroadcast("Success, Cookie Valid.");
-//		} else {
-//			sendNotifyBroadcast("need login, login...");
-//			boolean loginSuccess = loginDevdBBs();
-//			if (loginSuccess) {
-//				sendNotifyBroadcast("login Success, will QiangLou...");
-//			} else {
-//				sendNotifyBroadcast(1, "Error: Login Failed.");
-//				stopSelf();
-//				return;
-//			}
-//		}
-//
-//		int qlResult = doTaskQiangLou(); // 0:Success, 1:need reply others subject, else Error need stop.
-//		if (!mThreadContinue) return;
-//		if (qlResult == 0) {
-//			sendNotifyBroadcast(DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_STOP, "Congratulations, Qianglou success.");
-//			stopSelf();
-//			return;
-//		} else if (qlResult == 1) {
-//			sendNotifyBroadcast("Qianglou failed, will reply others subject.");
-//		} else {
-//			sendNotifyBroadcast(3, "Qianglou Error, Terminate task.");
-//			stopSelf();
-//			return;
-//		}
-//
-//		int replyResult = doTaskReplyOthersSubject(); // 0:Success 1:Error
-//		if (!mThreadContinue) return;
-//		if (replyResult == 0) {
-//			sendNotifyBroadcast(DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_STOP, "Congratulations, Reply others subject and get score success.");
-//		} else {
-//			sendNotifyBroadcast(4, "Reply others subject or get score Error, Terminate task.");
-//		}
-//		stopSelf();
+		if (IsValidDevdCookie()) {
+			sendNotifyBroadcast("Success, Cookie Valid.");
+		} else {
+			sendNotifyBroadcast("need login, login...");
+			boolean loginSuccess = loginDevdBBs();
+			if (loginSuccess) {
+				sendNotifyBroadcast("login Success, will QiangLou...");
+			} else {
+				sendNotifyBroadcast(1, "Error: Login Failed.");
+				stopSelf();
+				return;
+			}
+		}
+
+		int qlResult = doTaskQiangLou(); // 0:Success, 1:need reply others subject, else Error need stop.
+		if (!mThreadContinue) return;
+		if (qlResult == 0) {
+			sendNotifyBroadcast(DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_STOP, "Congratulations, Qianglou success.");
+			stopSelf();
+			return;
+		} else if (qlResult == 1) {
+			sendNotifyBroadcast("Qianglou failed, will reply others subject.");
+		} else {
+			sendNotifyBroadcast(3, "Qianglou Error, Terminate task.");
+			stopSelf();
+			return;
+		}
+
+		int replyResult = doTaskReplyOthersSubject(); // 0:Success 1:Error
+		if (!mThreadContinue) return;
+		if (replyResult == 0) {
+			sendNotifyBroadcast(DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_STOP, "Congratulations, Reply others subject and get score success.");
+		} else {
+			sendNotifyBroadcast(4, "Reply others subject or get score Error, Terminate task.");
+		}
+		stopSelf();
 	}
 
 	private int doTaskReplyOthersSubject() throws InterruptedException {
@@ -334,7 +329,7 @@ public class DivSigninService extends Service {
 		String postdata = String.format("formhash=%s&referer=&username=%s&password=%s&questionid=0&answer=&cookietime=%s", formhash, mDevAccountName,
 				md5pw, cookietime);
 		// AddLineToResult(posturl + " " + postdata);
-		Log.i(PREFIX, "postData=" + postdata);
+//		Log.i(PREFIX, "postData=" + postdata);
 		_lastContent = HttpUtility.PostUseAutoEncoding("http://www.devdiv.com/" + posturl, postdata, HTTP.UTF_8);
 		// AddLineToResult(_lastContent);
 		return _lastContent != null && _lastContent.indexOf("欢迎您回来") >= 0;
