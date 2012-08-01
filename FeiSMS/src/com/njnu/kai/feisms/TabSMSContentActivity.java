@@ -2,17 +2,19 @@ package com.njnu.kai.feisms;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.util.Log;
-import android.view.View;
+import android.widget.EditText;
 
 public class TabSMSContentActivity extends Activity {
 
+	private EditText mEditTextGroupName;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_sms);
-		int groupId = getIntent().getIntExtra(FeiSMSConst.GROUP_ID, 0);
+		long groupId = getIntent().getLongExtra(FeiSMSConst.GROUP_ID, 0);
+		mEditTextGroupName = (EditText)findViewById(R.id.edittext_group_name);
+		mEditTextGroupName.setText("GroupName" + groupId);
 	}
 
 	@Override
