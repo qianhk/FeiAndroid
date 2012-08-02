@@ -28,6 +28,9 @@ public final class TimeUtility {
 		cal.set(Calendar.HOUR_OF_DAY, READY_QL_HOUR);
 		cal.set(Calendar.MINUTE, READY_QL_MINUTE);
 		cal.set(Calendar.SECOND, 0);
+		
+//		cal.add(Calendar.SECOND, 10);
+		
 		return cal;
 	}
 

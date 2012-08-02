@@ -31,6 +31,7 @@ import com.njnu.kai.divsignin.qianglou.DivQiangLouReceiver.DivQiangLouNotify;
 
 public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 
+	private static final String KEY_DOING_QL = "doingQL";
 	private static final String PREFIX = "DivQiangLouActivity";
 	private boolean mDoingQiangLou = false;
 	private Button mButtonQiangLou;
@@ -79,7 +80,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.div_qianglou);
-
+		Log.e(PREFIX, "onCreate() " + mDoingQiangLou);
 		IntentFilter intentFilter = new IntentFilter(DivConst.ACTION_QIANGLOU_NOTIFY);
 		intentFilter.addAction(DivConst.ACTION_QIANGLOU_ALARM);
 //		intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -87,6 +88,11 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		registerReceiver(mReceiver, intentFilter);
 		mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+//		Intent intentAlarm = new Intent();
+//		intentAlarm.setAction(DivConst.ACTION_QIANGLOU_ALARM);
+//		PendingIntent pintentAlarm = PendingIntent.getBroadcast(DivQiangLouActivity.this, 1, intentAlarm, PendingIntent.FLAG_NO_CREATE);
+//		Log.e(PREFIX, "onCreate() pintentAlarm is " + pintentAlarm);
 
 		mButtonQiangLou = (Button) findViewById(R.id.button_start);
 		mButtonQiangLou2 = (Button) findViewById(R.id.button_nextday);
@@ -103,12 +109,31 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 				boolean isTimeQL = TimeUtility.isTimeToQiangLou();
 				Calendar cal = TimeUtility.getNextStartTime(isTimeQL);
 				Log.i(PREFIX, "" + isTimeQL + " " + cal.getTime().toLocaleString() + " h=" + cal.get(Calendar.HOUR_OF_DAY));
+
+//				Intent intentNotify = new Intent();
+//				intentNotify.setAction(DivConst.ACTION_QIANGLOU_NOTIFY);
+//				intentNotify.putExtra("type", 0);
+//				intentNotify.putExtra("message", "test notify.");
+//				sendBroadcast(intentNotify);
+//
+//				Intent intentAlarm = new Intent();
+//				intentAlarm.setAction(DivConst.ACTION_QIANGLOU_ALARM);
+//				sendBroadcast(intentAlarm);
 			}
 		});
+
+//		Button btnTest2 = (Button) findViewById(R.id.button_test2);
+//		btnTest2.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(DivQiangLouActivity.this, DivSigninService.class);
+//				stopService(intent);
+//				mNotificationManager.cancel(R.string.app_name);
+//			}
+//		});
 	}
 
 	private void sendNotification() {
-
 		Notification notify = new Notification(R.drawable.ic_launcher_notify, "divsignin qianglouing", System.currentTimeMillis());
 		notify.flags = Notification.FLAG_ONGOING_EVENT;
 		Intent intent = new Intent(this, DivQiangLouActivity.class);
@@ -135,6 +160,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 	protected void onDestroy() {
 		Log.i(PREFIX, "onDestroy");
 		if (mDoingQiangLou) {
+			Log.e(PREFIX, "still Doing Qianglou, but onDestroy().");
 			mDoingQiangLou = false;
 			stopService(new Intent(this, DivSigninService.class));
 			mAlarmManager.cancel(getQiangLouAlarmPendingIntent());
@@ -142,6 +168,32 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		unregisterReceiver(mReceiver);
 		super.onDestroy();
 	}
+
+//	@Override
+//	protected void onSaveInstanceState(Bundle outState) {
+//		super.onSaveInstanceState(outState);
+//		Log.e(PREFIX, "onSaveInstanceState() " + mDoingQiangLou);
+//		outState.putBoolean(KEY_DOING_QL, mDoingQiangLou);
+//	}
+//
+//	@Override
+//	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//		super.onRestoreInstanceState(savedInstanceState);
+//		Log.e(PREFIX, "onRestoreInstanceState() " + mDoingQiangLou);
+//		if (savedInstanceState.containsKey(KEY_DOING_QL)) {
+//			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
+//			if (mDoingQiangLou) {
+//				mButtonQiangLou.setText("Stop2");
+//				mButtonQiangLou2.setText("Stop2");
+//			}
+//		}
+//	}
+//
+//	@Override
+//	public Object onRetainNonConfigurationInstance() {
+//		Log.e(PREFIX, "onRetainNonConfigurationInstance() " + mDoingQiangLou);
+//		return super.onRetainNonConfigurationInstance();
+//	}
 
 	private PendingIntent getQiangLouAlarmPendingIntent() {
 		Intent intentAlarm = new Intent();

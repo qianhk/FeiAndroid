@@ -30,6 +30,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Test" />
+        
+        <!-- <Button
+            android:id="@+id/button_test2"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Test2" /> -->
     </LinearLayout>
 
     <EditText

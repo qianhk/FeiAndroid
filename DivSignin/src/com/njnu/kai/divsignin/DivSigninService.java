@@ -62,6 +62,11 @@ public class DivSigninService extends Service {
 		sendNotifyBroadcast(DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_START, "Start, title=" + mQiangLouTitle + " content=" + mQiangLouContent);
 		sendNotifyBroadcast("Check Cookie ? [" + mDevAccountName + "]");
 		
+//		Thread.sleep(5000);
+//		sendNotifyBroadcast(DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_STOP, "Congratulations, Qianglou success.");
+//		stopSelf();
+//		return;
+		
 		if (IsValidDevdCookie()) {
 			sendNotifyBroadcast("Success, Cookie Valid.");
 		} else {
