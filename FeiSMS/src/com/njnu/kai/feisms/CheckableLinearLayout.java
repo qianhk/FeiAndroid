@@ -50,7 +50,7 @@ public class CheckableLinearLayout extends LinearLayout implements Checkable {
 		super.onFinishInflate();
 
 		putSubCheckedTextViewToList(this);
-		Log.i(PREFIX, "when onFinishInflate, all CheckedTextView amout=" + mListCheckedTextView.size());
+//		Log.i(PREFIX, "when onFinishInflate, all CheckedTextView amout=" + mListCheckedTextView.size());
 	}
 
 	@Override

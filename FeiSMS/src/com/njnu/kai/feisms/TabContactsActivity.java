@@ -13,7 +13,7 @@ public class TabContactsActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_contact);
-		long groupId = getIntent().getLongExtra(FeiSMSConst.GROUP_ID, 0);
+		int groupId = getIntent().getIntExtra(FeiSMSConst.GROUP_ID, 0);
 	}
 
 	@Override

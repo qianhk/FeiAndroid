@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dip"
-        android:text="组名称测试" >
+        android:text="id/edittext_group_name" >
     </EditText>
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="2dip"
-        android:text="测试内容，测试内容2好，测试测试再测试、批评批评再批评，android，我来也"
+        android:text="id/edittext_group_sms"
         android:gravity="top"
         android:maxLength="70"
         android:singleLine="false" />

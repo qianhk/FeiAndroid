@@ -69,7 +69,7 @@ public class FeiSMSActivity extends ListActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(FeiSMSActivity.this, ContentContactsDetailActivity.class);
-				intent.putExtra(FeiSMSConst.GROUP_ID, id);
+				intent.putExtra(FeiSMSConst.GROUP_ID, (int)id);
 				startActivity(intent);
 			}
 		});

@@ -3,6 +3,7 @@ package com.njnu.kai.feisms;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
@@ -15,13 +16,14 @@ public class ContentContactsDetailActivity extends TabActivity implements OnChec
 	private TabHost mTabHost;
 	private Intent mIntentSMS;
 	private Intent mIntentContacts;
+	private static final String PREFIX = "ContentContactsDetailActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.content_contacts_detail);
 		
-		long groupId = getIntent().getLongExtra(FeiSMSConst.GROUP_ID, 0);
+		int groupId = getIntent().getIntExtra(FeiSMSConst.GROUP_ID, 0);
 		
 		mIntentSMS = new Intent(this, TabSMSContentActivity.class);
 		mIntentSMS.putExtra(FeiSMSConst.GROUP_ID, groupId);
@@ -75,5 +77,22 @@ public class ContentContactsDetailActivity extends TabActivity implements OnChec
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return super.onOptionsItemSelected(item);
 	}
-
+	
+//	@Override
+//	protected void onPause() {
+//		super.onPause();
+//		Log.i(PREFIX, "onPause");
+//	}
+//
+//	@Override
+//	protected void onResume() {
+//		super.onResume();
+//		Log.i(PREFIX, "onResume");
+//	}
+//
+//	@Override
+//	protected void onDestroy() {
+//		super.onDestroy();
+//		Log.i(PREFIX, "onDestroy");
+//	}
 }
