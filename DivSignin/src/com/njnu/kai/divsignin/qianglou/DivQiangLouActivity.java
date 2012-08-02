@@ -34,10 +34,46 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 	private static final String PREFIX = "DivQiangLouActivity";
 	private boolean mDoingQiangLou = false;
 	private Button mButtonQiangLou;
+	private Button mButtonQiangLou2;
 	private EditText mTextEditResult;
 	private DivQiangLouReceiver mReceiver;
 	private NotificationManager mNotificationManager;
 	private AlarmManager mAlarmManager;
+
+	View.OnClickListener mBtnClickListener = new View.OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+//			Log.i(PREFIX, "onClick");
+			if (!mDoingQiangLou && !isQiangLouPreferencesValid()) {
+				mTextEditResult.append("Check your qianglou preferences.\n");
+				return;
+			}
+			Intent intent = new Intent(DivQiangLouActivity.this, DivSigninService.class);
+			mButtonQiangLou.setText(mDoingQiangLou ? "Start2" : "Stop");
+			mButtonQiangLou2.setText(mDoingQiangLou ? "NextDay2" : "Stop");
+			PendingIntent pintentAlarm = getQiangLouAlarmPendingIntent();
+			if (mDoingQiangLou) {
+				stopService(intent);
+				mAlarmManager.cancel(pintentAlarm);
+				mNotificationManager.cancel(R.string.app_name);
+			} else {
+				mTextEditResult.setText("");
+				boolean isTimeQL = true;
+				if (v.getId() == R.id.button_start) {
+					isTimeQL = TimeUtility.isTimeToQiangLou();
+					if (isTimeQL) {
+						startService(intent);
+					}
+				} else {
+					mTextEditResult.append("Waiting for next qianglou...\n");
+				}
+				Calendar cal = TimeUtility.getNextStartTime(isTimeQL);
+				mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintentAlarm);
+			}
+			mDoingQiangLou = !mDoingQiangLou;
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,36 +89,11 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
 		mButtonQiangLou = (Button) findViewById(R.id.button_start);
+		mButtonQiangLou2 = (Button) findViewById(R.id.button_nextday);
 		mTextEditResult = (EditText) findViewById(R.id.edittext_result);
 
-		mButtonQiangLou.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Log.i(PREFIX, "onClick");
-				if (!mDoingQiangLou && !isQiangLouPreferencesValid()) {
-					mTextEditResult.append("Check your qianglou preferences.\n");
-					return;
-				}
-				Intent intent = new Intent(DivQiangLouActivity.this, DivSigninService.class);
-				mButtonQiangLou.setText(mDoingQiangLou ? "Start" : "Stop");
-				PendingIntent pintentAlarm = getQiangLouAlarmPendingIntent();
-				if (mDoingQiangLou) {
-					stopService(intent);
-					mAlarmManager.cancel(pintentAlarm);
-				} else {
-					mTextEditResult.setText("");
-					boolean isTimeQL = TimeUtility.isTimeToQiangLou();
-					if (isTimeQL) {
-						startService(intent);
-					}
-					Calendar cal = TimeUtility.getNextStartTime(isTimeQL);
-					mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintentAlarm);
-				}
-				mDoingQiangLou = !mDoingQiangLou;
-			}
-
-		});
+		mButtonQiangLou.setOnClickListener(mBtnClickListener);
+		mButtonQiangLou2.setOnClickListener(mBtnClickListener);
 		Button btnTest = (Button) findViewById(R.id.button_test);
 		btnTest.setOnClickListener(new OnClickListener() {
 			@Override
@@ -152,7 +163,8 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 					mTextEditResult.append("Waiting for next qianglou...\n");
 				} else {
 					mDoingQiangLou = false;
-					mButtonQiangLou.setText("Start");
+					mButtonQiangLou.setText("Start3");
+					mButtonQiangLou2.setText("NextDay3");
 					mAlarmManager.cancel(getQiangLouAlarmPendingIntent());
 				}
 				mNotificationManager.cancel(R.string.app_name);

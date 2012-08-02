@@ -34,6 +34,7 @@ public class DivSigninService extends Service {
 			Log.i(PREFIX, "run");
 			try {
 				doThreadQiangLou();
+				Log.i(PREFIX, "Thread QiangLou finished.");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -64,6 +65,7 @@ public class DivSigninService extends Service {
 		if (IsValidDevdCookie()) {
 			sendNotifyBroadcast("Success, Cookie Valid.");
 		} else {
+			if (!mThreadContinue) return;
 			sendNotifyBroadcast("need login, login...");
 			boolean loginSuccess = loginDevdBBs();
 			if (loginSuccess) {
@@ -74,7 +76,8 @@ public class DivSigninService extends Service {
 				return;
 			}
 		}
-
+		if (!mThreadContinue) return;
+		
 		int qlResult = doTaskQiangLou(); // 0:Success, 1:need reply others subject, else Error need stop.
 		if (!mThreadContinue) return;
 		if (qlResult == 0) {

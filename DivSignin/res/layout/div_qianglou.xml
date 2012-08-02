@@ -4,30 +4,45 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/button_start"
+    <LinearLayout
+        android:id="@+id/layout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start" />
-    <Button
-        android:id="@+id/button_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Test" />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_start"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Start1" />
+
+        <Button
+            android:id="@+id/button_nextday"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="NextDay1" />
+        
+        <Button
+            android:id="@+id/button_test"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Test" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/edittext_result"
-        android:gravity="top|left"
-       	android:inputType="none"
-       	android:focusable="false"
-       	android:focusableInTouchMode="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
         android:autoLink="none"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="top|left"
+        android:inputType="none"
+        android:scrollbars="vertical"
         android:singleLine="false" >
-
-        <requestFocus />
     </EditText>
 
 </LinearLayout>
