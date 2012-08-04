@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical" >
 
     <TextView
@@ -30,10 +32,9 @@
         android:id="@+id/edittext_group_sms"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="2dip"
-        android:text="id/edittext_group_sms"
         android:gravity="top"
         android:maxLength="70"
-        android:singleLine="false" />
+        android:singleLine="false"
+        android:text="id/edittext_group_sms" />
 
 </LinearLayout>

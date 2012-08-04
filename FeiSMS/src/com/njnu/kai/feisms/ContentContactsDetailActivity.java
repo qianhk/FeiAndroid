@@ -1,5 +1,7 @@
 package com.njnu.kai.feisms;
 
+import java.security.spec.MGF1ParameterSpec;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ public class ContentContactsDetailActivity extends TabActivity implements OnChec
 	private Intent mIntentSMS;
 	private Intent mIntentContacts;
 	private static final String PREFIX = "ContentContactsDetailActivity";
+	private final String KEY_GROUP_ID = "group_id";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,7 @@ public class ContentContactsDetailActivity extends TabActivity implements OnChec
 		setContentView(R.layout.content_contacts_detail);
 		
 		int groupId = getIntent().getIntExtra(FeiSMSConst.GROUP_ID, 0);
-		
+		Log.i(PREFIX, "onCreate groupId=" + groupId + " savedState=" + savedInstanceState);
 		mIntentSMS = new Intent(this, TabSMSContentActivity.class);
 		mIntentSMS.putExtra(FeiSMSConst.GROUP_ID, groupId);
 		mIntentContacts = new Intent(this, TabContactsActivity.class);
@@ -77,7 +80,23 @@ public class ContentContactsDetailActivity extends TabActivity implements OnChec
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return super.onOptionsItemSelected(item);
 	}
-	
+
+//	@Override
+//	protected void onRestoreInstanceState(Bundle state) {
+//		super.onRestoreInstanceState(state);
+//		if (state.containsKey(KEY_GROUP_ID)) {
+//			mGroupId = state.getInt(KEY_GROUP_ID);
+//			Log.i(PREFIX, "onRestoreInstanceState groupId=" + mGroupId);
+//		}
+//	}
+//
+//	@Override
+//	protected void onSaveInstanceState(Bundle outState) {
+//		super.onSaveInstanceState(outState);
+//		outState.putInt(KEY_GROUP_ID, mGroupId);
+//		Log.i(PREFIX, "onSaveInstanceState groupId=" + mGroupId);
+//	}
+//	
 //	@Override
 //	protected void onPause() {
 //		super.onPause();
