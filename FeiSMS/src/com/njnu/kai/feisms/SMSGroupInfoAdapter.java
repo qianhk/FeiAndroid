@@ -28,6 +28,17 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 		View mParentView;
 		int mDataId;
 	}
+	
+	public int getFirstSelectedRow() {
+		int row = -1;
+		for (int i = 0; i < mBooleanArray.size(); ++i) {
+			if (mBooleanArray.valueAt(i)) {
+				row = mBooleanArray.keyAt(i);
+				break;
+			}
+		}
+		return row;
+	}
 
 	public SMSGroupInfoAdapter(Context context) {
 		mContext = context;

@@ -25,22 +25,28 @@ public class TabSMSContentActivity extends Activity {
 		mEditTextGroupSMS.setText(mGroupEntrySMS.getSMSContent());
 	}
 
-//	@Override
-//	protected void onPause() {
-//		super.onPause();
-//		Log.i(PREFIX, "onPause");
-//	}
-//
-//	@Override
-//	protected void onResume() {
-//		super.onResume();
-//		Log.i(PREFIX, "onResume");
-//	}
-//
-//	@Override
-//	protected void onDestroy() {
-//		super.onDestroy();
-//		Log.i(PREFIX, "onDestroy");
-//	}
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.i(PREFIX, "onPause");
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Log.i(PREFIX, "onStop");
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.i(PREFIX, "onResume");
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.i(PREFIX, "onDestroy");
+	}
 
 }

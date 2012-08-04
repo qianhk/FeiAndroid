@@ -19,6 +19,7 @@ public class FeiSMSActivity extends ListActivity {
 	private FeiSMSDataManager mDataManager;
 	private SMSGroupInfoAdapter mGroupInfoAdapter;
 	private static final String PREFIX = "[FeiSMSActivity]:";
+	private final String KEY_SELECTED_ROW = "key_selected_row";
 
 	ListView.OnCreateContextMenuListener mMenuLis = new ListView.OnCreateContextMenuListener() {
 		@Override
@@ -39,6 +40,13 @@ public class FeiSMSActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.content_contacts_preview);
+		
+		Log.i(PREFIX, "onCreate: " + this);
+		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_ROW)) {
+			int selectedRow = savedInstanceState.getInt(KEY_SELECTED_ROW);
+			Log.e(PREFIX, "onCreate ori selectedRow=" + selectedRow + "\n" + savedInstanceState);
+		}
+		
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
 		mGroupInfoAdapter = new SMSGroupInfoAdapter(this);
 
@@ -101,6 +109,23 @@ public class FeiSMSActivity extends ListActivity {
 		}
 		return super.onContextItemSelected(item);
 	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		Log.e(PREFIX, "onSaveInstanceState() " + mGroupInfoAdapter.getFirstSelectedRow() + "\n" + outState);
+		outState.putInt(KEY_SELECTED_ROW, mGroupInfoAdapter.getFirstSelectedRow());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		Log.e(PREFIX, "onRestoreInstanceState()");
+		if (savedInstanceState.containsKey(KEY_SELECTED_ROW)) {
+			int selectedRow = savedInstanceState.getInt(KEY_SELECTED_ROW);
+			Log.e(PREFIX, "onRestoreInstanceState ori selectedRow=" + selectedRow + "\n" + savedInstanceState);
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,10 +161,29 @@ public class FeiSMSActivity extends ListActivity {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+		Log.i(PREFIX, "onStart");
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
+		Log.i(PREFIX, "onResume");
 		List<SMSGroupInfo> listGroupInfo = mDataManager.getAllSMSGroupInfo();
 		mGroupInfoAdapter.refreshGroupInfo(listGroupInfo);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.i(PREFIX, "onPause");
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Log.i(PREFIX, "onStop");
 	}
 
 	@Override

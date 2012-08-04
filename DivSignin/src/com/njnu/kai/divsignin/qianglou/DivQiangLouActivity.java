@@ -131,6 +131,16 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 //				mNotificationManager.cancel(R.string.app_name);
 //			}
 //		});
+		
+		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_DOING_QL)) {
+			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
+			mTextEditResult.append("onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState + "\n");
+			if (mDoingQiangLou) {
+				mButtonQiangLou.setText("Stop2");
+				mButtonQiangLou2.setText("Stop2");
+			}
+		}
+		
 	}
 
 	private void sendNotification() {
@@ -169,26 +179,27 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		super.onDestroy();
 	}
 
-//	@Override
-//	protected void onSaveInstanceState(Bundle outState) {
-//		super.onSaveInstanceState(outState);
-//		Log.e(PREFIX, "onSaveInstanceState() " + mDoingQiangLou);
-//		outState.putBoolean(KEY_DOING_QL, mDoingQiangLou);
-//	}
-//
-//	@Override
-//	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//		super.onRestoreInstanceState(savedInstanceState);
-//		Log.e(PREFIX, "onRestoreInstanceState() " + mDoingQiangLou);
-//		if (savedInstanceState.containsKey(KEY_DOING_QL)) {
-//			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
-//			if (mDoingQiangLou) {
-//				mButtonQiangLou.setText("Stop2");
-//				mButtonQiangLou2.setText("Stop2");
-//			}
-//		}
-//	}
-//
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		Log.e(PREFIX, "onSaveInstanceState() " + mDoingQiangLou);
+		outState.putBoolean(KEY_DOING_QL, mDoingQiangLou);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		Log.e(PREFIX, "onRestoreInstanceState() " + mDoingQiangLou);
+		if (savedInstanceState.containsKey(KEY_DOING_QL)) {
+			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
+			mTextEditResult.append("onRestoreInstanceState " + mDoingQiangLou + "\n" + savedInstanceState + "\n");
+			if (mDoingQiangLou) {
+				mButtonQiangLou.setText("Stop2");
+				mButtonQiangLou2.setText("Stop2");
+			}
+		}
+	}
+
 //	@Override
 //	public Object onRetainNonConfigurationInstance() {
 //		Log.e(PREFIX, "onRetainNonConfigurationInstance() " + mDoingQiangLou);
