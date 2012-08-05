@@ -143,7 +143,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 				mButtonQiangLou2.setText("Stop2");
 			}
 		}
-		
+		notifyMessage(0, "onCreate11() " + mDoingQiangLou + " savedInstanceState=" + savedInstanceState);
 	}
 
 	private void sendNotification() {
@@ -198,7 +198,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
 			notifyMessage(0, "onRestoreInstanceState " + mDoingQiangLou + "\n" + savedInstanceState);
 			if (mDoingQiangLou) {
-				mButtonQiangLou.setText("Stop3");
+//				mButtonQiangLou.setText("Stop3");
 				mButtonQiangLou2.setText("Stop3");
 			}
 		}
