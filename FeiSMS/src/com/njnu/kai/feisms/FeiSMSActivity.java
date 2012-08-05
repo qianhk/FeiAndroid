@@ -18,7 +18,7 @@ import android.widget.ListView;
 
 public class FeiSMSActivity extends ListActivity {
 	private FeiSMSDataManager mDataManager;
-	private SMSGroupInfoAdapter mGroupInfoAdapter;
+	private SMSGroupInfoAdapter mAdapterGroupInfo;
 	private static final String PREFIX = "[FeiSMSActivity]:";
 	private final static String KEY_SELECTED_GROUP_ID = "key_selected_group_id";
 
@@ -26,7 +26,7 @@ public class FeiSMSActivity extends ListActivity {
 		@Override
 		public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 			AdapterView.AdapterContextMenuInfo _menuInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
-			String groupName = mGroupInfoAdapter.getItem(_menuInfo.position).getGroupName();
+			String groupName = mAdapterGroupInfo.getItem(_menuInfo.position).getGroupName();
 			menu.setHeaderTitle(groupName);
 			menu.add(0, 1, 1, "Edit Group");
 			menu.add(0, 2, 2, "Delete Group");
@@ -49,7 +49,7 @@ public class FeiSMSActivity extends ListActivity {
 		Log.i(PREFIX, "onCreate: " + this);
 
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
-		mGroupInfoAdapter = new SMSGroupInfoAdapter(this);
+		mAdapterGroupInfo = new SMSGroupInfoAdapter(this);
 
 //		mDataManager.appendSMSGroup("groupName1", "groupSmS1");
 //		mDataManager.appendSMSGroup("groupName2", "groupSmS2");
@@ -71,13 +71,13 @@ public class FeiSMSActivity extends ListActivity {
 //		mDataManager.appendContactsToGroup(2, 6, "contactsName6", "contactsPhoneNumber6");
 //		mDataManager.appendContactsToGroup(2, 7, "contactsName7", "contactsPhoneNumber7");
 
-		setListAdapter(mGroupInfoAdapter);
+		setListAdapter(mAdapterGroupInfo);
 
 		this.getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				openContentContactsDetailActivity((int)id);
+				openContentContactsDetailActivity((int) id);
 			}
 
 		});
@@ -85,14 +85,14 @@ public class FeiSMSActivity extends ListActivity {
 //		registerForContextMenu(getListView());
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_GROUP_ID)) {
-			
+
 			int[] selectedRow = savedInstanceState.getIntArray(KEY_SELECTED_GROUP_ID);
 			Log.e(PREFIX, "onCreate ori length=" + selectedRow.length + " firstid=" + selectedRow[0]);
 			promptRestoreSelectState("onCreate length=" + selectedRow.length);
-			mGroupInfoAdapter.setCheckedState(selectedRow);
+			mAdapterGroupInfo.setCheckedState(selectedRow);
 		}
 	}
-	
+
 	private void openContentContactsDetailActivity(int groupId) {
 		Intent intent = new Intent(FeiSMSActivity.this, ContentContactsDetailActivity.class);
 		intent.putExtra(FeiSMSConst.KEY_GROUP_ID, groupId);
@@ -109,21 +109,33 @@ public class FeiSMSActivity extends ListActivity {
 //		Log.i(PREFIX, "onCreateContextMenu2");
 //	}
 
+	private void deleteSMSGroup(int[] groupIds) {
+		mDataManager.deleteSMSGroup(groupIds);
+		mAdapterGroupInfo.deleteSMSGroup(groupIds);
+	}
+
+	private void sendSMSGroup(int[] groupIds) {
+		// TODO add code to do send sms.
+		Log.i(PREFIX, "will sendSMSGroup " + groupIds.length + " firstGid=" + groupIds[0]);
+	}
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		SMSGroupInfo smsGroupInfo = mGroupInfoAdapter.getItem(menuInfo.position);
+		SMSGroupInfo smsGroupInfo = mAdapterGroupInfo.getItem(menuInfo.position);
 		String groupName = smsGroupInfo.getGroupName();
 		Log.i(PREFIX, "onContextItemSelected " + item.getItemId() + " groupName=" + groupName);
 		switch (item.getItemId()) {
-		case 1: //Edit Group
+		case 1: // Edit Group
 			openContentContactsDetailActivity(smsGroupInfo.getGroupId());
 			break;
-			
-		case 2: //Delete Group
+
+		case 2: // Delete Group
+			deleteSMSGroup(new int[] { smsGroupInfo.getGroupId() });
 			break;
-			
-		case 3: //Send Group
+
+		case 3: // Send Group
+			sendSMSGroup(new int[] { smsGroupInfo.getGroupId() });
 			break;
 
 		default:
@@ -135,7 +147,7 @@ public class FeiSMSActivity extends ListActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		int[] selectedId = mGroupInfoAdapter.getCheckedGroupIds();
+		int[] selectedId = mAdapterGroupInfo.getCheckedGroupIds();
 		if (selectedId.length > 0) {
 			Log.e(PREFIX, "onSaveInstanceState() length=" + selectedId.length + " firstid=" + selectedId[0]);
 			outState.putIntArray(KEY_SELECTED_GROUP_ID, selectedId);
@@ -150,7 +162,7 @@ public class FeiSMSActivity extends ListActivity {
 			int[] selectedRow = savedInstanceState.getIntArray(KEY_SELECTED_GROUP_ID);
 			Log.e(PREFIX, "onRestoreInstanceState ori length=" + selectedRow.length + " firstid=" + selectedRow[0]);
 			promptRestoreSelectState("onRestore length=" + selectedRow.length);
-			mGroupInfoAdapter.setCheckedState(selectedRow);
+			mAdapterGroupInfo.setCheckedState(selectedRow);
 		}
 	}
 
@@ -166,26 +178,34 @@ public class FeiSMSActivity extends ListActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-//	@Override
-//	public boolean onPrepareOptionsMenu(Menu menu) {
-//		return super.onPrepareOptionsMenu(menu);
-//	}
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		boolean haveCheckItems = mAdapterGroupInfo.getCheckedGroupIds().length > 0;
+		menu.getItem(1).setVisible(haveCheckItems);
+		menu.getItem(2).setVisible(haveCheckItems);
+		menu.getItem(3).setVisible(mAdapterGroupInfo.getCount() > 0);
+		return super.onPrepareOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		boolean consumed = true;
+		Log.i(PREFIX, "onOptionsItemSelected " + item.getItemId());
 		switch (item.getItemId()) {
 		case 1: // Add group
 			openContentContactsDetailActivity(-1);
 			break;
-			
-		case 2: //Delete Selected Group
+
+		case 2: // Delete Selected Group
+			deleteSMSGroup(mAdapterGroupInfo.getCheckedGroupIds());
 			break;
-			
-		case 3: //Send Selected Group
+
+		case 3: // Send Selected Group
+			sendSMSGroup(mAdapterGroupInfo.getCheckedGroupIds());
 			break;
-			
-		case 4: //Send All Group
+
+		case 4: // Send All Group
+			sendSMSGroup(mAdapterGroupInfo.getAllGroupids());
 			break;
 
 		case 100:
@@ -216,7 +236,7 @@ public class FeiSMSActivity extends ListActivity {
 		super.onResume();
 		Log.i(PREFIX, "onResume");
 		List<SMSGroupInfo> listGroupInfo = mDataManager.getAllSMSGroupInfo();
-		mGroupInfoAdapter.refreshGroupInfo(listGroupInfo);
+		mAdapterGroupInfo.refreshGroupInfo(listGroupInfo);
 	}
 
 	@Override

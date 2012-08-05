@@ -37,7 +37,19 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 		}
 		return arrChecked;
 	}
-	
+
+	public int[] getAllGroupids() {
+		int allSize = getCount();
+		int[] arrAll = new int[allSize];
+		if (allSize > 0) {
+			int idx = -1;
+			for (SMSGroupInfo gInfo : mListGroupInfo) {
+				arrAll[++idx] = gInfo.getGroupId();
+			}
+		}
+		return arrAll;
+	}
+
 	public void setCheckedState(int[] groupIds) {
 		mBooleanArray.clear();
 		for (int groupId : groupIds) {
@@ -52,6 +64,17 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 
 	public void refreshGroupInfo(List<SMSGroupInfo> listGroupInfo) {
 		mListGroupInfo = listGroupInfo;
+		notifyDataSetChanged();
+	}
+
+	public void deleteSMSGroup(int[] groupIds) {
+		int needDeleteSize = groupIds.length;
+		SMSGroupInfo tmpGroupInfo = new SMSGroupInfo(0, null, 0);
+		for (int idx = 0; idx < needDeleteSize; ++idx) {
+			mBooleanArray.delete(groupIds[idx]);
+			tmpGroupInfo.setGroupId(groupIds[idx]);
+			mListGroupInfo.remove(tmpGroupInfo);
+		}
 		notifyDataSetChanged();
 	}
 

@@ -9,11 +9,32 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
+import android.util.Log;
 
 class SMSGroupInfo {
 	private int mGroupId;
 	private int mPersonAmount;
 	private String mGroupName;
+
+	@Override
+	public int hashCode() {
+		return mGroupId;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		SMSGroupInfo other = (SMSGroupInfo) obj;
+		return mGroupId == other.mGroupId;
+	}
 
 	public SMSGroupInfo(int groupId, String groupName, int personAmount) {
 		mGroupId = groupId;
@@ -31,6 +52,10 @@ class SMSGroupInfo {
 
 	public String getGroupName() {
 		return mGroupName;
+	}
+
+	public void setGroupId(int groupId) {
+		mGroupId = groupId;
 	}
 }
 
@@ -137,12 +162,12 @@ public final class FeiSMSDataManager {
 
 	public boolean updateSMSGroup(SMSGroupEntrySMS groupEntrySMS) {
 		boolean operateSucess = true;
-		
+
 		SQLiteDatabase database = mDbHelper.getWritableDatabase();
 		ContentValues contentValues = new ContentValues(2);
 		contentValues.put(FeiSMSDBHelper.COLUMN_NAME_GROUP_NAME, groupEntrySMS.getGroupName());
 		contentValues.put(FeiSMSDBHelper.COLUMN_NAME_GROUP_SMS, groupEntrySMS.getSMSContent());
-		
+
 		if (groupEntrySMS.getGroupId() >= 0) {
 			operateSucess = database.update(FeiSMSDBHelper.TABLE_NAME_SMS_GROUP, contentValues, "_id=" + groupEntrySMS.getGroupId(), null) != -1;
 
@@ -155,8 +180,20 @@ public final class FeiSMSDataManager {
 			}
 		}
 		database.close();
-		
+
 		return operateSucess;
+	}
+
+	public void deleteSMSGroup(int[] groupIds) {
+		StringBuffer deleteSql = new StringBuffer("delete from " + FeiSMSDBHelper.TABLE_NAME_SMS_GROUP + " where _id in(-1");
+		for (int idx = groupIds.length - 1; idx >= 0; --idx) {
+			deleteSql.append("," + groupIds[idx]);
+		}
+		deleteSql.append(");");
+		Log.i(PREFIX, "deleteSql is: " + deleteSql);
+		SQLiteDatabase database = mDbHelper.getWritableDatabase();
+		database.execSQL(deleteSql.toString());
+		database.close();
 	}
 
 	public boolean appendContactsToGroup(int groupId, int contactsId, String contactsName, String contactsPhoneNumber) {
