@@ -26,6 +26,8 @@
         </activity>
         <activity android:name=".qianglou.DivQiangLouActivity" android:configChanges="orientation|keyboardHidden">
         </activity>
+        <activity android:name=".qianglou.DivQiangLouStatus" android:configChanges="orientation|keyboardHidden">
+        </activity>
 
         <!-- <receiver android:name="com.njnu.kai.divsignin.qianglou.DivQiangLouReceiver" >
             <intent-filter>

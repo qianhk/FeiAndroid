@@ -67,7 +67,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 						startService(intent);
 					}
 				} else {
-					mTextEditResult.append("Waiting for next qianglou...\n");
+					notifyMessage(0, "Waiting for next qianglou...");
 				}
 				Calendar cal = TimeUtility.getNextStartTime(isTimeQL);
 				mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintentAlarm);
@@ -110,11 +110,13 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 				Calendar cal = TimeUtility.getNextStartTime(isTimeQL);
 				Log.i(PREFIX, "" + isTimeQL + " " + cal.getTime().toLocaleString() + " h=" + cal.get(Calendar.HOUR_OF_DAY));
 
-//				Intent intentNotify = new Intent();
-//				intentNotify.setAction(DivConst.ACTION_QIANGLOU_NOTIFY);
-//				intentNotify.putExtra("type", 0);
-//				intentNotify.putExtra("message", "test notify.");
-//				sendBroadcast(intentNotify);
+				Intent intentNotify = new Intent();
+				intentNotify.setAction(DivConst.ACTION_QIANGLOU_NOTIFY);
+				intentNotify.putExtra("type", 0);
+				intentNotify.putExtra("message", "test notify.");
+				sendBroadcast(intentNotify);
+				
+//				sendNotification();
 //
 //				Intent intentAlarm = new Intent();
 //				intentAlarm.setAction(DivConst.ACTION_QIANGLOU_ALARM);
@@ -134,7 +136,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		
 		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_DOING_QL)) {
 			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
-			mTextEditResult.append("onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState + "\n");
+			notifyMessage(0, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState);
 			if (mDoingQiangLou) {
 				mButtonQiangLou.setText("Stop2");
 				mButtonQiangLou2.setText("Stop2");
@@ -146,7 +148,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 	private void sendNotification() {
 		Notification notify = new Notification(R.drawable.ic_launcher_notify, "divsignin qianglouing", System.currentTimeMillis());
 		notify.flags = Notification.FLAG_ONGOING_EVENT;
-		Intent intent = new Intent(this, DivQiangLouActivity.class);
+		Intent intent = new Intent(this, DivQiangLouStatus.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, R.string.app_name, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -176,6 +178,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 			mAlarmManager.cancel(getQiangLouAlarmPendingIntent());
 		}
 		unregisterReceiver(mReceiver);
+//		mNotificationManager.cancel(R.string.app_name);
 		super.onDestroy();
 	}
 
@@ -192,10 +195,10 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		Log.e(PREFIX, "onRestoreInstanceState() " + mDoingQiangLou);
 		if (savedInstanceState.containsKey(KEY_DOING_QL)) {
 			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
-			mTextEditResult.append("onRestoreInstanceState " + mDoingQiangLou + "\n" + savedInstanceState + "\n");
+			notifyMessage(0, "onRestoreInstanceState " + mDoingQiangLou + "\n" + savedInstanceState);
 			if (mDoingQiangLou) {
-				mButtonQiangLou.setText("Stop2");
-				mButtonQiangLou2.setText("Stop2");
+				mButtonQiangLou.setText("Stop3");
+				mButtonQiangLou2.setText("Stop3");
 			}
 		}
 	}
@@ -216,7 +219,8 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 	@Override
 	public void notifyMessage(int type, String message) {
 //		Log.i(PREFIX, "notifyMessage=" + message);
-		mTextEditResult.append(message + "\n");
+		Calendar cal = Calendar.getInstance();
+		mTextEditResult.append("[" + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND) + "." + cal.get(Calendar.MILLISECOND) + "]: " + message + "\n");
 		if (type != 0) {
 			if (type == DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_START) {
 				sendNotification();

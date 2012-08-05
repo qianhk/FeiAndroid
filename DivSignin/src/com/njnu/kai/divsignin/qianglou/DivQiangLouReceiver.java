@@ -22,6 +22,14 @@ public class DivQiangLouReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getAction().equals(DivConst.ACTION_QIANGLOU_NOTIFY)) {
 			mNotify.notifyMessage(intent.getIntExtra("type", 0), intent.getStringExtra("message"));
+			
+//			Log.i(PREFIX, "onReceive " + intent.getStringExtra("message"));
+//			Intent intentNotify = new Intent();
+//			intentNotify.setAction(DivConst.ACTION_QIANGLOU_NOTIFY);
+//			intentNotify.putExtra("type", 0);
+//			intentNotify.putExtra("message", "test notify from receive.");
+//			context.sendBroadcast(intentNotify);
+			
 		} else if (intent.getAction().equals(DivConst.ACTION_QIANGLOU_ALARM)) {
 			Log.i(PREFIX, "Alarm time come, start qianglou service...");
 			mNotify.notifyMessage(0, "Alarm time come, start qianglou service...");
