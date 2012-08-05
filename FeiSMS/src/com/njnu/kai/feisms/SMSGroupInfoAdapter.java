@@ -28,16 +28,21 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 		View mParentView;
 		int mDataId;
 	}
-	
-	public int getFirstSelectedRow() {
-		int row = -1;
-		for (int i = 0; i < mBooleanArray.size(); ++i) {
-			if (mBooleanArray.valueAt(i)) {
-				row = mBooleanArray.keyAt(i);
-				break;
-			}
+
+	public int[] getCheckedGroupIds() {
+		int size = mBooleanArray.size();
+		int[] arrChecked = new int[size];
+		for (int idx = 0; idx < size; ++idx) {
+			arrChecked[idx] = mBooleanArray.keyAt(idx);
 		}
-		return row;
+		return arrChecked;
+	}
+	
+	public void setCheckedState(int[] groupIds) {
+		mBooleanArray.clear();
+		for (int groupId : groupIds) {
+			mBooleanArray.put(groupId, true);
+		}
 	}
 
 	public SMSGroupInfoAdapter(Context context) {
@@ -69,10 +74,10 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 		SMSGroupInfo groupInfo = getItem(position);
 		return (groupInfo == null) ? -1 : groupInfo.getGroupId();
 	}
-	
+
 	private void setRowState(ViewHolder holder) {
 		if (holder.mParentView instanceof CheckableLinearLayout) {
-			CheckableLinearLayout cll = (CheckableLinearLayout)holder.mParentView;
+			CheckableLinearLayout cll = (CheckableLinearLayout) holder.mParentView;
 			Boolean checked = mBooleanArray.get(holder.mDataId);
 			cll.setChecked(checked);
 			holder.mCheckBox.setChecked(checked);
@@ -95,7 +100,11 @@ public class SMSGroupInfoAdapter extends BaseAdapter {
 
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					mBooleanArray.put(holder.mDataId, isChecked);
+					if (isChecked) {
+						mBooleanArray.put(holder.mDataId, isChecked);
+					} else {
+						mBooleanArray.delete(holder.mDataId);
+					}
 					setRowState(holder);
 				}
 			});

@@ -80,7 +80,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.div_qianglou);
-		Log.e(PREFIX, "onCreate() " + mDoingQiangLou);
+		Log.e(PREFIX, "onCreate() " + mDoingQiangLou + " savedInstanceState=" + savedInstanceState);
 		IntentFilter intentFilter = new IntentFilter(DivConst.ACTION_QIANGLOU_NOTIFY);
 		intentFilter.addAction(DivConst.ACTION_QIANGLOU_ALARM);
 //		intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -136,6 +136,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		
 		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_DOING_QL)) {
 			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
+			Log.i(PREFIX, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState);
 			notifyMessage(0, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState);
 			if (mDoingQiangLou) {
 				mButtonQiangLou.setText("Stop2");

@@ -12,21 +12,26 @@ public class TabSMSContentActivity extends Activity {
 	private EditText mEditTextGroupSMS;
 	private SMSGroupEntrySMS mGroupEntrySMS;
 	private FeiSMSDataManager mDataManager;
-	private int mGroupId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_sms);
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
-		mGroupId = getIntent().getIntExtra(FeiSMSConst.GROUP_ID, 0);
-		Log.i(PREFIX, "onCreate groupId=" + mGroupId + " savedState=" + savedInstanceState);
-		mGroupEntrySMS = mDataManager.getSMSGroupEntrySMS(mGroupId);
 		mEditTextGroupName = (EditText) findViewById(R.id.edittext_group_name);
 		mEditTextGroupSMS = (EditText) findViewById(R.id.edittext_group_sms);
+		
+		int groupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
+		
+		Log.i(PREFIX, "onCreate groupId=" + groupId + " savedState=" + savedInstanceState);
+		if (groupId >= 0) {
+			mGroupEntrySMS = mDataManager.getSMSGroupEntrySMS(groupId);
+		} else {
+			mGroupEntrySMS = new SMSGroupEntrySMS(groupId, "", "");
+		}
+		
 		mEditTextGroupName.setText(mGroupEntrySMS.getGroupName());
 		mEditTextGroupSMS.setText(mGroupEntrySMS.getSMSContent());
-
 		mEditTextGroupName.setOnFocusChangeListener(mFocusChangeListener);
 		mEditTextGroupSMS.setOnFocusChangeListener(mFocusChangeListener);
 
@@ -48,23 +53,23 @@ public class TabSMSContentActivity extends Activity {
 			}
 		}
 	};
-	
+
 	private void doCheckEditTextGroupNameChanged() {
-		String curGroupName = mEditTextGroupName.getText().toString(); 
+		String curGroupName = mEditTextGroupName.getText().toString();
 		if (!curGroupName.equals(mEditTextGroupName.getTag())) {
 			Log.i(PREFIX, "GroupName changed: " + curGroupName);
 			mGroupEntrySMS.setGroupName(curGroupName);
-			mDataManager.UpdateSMSGroup(mGroupEntrySMS);
+			mDataManager.updateSMSGroup(mGroupEntrySMS);
 			mEditTextGroupName.setTag(curGroupName);
 		}
 	}
-	
+
 	private void doCheckEditTextGroupSMSChanged() {
 		String curGroupSMS = mEditTextGroupSMS.getText().toString();
 		if (!curGroupSMS.equals(mEditTextGroupSMS.getTag())) {
 			Log.i(PREFIX, "SMS content changed: " + curGroupSMS);
 			mGroupEntrySMS.setSMSContent(curGroupSMS);
-			mDataManager.UpdateSMSGroup(mGroupEntrySMS);
+			mDataManager.updateSMSGroup(mGroupEntrySMS);
 			mEditTextGroupSMS.setTag(curGroupSMS);
 		}
 	}

@@ -8,14 +8,21 @@
         android:id="@id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:choiceMode="none"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:choiceMode="none" />
 
     <TextView
         android:id="@id/android:empty"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="Please add data from menu." />
+
+    <!-- <Button
+        android:id="@+id/button_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test" /> -->
 
 </LinearLayout>

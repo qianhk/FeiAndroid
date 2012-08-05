@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dip"
+        android:hint="Input group name"
         android:text="id/edittext_group_name" >
     </EditText>
 
@@ -35,6 +36,7 @@
         android:gravity="top"
         android:maxLength="70"
         android:singleLine="false"
+        android:hint="Input sms content"
         android:text="id/edittext_group_sms" />
 
 </LinearLayout>

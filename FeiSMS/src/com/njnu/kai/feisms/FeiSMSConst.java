@@ -12,6 +12,6 @@ package com.njnu.kai.feisms;
  * @since 2012-7-30
  */
 public final class FeiSMSConst {
-	public static final String GROUP_ID = "groupId";
+	public static final String KEY_GROUP_ID = "groupId";
 
 }

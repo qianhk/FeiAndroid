@@ -119,7 +119,7 @@ public final class FeiSMSDataManager {
 		return mInstance;
 	}
 
-	public boolean AppendSMSGroup(String groupName, String groupSMS) {
+	public boolean appendSMSGroup(String groupName, String groupSMS) {
 		boolean operateSucess = true;
 		if (TextUtils.isEmpty(groupName) || TextUtils.isEmpty(groupSMS)) {
 			operateSucess = false;
@@ -135,20 +135,31 @@ public final class FeiSMSDataManager {
 
 	}
 
-	public boolean UpdateSMSGroup(SMSGroupEntrySMS groupEntrySMS) {
+	public boolean updateSMSGroup(SMSGroupEntrySMS groupEntrySMS) {
 		boolean operateSucess = true;
-		{
-			SQLiteDatabase database = mDbHelper.getWritableDatabase();
-			ContentValues contentValues = new ContentValues(2);
-			contentValues.put(FeiSMSDBHelper.COLUMN_NAME_GROUP_NAME, groupEntrySMS.getGroupName());
-			contentValues.put(FeiSMSDBHelper.COLUMN_NAME_GROUP_SMS, groupEntrySMS.getSMSContent());
+		
+		SQLiteDatabase database = mDbHelper.getWritableDatabase();
+		ContentValues contentValues = new ContentValues(2);
+		contentValues.put(FeiSMSDBHelper.COLUMN_NAME_GROUP_NAME, groupEntrySMS.getGroupName());
+		contentValues.put(FeiSMSDBHelper.COLUMN_NAME_GROUP_SMS, groupEntrySMS.getSMSContent());
+		
+		if (groupEntrySMS.getGroupId() >= 0) {
 			operateSucess = database.update(FeiSMSDBHelper.TABLE_NAME_SMS_GROUP, contentValues, "_id=" + groupEntrySMS.getGroupId(), null) != -1;
-			database.close();
+
+		} else {
+			int newGroupId = (int) database.insert(FeiSMSDBHelper.TABLE_NAME_SMS_GROUP, null, contentValues);
+			if (newGroupId >= 0) {
+				groupEntrySMS.setGroupId(newGroupId);
+			} else {
+				operateSucess = false;
+			}
 		}
+		database.close();
+		
 		return operateSucess;
 	}
 
-	public boolean AppendContactsToGroup(int groupId, int contactsId, String contactsName, String contactsPhoneNumber) {
+	public boolean appendContactsToGroup(int groupId, int contactsId, String contactsName, String contactsPhoneNumber) {
 		boolean operateSucess = true;
 		if (TextUtils.isEmpty(contactsName) || TextUtils.isEmpty(contactsPhoneNumber)) {
 			operateSucess = false;
