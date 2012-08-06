@@ -29,11 +29,12 @@
         <activity android:name=".qianglou.DivQiangLouStatus" android:configChanges="orientation|keyboardHidden">
         </activity>
 
-        <!-- <receiver android:name="com.njnu.kai.divsignin.qianglou.DivQiangLouReceiver" >
+       <receiver android:name="com.njnu.kai.divsignin.qianglou.DivQiangLouReceiver">
             <intent-filter>
                 <action android:name="com.njnu.kai.divsignin.action.qianglou.notify" />
+                <action android:name="com.njnu.kai.divsignin.action.qianglou.alarm" />
             </intent-filter>
-        </receiver> -->
+        </receiver>
 
         <service android:name="com.njnu.kai.divsignin.DivSigninService" >
 

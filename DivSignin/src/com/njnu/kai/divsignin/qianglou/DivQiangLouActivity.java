@@ -1,13 +1,13 @@
 package com.njnu.kai.divsignin.qianglou;
 
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -16,21 +16,18 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TimeUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.njnu.kai.divsignin.DivSigninActivity;
 import com.njnu.kai.divsignin.DivSigninService;
 import com.njnu.kai.divsignin.R;
 import com.njnu.kai.divsignin.common.DivConst;
 import com.njnu.kai.divsignin.common.TimeUtility;
-import com.njnu.kai.divsignin.qianglou.DivQiangLouReceiver.DivQiangLouNotify;
 
-public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
+public class DivQiangLouActivity extends Activity {
 
 	private static final String KEY_DOING_QL = "doingQL";
 	private static final String PREFIX = "DivQiangLouActivity";
@@ -38,7 +35,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 	private Button mButtonQiangLou;
 	private Button mButtonQiangLou2;
 	private EditText mTextEditResult;
-	private DivQiangLouReceiver mReceiver;
+	private QLReceiver mReceiver;
 	private NotificationManager mNotificationManager;
 	private AlarmManager mAlarmManager;
 
@@ -82,18 +79,11 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.div_qianglou);
 		Log.e(PREFIX, "onCreate() " + mDoingQiangLou + " savedInstanceState=" + savedInstanceState);
-		IntentFilter intentFilter = new IntentFilter(DivConst.ACTION_QIANGLOU_NOTIFY);
-		intentFilter.addAction(DivConst.ACTION_QIANGLOU_ALARM);
-//		intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
-		mReceiver = new DivQiangLouReceiver(this);
+		IntentFilter intentFilter = new IntentFilter(DivConst.ACTION_QIANGLOU_NOTIFY_INTERNAL);
+		mReceiver = new QLReceiver();
 		registerReceiver(mReceiver, intentFilter);
 		mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-//		Intent intentAlarm = new Intent();
-//		intentAlarm.setAction(DivConst.ACTION_QIANGLOU_ALARM);
-//		PendingIntent pintentAlarm = PendingIntent.getBroadcast(DivQiangLouActivity.this, 1, intentAlarm, PendingIntent.FLAG_NO_CREATE);
-//		Log.e(PREFIX, "onCreate() pintentAlarm is " + pintentAlarm);
 
 		mButtonQiangLou = (Button) findViewById(R.id.button_start);
 		mButtonQiangLou2 = (Button) findViewById(R.id.button_nextday);
@@ -124,28 +114,16 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 //				sendBroadcast(intentAlarm);
 			}
 		});
-
-//		Button btnTest2 = (Button) findViewById(R.id.button_test2);
-//		btnTest2.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				Intent intent = new Intent(DivQiangLouActivity.this, DivSigninService.class);
-//				stopService(intent);
-//				mNotificationManager.cancel(R.string.app_name);
-//			}
-//		});
 		
-		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_DOING_QL)) {
-			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
-			Log.i(PREFIX, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState);
-			notifyMessage(0, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState);
-			Toast.makeText(this, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState, Toast.LENGTH_LONG);
-			if (mDoingQiangLou) {
-				mButtonQiangLou.setText("Stop2");
-				mButtonQiangLou2.setText("Stop2");
-			}
-		}
-		notifyMessage(0, "onCreate11() " + mDoingQiangLou + " savedInstanceState=" + savedInstanceState);
+//		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_DOING_QL)) {
+//			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
+//			Log.i(PREFIX, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState);
+//			Toast.makeText(this, "onCreate savedState " + mDoingQiangLou + " " + savedInstanceState, Toast.LENGTH_LONG).show();
+//			if (mDoingQiangLou) {
+//				mButtonQiangLou.setText("Stop2");
+//				mButtonQiangLou2.setText("Stop2");
+//			}
+//		}
 	}
 
 	private void sendNotification() {
@@ -198,19 +176,14 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		Log.e(PREFIX, "onRestoreInstanceState() " + mDoingQiangLou);
 		if (savedInstanceState.containsKey(KEY_DOING_QL)) {
 			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
-			notifyMessage(0, "onRestoreInstanceState " + mDoingQiangLou + "\n" + savedInstanceState);
+//			notifyMessage(0, "onRestoreInstanceState " + mDoingQiangLou + "\n" + savedInstanceState);
+			Toast.makeText(this, "onRestoreInstanceState qianging=" + mDoingQiangLou, Toast.LENGTH_SHORT).show();
 			if (mDoingQiangLou) {
-//				mButtonQiangLou.setText("Stop3");
+				mButtonQiangLou.setText("Stop3");
 				mButtonQiangLou2.setText("Stop3");
 			}
 		}
 	}
-
-//	@Override
-//	public Object onRetainNonConfigurationInstance() {
-//		Log.e(PREFIX, "onRetainNonConfigurationInstance() " + mDoingQiangLou);
-//		return super.onRetainNonConfigurationInstance();
-//	}
 
 	private PendingIntent getQiangLouAlarmPendingIntent() {
 		Intent intentAlarm = new Intent();
@@ -219,8 +192,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		return pintentAlarm;
 	}
 
-	@Override
-	public void notifyMessage(int type, String message) {
+	private void notifyMessage(int type, String message) {
 //		Log.i(PREFIX, "notifyMessage=" + message);
 		Calendar cal = Calendar.getInstance();
 		mTextEditResult.append("[" + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND) + "." + cal.get(Calendar.MILLISECOND) + "]: " + message + "\n");
@@ -244,4 +216,14 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 		mTextEditResult.setSelection(mTextEditResult.length());
 	}
 
+	class QLReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(DivConst.ACTION_QIANGLOU_NOTIFY_INTERNAL)) {
+				notifyMessage(intent.getIntExtra("type", 0), intent.getStringExtra("message"));
+			}
+		}
+
+	}
 }

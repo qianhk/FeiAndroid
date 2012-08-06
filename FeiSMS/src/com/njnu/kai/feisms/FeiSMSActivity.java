@@ -85,7 +85,6 @@ public class FeiSMSActivity extends ListActivity {
 //		registerForContextMenu(getListView());
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_GROUP_ID)) {
-
 			int[] selectedRow = savedInstanceState.getIntArray(KEY_SELECTED_GROUP_ID);
 			Log.e(PREFIX, "onCreate ori length=" + selectedRow.length + " firstid=" + selectedRow[0]);
 			promptRestoreSelectState("onCreate length=" + selectedRow.length);

@@ -31,10 +31,10 @@ public class DivSigninService extends Service {
 
 		@Override
 		public void run() {
-			Log.i(PREFIX, "run");
+			Log.e(PREFIX, "Thread QiangLou running.");
 			try {
 				doThreadQiangLou();
-				Log.i(PREFIX, "Thread QiangLou finished.");
+				Log.e(PREFIX, "Thread QiangLou finished.");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -343,10 +343,17 @@ public class DivSigninService extends Service {
 		return _lastContent != null && _lastContent.indexOf("欢迎您回来") >= 0;
 	}
 
-	private boolean IsValidDevdCookie() {
+	private boolean IsValidDevdCookie() throws InterruptedException {
 		String needStr = String.format("<a href=\"http://www.devdiv.com/home.php?mod=space&amp;uid=%s\" target=\"_blank\" title=\"访问我的空间\">%s</a>",
 				mDevAccountUid, mDevAccountName);
 		String _lastContent = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/forum-154-1.html");
+		String _reloadOpened = "\u9875\u9762\u91cd\u8f7d\u5f00\u542f";
+		if (TextUtils.isEmpty(_lastContent) || _lastContent.indexOf(_reloadOpened) >= 0) {
+			Log.e(PREFIX, "isValidDevdCookie find string [" + _reloadOpened + "]");
+			Thread.sleep(3000);
+			_lastContent = HttpUtility.GetUseAutoEncoding("http://www.devdiv.com/forum-154-1.html");
+		}
+		
 		// Log.i(PREFIX, _lastContent);
 		// sendNotifyBroadcast(_lastContent);
 		return _lastContent != null && _lastContent.indexOf(needStr) >= 0;
