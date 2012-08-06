@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.njnu.kai.divsignin.DivSigninActivity;
 import com.njnu.kai.divsignin.DivSigninService;
@@ -138,6 +139,7 @@ public class DivQiangLouActivity extends Activity implements DivQiangLouNotify {
 			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
 			Log.i(PREFIX, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState);
 			notifyMessage(0, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState);
+			Toast.makeText(this, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState, Toast.LENGTH_LONG);
 			if (mDoingQiangLou) {
 				mButtonQiangLou.setText("Stop2");
 				mButtonQiangLou2.setText("Stop2");
