@@ -17,6 +17,7 @@
         <activity
             android:name=".FeiSMSActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme" >
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,8 +30,12 @@
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/ContentOverlay" >
         </activity>
-        <activity android:name=".TabSMSContentActivity" android:windowSoftInputMode="adjustResize|stateVisible"/>
-        <activity android:name=".TabContactsActivity" android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
+        <activity
+            android:name=".TabSMSContentActivity"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+        <activity
+            android:name=".TabContactsActivity"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
     </application>
 
 </manifest>

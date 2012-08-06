@@ -2,7 +2,9 @@ package com.njnu.kai.feisms;
 
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,9 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class FeiSMSActivity extends ListActivity {
 	private FeiSMSDataManager mDataManager;
@@ -84,12 +86,12 @@ public class FeiSMSActivity extends ListActivity {
 		getListView().setOnCreateContextMenuListener(mMenuLis);
 //		registerForContextMenu(getListView());
 
-		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_GROUP_ID)) {
-			int[] selectedRow = savedInstanceState.getIntArray(KEY_SELECTED_GROUP_ID);
-			Log.e(PREFIX, "onCreate ori length=" + selectedRow.length + " firstid=" + selectedRow[0]);
-			promptRestoreSelectState("onCreate length=" + selectedRow.length);
-			mAdapterGroupInfo.setCheckedState(selectedRow);
-		}
+//		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SELECTED_GROUP_ID)) {
+//			int[] selectedRow = savedInstanceState.getIntArray(KEY_SELECTED_GROUP_ID);
+//			Log.e(PREFIX, "onCreate ori length=" + selectedRow.length + " firstid=" + selectedRow[0]);
+//			promptRestoreSelectState("onCreate length=" + selectedRow.length);
+//			mAdapterGroupInfo.setCheckedState(selectedRow);
+//		}
 	}
 
 	private void openContentContactsDetailActivity(int groupId) {
@@ -108,14 +110,34 @@ public class FeiSMSActivity extends ListActivity {
 //		Log.i(PREFIX, "onCreateContextMenu2");
 //	}
 
-	private void deleteSMSGroup(int[] groupIds) {
-		mDataManager.deleteSMSGroup(groupIds);
-		mAdapterGroupInfo.deleteSMSGroup(groupIds);
+	private void showConfirmDialog(String prompt, DialogInterface.OnClickListener listener) {
+		AlertDialog dialog = new AlertDialog.Builder(this).setIconAttribute(android.R.attr.alertDialogIcon).setMessage(prompt)
+				.setPositiveButton("Okay", listener).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+
+					}
+				}).create();
+		dialog.show();
 	}
 
-	private void sendSMSGroup(int[] groupIds) {
+	private void deleteSMSGroup(final int[] groupIds) {
+		DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				mDataManager.deleteSMSGroup(groupIds);
+				mAdapterGroupInfo.deleteSMSGroup(groupIds);
+			}
+		};
+		showConfirmDialog("Make sure delete " + groupIds.length + " items?", listener);
+	}
+
+	private void sendSMSGroup(final int[] groupIds) {
 		// TODO add code to do send sms.
-		Log.i(PREFIX, "will sendSMSGroup " + groupIds.length + " firstGid=" + groupIds[0]);
+		DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				Log.i(PREFIX, "will sendSMSGroup " + groupIds.length + " firstGid=" + groupIds[0]);
+			}
+		};
+		showConfirmDialog("Make sure send " + groupIds.length + " groups?", listener);
 	}
 
 	@Override
