@@ -7,5 +7,7 @@ public final class DivConst {
 	
 	public static final int TYPE_BROADCAST_QIANGLOU_SERVICE_START = 10000;
 	public static final int TYPE_BROADCAST_QIANGLOU_SERVICE_STOP = 10001;
+	
+	public static final String KEY_DIV_QIANGLOU_EXCEPTION = "div_qianglou_exception";
 
 }

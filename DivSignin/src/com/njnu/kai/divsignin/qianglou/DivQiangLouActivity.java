@@ -51,7 +51,7 @@ public class DivQiangLouActivity extends Activity {
 			Intent intent = new Intent(DivQiangLouActivity.this, DivSigninService.class);
 			mButtonQiangLou.setText(mDoingQiangLou ? "Start2" : "Stop");
 			mButtonQiangLou2.setText(mDoingQiangLou ? "NextDay2" : "Stop");
-			PendingIntent pintentAlarm = getQiangLouAlarmPendingIntent();
+			PendingIntent pintentAlarm = getQiangLouAlarmPendingIntent(DivQiangLouActivity.this);
 			if (mDoingQiangLou) {
 				stopService(intent);
 				mAlarmManager.cancel(pintentAlarm);
@@ -106,7 +106,7 @@ public class DivQiangLouActivity extends Activity {
 				intentNotify.putExtra("type", 0);
 				intentNotify.putExtra("message", "test notify.");
 				sendBroadcast(intentNotify);
-				
+
 //				sendNotification();
 //
 //				Intent intentAlarm = new Intent();
@@ -114,7 +114,7 @@ public class DivQiangLouActivity extends Activity {
 //				sendBroadcast(intentAlarm);
 			}
 		});
-		
+
 //		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_DOING_QL)) {
 //			mDoingQiangLou = savedInstanceState.getBoolean(KEY_DOING_QL);
 //			Log.i(PREFIX, "onCreate savedState " + mDoingQiangLou + "\n" + savedInstanceState);
@@ -126,19 +126,12 @@ public class DivQiangLouActivity extends Activity {
 //		}
 	}
 
-	private void sendNotification() {
-		Notification notify = new Notification(R.drawable.ic_launcher_notify, "divsignin qianglouing", System.currentTimeMillis());
-		notify.flags = Notification.FLAG_ONGOING_EVENT;
-		Intent intent = new Intent(this, DivQiangLouStatus.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, R.string.app_name, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		notify.setLatestEventInfo(this, "divsignin qianglou", "qianglouing......", contentIntent);
-		mNotificationManager.notify(R.string.app_name, notify);
-	}
-
 	private boolean isQiangLouPreferencesValid() {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean qlException = settings.getBoolean(DivConst.KEY_DIV_QIANGLOU_EXCEPTION, false);
+		if (qlException) {
+			settings.edit().remove(DivConst.KEY_DIV_QIANGLOU_EXCEPTION).commit();
+		}
 		String devAccountUid = settings.getString("div_user_uid", "");
 		String devAccountName = settings.getString("div_user_name", "");
 		String devAccountPw = settings.getString("div_user_pw", "");
@@ -156,10 +149,10 @@ public class DivQiangLouActivity extends Activity {
 			Log.e(PREFIX, "still Doing Qianglou, but onDestroy().");
 			mDoingQiangLou = false;
 			stopService(new Intent(this, DivSigninService.class));
-			mAlarmManager.cancel(getQiangLouAlarmPendingIntent());
+			mAlarmManager.cancel(getQiangLouAlarmPendingIntent(this));
+			mNotificationManager.cancel(R.string.app_name);
 		}
 		unregisterReceiver(mReceiver);
-//		mNotificationManager.cancel(R.string.app_name);
 		super.onDestroy();
 	}
 
@@ -179,26 +172,33 @@ public class DivQiangLouActivity extends Activity {
 //			notifyMessage(0, "onRestoreInstanceState " + mDoingQiangLou + "\n" + savedInstanceState);
 			Toast.makeText(this, "onRestoreInstanceState qianging=" + mDoingQiangLou, Toast.LENGTH_SHORT).show();
 			if (mDoingQiangLou) {
-				mButtonQiangLou.setText("Stop3");
-				mButtonQiangLou2.setText("Stop3");
+				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+				boolean qlException = settings.getBoolean(DivConst.KEY_DIV_QIANGLOU_EXCEPTION, false);
+				if (qlException) {
+					mDoingQiangLou = false;
+					notifyMessage(-666, "Original running but have exception.");
+				} else {
+					mButtonQiangLou.setText("Stop3");
+					mButtonQiangLou2.setText("Stop3");
+				}
 			}
 		}
 	}
 
-	private PendingIntent getQiangLouAlarmPendingIntent() {
+	public static PendingIntent getQiangLouAlarmPendingIntent(Context context) {
 		Intent intentAlarm = new Intent();
 		intentAlarm.setAction(DivConst.ACTION_QIANGLOU_ALARM);
-		PendingIntent pintentAlarm = PendingIntent.getBroadcast(DivQiangLouActivity.this, 1, intentAlarm, 0);
+		PendingIntent pintentAlarm = PendingIntent.getBroadcast(context, 1, intentAlarm, 0);
 		return pintentAlarm;
 	}
 
 	private void notifyMessage(int type, String message) {
 //		Log.i(PREFIX, "notifyMessage=" + message);
 		Calendar cal = Calendar.getInstance();
-		mTextEditResult.append("[" + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND) + "." + cal.get(Calendar.MILLISECOND) + "]: " + message + "\n");
+		mTextEditResult.append("[" + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND) + "."
+				+ cal.get(Calendar.MILLISECOND) + "]: " + message + "\n");
 		if (type != 0) {
 			if (type == DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_START) {
-				sendNotification();
 				getWindow().getDecorView().setKeepScreenOn(true);
 			} else {
 				if (type == DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_STOP) {
@@ -207,9 +207,7 @@ public class DivQiangLouActivity extends Activity {
 					mDoingQiangLou = false;
 					mButtonQiangLou.setText("Start3");
 					mButtonQiangLou2.setText("NextDay3");
-					mAlarmManager.cancel(getQiangLouAlarmPendingIntent());
 				}
-				mNotificationManager.cancel(R.string.app_name);
 				getWindow().getDecorView().setKeepScreenOn(false);
 			}
 		}
