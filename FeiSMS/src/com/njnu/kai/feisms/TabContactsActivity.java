@@ -77,8 +77,10 @@ public class TabContactsActivity extends ListActivity {
 
 	private void getContacts() {
 
-		Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+		Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null,
+				ContactsContract.Contacts.SORT_KEY_PRIMARY + " asc");
 
+		int phoneGreate1Count = 0;
 		if (cur.moveToFirst()) {
 			int idColumn = cur.getColumnIndex(ContactsContract.Contacts._ID);
 
@@ -91,26 +93,25 @@ public class TabContactsActivity extends ListActivity {
 
 				int phoneCount = cur.getInt(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
 				if (phoneCount > 0) {
-
 					Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
 							ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
+					if (phones.getCount() > 1) {
+						++phoneGreate1Count;
+					}
 					if (phones.moveToFirst()) {
 						do {
 
 							String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-							System.out.println(phoneNumber);
+							System.out.println(disPlayName + " : " + phoneNumber);
 						} while (phones.moveToNext());
 					}
-
+					phones.close();
 				}
 
 			} while (cur.moveToNext());
 
 		}
+		cur.close();
 	}
 
-	/*
-	 * Cursor phones = mContext.getContentResolver().query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-	 * ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId +" and "+ContactsContract.
-	 */
 }
