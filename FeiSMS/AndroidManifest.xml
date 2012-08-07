@@ -10,6 +10,7 @@
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application
         android:icon="@drawable/ic_launcher"
