@@ -75,43 +75,40 @@ public class TabContactsActivity extends ListActivity {
 		}, 0);
 	}
 
-	private void getContacts() {
+	private ContactsData getContacts() {
 
-		Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null,
+		String[] personProjection = new String[] { ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME,
+				ContactsContract.Contacts.HAS_PHONE_NUMBER };
+		Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, personProjection, null, null,
 				ContactsContract.Contacts.SORT_KEY_PRIMARY + " asc");
 
-		int phoneGreate1Count = 0;
+		ContactsData cData = new ContactsData(cur.getCount());
 		if (cur.moveToFirst()) {
-			int idColumn = cur.getColumnIndex(ContactsContract.Contacts._ID);
-
-			int displayNameColumn = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
 			do {
 
-				String contactId = cur.getString(idColumn);
-
-				String disPlayName = cur.getString(displayNameColumn);
-
-				int phoneCount = cur.getInt(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+				long contactId = cur.getLong(0);
+				String disPlayName = cur.getString(1);
+				int phoneCount = cur.getInt(2);
 				if (phoneCount > 0) {
 					Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
 							ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
-					if (phones.getCount() > 1) {
-						++phoneGreate1Count;
-					}
+					ContactsData.ContactsInfo cInfo = new ContactsData.ContactsInfo(disPlayName, phones.getCount());
 					if (phones.moveToFirst()) {
 						do {
-
 							String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-							System.out.println(disPlayName + " : " + phoneNumber);
+							cInfo.appendPhoneNumber(phoneNumber);
 						} while (phones.moveToNext());
 					}
 					phones.close();
+					cData.appendContactsInfo(cInfo);
 				}
 
 			} while (cur.moveToNext());
 
 		}
 		cur.close();
+
+		return cData;
 	}
 
 }
