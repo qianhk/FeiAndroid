@@ -36,6 +36,10 @@ public class ContactsData {
 		mListContactsInfo.add(info);
 	}
 	
+	public int getCount() {
+		return mListContactsInfo.size();
+	}
+	
 	public ContactsInfo getContactsInfo(int index) {
 		ContactsInfo info = null;
 		if (mListContactsInfo.size() >= (index + 1)) {

@@ -83,6 +83,7 @@ public class TabContactsActivity extends ListActivity {
 				ContactsContract.Contacts.SORT_KEY_PRIMARY + " asc");
 
 		ContactsData cData = new ContactsData(cur.getCount());
+		int phoneNo = 0;
 		if (cur.moveToFirst()) {
 			do {
 
@@ -92,22 +93,30 @@ public class TabContactsActivity extends ListActivity {
 				if (phoneCount > 0) {
 					Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
 							ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
-					ContactsData.ContactsInfo cInfo = new ContactsData.ContactsInfo(disPlayName, phones.getCount());
+					ContactsData.ContactsInfo cInfo = null;
 					if (phones.moveToFirst()) {
 						do {
 							String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-							cInfo.appendPhoneNumber(phoneNumber);
+							if (SMSUtils.isChinesePhoneNumber(phoneNumber)) {
+								if (cInfo == null) {
+									cInfo = new ContactsData.ContactsInfo(disPlayName, phones.getCount());
+								}
+								cInfo.appendPhoneNumber(phoneNumber);
+								++phoneNo;
+							}
 						} while (phones.moveToNext());
 					}
 					phones.close();
-					cData.appendContactsInfo(cInfo);
+					if (cInfo != null) {
+						cData.appendContactsInfo(cInfo);
+					}
 				}
 
 			} while (cur.moveToNext());
 
 		}
 		cur.close();
-
+		Log.i(PREFIX, "total phoneNumber is: " + phoneNo + " total person is:" + cData.getCount());
 		return cData;
 	}
 
