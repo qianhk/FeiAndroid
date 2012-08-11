@@ -37,6 +37,9 @@
         <activity
             android:name=".TabContactsActivity"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+        <activity
+            android:name=".ChooseContactsActivity"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
     </application>
 
 </manifest>

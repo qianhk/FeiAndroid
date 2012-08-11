@@ -1,11 +1,10 @@
 package com.njnu.kai.feisms;
 
 import android.app.ListActivity;
-import android.database.Cursor;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,11 +14,12 @@ import android.view.inputmethod.InputMethodManager;
 public class TabContactsActivity extends ListActivity {
 	private static final String PREFIX = "TabContactsActivity";
 	private Handler mHandler = new Handler();
+	private ContactsData mContactsData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tab_contact);
+		setContentView(R.layout.tab_contacts);
 		int groupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
 
 //		Cursor cursor = getContentResolver().query(Contacts.CONTENT_URI, new String[] { Contacts._ID, Contacts.DISPLAY_NAME }, null, null,
@@ -33,7 +33,7 @@ public class TabContactsActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(100, 100, 100, "Get Contacts");
+		menu.add(100, 100, 100, "Add Contacts");
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -44,10 +44,29 @@ public class TabContactsActivity extends ListActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getGroupId() == 100) {
-			getContacts();
+		switch (item.getItemId()) {
+		case 100:
+			chooseContacts();
+			break;
+
+		default:
+			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+//		Log.i(PREFIX, "onActivityResult requestCode=" + requestCode + " resultCode=" + resultCode + " data=" + data);
+		if (requestCode == FeiSMSConst.REQUEST_CODE_CHOOSE_CONTACTS && resultCode == RESULT_OK) {
+
+		}
+	}
+
+	private void chooseContacts() {
+		Intent intent = new Intent(this, ChooseContactsActivity.class);
+		startActivityForResult(intent, FeiSMSConst.REQUEST_CODE_CHOOSE_CONTACTS);
 	}
 
 	@Override
@@ -75,49 +94,29 @@ public class TabContactsActivity extends ListActivity {
 		}, 0);
 	}
 
-	private ContactsData getContacts() {
+//	@Override
+//	protected void onSaveInstanceState(Bundle outState) {
+//		super.onSaveInstanceState(outState);
+//		Log.i(PREFIX, "onSaveInstanceState");
+//	}
+//
+//	@Override
+//	protected void onPause() {
+//		super.onPause();
+//		Log.i(PREFIX, "onPause");
+//
+//	}
+//
+//	@Override
+//	protected void onStop() {
+//		super.onStop();
+//		Log.i(PREFIX, "onStop");
+//	}
 
-		String[] personProjection = new String[] { ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME,
-				ContactsContract.Contacts.HAS_PHONE_NUMBER };
-		Cursor cur = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, personProjection, null, null,
-				ContactsContract.Contacts.SORT_KEY_PRIMARY + " asc");
-
-		ContactsData cData = new ContactsData(cur.getCount());
-		int phoneNo = 0;
-		if (cur.moveToFirst()) {
-			do {
-
-				long contactId = cur.getLong(0);
-				String disPlayName = cur.getString(1);
-				int phoneCount = cur.getInt(2);
-				if (phoneCount > 0) {
-					Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-							ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
-					ContactsData.ContactsInfo cInfo = null;
-					if (phones.moveToFirst()) {
-						do {
-							String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-							if (SMSUtils.isChinesePhoneNumber(phoneNumber)) {
-								if (cInfo == null) {
-									cInfo = new ContactsData.ContactsInfo(disPlayName, phones.getCount());
-								}
-								cInfo.appendPhoneNumber(phoneNumber);
-								++phoneNo;
-							}
-						} while (phones.moveToNext());
-					}
-					phones.close();
-					if (cInfo != null) {
-						cData.appendContactsInfo(cInfo);
-					}
-				}
-
-			} while (cur.moveToNext());
-
-		}
-		cur.close();
-		Log.i(PREFIX, "total phoneNumber is: " + phoneNo + " total person is:" + cData.getCount());
-		return cData;
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.i(PREFIX, "onDestroy");
+//		SMSUtils.clearContactsData();
 	}
-
 }

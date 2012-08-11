@@ -1,5 +1,8 @@
 package com.njnu.kai.feisms;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -36,5 +39,59 @@ public final class SMSUtils {
 //			Log.i(PREFIX, "is mobile=" + testNumber + " after zl=" + phoneNumber);
 //		}
 		return isMobile;
+	}
+
+	private static ContactsData mContactsData = null;
+	
+	public static synchronized void clearContactsData() {
+		mContactsData = null;
+		//TODO 考虑到内存占用问题，软件到后台后最好清掉这里的数据。
+	}
+
+	public static synchronized ContactsData getContactsData(Context context) {
+
+		if (mContactsData == null) {
+			String[] personProjection = new String[] { ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME,
+					ContactsContract.Contacts.HAS_PHONE_NUMBER };
+			Cursor cur = context.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, personProjection, null, null,
+					ContactsContract.Contacts.SORT_KEY_PRIMARY + " asc");
+
+			mContactsData = new ContactsData(cur.getCount());
+//			int phoneNo = 0;
+			if (cur.moveToFirst()) {
+				do {
+
+					long contactId = cur.getLong(0);
+					String disPlayName = cur.getString(1);
+					int phoneCount = cur.getInt(2);
+					if (phoneCount > 0) {
+						Cursor phones = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+								ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
+						ContactsData.ContactsInfo cInfo = null;
+						if (phones.moveToFirst()) {
+							do {
+								String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+								if (SMSUtils.isChinesePhoneNumber(phoneNumber)) {
+									if (cInfo == null) {
+										cInfo = new ContactsData.ContactsInfo(contactId, disPlayName, phones.getCount());
+									}
+									cInfo.appendPhoneNumber(phoneNumber);
+//									++phoneNo;
+								}
+							} while (phones.moveToNext());
+						}
+						phones.close();
+						if (cInfo != null) {
+							mContactsData.appendContactsInfo(cInfo);
+						}
+					}
+
+				} while (cur.moveToNext());
+
+			}
+			cur.close();
+		}
+//		Log.i(PREFIX, "total phoneNumber is: " + phoneNo + " total person is:" + cData.getCount());
+		return mContactsData;
 	}
 }

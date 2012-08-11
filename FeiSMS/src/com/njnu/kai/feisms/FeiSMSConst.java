@@ -13,5 +13,7 @@ package com.njnu.kai.feisms;
  */
 public final class FeiSMSConst {
 	public static final String KEY_GROUP_ID = "groupId";
+	
+	public static final int REQUEST_CODE_CHOOSE_CONTACTS = 1;
 
 }

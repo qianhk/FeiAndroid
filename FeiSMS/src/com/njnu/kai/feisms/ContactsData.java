@@ -6,10 +6,12 @@ import java.util.List;
 public class ContactsData {
 	
 	public static class ContactsInfo {
+		private long mId;
 		private String mName;
 		private List<String> mListPhoneNumber;
 		
-		public ContactsInfo(String name, int capacity) {
+		public ContactsInfo(long id, String name, int capacity) {
+			mId = id;
 			mName = name;
 			mListPhoneNumber = new ArrayList<String>(capacity);
 		}
