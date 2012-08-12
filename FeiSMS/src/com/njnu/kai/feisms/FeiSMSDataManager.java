@@ -250,4 +250,22 @@ public final class FeiSMSDataManager {
 		return gSms;
 	}
 
+	public long[] getUsedContactsId() {
+		String querySql = String.format("select %s from %s order by %s asc;", FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID,
+				FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS, FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID);
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+		Cursor c = db.rawQuery(querySql, null);
+		int resultCount = c.getCount();
+		long[] arrayIds = new long[resultCount];
+		if (resultCount > 0) {
+			int idx = -1;
+			c.moveToFirst();
+			do {
+				arrayIds[++idx] = c.getLong(0);
+			} while (c.moveToNext());
+		}
+		c.close();
+		db.close();
+		return arrayIds;
+	}
 }

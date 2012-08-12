@@ -11,6 +11,7 @@ import android.widget.ListView;
 public class ChooseContactsActivity extends Activity {
 	private static final String PREFIX = "ChooseContacts";
 	private ListView mListViewContacts;
+	private ChooseContactsAdapter mAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +28,10 @@ public class ChooseContactsActivity extends Activity {
 			}
 		});
 		mListViewContacts = (ListView)findViewById(R.id.listview_contacts);
-		mListViewContacts.setAdapter(new ChooseContactsAdapter());
+		mAdapter = new ChooseContactsAdapter(this);
+		mListViewContacts.setAdapter(mAdapter);
 		mListViewContacts.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		mAdapter.refreshContactsData(false);
 	}
 	
 	public void button_add_clicked(View view) {

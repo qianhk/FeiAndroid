@@ -16,6 +16,14 @@ public class ContactsData {
 			mListPhoneNumber = new ArrayList<String>(capacity);
 		}
 		
+		public long getId() {
+			return mId;
+		}
+
+		public void setId(long id) {
+			mId = id;
+		}
+
 		public String getName() {
 			return mName;
 		}
@@ -26,9 +34,18 @@ public class ContactsData {
 		public void appendPhoneNumber(String number){
 			mListPhoneNumber.add(number);
 		}
+		
+		public int getPhoneNumberCount() {
+			return mListPhoneNumber.size();
+		}
+		
+		public String getPhoneNumber(int index) {
+			return mListPhoneNumber.get(index);
+		}
 	}
 	
 	private List<ContactsInfo> mListContactsInfo;
+	private int mPhoneCount;
 
 	public ContactsData(int capacity) {
 		mListContactsInfo = new ArrayList<ContactsInfo>(capacity);
@@ -38,7 +55,7 @@ public class ContactsData {
 		mListContactsInfo.add(info);
 	}
 	
-	public int getCount() {
+	public int getContactsCount() {
 		return mListContactsInfo.size();
 	}
 	
@@ -49,4 +66,14 @@ public class ContactsData {
 		}
 		return info;
 	}
+
+	public int getPhoneCount() {
+		return mPhoneCount;
+	}
+
+	public void setPhoneCount(int phoneCount) {
+		mPhoneCount = phoneCount;
+	}
+
+
 }

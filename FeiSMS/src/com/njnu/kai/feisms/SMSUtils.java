@@ -57,7 +57,7 @@ public final class SMSUtils {
 					ContactsContract.Contacts.SORT_KEY_PRIMARY + " asc");
 
 			mContactsData = new ContactsData(cur.getCount());
-//			int phoneNo = 0;
+			int phoneNo = 0;
 			if (cur.moveToFirst()) {
 				do {
 
@@ -76,7 +76,7 @@ public final class SMSUtils {
 										cInfo = new ContactsData.ContactsInfo(contactId, disPlayName, phones.getCount());
 									}
 									cInfo.appendPhoneNumber(phoneNumber);
-//									++phoneNo;
+									++phoneNo;
 								}
 							} while (phones.moveToNext());
 						}
@@ -90,6 +90,7 @@ public final class SMSUtils {
 
 			}
 			cur.close();
+			mContactsData.setPhoneCount(phoneNo);
 		}
 //		Log.i(PREFIX, "total phoneNumber is: " + phoneNo + " total person is:" + cData.getCount());
 		return mContactsData;
