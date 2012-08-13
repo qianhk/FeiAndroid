@@ -16,7 +16,7 @@ public final class SMSUtils {
 	private final static String MARK_CHINESE_AREA_CODE = "86";
 	private final static String PREFIX = "SMSUtils";
 
-	public static boolean isChinesePhoneNumber(String phoneNumber) {
+	public static String convertToChinesePhoneNumber(String phoneNumber) {
 //		String testNumber = phoneNumber.toLowerCase();
 		boolean isMobile = !TextUtils.isEmpty(phoneNumber);
 		if (isMobile) {
@@ -38,7 +38,8 @@ public final class SMSUtils {
 //		if (isMobile && !testNumber.equals(phoneNumber)) {
 //			Log.i(PREFIX, "is mobile=" + testNumber + " after zl=" + phoneNumber);
 //		}
-		return isMobile;
+		
+		return isMobile ? phoneNumber : null;
 	}
 
 	private static ContactsData mContactsData = null;
@@ -71,7 +72,8 @@ public final class SMSUtils {
 						if (phones.moveToFirst()) {
 							do {
 								String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-								if (SMSUtils.isChinesePhoneNumber(phoneNumber)) {
+								phoneNumber = convertToChinesePhoneNumber(phoneNumber);
+								if (phoneNumber != null) {
 									if (cInfo == null) {
 										cInfo = new ContactsData.ContactsInfo(contactId, disPlayName, phones.getCount());
 									}

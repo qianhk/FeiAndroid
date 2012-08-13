@@ -104,6 +104,19 @@ class SMSGroupEntryContactsItem {
 		mPhoneNumber = phoneNumber;
 	}
 
+	public int getDbId() {
+		return mDbId;
+	}
+	public int getContactsId() {
+		return mContactsId;
+	}
+	public String getContactsName() {
+		return mContactsName;
+	}
+	public String getPhoneNumber() {
+		return mPhoneNumber;
+	}
+
 	private int mDbId;
 	private int mContactsId;
 	private String mContactsName;
@@ -213,9 +226,31 @@ public final class FeiSMSDataManager {
 		return operateSucess;
 	}
 
+	public boolean appendContactsToGroup(int groupId, ArrayList<SMSGroupEntryContactsItem> listContacts) {
+		boolean operateSucess = true;
+		SQLiteDatabase database = mDbHelper.getWritableDatabase();
+		database.beginTransaction();
+		int size = listContacts.size();
+		ContentValues contentValues = new ContentValues(4);
+		for (int idx = 0; idx < size && operateSucess; ++idx) {
+			SMSGroupEntryContactsItem item = listContacts.get(idx);
+			contentValues.put(FeiSMSDBHelper.COLUMN_NAME_GROUP_ID, groupId);
+			contentValues.put(FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID, item.getContactsId());
+			contentValues.put(FeiSMSDBHelper.COLUMN_NAME_CONTACTS_NAME, item.getContactsName());
+			contentValues.put(FeiSMSDBHelper.COLUMN_NAME_CONTACTS_PHONE_NUMBER, item.getPhoneNumber());
+			operateSucess = database.insert(FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS, null, contentValues) != -1;
+		}
+		if (operateSucess) {
+			database.setTransactionSuccessful();
+		}
+		database.endTransaction();
+		return operateSucess;
+	}
+
 	public List<SMSGroupInfo> getAllSMSGroupInfo() {
 		List<SMSGroupInfo> listSmsGroupInfo = null;
-		String[] columns = new String[] { BaseColumns._ID, FeiSMSDBHelper.COLUMN_NAME_GROUP_NAME, FeiSMSDBHelper.V_COLUMN_NAME_CONTACTS_AMOUNT };
+		String[] columns = new String[] {BaseColumns._ID, FeiSMSDBHelper.COLUMN_NAME_GROUP_NAME,
+				FeiSMSDBHelper.V_COLUMN_NAME_CONTACTS_AMOUNT};
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		Cursor cursor = db.query(FeiSMSDBHelper.V_TABLE_NAME_GROUP_INFO, columns, null, null, null, null, null);
 
@@ -235,7 +270,7 @@ public final class FeiSMSDataManager {
 
 	public SMSGroupEntrySMS getSMSGroupEntrySMS(int groupId) {
 		SMSGroupEntrySMS gSms = null;
-		String[] columns = { BaseColumns._ID, FeiSMSDBHelper.COLUMN_NAME_GROUP_NAME, FeiSMSDBHelper.COLUMN_NAME_GROUP_SMS };
+		String[] columns = {BaseColumns._ID, FeiSMSDBHelper.COLUMN_NAME_GROUP_NAME, FeiSMSDBHelper.COLUMN_NAME_GROUP_SMS};
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		String querySql = String.format("select %s, %s, %s from %s where %s=%d;", BaseColumns._ID, FeiSMSDBHelper.COLUMN_NAME_GROUP_NAME,
 				FeiSMSDBHelper.COLUMN_NAME_GROUP_SMS, FeiSMSDBHelper.TABLE_NAME_SMS_GROUP, BaseColumns._ID, groupId);

@@ -29,7 +29,14 @@ public class ChooseContactsAdapter extends BaseAdapter {
 		
 		@Override
 		public String toString() {
-			return "Id=" + mContactsId + ", " + mName + ", " + mPhone;
+			StringBuilder build = new StringBuilder(32);
+			build.append(mName);
+			while (build.length() <3) {
+				build.append('\u3000'); //全角空格
+			}
+			build.append(": ");
+			build.append(mPhone);
+			return build.toString();
 		}
 	}
 	private List<ContactsForDisplay> mListContactsForDisplay;
@@ -92,7 +99,7 @@ public class ChooseContactsAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(mContext);
-			convertView = inflater.inflate(android.R.layout.simple_list_item_checked, null);
+			convertView = inflater.inflate(R.layout.simple_list_item_checked, null);
 		}
 		CheckedTextView tv = (CheckedTextView)convertView;
 		tv.setText(getItem(position).toString());

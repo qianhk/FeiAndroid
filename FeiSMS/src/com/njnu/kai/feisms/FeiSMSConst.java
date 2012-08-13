@@ -13,6 +13,9 @@ package com.njnu.kai.feisms;
  */
 public final class FeiSMSConst {
 	public static final String KEY_GROUP_ID = "groupId";
+	public static final String KEY_CONTACTS_ID = "contactsId";
+	public static final String KEY_CONTACTS_NAME = "contactsName";
+	public static final String KEY_CONTACTS_PHONE = "contactsPhone";
 	
 	public static final int REQUEST_CODE_CHOOSE_CONTACTS = 1;
 

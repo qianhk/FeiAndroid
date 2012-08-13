@@ -74,8 +74,16 @@ public class JavaHttp {
 //		exeHttpClient("http://wap.google.com");
 //		exeHttpClient("http://apt.ttpod.com/ttpod.html");
 //		exeHttpClient("https://github.com/qhkyzf/FeiAndroid");
-		exeHttpClient("http://whatsmyua.com/");
+//		exeHttpClient("http://whatsmyua.com/");
 //		exeHttpClient("http://www.devdiv.com/%E7%81%8C%E6%B0%B4%E5%8C%BA-forum-14-1.html");
+		
+		boolean aa = "".equals("abc");
+		boolean bb = "".equals(null);
+		System.out.println(aa + " bb=" + bb);
+		
+		String needTest = "kaikaikai";
+		String test = String.format("haha_%s\t_good.", needTest);
+		System.out.println(test);;
 	}
 
 }

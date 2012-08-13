@@ -1,5 +1,9 @@
 package com.njnu.kai.feisms;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,12 +19,13 @@ public class TabContactsActivity extends ListActivity {
 	private static final String PREFIX = "TabContactsActivity";
 	private Handler mHandler = new Handler();
 	private ContactsData mContactsData;
+	private int mGroupId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_contacts);
-		int groupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
+		mGroupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
 
 //		Cursor cursor = getContentResolver().query(Contacts.CONTENT_URI, new String[] { Contacts._ID, Contacts.DISPLAY_NAME }, null, null,
 //				Contacts.DISPLAY_NAME + " asc");
@@ -29,6 +34,11 @@ public class TabContactsActivity extends ListActivity {
 //		ListAdapter listAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, cursor,
 //				new String[] { Contacts.DISPLAY_NAME }, new int[] { android.R.id.text1 });
 //		setListAdapter(listAdapter);
+		refreshGroupContacts();
+	}
+	
+	void refreshGroupContacts() {
+		
 	}
 
 	@Override
@@ -59,13 +69,17 @@ public class TabContactsActivity extends ListActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 //		Log.i(PREFIX, "onActivityResult requestCode=" + requestCode + " resultCode=" + resultCode + " data=" + data);
-		if (requestCode == FeiSMSConst.REQUEST_CODE_CHOOSE_CONTACTS && resultCode == RESULT_OK) {
-
+		if (requestCode == FeiSMSConst.REQUEST_CODE_CHOOSE_CONTACTS && resultCode == RESULT_OK && data != null) {
+//			Long[] dataIds = (Long[])data.getSerializableExtra(FeiSMSConst.KEY_CONTACTS_ID);
+//			List<String> listName = data.getStringArrayListExtra(FeiSMSConst.KEY_CONTACTS_NAME);
+//			List<String> listPhone = data.getStringArrayListExtra(FeiSMSConst.KEY_CONTACTS_PHONE);
+			refreshGroupContacts();
 		}
 	}
 
 	private void chooseContacts() {
 		Intent intent = new Intent(this, ChooseContactsActivity.class);
+		intent.putExtra(FeiSMSConst.KEY_GROUP_ID, mGroupId);
 		startActivityForResult(intent, FeiSMSConst.REQUEST_CODE_CHOOSE_CONTACTS);
 	}
 
