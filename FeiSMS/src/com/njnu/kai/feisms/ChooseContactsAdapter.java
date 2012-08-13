@@ -26,19 +26,20 @@ public class ChooseContactsAdapter extends BaseAdapter {
 		long mContactsId;
 		String mName;
 		String mPhone;
-		
+
 		@Override
 		public String toString() {
 			StringBuilder build = new StringBuilder(32);
 			build.append(mName);
-			while (build.length() <3) {
-				build.append('\u3000'); //全角空格
+			while (build.length() < 3) {
+				build.append('\u3000'); // 全角空格
 			}
 			build.append(": ");
 			build.append(mPhone);
 			return build.toString();
 		}
 	}
+
 	private List<ContactsForDisplay> mListContactsForDisplay;
 
 	private long[] mUsedContactsId;
@@ -46,17 +47,22 @@ public class ChooseContactsAdapter extends BaseAdapter {
 
 	public ChooseContactsAdapter(Context context) {
 		mContext = context;
-		mContactsData = SMSUtils.getContactsData(context);
 		mDataManager = FeiSMSDataManager.getDefaultInstance(context);
+	}
+
+	public void setContactsData(ContactsData contactsData) {
+		mContactsData = contactsData;
 		mListContactsForDisplay = new ArrayList<ContactsForDisplay>(mContactsData.getPhoneCount());
 	}
 
 	public void refreshContactsData(boolean isDisplayDifference) {
+		if (mContactsData == null) return;
+
 		mDisplayDifference = isDisplayDifference;
 		mListContactsForDisplay.clear();
 		mUsedContactsId = null;
 		mUsedContactsPhone = null;
-		
+
 		if (isDisplayDifference) {
 
 		} else {
@@ -82,7 +88,7 @@ public class ChooseContactsAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mListContactsForDisplay.size();
+		return mListContactsForDisplay != null ? mListContactsForDisplay.size() : 0;
 	}
 
 	@Override
@@ -101,7 +107,7 @@ public class ChooseContactsAdapter extends BaseAdapter {
 			LayoutInflater inflater = LayoutInflater.from(mContext);
 			convertView = inflater.inflate(R.layout.simple_list_item_checked, null);
 		}
-		CheckedTextView tv = (CheckedTextView)convertView;
+		CheckedTextView tv = (CheckedTextView) convertView;
 		tv.setText(getItem(position).toString());
 //		Log.i(PREFIX, "getView=" + convertView);
 		return convertView;

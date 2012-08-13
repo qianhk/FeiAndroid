@@ -1,9 +1,5 @@
 package com.njnu.kai.feisms;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,19 +10,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 public class TabContactsActivity extends ListActivity {
 	private static final String PREFIX = "TabContactsActivity";
 	private Handler mHandler = new Handler();
-	private ContactsData mContactsData;
 	private int mGroupId;
+	private FeiSMSDataManager mDataManager;
+	private ListView mListView;
+	private TextView mTextViewSummary;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tab_contacts);
 		mGroupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
-
+		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
+		mListView = getListView();
+		mTextViewSummary = (TextView)findViewById(R.id.summary);
+		mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 //		Cursor cursor = getContentResolver().query(Contacts.CONTENT_URI, new String[] { Contacts._ID, Contacts.DISPLAY_NAME }, null, null,
 //				Contacts.DISPLAY_NAME + " asc");
 //		startManagingCursor(cursor);
@@ -38,7 +43,10 @@ public class TabContactsActivity extends ListActivity {
 	}
 	
 	void refreshGroupContacts() {
-		
+		SMSGroupEntryContacts entryContacts = mDataManager.getSMSGroupEntryContacts(mGroupId);
+		ArrayAdapter adapter = new ArrayAdapter<SMSGroupEntryContactsItem>(this, R.layout.simple_list_item_checked, entryContacts.getListContacts());
+		setListAdapter(adapter);
+		mTextViewSummary.setText(String.format("Total %1$d contacts.", entryContacts.getCount()));
 	}
 
 	@Override
@@ -131,6 +139,6 @@ public class TabContactsActivity extends ListActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.i(PREFIX, "onDestroy");
-//		SMSUtils.clearContactsData();
+		SMSUtils.clearContactsData();
 	}
 }

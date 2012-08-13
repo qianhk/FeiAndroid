@@ -24,6 +24,9 @@ public class ChooseContactsActivity extends Activity {
 	private static final String mTitle_choosed_contacts = "Choose Contacts: %d";
 	private FeiSMSDataManager mDataManager;
 	private int mGroupId;
+	private CheckedTextView mCheckedTextViewShowDifference;
+	private ContactsData mContactsData;
+	private GetSysContactsTask mTask;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,20 +35,22 @@ public class ChooseContactsActivity extends Activity {
 		setContentView(R.layout.choose_contacts);
 		mGroupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
 
-		((CheckedTextView) findViewById(R.id.checkedtextview_display_different_number)).setOnClickListener(new View.OnClickListener() {
+		mCheckedTextViewShowDifference = (CheckedTextView) findViewById(R.id.checkedtextview_display_different_number);
+		mCheckedTextViewShowDifference.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				CheckedTextView ctv = (CheckedTextView) v;
 				ctv.toggle();
 				boolean checked = ctv.isChecked();
 				Log.i(PREFIX, "Checked=" + checked);
+//				mAdapter.refreshContactsData(checked);
+//				mCheckedTextViewShowDifference.setText("显示联系人不同号码, 当前共 " + mAdapter.getCount() + " 项");
 			}
 		});
 		mListViewContacts = (ListView) findViewById(R.id.listview_contacts);
 		mAdapter = new ChooseContactsAdapter(this);
 		mListViewContacts.setAdapter(mAdapter);
 		mListViewContacts.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-		mAdapter.refreshContactsData(false);
 		mListViewContacts.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -61,6 +66,19 @@ public class ChooseContactsActivity extends Activity {
 		});
 
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
+		refreshListView();
+	}
+
+	public void refreshListView() {
+		mContactsData = SMSUtils.getContactsData();
+		if (mContactsData != null) {
+			mAdapter.setContactsData(mContactsData);
+			mAdapter.refreshContactsData(false);
+			mCheckedTextViewShowDifference.setText("显示联系人不同号码, 当前共 " + mAdapter.getCount() + " 项");
+		} else {
+			mTask = new GetSysContactsTask(this);
+			mTask.execute();
+		}
 	}
 
 	public void button_add_clicked(View view) {
@@ -93,6 +111,14 @@ public class ChooseContactsActivity extends Activity {
 		Log.i(PREFIX, "button_cancel_clicked");
 		setResult(RESULT_CANCELED);
 		finish();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (mTask != null) {
+			mTask.cancel(true);
+		}
 	}
 
 }

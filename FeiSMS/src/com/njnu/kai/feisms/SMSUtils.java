@@ -48,15 +48,19 @@ public final class SMSUtils {
 		mContactsData = null;
 		//TODO 考虑到内存占用问题，软件到后台后最好清掉这里的数据。
 	}
+	
+	public static ContactsData getContactsData() {
+		return mContactsData;
+	}
 
 	public static synchronized ContactsData getContactsData(Context context) {
 
 		if (mContactsData == null) {
 			String[] personProjection = new String[] { ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME,
 					ContactsContract.Contacts.HAS_PHONE_NUMBER };
+			
 			Cursor cur = context.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, personProjection, null, null,
 					ContactsContract.Contacts.SORT_KEY_PRIMARY + " asc");
-
 			mContactsData = new ContactsData(cur.getCount());
 			int phoneNo = 0;
 			if (cur.moveToFirst()) {
