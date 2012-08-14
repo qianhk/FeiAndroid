@@ -111,7 +111,7 @@ public class FeiSMSActivity extends ListActivity {
 //	}
 
 	private void showConfirmDialog(String prompt, DialogInterface.OnClickListener listener) {
-		AlertDialog dialog = new AlertDialog.Builder(this).setIconAttribute(android.R.attr.alertDialogIcon).setMessage(prompt)
+		AlertDialog dialog = new AlertDialog.Builder(this).setMessage(prompt)
 				.setPositiveButton("Okay", listener).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 
@@ -193,7 +193,7 @@ public class FeiSMSActivity extends ListActivity {
 		menu.add(0, 2, 2, "Delete Selected Group");
 		menu.add(0, 3, 3, "Send Selected Group");
 		menu.add(0, 4, 4, "Send All Group");
-
+		menu.add(0, 50, 50, "Exclude Contacts");
 		menu.add(100, 100, 100, "Test");
 
 		return super.onCreateOptionsMenu(menu);
@@ -227,6 +227,13 @@ public class FeiSMSActivity extends ListActivity {
 
 		case 4: // Send All Group
 			sendSMSGroup(mAdapterGroupInfo.getAllGroupids());
+			break;
+
+		case 50: // ExcludeContacts
+		{
+			Intent intent = new Intent(this, ExcludeContactsActivity.class);
+			startActivity(intent);
+		}
 			break;
 
 		case 100:

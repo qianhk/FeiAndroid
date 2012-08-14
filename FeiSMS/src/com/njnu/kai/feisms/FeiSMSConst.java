@@ -18,5 +18,6 @@ public final class FeiSMSConst {
 	public static final String KEY_CONTACTS_PHONE = "contactsPhone";
 	
 	public static final int REQUEST_CODE_CHOOSE_CONTACTS = 1;
+	public static final int GROUP_ID_EXCLUDE = -1;
 
 }

@@ -41,6 +41,9 @@
         <activity
             android:name=".ChooseContactsActivity"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+        <activity
+            android:name=".ExcludeContactsActivity"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
     </application>
 
 </manifest>

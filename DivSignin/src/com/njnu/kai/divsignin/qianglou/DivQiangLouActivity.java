@@ -65,7 +65,9 @@ public class DivQiangLouActivity extends Activity {
 						startService(intent);
 					}
 				} else {
-					notifyMessage(0, "Waiting for next qianglou...");
+					Calendar cal = Calendar.getInstance();
+					String curDate = "[" + cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH) + "]: ";
+					notifyMessage(0, curDate + "Waiting for next qianglou...");
 				}
 				Calendar cal = TimeUtility.getNextStartTime(isTimeQL);
 				mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintentAlarm);
@@ -97,21 +99,23 @@ public class DivQiangLouActivity extends Activity {
 			public void onClick(View v) {
 //				Intent intent = new Intent(DivQiangLouActivity.this, DivSigninService.class);
 //				stopService(intent);
-				boolean isTimeQL = TimeUtility.isTimeToQiangLou();
-				Calendar cal = TimeUtility.getNextStartTime(isTimeQL);
-				Log.i(PREFIX, "" + isTimeQL + " " + cal.getTime().toLocaleString() + " h=" + cal.get(Calendar.HOUR_OF_DAY));
-
-				Intent intentNotify = new Intent();
-				intentNotify.setAction(DivConst.ACTION_QIANGLOU_NOTIFY);
-				intentNotify.putExtra("type", 0);
-				intentNotify.putExtra("message", "test notify.");
-				sendBroadcast(intentNotify);
+//				boolean isTimeQL = TimeUtility.isTimeToQiangLou();
+//				Calendar cal = TimeUtility.getNextStartTime(isTimeQL);
+//				Log.i(PREFIX, "" + isTimeQL + " " + cal.getTime().toLocaleString() + " h=" + cal.get(Calendar.HOUR_OF_DAY));
+//
+//				Intent intentNotify = new Intent();
+//				intentNotify.setAction(DivConst.ACTION_QIANGLOU_NOTIFY);
+//				intentNotify.putExtra("type", 0);
+//				intentNotify.putExtra("message", "test notify.");
+//				sendBroadcast(intentNotify);
 
 //				sendNotification();
 //
 //				Intent intentAlarm = new Intent();
 //				intentAlarm.setAction(DivConst.ACTION_QIANGLOU_ALARM);
 //				sendBroadcast(intentAlarm);
+				
+				mTextEditResult.setText("");
 			}
 		});
 
@@ -202,7 +206,8 @@ public class DivQiangLouActivity extends Activity {
 				getWindow().getDecorView().setKeepScreenOn(true);
 			} else {
 				if (type == DivConst.TYPE_BROADCAST_QIANGLOU_SERVICE_STOP) {
-					mTextEditResult.append("Waiting for next qianglou...\n");
+					String curDate = "[" + cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH) + "]: ";
+					mTextEditResult.append(curDate + "Waiting for next qianglou...\n");
 				} else {
 					mDoingQiangLou = false;
 					mButtonQiangLou.setText("Start3");
