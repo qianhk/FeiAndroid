@@ -30,7 +30,7 @@ public class TabContactsActivity extends ListActivity {
 		mGroupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
 		mListView = getListView();
-		mTextViewSummary = (TextView)findViewById(R.id.summary);
+		mTextViewSummary = (TextView) findViewById(R.id.summary);
 		mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 //		Cursor cursor = getContentResolver().query(Contacts.CONTENT_URI, new String[] { Contacts._ID, Contacts.DISPLAY_NAME }, null, null,
 //				Contacts.DISPLAY_NAME + " asc");
@@ -41,12 +41,15 @@ public class TabContactsActivity extends ListActivity {
 //		setListAdapter(listAdapter);
 		refreshGroupContacts();
 	}
-	
+
 	void refreshGroupContacts() {
 		SMSGroupEntryContacts entryContacts = mDataManager.getSMSGroupEntryContacts(mGroupId);
-		ArrayAdapter adapter = new ArrayAdapter<SMSGroupEntryContactsItem>(this, R.layout.simple_list_item_checked, entryContacts.getListContacts());
-		setListAdapter(adapter);
-		mTextViewSummary.setText(String.format("Total %1$d contacts.", entryContacts.getCount()));
+		if (entryContacts != null) {
+			ArrayAdapter adapter = new ArrayAdapter<SMSGroupEntryContactsItem>(this, R.layout.simple_list_item_checked,
+					entryContacts.getListContacts());
+			setListAdapter(adapter);
+		}
+		mTextViewSummary.setText(String.format("Total %1$d contacts.", entryContacts != null ? entryContacts.getCount() : 0));
 	}
 
 	@Override
