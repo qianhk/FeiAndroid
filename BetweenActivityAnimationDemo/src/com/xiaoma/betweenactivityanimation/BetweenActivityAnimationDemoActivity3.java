@@ -23,13 +23,19 @@ public class BetweenActivityAnimationDemoActivity3 extends Activity implements O
 		{
 			finish();
 			//如果这个地方不想用自己的，可以直接调安卓提供的动画，如下：
-			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-			
+//			overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+			overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 			//安卓自带的动画哦，看效果就知道了
-			//overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//			overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 			
 		}
 		
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 	}
     
 }
