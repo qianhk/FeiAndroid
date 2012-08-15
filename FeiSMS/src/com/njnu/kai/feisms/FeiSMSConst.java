@@ -16,8 +16,10 @@ public final class FeiSMSConst {
 	public static final String KEY_CONTACTS_ID = "contactsId";
 	public static final String KEY_CONTACTS_NAME = "contactsName";
 	public static final String KEY_CONTACTS_PHONE = "contactsPhone";
+	public static final String ACTION_GROUP_ID_UPDATED = "com.njnu.kai.feisms.group_id_updated";
 	
 	public static final int REQUEST_CODE_CHOOSE_CONTACTS = 1;
 	public static final int GROUP_ID_EXCLUDE = -1;
+	public static final int GROUP_ID_CREATE = -2;
 
 }

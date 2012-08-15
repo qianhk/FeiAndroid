@@ -1,6 +1,7 @@
 package com.njnu.kai.feisms;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,13 +22,13 @@ public class TabSMSContentActivity extends Activity {
 		mEditTextGroupName = (EditText) findViewById(R.id.edittext_group_name);
 		mEditTextGroupSMS = (EditText) findViewById(R.id.edittext_group_sms);
 		
-		int groupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
+		mGroupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
 		
-		Log.i(PREFIX, "onCreate groupId=" + groupId + " savedState=" + savedInstanceState);
-		if (groupId >= 0) {
-			mGroupEntrySMS = mDataManager.getSMSGroupEntrySMS(groupId);
+		Log.i(PREFIX, "onCreate groupId=" + mGroupId + " savedState=" + savedInstanceState);
+		if (mGroupId >= 0) {
+			mGroupEntrySMS = mDataManager.getSMSGroupEntrySMS(mGroupId);
 		} else {
-			mGroupEntrySMS = new SMSGroupEntrySMS(groupId, "", "");
+			mGroupEntrySMS = new SMSGroupEntrySMS(mGroupId, "", "");
 		}
 		
 		mEditTextGroupName.setText(mGroupEntrySMS.getGroupName());
@@ -53,6 +54,7 @@ public class TabSMSContentActivity extends Activity {
 			}
 		}
 	};
+	private int mGroupId;
 
 	private void doCheckEditTextGroupNameChanged() {
 		String curGroupName = mEditTextGroupName.getText().toString();
@@ -61,6 +63,17 @@ public class TabSMSContentActivity extends Activity {
 			mGroupEntrySMS.setGroupName(curGroupName);
 			mDataManager.updateSMSGroup(mGroupEntrySMS);
 			mEditTextGroupName.setTag(curGroupName);
+			doSendBroadcastWhenInsertNewGroup();
+		}
+	}
+	
+	private void doSendBroadcastWhenInsertNewGroup() {
+		if (mGroupId == FeiSMSConst.GROUP_ID_CREATE) {
+			mGroupId = mGroupEntrySMS.getGroupId();
+			Log.i(PREFIX, "doSendBroadcastWhenInsertNewGroup " + mGroupId);
+			Intent intent = new Intent(FeiSMSConst.ACTION_GROUP_ID_UPDATED);
+			intent.putExtra(FeiSMSConst.KEY_GROUP_ID, mGroupId);
+			sendBroadcast(intent);
 		}
 	}
 
@@ -71,6 +84,7 @@ public class TabSMSContentActivity extends Activity {
 			mGroupEntrySMS.setSMSContent(curGroupSMS);
 			mDataManager.updateSMSGroup(mGroupEntrySMS);
 			mEditTextGroupSMS.setTag(curGroupSMS);
+			doSendBroadcastWhenInsertNewGroup();
 		}
 	}
 

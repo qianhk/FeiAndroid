@@ -225,14 +225,27 @@ public final class FeiSMSDataManager {
 	}
 
 	public void deleteSMSGroup(int[] groupIds) {
-		StringBuffer deleteSql = new StringBuffer("delete from " + FeiSMSDBHelper.TABLE_NAME_SMS_GROUP + " where _id in(-1");
+		StringBuffer deleteSql = new StringBuffer("delete from " + FeiSMSDBHelper.TABLE_NAME_SMS_GROUP + " where _id in(-100");
 		for (int idx = groupIds.length - 1; idx >= 0; --idx) {
 			deleteSql.append("," + groupIds[idx]);
 		}
 		deleteSql.append(");");
-		Log.i(PREFIX, "deleteSql is: " + deleteSql);
+		executeSql(deleteSql.toString());
+	}
+	
+	public void deleteSMSContacts(int[] contactsIds) {
+		StringBuffer deleteSql = new StringBuffer("delete from " + FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS + " where _id in(-100");
+		for (int idx = contactsIds.length - 1; idx >= 0; --idx) {
+			deleteSql.append("," + contactsIds[idx]);
+		}
+		deleteSql.append(");");
+		executeSql(deleteSql.toString());
+	}
+
+	private void executeSql(String sql) {
+		Log.i(PREFIX, "sql is: " + sql);
 		SQLiteDatabase database = mDbHelper.getWritableDatabase();
-		database.execSQL(deleteSql.toString());
+		database.execSQL(sql.toString());
 		database.close();
 	}
 

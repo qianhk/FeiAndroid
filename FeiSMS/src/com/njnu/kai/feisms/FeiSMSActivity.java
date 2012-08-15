@@ -111,8 +111,8 @@ public class FeiSMSActivity extends ListActivity {
 //	}
 
 	private void showConfirmDialog(String prompt, DialogInterface.OnClickListener listener) {
-		AlertDialog dialog = new AlertDialog.Builder(this).setMessage(prompt)
-				.setPositiveButton("Okay", listener).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		AlertDialog dialog = new AlertDialog.Builder(this).setMessage(prompt).setPositiveButton("Okay", listener)
+				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 
 					}
@@ -194,7 +194,7 @@ public class FeiSMSActivity extends ListActivity {
 		menu.add(0, 3, 3, "Send Selected Group");
 		menu.add(0, 4, 4, "Send All Group");
 		menu.add(0, 50, 50, "Exclude Contacts");
-		menu.add(100, 100, 100, "Test");
+//		menu.add(100, 100, 100, "Test");
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -214,7 +214,7 @@ public class FeiSMSActivity extends ListActivity {
 		Log.i(PREFIX, "onOptionsItemSelected " + item.getItemId());
 		switch (item.getItemId()) {
 		case 1: // Add group
-			openContentContactsDetailActivity(-1);
+			openContentContactsDetailActivity(FeiSMSConst.GROUP_ID_CREATE);
 			break;
 
 		case 2: // Delete Selected Group
