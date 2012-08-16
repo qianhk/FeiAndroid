@@ -11,7 +11,7 @@ private static final String PREFIX = "ExcludeContactsActivity";
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTitle("Exclude Contacts");
-		Log.i(PREFIX, "onCreate");
+		Log.i(PREFIX, "onCreate taskid=" + getTaskId() + " this=" + this);
 	}
 
 	@Override

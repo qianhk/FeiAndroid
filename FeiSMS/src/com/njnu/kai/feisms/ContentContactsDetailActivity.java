@@ -27,6 +27,7 @@ public class ContentContactsDetailActivity extends TabActivity implements OnChec
 		setContentView(R.layout.content_contacts_detail);
 		
 		int groupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
+		SMSUtils.setCurrentDetailGroupId(groupId);
 		Log.i(PREFIX, "onCreate groupId=" + groupId + " savedState=" + savedInstanceState);
 		mIntentSMS = new Intent(this, TabSMSContentActivity.class);
 		mIntentSMS.putExtra(FeiSMSConst.KEY_GROUP_ID, groupId);

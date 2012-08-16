@@ -26,4 +26,15 @@ public class TabContactsActivity extends BaseSelectedContactsActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (mGroupId == FeiSMSConst.GROUP_ID_CREATE) {
+			mGroupId = SMSUtils.getCurrentDetailGroupId();
+			if (mGroupId > 0) {
+				refreshGroupContacts();
+			}
+		}
+	}
 }

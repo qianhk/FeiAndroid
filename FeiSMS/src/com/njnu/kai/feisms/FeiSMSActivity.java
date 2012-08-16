@@ -264,7 +264,7 @@ public class FeiSMSActivity extends ListActivity {
 		Notification notify = new Notification(R.drawable.ic_launcher, "divsignin qianglouing", System.currentTimeMillis());
 		notify.flags = Notification.FLAG_ONGOING_EVENT;
 		Intent intent = new Intent(context, ExcludeContactsActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, R.string.app_name, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		notify.setLatestEventInfo(context, "divsignin qianglou", "qianglouing......", contentIntent);

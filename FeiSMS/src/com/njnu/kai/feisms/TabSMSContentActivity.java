@@ -22,13 +22,14 @@ public class TabSMSContentActivity extends Activity {
 		mEditTextGroupName = (EditText) findViewById(R.id.edittext_group_name);
 		mEditTextGroupSMS = (EditText) findViewById(R.id.edittext_group_sms);
 		
-		mGroupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
+//		mGroupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
+		int groupId = SMSUtils.getCurrentDetailGroupId();
 		
-		Log.i(PREFIX, "onCreate groupId=" + mGroupId + " savedState=" + savedInstanceState);
-		if (mGroupId >= 0) {
-			mGroupEntrySMS = mDataManager.getSMSGroupEntrySMS(mGroupId);
+		Log.i(PREFIX, "onCreate groupId=" + groupId + " savedState=" + savedInstanceState);
+		if (groupId >= 0) {
+			mGroupEntrySMS = mDataManager.getSMSGroupEntrySMS(groupId);
 		} else {
-			mGroupEntrySMS = new SMSGroupEntrySMS(mGroupId, "", "");
+			mGroupEntrySMS = new SMSGroupEntrySMS(groupId, "", "");
 		}
 		
 		mEditTextGroupName.setText(mGroupEntrySMS.getGroupName());
@@ -54,7 +55,6 @@ public class TabSMSContentActivity extends Activity {
 			}
 		}
 	};
-	private int mGroupId;
 
 	private void doCheckEditTextGroupNameChanged() {
 		String curGroupName = mEditTextGroupName.getText().toString();
@@ -68,12 +68,13 @@ public class TabSMSContentActivity extends Activity {
 	}
 	
 	private void doSendBroadcastWhenInsertNewGroup() {
-		if (mGroupId == FeiSMSConst.GROUP_ID_CREATE) {
-			mGroupId = mGroupEntrySMS.getGroupId();
-			Log.i(PREFIX, "doSendBroadcastWhenInsertNewGroup " + mGroupId);
-			Intent intent = new Intent(FeiSMSConst.ACTION_GROUP_ID_UPDATED);
-			intent.putExtra(FeiSMSConst.KEY_GROUP_ID, mGroupId);
-			sendBroadcast(intent);
+		if (SMSUtils.getCurrentDetailGroupId() == FeiSMSConst.GROUP_ID_CREATE) {
+			int groupId = mGroupEntrySMS.getGroupId();
+			SMSUtils.setCurrentDetailGroupId(groupId);
+//			Log.i(PREFIX, "doSendBroadcastWhenInsertNewGroup " + groupId);
+//			Intent intent = new Intent(FeiSMSConst.ACTION_GROUP_ID_UPDATED);
+//			intent.putExtra(FeiSMSConst.KEY_GROUP_ID, groupId);
+//			sendBroadcast(intent);
 		}
 	}
 

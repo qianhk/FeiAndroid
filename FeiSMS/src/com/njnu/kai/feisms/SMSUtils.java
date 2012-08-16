@@ -15,6 +15,15 @@ public final class SMSUtils {
 	private final static String MARK_PREFIX_12530 = "12530";
 	private final static String MARK_CHINESE_AREA_CODE = "86";
 	private final static String PREFIX = "SMSUtils";
+	private static int mCurrentDetailGroupId;
+
+	public static int getCurrentDetailGroupId() {
+		return mCurrentDetailGroupId;
+	}
+
+	public static void setCurrentDetailGroupId(int currentDetailGroupId) {
+		mCurrentDetailGroupId = currentDetailGroupId;
+	}
 
 	public static String convertToChinesePhoneNumber(String phoneNumber) {
 //		String testNumber = phoneNumber.toLowerCase();

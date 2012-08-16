@@ -22,24 +22,24 @@ public class BaseSelectedContactsActivity extends ListActivity {
 	private static final String PREFIX = "BaseSelectedContactsActivity";
 
 	private Handler mHandler = new Handler();
-	private int mGroupId;
+	protected int mGroupId;
 	private FeiSMSDataManager mDataManager;
 	private ListView mListView;
 	private TextView mTextViewSummary;
-	private GroupIDUpdateReceiver mReceiver;
-
-	private class GroupIDUpdateReceiver extends BroadcastReceiver {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			mGroupId = intent.getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
-			Log.i(PREFIX, "onReceiver " + mGroupId);
-			refreshGroupContacts();
-			unregisterReceiver(mReceiver);
-			mReceiver = null;
-		}
-
-	}
+//	private GroupIDUpdateReceiver mReceiver;
+//
+//	private class GroupIDUpdateReceiver extends BroadcastReceiver {
+//
+//		@Override
+//		public void onReceive(Context context, Intent intent) {
+//			mGroupId = intent.getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
+//			Log.i(PREFIX, "onReceiver " + mGroupId);
+//			refreshGroupContacts();
+//			unregisterReceiver(mReceiver);
+//			mReceiver = null;
+//		}
+//
+//	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +53,13 @@ public class BaseSelectedContactsActivity extends ListActivity {
 		mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		refreshGroupContacts();
 
-		if (mGroupId == FeiSMSConst.GROUP_ID_CREATE) {
-			mReceiver = new GroupIDUpdateReceiver();
-			registerReceiver(mReceiver, new IntentFilter(FeiSMSConst.ACTION_GROUP_ID_UPDATED));
-		}
+//		if (mGroupId == FeiSMSConst.GROUP_ID_CREATE) {
+//			mReceiver = new GroupIDUpdateReceiver();
+//			registerReceiver(mReceiver, new IntentFilter(FeiSMSConst.ACTION_GROUP_ID_UPDATED));
+//		}
 	}
 
-	private void refreshGroupContacts() {
+	protected void refreshGroupContacts() {
 		mListView.clearChoices();
 		SMSGroupEntryContacts entryContacts = mDataManager.getSMSGroupEntryContacts(mGroupId);
 		if (entryContacts != null) {
@@ -110,9 +110,9 @@ public class BaseSelectedContactsActivity extends ListActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (mReceiver != null) {
-			unregisterReceiver(mReceiver);
-		}
+//		if (mReceiver != null) {
+//			unregisterReceiver(mReceiver);
+//		}
 	}
 
 	@Override
@@ -126,6 +126,7 @@ public class BaseSelectedContactsActivity extends ListActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (mGroupId >= -1) {
+			menu.getItem(0).setVisible(true);
 			boolean haveCheckItems = mListView.getCheckedItemCount() > 0;
 			menu.getItem(1).setVisible(haveCheckItems);
 		} else {
@@ -159,7 +160,7 @@ public class BaseSelectedContactsActivity extends ListActivity {
 			public void run() {
 				View currentFocus = getListView();
 				IBinder windowToken = currentFocus != null ? currentFocus.getWindowToken() : null;
-				Log.i(PREFIX, "after onPostResume focusView=" + currentFocus + " token=" + windowToken);
+//				Log.i(PREFIX, "after onPostResume focusView=" + currentFocus + " token=" + windowToken);
 				if (windowToken != null) {
 					((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(windowToken,
 							InputMethodManager.HIDE_NOT_ALWAYS);
