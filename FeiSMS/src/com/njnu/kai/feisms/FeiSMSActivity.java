@@ -17,6 +17,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -50,6 +51,7 @@ public class FeiSMSActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.content_contacts_preview);
 
 		Log.i(PREFIX, "onCreate: " + this);
@@ -197,7 +199,9 @@ public class FeiSMSActivity extends ListActivity {
 		menu.add(0, 2, 2, "Delete Selected Group");
 		menu.add(0, 3, 3, "Send Selected Group");
 		menu.add(0, 4, 4, "Send All Group");
-		menu.add(0, 50, 50, "Exclude Contacts");
+		MenuItem itemExclude = menu.add(0, 50, 50, "Exclude Contacts");
+		itemExclude.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		itemExclude.setIcon(android.R.drawable.ic_menu_crop);
 		menu.add(100, 100, 100, "Test");
 		menu.add(100, 101, 101, "Test2");
 
