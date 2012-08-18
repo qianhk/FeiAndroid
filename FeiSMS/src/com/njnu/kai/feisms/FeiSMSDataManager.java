@@ -11,6 +11,8 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.njnu.kai.feisms.ContactsData.ContactsInfo;
+
 class SMSGroupInfo {
 	private int mGroupId;
 	private int mPersonAmount;
@@ -119,13 +121,13 @@ class SMSGroupEntryContactsItem {
 	public String getPhoneNumber() {
 		return mPhoneNumber;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder build = new StringBuilder(32);
 		build.append(mContactsName);
-		while (build.length() <3) {
-			build.append('\u3000'); //全角空格
+		while (build.length() < 3) {
+			build.append('\u3000'); // 全角空格
 		}
 		build.append(": ");
 		build.append(mPhoneNumber);
@@ -162,7 +164,7 @@ class SMSGroupEntryContacts {
 	public List<SMSGroupEntryContactsItem> getListContacts() {
 		return mListContacts;
 	}
-	
+
 	public int getCount() {
 		return mListContacts.size();
 	}
@@ -232,7 +234,7 @@ public final class FeiSMSDataManager {
 		deleteSql.append(");");
 		executeSql(deleteSql.toString());
 	}
-	
+
 	public void deleteSMSContacts(int[] contactsIds) {
 		StringBuffer deleteSql = new StringBuffer("delete from " + FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS + " where _id in(-100");
 		for (int idx = contactsIds.length - 1; idx >= 0; --idx) {
@@ -349,8 +351,9 @@ public final class FeiSMSDataManager {
 	}
 
 	public long[] getUsedContactsId() {
-		String querySql = String.format("select %s from %s order by %s asc;", FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID,
-				FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS, FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID);
+		String querySql = String.format("select %1$s from %2$s order by %1$s asc;", FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID,
+				FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS);
+		Log.i(PREFIX, "getUsedContactsId = " + querySql);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		Cursor c = db.rawQuery(querySql, null);
 		int resultCount = c.getCount();
@@ -365,5 +368,37 @@ public final class FeiSMSDataManager {
 		c.close();
 		db.close();
 		return arrayIds;
+	}
+
+	public List<String> getContactsNoUsedPhoneNumber(final ContactsInfo contactsInfo) {
+		List<String> noUsedPhone = null;
+		int phoneNumberCount = contactsInfo.getPhoneNumberCount();
+		if (phoneNumberCount > 0) {
+			StringBuilder querySqlBuilder = new StringBuilder("select ttkai from (select '" + contactsInfo.getPhoneNumber(0) + "' ttkai ");
+			for (int idx = 1; idx < phoneNumberCount; ++idx) {
+				querySqlBuilder.append("union select '" + contactsInfo.getPhoneNumber(idx) + "'");
+			}
+			querySqlBuilder.append(") t where ttkai not in(");
+			String existPhoneSql = String.format("select %1$s from %2$s where %3$s=%4$d);",
+					FeiSMSDBHelper.COLUMN_NAME_CONTACTS_PHONE_NUMBER, FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS, FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID,
+					contactsInfo.getId());
+			querySqlBuilder.append(existPhoneSql);
+			Log.i(PREFIX, "getContactsNoUsedPhoneNumber " + querySqlBuilder.toString());
+			SQLiteDatabase db = mDbHelper.getReadableDatabase();
+			Cursor c = db.rawQuery(querySqlBuilder.toString(), null);
+			int resultCount = c.getCount();
+			if (resultCount > 0) {
+				noUsedPhone = new ArrayList<String>(resultCount);
+				c.moveToFirst();
+				do {
+					noUsedPhone.add(c.getString(0));
+				} while (c.moveToNext());
+			}
+			c.close();
+			db.close();
+		}
+//		contactsInfo.setId(100);
+//		contactsInfo = null;
+		return noUsedPhone;
 	}
 }

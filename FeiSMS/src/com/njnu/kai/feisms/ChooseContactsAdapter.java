@@ -43,7 +43,6 @@ public class ChooseContactsAdapter extends BaseAdapter {
 	private List<ContactsForDisplay> mListContactsForDisplay;
 
 	private long[] mUsedContactsId;
-	private String[] mUsedContactsPhone;
 
 	public ChooseContactsAdapter(Context context) {
 		mContext = context;
@@ -61,29 +60,34 @@ public class ChooseContactsAdapter extends BaseAdapter {
 		mDisplayDifference = isDisplayDifference;
 		mListContactsForDisplay.clear();
 		mUsedContactsId = null;
-		mUsedContactsPhone = null;
 
-		if (isDisplayDifference) {
-
-		} else {
-			mUsedContactsId = mDataManager.getUsedContactsId();
-			int idx = -1;
-			int totalContactsCount = mContactsData.getContactsCount();
-			for (int i = 0; i < totalContactsCount; ++i) {
-				ContactsInfo info = mContactsData.getContactsInfo(i);
-				if (Arrays.binarySearch(mUsedContactsId, info.getId()) < 0) {
-					int infoPhoneCount = info.getPhoneNumberCount();
-					for (int j = 0; j < infoPhoneCount; ++j) {
-						ContactsForDisplay cfd = new ContactsForDisplay();
-						cfd.mContactsId = info.getId();
-						cfd.mName = info.getName();
-						cfd.mPhone = info.getPhoneNumber(j);
-						mListContactsForDisplay.add(cfd);
-					}
+		mUsedContactsId = mDataManager.getUsedContactsId();
+		int idx = -1;
+		int totalContactsCount = mContactsData.getContactsCount();
+		for (int i = 0; i < totalContactsCount; ++i) {
+			ContactsInfo info = mContactsData.getContactsInfo(i);
+			if (Arrays.binarySearch(mUsedContactsId, info.getId()) < 0) {
+				int infoPhoneCount = info.getPhoneNumberCount();
+				for (int j = 0; j < infoPhoneCount; ++j) {
+					addDisplayContacts(info.getId(), info.getName(), info.getPhoneNumber(j));
+				}
+			} else if (info.getPhoneNumberCount() > 1 && isDisplayDifference) {
+				List<String> noUsedPhone = mDataManager.getContactsNoUsedPhoneNumber(info);
+				int infoPhoneCount = noUsedPhone == null ? 0 :noUsedPhone.size();
+				for (int j = 0; j < infoPhoneCount; ++j) {
+					addDisplayContacts(info.getId(), info.getName(), noUsedPhone.get(j));
 				}
 			}
 		}
 		notifyDataSetChanged();
+	}
+
+	private void addDisplayContacts(long id, String name, String phone) {
+		ContactsForDisplay cfd = new ContactsForDisplay();
+		cfd.mContactsId = id;
+		cfd.mName = name;
+		cfd.mPhone = phone;
+		mListContactsForDisplay.add(cfd);
 	}
 
 	@Override

@@ -43,8 +43,8 @@ public class ChooseContactsActivity extends Activity {
 				ctv.toggle();
 				boolean checked = ctv.isChecked();
 				Log.i(PREFIX, "Checked=" + checked);
-//				mAdapter.refreshContactsData(checked);
-//				mCheckedTextViewShowDifference.setText("显示联系人不同号码, 当前共 " + mAdapter.getCount() + " 项");
+				mAdapter.refreshContactsData(checked);
+				mCheckedTextViewShowDifference.setText("显示联系人不同号码, 当前共 " + mAdapter.getCount() + " 项");
 			}
 		});
 		mListViewContacts = (ListView) findViewById(R.id.listview_contacts);
