@@ -1,6 +1,7 @@
 package com.njnu.kai.feisms;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -99,11 +100,12 @@ class SMSGroupEntrySMS {
 
 class SMSGroupEntryContactsItem {
 
-	public SMSGroupEntryContactsItem(int dbId, int contactsId, String contactsName, String phoneNumber) {
+	public SMSGroupEntryContactsItem(int dbId, int contactsId, String contactsName, String phoneNumber, boolean sendState) {
 		mDbId = dbId;
 		mContactsId = contactsId;
 		mContactsName = contactsName;
 		mPhoneNumber = phoneNumber;
+		mSendState = sendState;
 	}
 
 	public int getDbId() {
@@ -131,6 +133,9 @@ class SMSGroupEntryContactsItem {
 		}
 		build.append(": ");
 		build.append(mPhoneNumber);
+		if (mSendState) {
+			build.append(" √");
+		}
 		return build.toString();
 	}
 
@@ -138,6 +143,7 @@ class SMSGroupEntryContactsItem {
 	private int mContactsId;
 	private String mContactsName;
 	private String mPhoneNumber;
+	private boolean mSendState;
 }
 
 class SMSGroupEntryContacts {
@@ -153,8 +159,8 @@ class SMSGroupEntryContacts {
 		mListContacts.add(item);
 	}
 
-	public void appendContactsItem(int dbId, int contactsId, String contactsName, String phoneNumber) {
-		appendContactsItem(new SMSGroupEntryContactsItem(dbId, contactsId, contactsName, phoneNumber));
+	public void appendContactsItem(int dbId, int contactsId, String contactsName, String phoneNumber, boolean sendState) {
+		appendContactsItem(new SMSGroupEntryContactsItem(dbId, contactsId, contactsName, phoneNumber, sendState));
 	}
 
 	public int getGroupId() {
@@ -329,7 +335,7 @@ public final class FeiSMSDataManager {
 	public SMSGroupEntryContacts getSMSGroupEntryContacts(int groupId) {
 		SMSGroupEntryContacts gContacts = null;
 		String[] columns = { BaseColumns._ID, FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID, FeiSMSDBHelper.COLUMN_NAME_CONTACTS_NAME,
-				FeiSMSDBHelper.COLUMN_NAME_CONTACTS_PHONE_NUMBER };
+				FeiSMSDBHelper.COLUMN_NAME_CONTACTS_PHONE_NUMBER, FeiSMSDBHelper.COLUMN_NAME_SEND_STATE };
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		Cursor c = db.query(FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS, columns, FeiSMSDBHelper.COLUMN_NAME_GROUP_ID + "=?",
 				new String[] { String.valueOf(groupId) }, null, null, null);
@@ -342,7 +348,8 @@ public final class FeiSMSDataManager {
 				int contactsId = c.getInt(1);
 				String contactsName = c.getString(2);
 				String phoneNumber = c.getString(3);
-				gContacts.appendContactsItem(dbId, contactsId, contactsName, phoneNumber);
+				boolean sendState = c.getInt(4) != 0;
+				gContacts.appendContactsItem(dbId, contactsId, contactsName, phoneNumber, sendState);
 			} while (c.moveToNext());
 		}
 		c.close();
@@ -379,9 +386,8 @@ public final class FeiSMSDataManager {
 				querySqlBuilder.append("union select '" + contactsInfo.getPhoneNumber(idx) + "'");
 			}
 			querySqlBuilder.append(") t where ttkai not in(");
-			String existPhoneSql = String.format("select %1$s from %2$s where %3$s=%4$d);",
-					FeiSMSDBHelper.COLUMN_NAME_CONTACTS_PHONE_NUMBER, FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS, FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID,
-					contactsInfo.getId());
+			String existPhoneSql = String.format("select %1$s from %2$s where %3$s=%4$d);", FeiSMSDBHelper.COLUMN_NAME_CONTACTS_PHONE_NUMBER,
+					FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS, FeiSMSDBHelper.COLUMN_NAME_CONTACTS_ID, contactsInfo.getId());
 			querySqlBuilder.append(existPhoneSql);
 			Log.i(PREFIX, "getContactsNoUsedPhoneNumber " + querySqlBuilder.toString());
 			SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -400,5 +406,135 @@ public final class FeiSMSDataManager {
 //		contactsInfo.setId(100);
 //		contactsInfo = null;
 		return noUsedPhone;
+	}
+
+	class PhoneInfoEntryForSend {
+		int mDbId;
+		String mPhoneNumber;
+
+		public PhoneInfoEntryForSend(int dbId, String phoneNumber) {
+			mDbId = dbId;
+			mPhoneNumber = phoneNumber;
+		}
+	}
+
+	class PhoneInfoForSend {
+		int mGroupId;
+		String mGroupSMS;
+		List<PhoneInfoEntryForSend> mListEntry;
+	}
+
+	class PhoneInfoForIterator {
+		int mDbId;
+		String mGroupSMS;
+		String mPhoneNumber;
+	}
+
+	class PhoneDataForSend implements Iterable<PhoneInfoForIterator> {
+		List<PhoneInfoForSend> mListInfo;
+		private int mCount;
+
+		public PhoneDataForSend(int capacity) {
+			mListInfo = new ArrayList<PhoneInfoForSend>(capacity);
+		}
+
+		public int getCount() {
+			return mCount;
+		}
+
+		@Override
+		public Iterator<PhoneInfoForIterator> iterator() {
+			return new Iter();
+		}
+
+		private class Iter implements Iterator<PhoneInfoForIterator> {
+			private int mCurGroupIndex = 0;
+			private int mCurGroupIndexInner = 0;
+			private int mGroupCount = mListInfo.size();
+
+			@Override
+			public boolean hasNext() {
+				boolean has = mCurGroupIndex < mGroupCount;
+				return has;
+			}
+
+			@Override
+			public PhoneInfoForIterator next() {
+				PhoneInfoForSend forSend = mListInfo.get(mCurGroupIndex);
+				int innerCount = forSend.mListEntry.size();
+				PhoneInfoForIterator phoneInfoForIterator = new PhoneInfoForIterator();
+				PhoneInfoEntryForSend phoneInfoEntryForSend = forSend.mListEntry.get(mCurGroupIndexInner);
+				phoneInfoForIterator.mDbId = phoneInfoEntryForSend.mDbId;
+				phoneInfoForIterator.mGroupSMS = forSend.mGroupSMS;
+				phoneInfoForIterator.mPhoneNumber = phoneInfoEntryForSend.mPhoneNumber;
+				++mCurGroupIndexInner;
+				if (mCurGroupIndexInner == innerCount) {
+					++mCurGroupIndex;
+					mCurGroupIndexInner = 0;
+				}
+				return phoneInfoForIterator;
+			}
+
+			@Override
+			public void remove() {
+			}
+
+		}
+	}
+
+	public PhoneDataForSend getDataForSend(int[] groupIds) {
+		PhoneDataForSend dataForSend = new PhoneDataForSend(groupIds.length);
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+		int phoneCount = 0;
+		for (int idx = 0; idx < groupIds.length; ++idx) {
+			String queryGroup = "select " + FeiSMSDBHelper.COLUMN_NAME_GROUP_SMS + " from " + FeiSMSDBHelper.TABLE_NAME_SMS_GROUP + " where _id="
+					+ groupIds[idx];
+			Log.i(PREFIX, "getDataForSend idx=" + idx + " : " + queryGroup);
+			Cursor c = db.rawQuery(queryGroup, null);
+			if (c.moveToFirst()) {
+				String smsContent = c.getString(0);
+				if (!TextUtils.isEmpty(smsContent)) {
+					PhoneInfoForSend phoneInfoForSend = new PhoneInfoForSend();
+					phoneInfoForSend.mGroupId = groupIds[idx];
+					phoneInfoForSend.mGroupSMS = smsContent;
+					String queryContacts = "select _id, " + FeiSMSDBHelper.COLUMN_NAME_CONTACTS_PHONE_NUMBER + " from "
+							+ FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS + " where " + FeiSMSDBHelper.COLUMN_NAME_GROUP_ID + "=" + groupIds[idx]
+							+ " and " + FeiSMSDBHelper.COLUMN_NAME_SEND_STATE + "=0;";
+					Log.i(PREFIX, "queryContacts idx=" + idx + " : " + queryContacts);
+					Cursor cc = db.rawQuery(queryContacts, null);
+					if (cc.getCount() > 0) {
+						cc.moveToFirst();
+						phoneInfoForSend.mListEntry = new ArrayList<PhoneInfoEntryForSend>(cc.getCount());
+						dataForSend.mListInfo.add(phoneInfoForSend);
+						do {
+							PhoneInfoEntryForSend phoneInfoEntryForSend = new PhoneInfoEntryForSend(cc.getInt(0), cc.getString(1));
+							phoneInfoForSend.mListEntry.add(phoneInfoEntryForSend);
+							++phoneCount;
+						} while (cc.moveToNext());
+					}
+					cc.close();
+				}
+			}
+			c.close();
+		}
+		dataForSend.mCount = phoneCount;
+		db.close();
+		return dataForSend;
+	}
+
+	public void resetContactsSendState(int groupid) {
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		String updateSql = "update " + FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS + " set " + FeiSMSDBHelper.COLUMN_NAME_SEND_STATE + "=0 where "
+				+ FeiSMSDBHelper.COLUMN_NAME_GROUP_ID + "=" + groupid + ";";
+		Log.i(PREFIX, "resetContactsSendState=" + updateSql);
+		db.execSQL(updateSql);
+	}
+
+	public void setContactsSendState(int dbId, boolean sended) {
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		String updateSql = "update " + FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS + " set " + FeiSMSDBHelper.COLUMN_NAME_SEND_STATE + "="
+				+ (sended ? 1 : 0) + " where _id=" + dbId + ";";
+		Log.i(PREFIX, "setContactsSendState=" + updateSql);
+		db.execSQL(updateSql);
 	}
 }

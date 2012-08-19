@@ -24,7 +24,7 @@ public class BaseSelectedContactsActivity extends ListActivity {
 
 	private Handler mHandler = new Handler();
 	protected int mGroupId;
-	private FeiSMSDataManager mDataManager;
+	protected FeiSMSDataManager mDataManager;
 	private ListView mListView;
 	private TextView mTextViewSummary;
 //	private GroupIDUpdateReceiver mReceiver;
@@ -66,7 +66,6 @@ public class BaseSelectedContactsActivity extends ListActivity {
 		if (entryContacts != null) {
 			ArrayAdapter adapter = new ArrayAdapter<SMSGroupEntryContactsItem>(this, R.layout.simple_list_item_checked,
 					entryContacts.getListContacts());
-			adapter.hasStableIds();
 			setListAdapter(adapter);
 		} else {
 			setListAdapter(null);

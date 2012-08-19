@@ -8,14 +8,20 @@ public class TabContactsActivity extends BaseSelectedContactsActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(100, 102, 102, "Exclude Contacts");
+		menu.add(200, 200, 200, "Reset Send State");
+		menu.add(200, 201, 201, "Exclude Contacts");
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case 102: {
+		case 200:
+			mDataManager.resetContactsSendState(mGroupId);
+			refreshGroupContacts();
+			break;
+			
+		case 201: {
 			Intent intent = new Intent(this, ExcludeContactsActivity.class);
 			startActivity(intent);
 		}

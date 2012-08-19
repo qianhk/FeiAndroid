@@ -12,7 +12,7 @@ public class FeiSMSDBHelper extends SQLiteOpenHelper {
 
 	private static final String PREFIX = "[FeiSMSDBHelper]:";
 
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 4;
 
 	private static final String DATABASE_NAME = "feismsdata.db";
 
@@ -25,6 +25,7 @@ public class FeiSMSDBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_NAME_CONTACTS_ID = "contacts_id";
 	public static final String COLUMN_NAME_CONTACTS_NAME = "contacts_name";
 	public static final String COLUMN_NAME_CONTACTS_PHONE_NUMBER = "contacts_phone_number";
+	public static final String COLUMN_NAME_SEND_STATE = "send_state";
 	
 	public static final String V_TABLE_NAME_GROUP_INFO = "v_group_info";
 	public static final String V_COLUMN_NAME_CONTACTS_AMOUNT = "contacts_amount";
@@ -65,17 +66,27 @@ public class FeiSMSDBHelper extends SQLiteOpenHelper {
 				, V_TABLE_NAME_GROUP_INFO, COLUMN_NAME_GROUP_NAME, TABLE_NAME_SMS_CONTACTS, COLUMN_NAME_GROUP_ID, V_COLUMN_NAME_CONTACTS_AMOUNT, TABLE_NAME_SMS_GROUP);
 		db.execSQL(sqlCreateView);
 	}
+	
+	private void upgradeFromVersion3(SQLiteDatabase db) {
+		String sqlCreateView = String.format("alter table %1$s add column %2$s integer not null default 0;"
+				, TABLE_NAME_SMS_CONTACTS, COLUMN_NAME_SEND_STATE);
+		db.execSQL(sqlCreateView);
+	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.i(PREFIX, "onUpgrade oldVersion=" + oldVersion + " newVersion=" + newVersion);
 		db.beginTransaction();
-		if (oldVersion == 1) {
+		if (oldVersion == 1) {	//from 1 to 2
 			upgradeFromVersion1(db);
 			++oldVersion;
 		}
-		if (oldVersion < newVersion) { //2
+		if (oldVersion == 2) { //from 2 to 3
 			upgradeFromVersion2(db);
+			++oldVersion;
+		}
+		if (oldVersion == 3) { //from 3 to 4
+			upgradeFromVersion3(db);
 			++oldVersion;
 		}
 		db.setTransactionSuccessful();

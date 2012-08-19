@@ -23,11 +23,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class FeiSMSActivity extends ListActivity {
+public class FeiSMSActivity extends ListActivity implements SendSMSTask.UpdateSMSSendState {
 	private FeiSMSDataManager mDataManager;
 	private SMSGroupInfoAdapter mAdapterGroupInfo;
 	private static final String PREFIX = "[FeiSMSActivity]:";
 	private final static String KEY_SELECTED_GROUP_ID = "key_selected_group_id";
+	private SendSMSTask mSendSmsTask;
 
 	ListView.OnCreateContextMenuListener mMenuLis = new ListView.OnCreateContextMenuListener() {
 		@Override
@@ -141,6 +142,8 @@ public class FeiSMSActivity extends ListActivity {
 		DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				Log.i(PREFIX, "will sendSMSGroup " + groupIds.length + " firstGid=" + groupIds[0]);
+				mSendSmsTask = new SendSMSTask(FeiSMSActivity.this, FeiSMSActivity.this, groupIds);
+				mSendSmsTask.execute();
 			}
 		};
 		showConfirmDialog("Make sure send " + groupIds.length + " groups?", listener);
@@ -312,5 +315,18 @@ public class FeiSMSActivity extends ListActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.i(PREFIX, "onDestroy");
+		if (mSendSmsTask != null) {
+			mSendSmsTask.cancel(true);
+		}
+	}
+
+	@Override
+	public void sendedSmsEntry(int contactsDbId, boolean sucess) {
+	}
+
+	@Override
+	public void sendComplete(boolean sucess) {
+		mSendSmsTask = null;
+		Log.i(PREFIX, "sendComplete scuess=" + sucess);
 	}
 }

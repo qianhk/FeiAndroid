@@ -43,8 +43,13 @@ public class ChooseContactsActivity extends Activity {
 				ctv.toggle();
 				boolean checked = ctv.isChecked();
 				Log.i(PREFIX, "Checked=" + checked);
+				int oldCount = mAdapter.getCount();
 				mAdapter.refreshContactsData(checked);
-				mCheckedTextViewShowDifference.setText("显示联系人不同号码, 当前共 " + mAdapter.getCount() + " 项");
+				int newCount = mAdapter.getCount();
+				if (newCount != oldCount) {
+					mListViewContacts.clearChoices();
+				}
+				mCheckedTextViewShowDifference.setText("显示联系人不同号码, 当前共 " + newCount + " 项");
 			}
 		});
 		mListViewContacts = (ListView) findViewById(R.id.listview_contacts);
@@ -91,7 +96,7 @@ public class ChooseContactsActivity extends Activity {
 			if (checkedItemPositions.valueAt(idx)) {
 				int pos = checkedItemPositions.keyAt(idx);
 				ContactsForDisplay item = mAdapter.getItem(pos);
-				SMSGroupEntryContactsItem smsItem = new SMSGroupEntryContactsItem(-1, (int) item.mContactsId, item.mName, item.mPhone);
+				SMSGroupEntryContactsItem smsItem = new SMSGroupEntryContactsItem(-1, (int) item.mContactsId, item.mName, item.mPhone, false);
 				listContacts.add(smsItem);
 			}
 		}

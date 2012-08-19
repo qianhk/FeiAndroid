@@ -14,13 +14,11 @@
         android:id="@+id/checkedtextview_display_different_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dip"
         android:enabled="true"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:gravity="center_vertical"
         android:textColor="#FFFF00"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="2dip"
+        android:layout_margin="5dip"
         android:text="显示联系人不同号码" />
 
     <LinearLayout
@@ -32,16 +30,16 @@
             android:layout_weight="1"
             android:gravity="center"
             android:layout_height="wrap_content"
-            android:onClick="button_add_clicked"
-            android:text="Add" />
+            android:onClick="button_cancel_clicked"
+            android:text="Cancel" />
 
         <Button
             android:layout_width="0dip"
             android:layout_weight="1"
             android:gravity="center"
             android:layout_height="wrap_content"
-            android:onClick="button_cancel_clicked"
-            android:text="Cancel" />
+            android:onClick="button_add_clicked"
+            android:text="Add" />
     </LinearLayout>
 
 </LinearLayout>
