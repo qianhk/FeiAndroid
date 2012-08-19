@@ -39,7 +39,7 @@ public final class SMSUtils {
 			if (phoneNumber.startsWith(MARK_CHINESE_AREA_CODE)) {
 				phoneNumber = phoneNumber.substring(MARK_CHINESE_AREA_CODE.length());
 			}
-			isMobile = (phoneNumber.length() == 11 && phoneNumber.charAt(0) == '1');
+			isMobile = ((phoneNumber.length() == 11 && phoneNumber.charAt(0) == '1') || (phoneNumber.length() == 4 && phoneNumber.startsWith("555")));
 		}
 //		if (!isMobile) {
 //			Log.i(PREFIX, "not mobile=" + phoneNumber);

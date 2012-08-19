@@ -3,9 +3,12 @@ package com.njnu.kai.feisms;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class TabSMSContentActivity extends Activity {
 	private static final String PREFIX = "TabSMSContentActivity";
@@ -13,7 +16,16 @@ public class TabSMSContentActivity extends Activity {
 	private EditText mEditTextGroupSMS;
 	private SMSGroupEntrySMS mGroupEntrySMS;
 	private FeiSMSDataManager mDataManager;
+	private TextView mTextViewSMSContent;
 
+	private void setTextViewSMSContent(int length) {
+		String prompt = getResources().getString(R.string.sms_content);
+		if (length > 0) {
+			prompt += length + "/70";
+		}
+		mTextViewSMSContent.setText(prompt);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,6 +33,7 @@ public class TabSMSContentActivity extends Activity {
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
 		mEditTextGroupName = (EditText) findViewById(R.id.edittext_group_name);
 		mEditTextGroupSMS = (EditText) findViewById(R.id.edittext_group_sms);
+		mTextViewSMSContent = (TextView)findViewById(R.id.textview_smscontent);
 		
 //		mGroupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
 		int groupId = SMSUtils.getCurrentDetailGroupId();
@@ -33,12 +46,33 @@ public class TabSMSContentActivity extends Activity {
 		}
 		
 		mEditTextGroupName.setText(mGroupEntrySMS.getGroupName());
-		mEditTextGroupSMS.setText(mGroupEntrySMS.getSMSContent());
+		String smsContent = mGroupEntrySMS.getSMSContent();
+		mEditTextGroupSMS.setText(smsContent);
+		setTextViewSMSContent(smsContent.length());
 		mEditTextGroupName.setOnFocusChangeListener(mFocusChangeListener);
 		mEditTextGroupSMS.setOnFocusChangeListener(mFocusChangeListener);
 
 		mEditTextGroupName.setTag(mGroupEntrySMS.getGroupName());
-		mEditTextGroupSMS.setTag(mGroupEntrySMS.getSMSContent());
+		mEditTextGroupSMS.setTag(smsContent);
+		
+		mEditTextGroupSMS.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//				Log.i(PREFIX, "onTextChanged " + s.toString() + " " + start + " " + before + " " + count);
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//				Log.i(PREFIX, "beforeTextChanged " + s.toString() + " " + start + " " + count + " " + after);
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+//				Log.i(PREFIX, "afterTextChanged " + s.toString());
+				setTextViewSMSContent(s.length());
+			}
+		});
 	}
 
 	View.OnFocusChangeListener mFocusChangeListener = new View.OnFocusChangeListener() {

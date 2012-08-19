@@ -328,5 +328,7 @@ public class FeiSMSActivity extends ListActivity implements SendSMSTask.UpdateSM
 	public void sendComplete(boolean sucess) {
 		mSendSmsTask = null;
 		Log.i(PREFIX, "sendComplete scuess=" + sucess);
+		AlertDialog dlg = new AlertDialog.Builder(this).setTitle("Sent result: " + sucess).setPositiveButton("OK", null).create();
+		dlg.show();
 	}
 }

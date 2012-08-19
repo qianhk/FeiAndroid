@@ -3,4 +3,6 @@
 
     <string name="app_name">FeiSMS</string>
 
+    <string name="sms_content">短信内容： </string>
+
 </resources>
