@@ -1,21 +1,18 @@
 package com.njnu.kai.activitytest;
 
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
 import android.widget.Button;
 
-public class MainActivity extends BaseActivity {
+public class SecondActivity extends BaseActivity {
 
 	@Override
 	protected String getButtonText() {
-		return "to Second";
+		return "to MainActivity";
 	}
 
 	@Override
 	protected Intent getStartupIntent() {
-		Intent intent = new Intent(this, SecondActivity.class);
+		Intent intent = new Intent(this, MainActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		return intent;
 	}
