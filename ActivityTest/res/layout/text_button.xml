@@ -1,16 +1,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textview"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="3"
-        android:text="textview"
         android:singleLine="false"
+        android:text="textview"
+        android:textSize="12sp"
         tools:context=".MainActivity" />
 
     <Button
@@ -18,8 +19,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Button" />
-    
-    <View android:layout_width="match_parent" android:layout_height="0dip"
-        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/textview2"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="3"
+        android:singleLine="false"
+        android:layout_marginLeft="5dip"
+        android:textSize="12sp"
+        android:scrollbars="vertical"
+        android:text="@string/intent_flag" />
 
 </LinearLayout>

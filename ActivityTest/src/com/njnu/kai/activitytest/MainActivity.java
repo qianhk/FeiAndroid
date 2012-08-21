@@ -1,5 +1,6 @@
 package com.njnu.kai.activitytest;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +17,9 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected Intent getStartupIntent() {
 		Intent intent = new Intent(this, SecondActivity.class);
-//		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m.weibo.cn"));
+//		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		return intent;
 	}
 
