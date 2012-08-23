@@ -41,6 +41,7 @@ public abstract class BaseActivity extends Activity {
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		setIntent(intent);
+		Log.i("OOXX_OOXX", "onNewIntent " + intent);
 //		Log.i(getClass().getSimpleName(), "onNewIntent " + intent);
 		mTextView.append(String.format("\nonNewIntent flg=0x%08X", intent.getFlags()));
 	}

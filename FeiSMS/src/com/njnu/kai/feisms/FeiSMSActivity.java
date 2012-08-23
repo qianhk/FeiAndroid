@@ -250,7 +250,6 @@ public class FeiSMSActivity extends ListActivity implements SendSMSTask.UpdateSM
 
 		case 100:
 			promptRestoreSelectState("test lenght=100");
-			sendQLBeginNotification(this);
 			break;
 			
 		case 101:
@@ -265,18 +264,6 @@ public class FeiSMSActivity extends ListActivity implements SendSMSTask.UpdateSM
 			break;
 		}
 		return consumed;
-	}
-	
-	private void sendQLBeginNotification(Context context) {
-		Notification notify = new Notification(R.drawable.ic_launcher, "divsignin qianglouing", System.currentTimeMillis());
-		notify.flags = Notification.FLAG_ONGOING_EVENT;
-		Intent intent = new Intent(context, ExcludeContactsActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, R.string.app_name, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		notify.setLatestEventInfo(context, "divsignin qianglou", "qianglouing......", contentIntent);
-		NotificationManager notifyMgr = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-		notifyMgr.notify(R.string.app_name, notify);
 	}
 
 	@Override

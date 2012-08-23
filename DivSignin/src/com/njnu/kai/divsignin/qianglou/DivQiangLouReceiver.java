@@ -29,8 +29,8 @@ public class DivQiangLouReceiver extends BroadcastReceiver {
 	private void sendQLBeginNotification(Context context) {
 		Notification notify = new Notification(R.drawable.ic_launcher_notify, "divsignin qianglouing", System.currentTimeMillis());
 		notify.flags = Notification.FLAG_ONGOING_EVENT;
-		Intent intent = new Intent(context, DivQiangLouStatus.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+		Intent intent = new Intent(context, DivQiangLouActivity.class);
+//		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, R.string.app_name, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		notify.setLatestEventInfo(context, "divsignin qianglou", "qianglouing......", contentIntent);
