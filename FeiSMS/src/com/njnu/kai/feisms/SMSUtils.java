@@ -106,6 +106,7 @@ public final class SMSUtils {
 			}
 			cur.close();
 			mContactsData.setPhoneCount(phoneNo);
+			FeiSMSApplication.getInstance().setContactsData(mContactsData);
 		}
 //		Log.i(PREFIX, "total phoneNumber is: " + phoneNo + " total person is:" + cData.getCount());
 		return mContactsData;

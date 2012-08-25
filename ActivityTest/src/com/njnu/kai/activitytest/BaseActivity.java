@@ -2,6 +2,7 @@ package com.njnu.kai.activitytest;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -35,13 +36,16 @@ public abstract class BaseActivity extends Activity {
 		});
         TextView tv2 = (TextView)findViewById(R.id.textview2);
         tv2.setMovementMethod(ScrollingMovementMethod.getInstance());
+        Uri uri = Uri.parse("http://testurl222.com");
+        printUri(uri);
+        isSinged();
     }
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
+		Log.i("OOXX_XXOO2", "OOXX_XXOO3");
 		super.onNewIntent(intent);
 		setIntent(intent);
-		Log.i("OOXX_OOXX", "onNewIntent " + intent);
 //		Log.i(getClass().getSimpleName(), "onNewIntent " + intent);
 		mTextView.append(String.format("\nonNewIntent flg=0x%08X", intent.getFlags()));
 	}
@@ -49,4 +53,12 @@ public abstract class BaseActivity extends Activity {
 	abstract protected String getButtonText();
 	
 	abstract protected Intent getStartupIntent();
+	
+	public void printUri(Uri uri) {
+		Log.i("UriIs", uri.toString());
+	}
+	
+	public boolean isSinged() {
+		return true;
+	}
 }
