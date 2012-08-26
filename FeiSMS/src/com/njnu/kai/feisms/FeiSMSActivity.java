@@ -248,16 +248,22 @@ public class FeiSMSActivity extends ListActivity implements SendSMSTask.UpdateSM
 		}
 			break;
 
-		case 100:
-			promptRestoreSelectState("test lenght=100");
-			break;
-			
-		case 101:
-		{
-			NotificationManager notifyMgr = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-			notifyMgr.cancel(R.string.app_name);
+		case 100: {
+//			promptRestoreSelectState("test lenght=100");
+			String pinyin1 = HanziToPinyin.keyFor("格林尼治亲谁行");
+			Log.i(PREFIX, "pinyin1 " + pinyin1);
 		}
-		break;
+			break;
+
+		case 101: {
+			String pinyin2 = HanziToPinyin.keyFor("格-林_尼(治*");
+			String pinyin3 = HanziToPinyin.keyFor("格- abc 林_--def23尼(123治*にほんご");
+			String pinyin4 = HanziToPinyin.keyFor("The day you went away/\\");
+			Log.i(PREFIX, "pinyin2 " + pinyin3);
+//			NotificationManager notifyMgr = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+//			notifyMgr.cancel(R.string.app_name);
+		}
+			break;
 
 		default:
 			consumed = super.onOptionsItemSelected(item);

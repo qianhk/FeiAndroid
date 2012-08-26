@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,26 +22,11 @@ public class ChooseContactsAdapter extends BaseAdapter {
 	private boolean mDisplayDifference;
 	private Context mContext;
 	private FeiSMSDataManager mDataManager;
+	private HanziToPinyin mHanziToPinyin = HanziToPinyin.getInstance();
 
-	class ContactsForDisplay {
-		long mContactsId;
-		String mName;
-		String mPhone;
-
-		@Override
-		public String toString() {
-			StringBuilder build = new StringBuilder(32);
-			build.append(mName);
-			while (build.length() < 3) {
-				build.append('\u3000'); // 全角空格
-			}
-			build.append(": ");
-			build.append(mPhone);
-			return build.toString();
-		}
-	}
-
-	private List<ContactsForDisplay> mListContactsForDisplay;
+	private List<ChooseContactsForDisplay> mListContactsForDisplay;
+	private List<ChooseContactsForDisplay> mListContactsForDisplayBak;
+	private List<ChooseContactsForDisplay> mListContactsForDisplayFilter;
 
 	private long[] mUsedContactsId;
 
@@ -51,7 +37,8 @@ public class ChooseContactsAdapter extends BaseAdapter {
 
 	public void setContactsData(ContactsData contactsData) {
 		mContactsData = contactsData;
-		mListContactsForDisplay = new ArrayList<ContactsForDisplay>(mContactsData.getPhoneCount());
+		mListContactsForDisplay = new ArrayList<ChooseContactsForDisplay>(mContactsData.getPhoneCount());
+		mListContactsForDisplayBak = mListContactsForDisplay;
 	}
 
 	public void refreshContactsData(boolean isDisplayDifference) {
@@ -73,7 +60,7 @@ public class ChooseContactsAdapter extends BaseAdapter {
 				}
 			} else if (info.getPhoneNumberCount() > 1 && isDisplayDifference) {
 				List<String> noUsedPhone = mDataManager.getContactsNoUsedPhoneNumber(info);
-				int infoPhoneCount = noUsedPhone == null ? 0 :noUsedPhone.size();
+				int infoPhoneCount = noUsedPhone == null ? 0 : noUsedPhone.size();
 				for (int j = 0; j < infoPhoneCount; ++j) {
 					addDisplayContacts(info.getId(), info.getName(), noUsedPhone.get(j));
 				}
@@ -83,10 +70,11 @@ public class ChooseContactsAdapter extends BaseAdapter {
 	}
 
 	private void addDisplayContacts(long id, String name, String phone) {
-		ContactsForDisplay cfd = new ContactsForDisplay();
+		ChooseContactsForDisplay cfd = new ChooseContactsForDisplay();
 		cfd.mContactsId = id;
 		cfd.mName = name;
 		cfd.mPhone = phone;
+		cfd.mPinyin = mHanziToPinyin.getPinyin(name);
 		mListContactsForDisplay.add(cfd);
 	}
 
@@ -96,7 +84,7 @@ public class ChooseContactsAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public ContactsForDisplay getItem(int position) {
+	public ChooseContactsForDisplay getItem(int position) {
 		return mListContactsForDisplay.get(position);
 	}
 
@@ -115,6 +103,27 @@ public class ChooseContactsAdapter extends BaseAdapter {
 		tv.setText(getItem(position).toString());
 //		Log.i(PREFIX, "getView=" + convertView);
 		return convertView;
+	}
+
+	public void filter(String newText) {
+		if (TextUtils.isEmpty(newText)) {
+			mListContactsForDisplay = mListContactsForDisplayBak;
+			mListContactsForDisplayFilter = null;
+			notifyDataSetChanged();
+			return;
+		}
+		if (mListContactsForDisplayFilter == null) {
+			mListContactsForDisplayFilter = new ArrayList<ChooseContactsForDisplay>(mListContactsForDisplayBak.size());
+		}
+		mListContactsForDisplayFilter.clear();
+		mListContactsForDisplay = mListContactsForDisplayFilter;
+//		mListContactsForDisplayFilter.addAll(mListContactsForDisplayBak);
+		for (ChooseContactsForDisplay contacts : mListContactsForDisplayBak) {
+			if (contacts.isAccordWith(newText)) {
+				mListContactsForDisplay.add(contacts);
+			}
+		}
+		notifyDataSetChanged();
 	}
 
 }

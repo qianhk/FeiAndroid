@@ -6,17 +6,27 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.Toast;
 
-import com.njnu.kai.feisms.ChooseContactsAdapter.ContactsForDisplay;
 
-public class ChooseContactsActivity extends Activity {
+public class ChooseContactsActivity extends Activity implements OnQueryTextListener {
 	private static final String PREFIX = "ChooseContacts";
 	private ListView mListViewContacts;
 	private ChooseContactsAdapter mAdapter;
@@ -27,10 +37,30 @@ public class ChooseContactsActivity extends Activity {
 	private CheckedTextView mCheckedTextViewShowDifference;
 	private ContactsData mContactsData;
 	private GetSysContactsTask mTask;
+	private SearchView mSearchView;
+	private Toast mToast;
+
+//	private EditText mEditTextFilter;
+
+//	private TextWatcher mTextWatcher = new TextWatcher() {
+//		
+//		@Override
+//		public void onTextChanged(CharSequence s, int start, int before, int count) {
+//		}
+//		
+//		@Override
+//		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//		}
+//		
+//		@Override
+//		public void afterTextChanged(Editable s) {
+//		}
+//	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		setTitle(mTitle);
 		setContentView(R.layout.choose_contacts);
 		mGroupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, 0);
@@ -52,6 +82,8 @@ public class ChooseContactsActivity extends Activity {
 				mCheckedTextViewShowDifference.setText("显示联系人不同号码, 当前共 " + newCount + " 项");
 			}
 		});
+//		mEditTextFilter = (EditText) findViewById(R.id.edittext_filter);
+//		mEditTextFilter.setVisibility(View.GONE);
 		mListViewContacts = (ListView) findViewById(R.id.listview_contacts);
 		mAdapter = new ChooseContactsAdapter(this);
 		mListViewContacts.setAdapter(mAdapter);
@@ -72,6 +104,69 @@ public class ChooseContactsActivity extends Activity {
 
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
 		refreshListView();
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case 100:
+//			mEditTextFilter.setVisibility(View.VISIBLE);
+//			mCheckedTextViewShowDifference.setVisibility(View.GONE);
+			Log.i(PREFIX, "should not be called");
+			break;
+
+		case 101:
+			Log.i(PREFIX, "searchView iconified=" + mSearchView.isIconified());
+			mSearchView.setIconified(!mSearchView.isIconified());
+			break;
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!mSearchView.isIconified()) {
+//			mEditTextFilter.removeTextChangedListener(mTextWatcher);
+//			mEditTextFilter.setVisibility(View.GONE);
+//			mEditTextFilter.setText("");
+			mSearchView.setIconified(true);
+			if (!mSearchView.isIconified()) {
+				mSearchView.setIconified(true);
+			}
+			mCheckedTextViewShowDifference.setVisibility(View.VISIBLE);
+		} else {
+			super.onBackPressed();
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuItem item = menu.add(100, 100, 100, "Search");
+		item.setIcon(android.R.drawable.ic_menu_search);
+		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		mSearchView = new SearchView(this);
+		item.setActionView(mSearchView);
+		mSearchView.setOnQueryTextListener(this);
+		mSearchView.setQueryHint("Input digital only");
+		mSearchView.setInputType(InputType.TYPE_CLASS_NUMBER);
+		mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mCheckedTextViewShowDifference.setVisibility(View.GONE);
+			}
+
+		});
+		mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+
+			@Override
+			public boolean onClose() {
+				mCheckedTextViewShowDifference.setVisibility(View.VISIBLE);
+				return false;
+			}
+		});
+		menu.add(100, 101, 101, "Test");
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	public void refreshListView() {
@@ -95,7 +190,7 @@ public class ChooseContactsActivity extends Activity {
 		for (int idx = 0; idx < size; ++idx) {
 			if (checkedItemPositions.valueAt(idx)) {
 				int pos = checkedItemPositions.keyAt(idx);
-				ContactsForDisplay item = mAdapter.getItem(pos);
+				ChooseContactsForDisplay item = mAdapter.getItem(pos);
 				SMSGroupEntryContactsItem smsItem = new SMSGroupEntryContactsItem(-1, (int) item.mContactsId, item.mName, item.mPhone, false);
 				listContacts.add(smsItem);
 			}
@@ -124,6 +219,26 @@ public class ChooseContactsActivity extends Activity {
 		if (mTask != null) {
 			mTask.cancel(true);
 		}
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		return true;
+	}
+
+	@Override
+	public boolean onQueryTextChange(String newText) {
+		if (!TextUtils.isDigitsOnly(newText)) {
+			if (mToast == null) {
+				mToast = Toast.makeText(this, newText, Toast.LENGTH_SHORT);
+			}
+			mToast.setText("Need all text is digits");
+			mToast.show();
+		} else {
+			mAdapter.filter(newText);
+			Log.i(PREFIX, "onQueryTextChange " + newText);
+		}
+		return true;
 	}
 
 }
