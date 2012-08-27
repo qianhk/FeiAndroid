@@ -1,5 +1,7 @@
 package com.njnu.kai.feisms;
 
+import java.util.Stack;
+
 public class ChooseContactsForDisplay {
 	public long mContactsId;
 	public String mName;
@@ -36,18 +38,28 @@ public class ChooseContactsForDisplay {
 		int digitalLen = digitalText.length;
 		int idxDigital = 0;
 		int idxT9Key = t9KeyFromIndex;
+		Stack<Integer> stackKeyIndex = new Stack<Integer>();
+		Stack<Integer> stackDigitalIndex = new Stack<Integer>();
 		for (; idxT9Key < t9Key.length; ++idxT9Key) {
 			char[] t9KeyItem = t9Key[idxT9Key];
 			if (t9KeyItem == null) {
 				continue;
 			}
 			if (t9KeyItem[0] != digitalText[idxDigital]) {
-				break;
+				if (stackKeyIndex.empty()) {
+					break;
+				} else {
+					idxT9Key = stackKeyIndex.pop();
+					idxDigital = stackDigitalIndex.pop();
+					++idxDigital;
+				}
 			} else {
 				if (idxDigital == digitalLen - 1) {
 					accord = true;
 					break;
 				}
+				stackKeyIndex.push(idxT9Key);
+				stackDigitalIndex.push(idxDigital);
 				if (isRightAccordWith(t9KeyItem, digitalText, idxDigital)) {
 					idxDigital += t9KeyItem.length;
 					if (idxDigital >= digitalLen) {
@@ -55,6 +67,8 @@ public class ChooseContactsForDisplay {
 						break;
 					}
 				} else {
+					idxT9Key = stackKeyIndex.pop();
+					idxDigital = stackDigitalIndex.pop();
 					++idxDigital;
 				}
 			}
