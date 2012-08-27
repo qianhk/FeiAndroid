@@ -29,6 +29,7 @@ public class ChooseContactsAdapter extends BaseAdapter {
 	private List<ChooseContactsForDisplay> mListContactsForDisplayFilter;
 
 	private long[] mUsedContactsId;
+	private String mFilterString;
 
 	public ChooseContactsAdapter(Context context) {
 		mContext = context;
@@ -42,7 +43,8 @@ public class ChooseContactsAdapter extends BaseAdapter {
 	}
 
 	public void refreshContactsData(boolean isDisplayDifference) {
-		if (mContactsData == null) return;
+		if (mContactsData == null)
+			return;
 
 		mDisplayDifference = isDisplayDifference;
 		mListContactsForDisplay.clear();
@@ -100,7 +102,12 @@ public class ChooseContactsAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.simple_list_item_checked, null);
 		}
 		CheckedTextView tv = (CheckedTextView) convertView;
-		tv.setText(getItem(position).toString());
+		ChooseContactsForDisplay item = getItem(position);
+		if (mListContactsForDisplayFilter == null) {
+			tv.setText(item.toString());
+		} else {
+			tv.setText(item.toString(mFilterString));
+		}
 //		Log.i(PREFIX, "getView=" + convertView);
 		return convertView;
 	}
@@ -119,10 +126,11 @@ public class ChooseContactsAdapter extends BaseAdapter {
 		mListContactsForDisplay = mListContactsForDisplayFilter;
 //		mListContactsForDisplayFilter.addAll(mListContactsForDisplayBak);
 		for (ChooseContactsForDisplay contacts : mListContactsForDisplayBak) {
-			if (contacts.isAccordWith(newText)) {
+			if (contacts.getAccordInfo(newText) != null) {
 				mListContactsForDisplay.add(contacts);
 			}
 		}
+		mFilterString = newText;
 		notifyDataSetChanged();
 	}
 

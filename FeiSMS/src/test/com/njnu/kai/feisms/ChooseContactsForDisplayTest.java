@@ -60,18 +60,18 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[1] = new char[] {'2', '2', '3'};
 		py.mT9Key[2] = new char[] {'3', '2', '3'};
 		py.mT9Key[3] = new char[] {'4', '2', '3'};
-		assertTrue(c1.isAccordWith("1"));
-		assertTrue(c1.isAccordWith("2"));
-		assertTrue(c1.isAccordWith("3"));
-		assertTrue(c1.isAccordWith("4"));
-		assertTrue(c1.isAccordWith("123"));
-		assertTrue(c1.isAccordWith("223"));
-		assertTrue(c1.isAccordWith("323"));
-		assertTrue(c1.isAccordWith("423"));
-		assertTrue(c1.isAccordWith("234"));
-		assertFalse(c1.isAccordWith("233"));
-		assertFalse(c1.isAccordWith("789"));
-		assertTrue(c1.isAccordWith("232"));
+		assertNotNull(c1.getAccordInfo("1"));
+		assertNotNull(c1.getAccordInfo("2"));
+		assertNotNull(c1.getAccordInfo("3"));
+		assertNotNull(c1.getAccordInfo("4"));
+		assertNotNull(c1.getAccordInfo("123"));
+		assertNotNull(c1.getAccordInfo("223"));
+		assertNotNull(c1.getAccordInfo("323"));
+		assertNotNull(c1.getAccordInfo("423"));
+		assertNotNull(c1.getAccordInfo("234"));
+		assertNull(c1.getAccordInfo("233"));
+		assertNull(c1.getAccordInfo("789"));
+		assertNotNull(c1.getAccordInfo("232"));
 	}
 
 	public final void testIsAccordWith_Normal() {
@@ -86,17 +86,17 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[1] = new char[] {'2', '2', '3'};
 		py.mT9Key[2] = new char[] {'3', '2', '3'};
 		py.mT9Key[3] = new char[] {'4', '2', '3'};
-		assertTrue(c1.isAccordWith("123"));
-		assertTrue(c1.isAccordWith("1234"));
-		assertTrue(c1.isAccordWith("223"));
-		assertTrue(c1.isAccordWith("2233"));
-		assertTrue(c1.isAccordWith("223323"));
-		assertTrue(c1.isAccordWith("234"));
-		assertTrue(c1.isAccordWith("2342"));
-		assertTrue(c1.isAccordWith("23423"));
-		assertFalse(c1.isAccordWith("233"));
-		assertTrue(c1.isAccordWith("232"));
-		assertFalse(c1.isAccordWith("124"));
+		assertNotNull(c1.getAccordInfo("123"));
+		assertNotNull(c1.getAccordInfo("1234"));
+		assertNotNull(c1.getAccordInfo("223"));
+		assertNotNull(c1.getAccordInfo("2233"));
+		assertNotNull(c1.getAccordInfo("223323"));
+		assertNotNull(c1.getAccordInfo("234"));
+		assertNotNull(c1.getAccordInfo("2342"));
+		assertNotNull(c1.getAccordInfo("23423"));
+		assertNull(c1.getAccordInfo("233"));
+		assertNotNull(c1.getAccordInfo("232"));
+		assertNull(c1.getAccordInfo("124"));
 	}
 
 	public final void testIsAccordWith_HaveNullKey() {
@@ -113,33 +113,33 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[2] = new char[] {'3', '2', '3'};
 		py.mT9Key[3] = null;
 		py.mT9Key[4] = new char[] {'4', '2', '3'};
-		assertTrue(c1.isAccordWith("123"));
-		assertTrue(c1.isAccordWith("1234"));   //多次符合条件后又不符合再又符合
-		assertTrue(c1.isAccordWith("223"));
-		assertTrue(c1.isAccordWith("2233"));
-		assertTrue(c1.isAccordWith("223323"));
-		assertTrue(c1.isAccordWith("234"));
-		assertTrue(c1.isAccordWith("2342"));
-		assertTrue(c1.isAccordWith("23423"));
-		assertFalse(c1.isAccordWith("233"));
-		assertTrue(c1.isAccordWith("232"));
-		assertFalse(c1.isAccordWith("124"));
+		assertNotNull(c1.getAccordInfo("123"));
+		assertNotNull(c1.getAccordInfo("1234"));   //多次符合条件后又不符合再又符合
+		assertNotNull(c1.getAccordInfo("223"));
+		assertNotNull(c1.getAccordInfo("2233"));
+		assertNotNull(c1.getAccordInfo("223323"));
+		assertNotNull(c1.getAccordInfo("234"));
+		assertNotNull(c1.getAccordInfo("2342"));
+		assertNotNull(c1.getAccordInfo("23423"));
+		assertNull(c1.getAccordInfo("233"));
+		assertNotNull(c1.getAccordInfo("232"));
+		assertNull(c1.getAccordInfo("124"));
 	}
 
 	public final void testIsAccordWith_All_Englist() {
 		ChooseContactsForDisplay c1 = createDisplayContacts(1, "The day you went away", "13300000000");
 		//843 329 968 9368 2929
-		assertTrue(c1.isAccordWith("3992"));
-		assertTrue(c1.isAccordWith("292"));
-		assertTrue(c1.isAccordWith("9936"));
-		assertTrue(c1.isAccordWith("936829"));
-		assertTrue(c1.isAccordWith("8329993"));
-		assertTrue(c1.isAccordWith("396892929"));
-		assertTrue(c1.isAccordWith("396892"));
-		assertTrue(c1.isAccordWith("3968929"));
-		assertFalse(c1.isAccordWith("433"));
-		assertFalse(c1.isAccordWith("299"));
-		assertFalse(c1.isAccordWith("6893"));
+		assertNotNull(c1.getAccordInfo("3992"));
+		assertNotNull(c1.getAccordInfo("292"));
+		assertNotNull(c1.getAccordInfo("9936"));
+		assertNotNull(c1.getAccordInfo("936829"));
+		assertNotNull(c1.getAccordInfo("8329993"));
+		assertNotNull(c1.getAccordInfo("396892929"));
+		assertNotNull(c1.getAccordInfo("396892"));
+		assertNotNull(c1.getAccordInfo("3968929"));
+		assertNull(c1.getAccordInfo("433"));
+		assertNull(c1.getAccordInfo("299"));
+		assertNull(c1.getAccordInfo("6893"));
 	}
 
 	public final void testIsAccordWith_Have_Englist() {
@@ -163,18 +163,18 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[5] = new char[] {'6', '2'};
 		py.mT9Key[6] = new char[] {'7', '4', '2'};
 
-		assertTrue(c1.isAccordWith("9426493627"));   //多次符合条件后又不符合再又符合
-		assertTrue(c1.isAccordWith("94264936274"));   //多次符合条件后又不符合再又符合
-		assertTrue(c1.isAccordWith("942649362742"));   //多次符合条件后又不符合再又符合
-		assertTrue(c1.isAccordWith("9362"));   //多次符合条件后又不符合再又符合
-		assertTrue(c1.isAccordWith("93636"));
-		assertTrue(c1.isAccordWith("627"));
-		assertTrue(c1.isAccordWith("9367"));   //多次符合条件后又不符合再又符合
-		assertTrue(c1.isAccordWith("367"));
-		assertFalse(c1.isAccordWith("94936"));
-		assertFalse(c1.isAccordWith("3636"));
-		assertFalse(c1.isAccordWith("6272"));
-		assertFalse(c1.isAccordWith("9426493627422"));
+		assertNotNull(c1.getAccordInfo("9426493627"));   //多次符合条件后又不符合再又符合
+		assertNotNull(c1.getAccordInfo("94264936274"));   //多次符合条件后又不符合再又符合
+		assertNotNull(c1.getAccordInfo("942649362742"));   //多次符合条件后又不符合再又符合
+		assertNotNull(c1.getAccordInfo("9362"));   //多次符合条件后又不符合再又符合
+		assertNotNull(c1.getAccordInfo("93636"));
+		assertNotNull(c1.getAccordInfo("627"));
+		assertNotNull(c1.getAccordInfo("9367"));   //多次符合条件后又不符合再又符合
+		assertNotNull(c1.getAccordInfo("367"));
+		assertNull(c1.getAccordInfo("94936"));
+		assertNull(c1.getAccordInfo("3636"));
+		assertNull(c1.getAccordInfo("6272"));
+		assertNull(c1.getAccordInfo("9426493627422"));
 	}
 
 //	public final void testHanziToPinyin_ZHONG() {

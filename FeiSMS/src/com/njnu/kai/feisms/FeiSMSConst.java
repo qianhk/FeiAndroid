@@ -5,6 +5,9 @@
  */
 package com.njnu.kai.feisms;
 
+import android.graphics.Color;
+import android.text.style.ForegroundColorSpan;
+
 /**
  * class 
  * @author hongkai.qian
@@ -22,5 +25,7 @@ public final class FeiSMSConst {
 	public static final int REQUEST_CODE_CHOOSE_CONTACTS = 1;
 	public static final int GROUP_ID_EXCLUDE = -1;
 	public static final int GROUP_ID_CREATE = -2;
+	
+	public static final ForegroundColorSpan FOREGROUNDCOLORSPAN_YELLO = new ForegroundColorSpan(Color.YELLOW);
 
 }

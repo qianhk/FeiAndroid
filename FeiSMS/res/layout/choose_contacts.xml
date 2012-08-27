@@ -23,7 +23,7 @@
         android:enabled="true"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:gravity="center_vertical"
-        android:textColor="#FFFF00"
+        android:textColor="@color/yellow"
         android:layout_margin="5dip"
         android:text="显示联系人不同号码" />
 
