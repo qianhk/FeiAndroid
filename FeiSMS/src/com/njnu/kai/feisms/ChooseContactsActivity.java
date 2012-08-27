@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 
 public class ChooseContactsActivity extends Activity implements OnQueryTextListener {
-	private static final String PREFIX = "ChooseContacts";
+	private static final String PREFIX = "ChooseContactsActivity";
 	private ListView mListViewContacts;
 	private ChooseContactsAdapter mAdapter;
 	private static final String mTitle = "Choose Contacts";
@@ -236,7 +236,7 @@ public class ChooseContactsActivity extends Activity implements OnQueryTextListe
 			mToast.show();
 		} else {
 			mAdapter.filter(newText);
-			Log.i(PREFIX, "onQueryTextChange " + newText);
+//			Log.i(PREFIX, "onQueryTextChange " + newText);
 		}
 		return true;
 	}

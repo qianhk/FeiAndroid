@@ -90,6 +90,10 @@ public class ChooseContactsForDisplay {
 				}
 			}
 		}
+		
+		if (mPhone.indexOf(digitalText) >= 0) {
+			accord = true;
+		}
 
 		return accord;
 	}
