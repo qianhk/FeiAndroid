@@ -48,7 +48,7 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		assertEquals("天\u3000\u3000: 13300000000", c4.toString());
 	}
 
-	public final void testIsAccordWith_Simple() {
+	public final void testIsMatchesWith_Simple() {
 		ChooseContactsForDisplay c1 = createDisplayContacts(1, "测试匹配", "13300000000");
 		HanziToPinyin.Pinyin py = new HanziToPinyin.Pinyin(4);
 		c1.mPinyin = py;
@@ -60,21 +60,33 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[1] = new char[] {'2', '2', '3'};
 		py.mT9Key[2] = new char[] {'3', '2', '3'};
 		py.mT9Key[3] = new char[] {'4', '2', '3'};
-		assertNotNull(c1.getAccordInfo("1"));
-		assertNotNull(c1.getAccordInfo("2"));
-		assertNotNull(c1.getAccordInfo("3"));
-		assertNotNull(c1.getAccordInfo("4"));
-		assertNotNull(c1.getAccordInfo("123"));
-		assertNotNull(c1.getAccordInfo("223"));
-		assertNotNull(c1.getAccordInfo("323"));
-		assertNotNull(c1.getAccordInfo("423"));
-		assertNotNull(c1.getAccordInfo("234"));
-		assertNull(c1.getAccordInfo("233"));
-		assertNull(c1.getAccordInfo("789"));
-		assertNotNull(c1.getAccordInfo("232"));
+		int[] matchesInfo = c1.getMatchesInfo("33");
+		assertNotNull(matchesInfo);
+		assertEquals(0, matchesInfo[0]);
+		assertEquals(1, matchesInfo[1]);
+		assertEquals(2, matchesInfo[2]);
+		assertNotNull(c1.getMatchesInfo("2"));
+		assertNotNull(c1.getMatchesInfo("3"));
+		assertNotNull(c1.getMatchesInfo("4"));
+		assertNotNull(c1.getMatchesInfo("123"));
+		matchesInfo = c1.getMatchesInfo("223");
+		assertNotNull(matchesInfo);
+		assertEquals(1, matchesInfo[0]);
+		assertEquals(1, matchesInfo[1]);
+		assertEquals(1, matchesInfo[2]);
+		assertNotNull(c1.getMatchesInfo("323"));
+		assertNotNull(c1.getMatchesInfo("423"));
+		matchesInfo = c1.getMatchesInfo("234");
+		assertNotNull(matchesInfo);
+		assertEquals(1, matchesInfo[0]);
+		assertEquals(1, matchesInfo[1]);
+		assertEquals(3, matchesInfo[2]);
+		assertNull(c1.getMatchesInfo("233"));
+		assertNull(c1.getMatchesInfo("789"));
+		assertNotNull(c1.getMatchesInfo("232"));
 	}
 
-	public final void testIsAccordWith_Normal() {
+	public final void testIsMatchesWith_Normal() {
 		ChooseContactsForDisplay c1 = createDisplayContacts(1, "测试匹配", "13300000000");
 		HanziToPinyin.Pinyin py = new HanziToPinyin.Pinyin(4);
 		c1.mPinyin = py;
@@ -86,20 +98,23 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[1] = new char[] {'2', '2', '3'};
 		py.mT9Key[2] = new char[] {'3', '2', '3'};
 		py.mT9Key[3] = new char[] {'4', '2', '3'};
-		assertNotNull(c1.getAccordInfo("123"));
-		assertNotNull(c1.getAccordInfo("1234"));
-		assertNotNull(c1.getAccordInfo("223"));
-		assertNotNull(c1.getAccordInfo("2233"));
-		assertNotNull(c1.getAccordInfo("223323"));
-		assertNotNull(c1.getAccordInfo("234"));
-		assertNotNull(c1.getAccordInfo("2342"));
-		assertNotNull(c1.getAccordInfo("23423"));
-		assertNull(c1.getAccordInfo("233"));
-		assertNotNull(c1.getAccordInfo("232"));
-		assertNull(c1.getAccordInfo("124"));
+		assertNotNull(c1.getMatchesInfo("123"));
+		assertNotNull(c1.getMatchesInfo("1234"));
+		assertNull(c1.getMatchesInfo("12345"));
+		assertNotNull(c1.getMatchesInfo("123423"));
+		assertNull(c1.getMatchesInfo("1234231"));
+		assertNotNull(c1.getMatchesInfo("223"));
+		assertNotNull(c1.getMatchesInfo("2233"));
+		assertNotNull(c1.getMatchesInfo("223323"));
+		assertNotNull(c1.getMatchesInfo("234"));
+		assertNotNull(c1.getMatchesInfo("2342"));
+		assertNotNull(c1.getMatchesInfo("23423"));
+		assertNull(c1.getMatchesInfo("233"));
+		assertNotNull(c1.getMatchesInfo("232"));
+		assertNull(c1.getMatchesInfo("124"));
 	}
 
-	public final void testIsAccordWith_HaveNullKey() {
+	public final void testIsMatchesWith_HaveNullKey() {
 		ChooseContactsForDisplay c1 = createDisplayContacts(1, "测试匹_配", "13300000000");
 		HanziToPinyin.Pinyin py = new HanziToPinyin.Pinyin(5);
 		c1.mPinyin = py;
@@ -113,36 +128,45 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[2] = new char[] {'3', '2', '3'};
 		py.mT9Key[3] = null;
 		py.mT9Key[4] = new char[] {'4', '2', '3'};
-		assertNotNull(c1.getAccordInfo("123"));
-		assertNotNull(c1.getAccordInfo("1234"));   //多次符合条件后又不符合再又符合
-		assertNotNull(c1.getAccordInfo("223"));
-		assertNotNull(c1.getAccordInfo("2233"));
-		assertNotNull(c1.getAccordInfo("223323"));
-		assertNotNull(c1.getAccordInfo("234"));
-		assertNotNull(c1.getAccordInfo("2342"));
-		assertNotNull(c1.getAccordInfo("23423"));
-		assertNull(c1.getAccordInfo("233"));
-		assertNotNull(c1.getAccordInfo("232"));
-		assertNull(c1.getAccordInfo("124"));
+		assertNotNull(c1.getMatchesInfo("123"));
+		assertNotNull(c1.getMatchesInfo("1234"));   //多次符合条件后又不符合再又符合
+		assertNull(c1.getMatchesInfo("12345"));   //多次符合条件后又不符合再又符合
+		assertNotNull(c1.getMatchesInfo("223"));
+		assertNotNull(c1.getMatchesInfo("2233"));
+		assertNotNull(c1.getMatchesInfo("223323"));
+		assertNotNull(c1.getMatchesInfo("234"));
+		assertNotNull(c1.getMatchesInfo("2342"));
+		assertNotNull(c1.getMatchesInfo("23423"));
+		assertNull(c1.getMatchesInfo("233"));
+		assertNotNull(c1.getMatchesInfo("232"));
+		assertNull(c1.getMatchesInfo("124"));
 	}
 
-	public final void testIsAccordWith_All_Englist() {
+	public final void testIsMatchesWith_All_Englist() {
 		ChooseContactsForDisplay c1 = createDisplayContacts(1, "The day you went away", "13300000000");
 		//843 329 968 9368 2929
-		assertNotNull(c1.getAccordInfo("3992"));
-		assertNotNull(c1.getAccordInfo("292"));
-		assertNotNull(c1.getAccordInfo("9936"));
-		assertNotNull(c1.getAccordInfo("936829"));
-		assertNotNull(c1.getAccordInfo("8329993"));
-		assertNotNull(c1.getAccordInfo("396892929"));
-		assertNotNull(c1.getAccordInfo("396892"));
-		assertNotNull(c1.getAccordInfo("3968929"));
-		assertNull(c1.getAccordInfo("433"));
-		assertNull(c1.getAccordInfo("299"));
-		assertNull(c1.getAccordInfo("6893"));
+		int[] matchesInfo = c1.getMatchesInfo("3992");
+		assertNotNull(matchesInfo);
+		assertEquals(1, matchesInfo[0]);
+		assertEquals(4, matchesInfo[1]);
+		assertEquals(14, matchesInfo[2]);
+		assertNotNull(c1.getMatchesInfo("292"));
+		matchesInfo = c1.getMatchesInfo("9936");
+		assertNotNull(matchesInfo);
+		assertEquals(1, matchesInfo[0]);
+		assertEquals(8, matchesInfo[1]);
+		assertEquals(7, matchesInfo[2]);
+		assertNotNull(c1.getMatchesInfo("936829"));
+		assertNotNull(c1.getMatchesInfo("8329993"));
+		assertNotNull(c1.getMatchesInfo("396892929"));
+		assertNotNull(c1.getMatchesInfo("396892"));
+		assertNotNull(c1.getMatchesInfo("3968929"));
+		assertNull(c1.getMatchesInfo("433"));
+		assertNull(c1.getMatchesInfo("299"));
+		assertNull(c1.getMatchesInfo("6893"));
 	}
 
-	public final void testIsAccordWith_Have_Englist() {
+	public final void testIsMatchesWith_Have_Englist() {
 		ChooseContactsForDisplay c1 = createDisplayContacts(1, "中文  English 那啥", "13300000000");
 		//94264 936 x 3645474 x 62 742
 		//  1    1  2     7   1  1   1
@@ -163,18 +187,35 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[5] = new char[] {'6', '2'};
 		py.mT9Key[6] = new char[] {'7', '4', '2'};
 
-		assertNotNull(c1.getAccordInfo("9426493627"));   //多次符合条件后又不符合再又符合
-		assertNotNull(c1.getAccordInfo("94264936274"));   //多次符合条件后又不符合再又符合
-		assertNotNull(c1.getAccordInfo("942649362742"));   //多次符合条件后又不符合再又符合
-		assertNotNull(c1.getAccordInfo("9362"));   //多次符合条件后又不符合再又符合
-		assertNotNull(c1.getAccordInfo("93636"));
-		assertNotNull(c1.getAccordInfo("627"));
-		assertNotNull(c1.getAccordInfo("9367"));   //多次符合条件后又不符合再又符合
-		assertNotNull(c1.getAccordInfo("367"));
-		assertNull(c1.getAccordInfo("94936"));
-		assertNull(c1.getAccordInfo("3636"));
-		assertNull(c1.getAccordInfo("6272"));
-		assertNull(c1.getAccordInfo("9426493627422"));
+		int[] matchesInfo = c1.getMatchesInfo("942649362742");
+		assertNotNull(c1.getMatchesInfo("9426493627"));   //多次符合条件后又不符合再又符合
+		assertNotNull(c1.getMatchesInfo("94264936274"));   //多次符合条件后又不符合再又符合
+		matchesInfo = c1.getMatchesInfo("942649362742");
+		assertNotNull(matchesInfo);   //多次符合条件后又不符合再又符合
+		assertEquals(1, matchesInfo[0]);
+		assertEquals(0, matchesInfo[1]);
+		assertEquals(14, matchesInfo[2]);
+		matchesInfo = c1.getMatchesInfo("9362");
+		assertNotNull(matchesInfo);   //多次符合条件后又不符合再又符合
+		assertEquals(1, matchesInfo[0]);
+		assertEquals(1, matchesInfo[1]);
+		assertEquals(12, matchesInfo[2]);
+		matchesInfo = c1.getMatchesInfo("93636");
+		assertNotNull(matchesInfo);
+		assertEquals(1, matchesInfo[0]);
+		assertEquals(1, matchesInfo[1]);
+		assertEquals(5, matchesInfo[2]);
+		assertNotNull(c1.getMatchesInfo("627"));
+		assertNotNull(c1.getMatchesInfo("9367"));   //多次符合条件后又不符合再又符合
+		matchesInfo = c1.getMatchesInfo("367");
+		assertNotNull(matchesInfo);
+		assertEquals(1, matchesInfo[0]);
+		assertEquals(4, matchesInfo[1]);
+		assertEquals(10, matchesInfo[2]);
+		assertNull(c1.getMatchesInfo("94936"));
+		assertNull(c1.getMatchesInfo("3636"));
+		assertNull(c1.getMatchesInfo("6272"));
+		assertNull(c1.getMatchesInfo("9426493627422"));
 	}
 
 //	public final void testHanziToPinyin_ZHONG() {

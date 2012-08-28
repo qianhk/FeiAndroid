@@ -126,7 +126,7 @@ public class ChooseContactsAdapter extends BaseAdapter {
 		mListContactsForDisplay = mListContactsForDisplayFilter;
 //		mListContactsForDisplayFilter.addAll(mListContactsForDisplayBak);
 		for (ChooseContactsForDisplay contacts : mListContactsForDisplayBak) {
-			if (contacts.getAccordInfo(newText) != null) {
+			if (contacts.getMatchesInfo(newText) != null) {
 				mListContactsForDisplay.add(contacts);
 			}
 		}
