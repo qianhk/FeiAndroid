@@ -1,6 +1,9 @@
 package com.njnu.kai.feisms;
 
+import java.util.Iterator;
 import java.util.List;
+
+import com.njnu.kai.feisms.HanziToPinyin.Pinyin;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -11,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -99,6 +103,32 @@ public class FeiSMSActivity extends ListActivity implements SendSMSTask.UpdateSM
 //			promptRestoreSelectState("onCreate length=" + selectedRow.length);
 //			mAdapterGroupInfo.setCheckedState(selectedRow);
 //		}
+		
+//		testSimpleStringSplit();
+	}
+	
+	
+	public final void testSimpleStringSplit() {
+		String testStr = "543,1,,,,,,2,235,3";
+		TextUtils.SimpleStringSplitter splitter = new TextUtils.SimpleStringSplitter(',');
+		splitter.setString(testStr);
+		Log.i(PREFIX, "null=" + null);
+		Log.i(PREFIX, "");
+		Log.i(PREFIX, testStr);
+		for (String str : splitter) {
+			Log.i(PREFIX, str);
+		}
+		testStr = "a,,,b,,";
+		Log.i(PREFIX, testStr);
+		splitter.setString(testStr);
+		for (String str : splitter) {
+			Log.i(PREFIX, "str=" + str);
+			String str2 = str;
+            int i = 0; 
+            i = 1;
+		}
+		Pinyin pinyin = HanziToPinyin.Pinyin.parse("7,94264,1,936,1,0,2,3645474,7,0,1,62,1,742,1");
+		Log.i(PREFIX, pinyin.toString());
 	}
 
 	private void openContentContactsDetailActivity(int groupId) {

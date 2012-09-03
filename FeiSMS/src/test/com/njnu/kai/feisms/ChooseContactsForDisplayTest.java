@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.njnu.kai.feisms.ChooseContactsForDisplay;
 import com.njnu.kai.feisms.HanziToPinyin;
+import com.njnu.kai.feisms.HanziToPinyin.Pinyin;
 import com.njnu.kai.feisms.HanziToPinyin.Token;
 
 import junit.framework.TestCase;
@@ -60,6 +61,12 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[1] = new char[] {'2', '2', '3'};
 		py.mT9Key[2] = new char[] {'3', '2', '3'};
 		py.mT9Key[3] = new char[] {'4', '2', '3'};
+		
+		String keyString = py.toString();
+		assertEquals("4,123,1,223,1,323,1,423,1", keyString);
+//		Pinyin parse = HanziToPinyin.Pinyin.parse(keyString);
+//		assertEquals("4,123,1,223,1,323,1,423,1", parse.toString());
+		
 		int[] matchesInfo = c1.getMatchesInfo("33");
 		assertNotNull(matchesInfo);
 		assertEquals(0, matchesInfo[0]);
@@ -115,7 +122,7 @@ public class ChooseContactsForDisplayTest extends TestCase {
 	}
 
 	public final void testIsMatchesWith_HaveNullKey() {
-		ChooseContactsForDisplay c1 = createDisplayContacts(1, "测试匹_配", "13300000000");
+		ChooseContactsForDisplay c1 = createDisplayContacts(1, "测试匹_'配", "13300000000");
 		HanziToPinyin.Pinyin py = new HanziToPinyin.Pinyin(5);
 		c1.mPinyin = py;
 		py.mPlaceHolder[0] = 1;
@@ -186,6 +193,11 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[4] = null;
 		py.mT9Key[5] = new char[] {'6', '2'};
 		py.mT9Key[6] = new char[] {'7', '4', '2'};
+		
+		String keyString = py.toString();
+		assertEquals("7,94264,1,936,1,0,2,3645474,7,0,1,62,1,742,1", keyString);
+//		Pinyin parse = HanziToPinyin.Pinyin.parse(keyString);
+//		assertEquals("7,94264,1,936,1,0,2,3645474,7,0,1,62,1,742,1", parse.toString());
 
 		int[] matchesInfo = c1.getMatchesInfo("942649362742");
 		assertNotNull(c1.getMatchesInfo("9426493627"));   //多次符合条件后又不符合再又符合
@@ -235,4 +247,5 @@ public class ChooseContactsForDisplayTest extends TestCase {
 ////		assertEquals("NA", arrToken.get(5).target);
 ////		assertEquals("SHA", arrToken.get(6).target);
 //	}
+
 }

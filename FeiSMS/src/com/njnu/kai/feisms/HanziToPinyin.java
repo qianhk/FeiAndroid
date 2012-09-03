@@ -18,6 +18,8 @@ package com.njnu.kai.feisms;
 
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Locale;
 
 import android.text.TextUtils;
@@ -176,6 +178,49 @@ public class HanziToPinyin {
 		public Pinyin(int size) {
 			mT9Key = new char[size][];
 			mPlaceHolder = new int[size];
+		}
+
+		@Override
+		public String toString() {
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append(mT9Key.length);
+			for (int idx = 0; idx < mT9Key.length; ++idx) {
+				strBuilder.append(',');
+				char[] item = mT9Key[idx];
+				if (item == null) {
+					strBuilder.append('0');
+				} else {
+					strBuilder.append(new String(item));
+				}
+				strBuilder.append(',');
+				strBuilder.append(mPlaceHolder[idx]);
+			}
+			return strBuilder.toString();
+		}
+
+		/**
+		 * 从字符串解析出拼字数字键值
+		 * 
+		 * @param string 要转换的字符串
+		 * @return 拼音键值
+		 */
+		public static Pinyin parse(String string) {
+			TextUtils.SimpleStringSplitter sss = new TextUtils.SimpleStringSplitter(',');
+			sss.setString(string);
+			Iterator<String> iter = sss.iterator();
+			int amount = Integer.parseInt(iter.next());
+			Pinyin py = new Pinyin(amount);
+			for (int idx = 0; idx < amount; ++idx) {
+				String t9key = iter.next();
+				String placeHolder = iter.next();
+				if (t9key.length() == 1 && t9key.charAt(0) == '0') {
+					py.mT9Key[idx] = null;
+				} else {
+					py.mT9Key[idx] = t9key.toCharArray();
+				}
+				py.mPlaceHolder[idx] = Integer.parseInt(placeHolder);
+			}
+			return py;
 		}
 	}
 
