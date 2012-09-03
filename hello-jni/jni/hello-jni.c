@@ -20,6 +20,7 @@
 
 #include <string.h>
 #include <jni.h>
+#include <android/log.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,6 +41,7 @@ JNIEXPORT jstring JNICALL Java_com_example_hellojni_HelloJni_stringFromJNIWithPa
 	const char* srcStr = (*env)->GetStringUTFChars(env, src, 0);
 	strcpy(uu, srcStr);
 	char* destStr = strcat(uu, " cat C.");
+	__android_log_print(ANDROID_LOG_ERROR, "NDK_Kai", destStr);
 	return (*env)->NewStringUTF(env, destStr);
 
 }
