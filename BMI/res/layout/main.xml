@@ -25,6 +25,9 @@
         android:text="" />
 
     <Button android:id="@+id/submit" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/submit"/>
+    
+    <com.njnu.kai.bmi.TouchImageView android:layout_width="62dp" android:layout_height="40dp" android:src="@drawable/ic_launcher" android:layout_gravity="center"/>
+    
     <TextView android:id="@+id/result" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" />
     <TextView android:id="@+id/suggest" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" />
 
