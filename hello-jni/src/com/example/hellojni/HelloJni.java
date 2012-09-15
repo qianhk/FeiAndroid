@@ -15,6 +15,8 @@
  */
 package com.example.hellojni;
 
+import java.net.InterfaceAddress;
+
 import android.app.Activity;
 import android.widget.TextView;
 import android.os.Bundle;
@@ -32,8 +34,23 @@ public class HelloJni extends Activity {
 		tv.setText(stringFromJNIWithParam("Java"));
 		setContentView(tv);
 //        unimplementedStringFromJNI(); //java.lang.UnsatisfiedLinkError: unimplementedStringFromJNI
+		
+		int[] oriArr = new int[] {1, 2, 3, 4, 5};
+		int sumA = sumArray(oriArr, oriArr.length);
+		System.out.println("sumA=" + sumA); //expect 15
+		
+		int[][] j2arr = initInt2DArray(3);
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				System.out.println("(" + i + "," + j + ")=" + j2arr[i][j]);
+			}
+		}
 	}
+	
+	public native int sumArray(int arr[], int len);
 
+	public native int[][] initInt2DArray(int size);	
+	
 	/*
 	 * A native method that is implemented by the 'hello-jni' native library, which is packaged with this application.
 	 */

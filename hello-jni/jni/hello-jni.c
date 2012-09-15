@@ -23,8 +23,13 @@
 #include <android/log.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
+
+void testCccc()
+{
+}
 
 /* This is a trivial JNI example where we use a native method
  * to return a new VM String. See the corresponding Java source
@@ -32,17 +37,71 @@ extern "C" {
  *
  *   apps/samples/hello-jni/project/src/com/example/hellojni/HelloJni.java
  */
-jstring Java_com_example_hellojni_HelloJni_stringFromJNI(JNIEnv* env, jobject thiz) {
+jstring Java_com_example_hellojni_HelloJni_stringFromJNI(JNIEnv* env,
+		jobject thiz)
+{
+
 	return (*env)->NewStringUTF(env, "Hello from JNI Kai5!");
 }
 
-JNIEXPORT jstring JNICALL Java_com_example_hellojni_HelloJni_stringFromJNIWithParam(JNIEnv * env, jobject thiz, jstring src) {
+JNIEXPORT jstring JNICALL Java_com_example_hellojni_HelloJni_stringFromJNIWithParam(
+		JNIEnv * env, jobject thiz, jstring src)
+{
 	char uu[64];
 	const char* srcStr = (*env)->GetStringUTFChars(env, src, 0);
 	strcpy(uu, srcStr);
+
 	char* destStr = strcat(uu, " cat C.");
 	__android_log_print(ANDROID_LOG_ERROR, "NDK_Kai", destStr);
 	return (*env)->NewStringUTF(env, destStr);
+
+}
+
+JNIEXPORT jint JNICALL Java_com_example_hellojni_HelloJni_sumArray(JNIEnv * env,
+		jobject thiz, jintArray arr, jint len)
+{
+	jint buf[5], i, sum = 0;
+	(*env)->GetIntArrayRegion(env, arr, 0, 5, buf);
+	for (i = 0; i < 5; ++i)
+	{
+		sum += buf[i];
+	}
+	return sum;
+}
+
+JNIEXPORT jobjectArray JNICALL Java_com_example_hellojni_HelloJni_initInt2DArray(
+		JNIEnv * env, jobject thiz, int size)
+{
+	jobjectArray result;
+	int i;
+	jclass intArrCls = (*env)->FindClass(env, "[I");
+	if (intArrCls == NULL)
+	{
+		return NULL; /* exception thrown */
+	}
+	result = (*env)->NewObjectArray(env, size, intArrCls, NULL);
+	if (result == NULL)
+	{
+		return NULL; /* out of memory error thrown */
+	}
+	for (i = 0; i < size; i++)
+	{
+		jint tmp[256]; /* make sure it is large enough! */
+		int j;
+		jintArray iarr = (*env)->NewIntArray(env, size);
+		if (iarr == NULL)
+		{
+			return NULL; /* out of memory error thrown */
+		}
+		for (j = 0; j < size; j++)
+		{
+			tmp[j] = i + j;
+		}
+		(*env)->SetIntArrayRegion(env, iarr, 0, size, tmp);
+		(*env)->SetObjectArrayElement(env, result, i, iarr);
+		(*env)->DeleteLocalRef(env, iarr);
+	}
+	return result;
 
 }
 
