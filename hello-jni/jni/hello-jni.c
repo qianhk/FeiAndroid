@@ -31,21 +31,89 @@ void testCccc()
 {
 }
 
+char* ATC = "inC";
+
+JNIEXPORT void JNICALL Java_com_example_hellojni_TestClass_accessField(JNIEnv * env, jobject obj)
+{
+	jfieldID fid;
+	jstring jstr;
+	const char *str;
+	jclass cls = (*env)->GetObjectClass(env, obj);
+	__android_log_print(ANDROID_LOG_INFO, ATC, "In c:\n");
+
+	fid = (*env)->GetFieldID(env, cls, "s", "Ljava/lang/String;");
+	if (fid == NULL)
+	{
+		return; // failed to find the field
+	}
+
+	jstr = (*env)->GetObjectField(env, obj, fid);
+	str = (*env)->GetStringUTFChars(env, jstr, NULL);
+	if (str == NULL)
+	{
+		return; // out of memory
+	}
+	__android_log_print(ANDROID_LOG_INFO, ATC, "c.s=\"%s\"", str);
+	(*env)->ReleaseStringUTFChars(env, jstr, str);
+
+	jstr = (*env)->NewStringUTF(env, "123钱");
+	if (jstr == NULL)
+	{
+		return; // out of memory
+	}
+	(*env)->SetObjectField(env, obj, fid, jstr);
+
+	fid = (*env)->GetStaticFieldID(env, cls, "a", "I");
+	jint si = (*env)->GetStaticIntField(env, cls, fid);
+	__android_log_print(ANDROID_LOG_INFO, ATC, "ori static a field is: %d", si);
+	(*env)->SetStaticIntField(env, cls, fid, 924);
+
+	jmethodID mid = (*env)->GetMethodID(env, cls, "priMethod", "()V");
+	(*env)->CallVoidMethod(env, obj, mid);
+
+	/**
+	 * Runnable.run方法：
+	 jobject thd = ...; // a java.lang.Thread instance
+	 jmethodID mid;
+	 jclass runnableIntf =
+	 (*env)->FindClass(env, "java/lang/Runnable");
+	 if (runnableIntf == NULL) {
+	 ... // error handling
+	 }
+	 mid = (*env)->GetMethodID(env, runnableIntf, "run", "()V");
+	 if (mid == NULL) {
+	 ... /* error handling //
+	 }
+	 (*env)->CallVoidMethod(env, thd, mid);
+	 ... /* check for possible exceptions
+	 *
+	 */
+
+	/**
+	 * jmethodID mid =
+	 (*env)->GetStaticMethodID(env, cls, "callback", "()V");
+	 if (mid == NULL) {
+	 return;  // method not found
+	 }
+	 printf("In C\n");
+	 (*env)->CallStaticVoidMethod(env, cls, mid);
+	 *
+	 */
+}
+
 /* This is a trivial JNI example where we use a native method
  * to return a new VM String. See the corresponding Java source
  * file located at:
  *
  *   apps/samples/hello-jni/project/src/com/example/hellojni/HelloJni.java
  */
-jstring Java_com_example_hellojni_HelloJni_stringFromJNI(JNIEnv* env,
-		jobject thiz)
+jstring Java_com_example_hellojni_HelloJni_stringFromJNI(JNIEnv* env, jobject thiz)
 {
 
 	return (*env)->NewStringUTF(env, "Hello from JNI Kai5!");
 }
 
-JNIEXPORT jstring JNICALL Java_com_example_hellojni_HelloJni_stringFromJNIWithParam(
-		JNIEnv * env, jobject thiz, jstring src)
+JNIEXPORT jstring JNICALL Java_com_example_hellojni_HelloJni_stringFromJNIWithParam(JNIEnv * env, jobject thiz, jstring src)
 {
 	char uu[64];
 	const char* srcStr = (*env)->GetStringUTFChars(env, src, 0);
@@ -57,8 +125,7 @@ JNIEXPORT jstring JNICALL Java_com_example_hellojni_HelloJni_stringFromJNIWithPa
 
 }
 
-JNIEXPORT jint JNICALL Java_com_example_hellojni_HelloJni_sumArray(JNIEnv * env,
-		jobject thiz, jintArray arr, jint len)
+JNIEXPORT jint JNICALL Java_com_example_hellojni_HelloJni_sumArray(JNIEnv * env, jobject thiz, jintArray arr, jint len)
 {
 	jint buf[5], i, sum = 0;
 	(*env)->GetIntArrayRegion(env, arr, 0, 5, buf);
@@ -69,8 +136,7 @@ JNIEXPORT jint JNICALL Java_com_example_hellojni_HelloJni_sumArray(JNIEnv * env,
 	return sum;
 }
 
-JNIEXPORT jobjectArray JNICALL Java_com_example_hellojni_HelloJni_initInt2DArray(
-		JNIEnv * env, jobject thiz, int size)
+JNIEXPORT jobjectArray JNICALL Java_com_example_hellojni_HelloJni_initInt2DArray(JNIEnv * env, jobject thiz, int size)
 {
 	jobjectArray result;
 	int i;

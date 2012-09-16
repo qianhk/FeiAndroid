@@ -15,11 +15,28 @@
  */
 package com.example.hellojni;
 
-import java.net.InterfaceAddress;
-
 import android.app.Activity;
-import android.widget.TextView;
 import android.os.Bundle;
+import android.widget.TextView;
+
+class TestClass {
+	private String s;
+	public static int a;
+	
+	public String getS() {
+		return s;
+	}
+
+	public void setS(String s) {
+		this.s = s;
+	}
+	
+	private void priMethod() {
+		s = "kaikai好";
+	}
+
+	public native void accessField();
+}
 
 public class HelloJni extends Activity {
 	/** Called when the activity is first created. */
@@ -45,6 +62,13 @@ public class HelloJni extends Activity {
 				System.out.println("(" + i + "," + j + ")=" + j2arr[i][j]);
 			}
 		}
+		
+		TestClass tc = new TestClass();
+		tc.setS("qhk凯");
+		tc.a = 1224;
+		System.out.println("in java : before tc.s=" + tc.getS() + " a=" + tc.a);
+		tc.accessField();
+		System.out.println("in java : after tc.s=" + tc.getS() + " a=" + tc.a);
 	}
 	
 	public native int sumArray(int arr[], int len);
