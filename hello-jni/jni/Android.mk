@@ -17,7 +17,11 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := hello-jni
-LOCAL_SRC_FILES := hello-jni.c
+LOCAL_SRC_FILES := hello-jni.cpp testc.c
 LOCAL_LDLIBS	:= -llog
+
+# -Wno-psabi //note: the mangling of 'va_list' has changed in GCC 4.4
+LOCAL_CPPFLAGS = "-Wno-psabi" 
+# $(my_intermediates): LOCAL_CPPFLAGS := -frtti
 
 include $(BUILD_SHARED_LIBRARY)

@@ -31,72 +31,73 @@ void testCccc()
 {
 }
 
-char* ATC = "inC";
+const char* ATC = "inC";
 
 JNIEXPORT void JNICALL Java_com_example_hellojni_TestClass_accessField(JNIEnv * env, jobject obj)
 {
 	jfieldID fid;
 	jstring jstr;
 	const char *str;
-	jclass cls = (*env)->GetObjectClass(env, obj);
+//	jclass cls = (*env)->GetObjectClass(env, obj);	// c style
+	jclass cls = env->GetObjectClass(obj);	// c++ style
 	__android_log_print(ANDROID_LOG_INFO, ATC, "In c:\n");
 
-	fid = (*env)->GetFieldID(env, cls, "s", "Ljava/lang/String;");
+	fid = env->GetFieldID(cls, "s", "Ljava/lang/String;");
 	if (fid == NULL)
 	{
 		return; // failed to find the field
 	}
 
-	jstr = (*env)->GetObjectField(env, obj, fid);
-	str = (*env)->GetStringUTFChars(env, jstr, NULL);
+	jstr = (jstring)env->GetObjectField(obj, fid);
+	str = env->GetStringUTFChars(jstr, NULL);
 	if (str == NULL)
 	{
 		return; // out of memory
 	}
 	__android_log_print(ANDROID_LOG_INFO, ATC, "c.s=\"%s\"", str);
-	(*env)->ReleaseStringUTFChars(env, jstr, str);
+	env->ReleaseStringUTFChars(jstr, str);
 
-	jstr = (*env)->NewStringUTF(env, "123钱");
+	jstr = env->NewStringUTF("123钱");
 	if (jstr == NULL)
 	{
 		return; // out of memory
 	}
-	(*env)->SetObjectField(env, obj, fid, jstr);
+	env->SetObjectField(obj, fid, jstr);
 
-	fid = (*env)->GetStaticFieldID(env, cls, "a", "I");
-	jint si = (*env)->GetStaticIntField(env, cls, fid);
+	fid = env->GetStaticFieldID(cls, "a", "I");
+	jint si = env->GetStaticIntField(cls, fid);
 	__android_log_print(ANDROID_LOG_INFO, ATC, "ori static a field is: %d", si);
-	(*env)->SetStaticIntField(env, cls, fid, 924);
+	env->SetStaticIntField(cls, fid, 222);
 
-	jmethodID mid = (*env)->GetMethodID(env, cls, "priMethod", "()V");
-	(*env)->CallVoidMethod(env, obj, mid);
+	jmethodID mid = env->GetMethodID(cls, "priMethod", "()V");
+	env->CallVoidMethod(obj, mid);
 
 	/**
 	 * Runnable.run方法：
 	 jobject thd = ...; // a java.lang.Thread instance
 	 jmethodID mid;
 	 jclass runnableIntf =
-	 (*env)->FindClass(env, "java/lang/Runnable");
+	 env->FindClass("java/lang/Runnable");
 	 if (runnableIntf == NULL) {
 	 ... // error handling
 	 }
-	 mid = (*env)->GetMethodID(env, runnableIntf, "run", "()V");
+	 mid = env->GetMethodID(runnableIntf, "run", "()V");
 	 if (mid == NULL) {
 	 ... /* error handling //
 	 }
-	 (*env)->CallVoidMethod(env, thd, mid);
+	 env->CallVoidMethod(thd, mid);
 	 ... /* check for possible exceptions
 	 *
 	 */
 
 	/**
 	 * jmethodID mid =
-	 (*env)->GetStaticMethodID(env, cls, "callback", "()V");
+	 env->GetStaticMethodID(cls, "callback", "()V");
 	 if (mid == NULL) {
 	 return;  // method not found
 	 }
 	 printf("In C\n");
-	 (*env)->CallStaticVoidMethod(env, cls, mid);
+	 env->CallStaticVoidMethod(cls, mid);
 	 *
 	 */
 }
@@ -110,25 +111,25 @@ JNIEXPORT void JNICALL Java_com_example_hellojni_TestClass_accessField(JNIEnv * 
 jstring Java_com_example_hellojni_HelloJni_stringFromJNI(JNIEnv* env, jobject thiz)
 {
 
-	return (*env)->NewStringUTF(env, "Hello from JNI Kai5!");
+	return env->NewStringUTF("Hello from JNI Kai5!");
 }
 
 JNIEXPORT jstring JNICALL Java_com_example_hellojni_HelloJni_stringFromJNIWithParam(JNIEnv * env, jobject thiz, jstring src)
 {
 	char uu[64];
-	const char* srcStr = (*env)->GetStringUTFChars(env, src, 0);
+	const char* srcStr = env->GetStringUTFChars(src, 0);
 	strcpy(uu, srcStr);
 
 	char* destStr = strcat(uu, " cat C.");
 	__android_log_print(ANDROID_LOG_ERROR, "NDK_Kai", destStr);
-	return (*env)->NewStringUTF(env, destStr);
+	return env->NewStringUTF(destStr);
 
 }
 
 JNIEXPORT jint JNICALL Java_com_example_hellojni_HelloJni_sumArray(JNIEnv * env, jobject thiz, jintArray arr, jint len)
 {
 	jint buf[5], i, sum = 0;
-	(*env)->GetIntArrayRegion(env, arr, 0, 5, buf);
+	env->GetIntArrayRegion(arr, 0, 5, buf);
 	for (i = 0; i < 5; ++i)
 	{
 		sum += buf[i];
@@ -140,12 +141,12 @@ JNIEXPORT jobjectArray JNICALL Java_com_example_hellojni_HelloJni_initInt2DArray
 {
 	jobjectArray result;
 	int i;
-	jclass intArrCls = (*env)->FindClass(env, "[I");
+	jclass intArrCls = env->FindClass("[I");
 	if (intArrCls == NULL)
 	{
 		return NULL; /* exception thrown */
 	}
-	result = (*env)->NewObjectArray(env, size, intArrCls, NULL);
+	result = env->NewObjectArray(size, intArrCls, NULL);
 	if (result == NULL)
 	{
 		return NULL; /* out of memory error thrown */
@@ -154,7 +155,7 @@ JNIEXPORT jobjectArray JNICALL Java_com_example_hellojni_HelloJni_initInt2DArray
 	{
 		jint tmp[256]; /* make sure it is large enough! */
 		int j;
-		jintArray iarr = (*env)->NewIntArray(env, size);
+		jintArray iarr = env->NewIntArray(size);
 		if (iarr == NULL)
 		{
 			return NULL; /* out of memory error thrown */
@@ -163,9 +164,9 @@ JNIEXPORT jobjectArray JNICALL Java_com_example_hellojni_HelloJni_initInt2DArray
 		{
 			tmp[j] = i + j;
 		}
-		(*env)->SetIntArrayRegion(env, iarr, 0, size, tmp);
-		(*env)->SetObjectArrayElement(env, result, i, iarr);
-		(*env)->DeleteLocalRef(env, iarr);
+		env->SetIntArrayRegion(iarr, 0, size, tmp);
+		env->SetObjectArrayElement(result, i, iarr);
+		env->DeleteLocalRef(iarr);
 	}
 	return result;
 
