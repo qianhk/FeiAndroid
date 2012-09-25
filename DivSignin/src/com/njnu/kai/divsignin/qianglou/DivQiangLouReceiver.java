@@ -1,5 +1,8 @@
 package com.njnu.kai.divsignin.qianglou;
 
+import java.util.Calendar;
+import java.util.Random;
+
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,17 +18,17 @@ import com.njnu.kai.divsignin.DivSigninService;
 import com.njnu.kai.divsignin.R;
 import com.njnu.kai.divsignin.common.DivConst;
 
-public class DivQiangLouReceiver extends BroadcastReceiver {
+public class DivQiangLouReceiver extends BroadcastReceiver implements Runnable {
 
 	private static String PREFIX = "[DivQiangLouReceiver]:";
-	
+
 	private void sendInternalBroadcast(Context context, int type, String message) {
 		Intent intent = new Intent(DivConst.ACTION_QIANGLOU_NOTIFY_INTERNAL);
 		intent.putExtra("type", type);
 		intent.putExtra("message", message);
 		context.sendBroadcast(intent);
 	}
-	
+
 	private void sendQLBeginNotification(Context context) {
 		Notification notify = new Notification(R.drawable.ic_launcher_notify, "divsignin qianglouing", System.currentTimeMillis());
 		notify.flags = Notification.FLAG_ONGOING_EVENT;
@@ -37,7 +40,7 @@ public class DivQiangLouReceiver extends BroadcastReceiver {
 		NotificationManager notifyMgr = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 		notifyMgr.notify(R.string.app_name, notify);
 	}
-	
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getAction().equals(DivConst.ACTION_QIANGLOU_NOTIFY)) {
@@ -58,7 +61,18 @@ public class DivQiangLouReceiver extends BroadcastReceiver {
 					notifyMgr.cancel(R.string.app_name);
 				}
 			}
-		} else if (intent.getAction().equals(DivConst.ACTION_QIANGLOU_ALARM)) {
+		} else if (intent.getAction().equals(DivConst.ACTION_QIANGLOU_ALARM_NEEDRANDOM)) {
+			int afterMinute = new Random().nextInt(60);
+			Log.e(PREFIX, "Alarm come, after random Minutes:" + afterMinute);
+			sendInternalBroadcast(context, 0, "Alarm come, after random Minutes:" + afterMinute);
+			Intent intentAlarm = new Intent();
+			intentAlarm.setAction(DivConst.ACTION_QIANGLOU_ALARM_DOTASK);
+			PendingIntent pintentAlarm = PendingIntent.getBroadcast(context, 2, intentAlarm, 0);
+			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MINUTE, afterMinute);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pintentAlarm);
+		} else if (intent.getAction().equals(DivConst.ACTION_QIANGLOU_ALARM_DOTASK)) {
 			Log.e(PREFIX, "Alarm time come, start qianglou service...");
 			sendInternalBroadcast(context, 0, "Alarm time come, start qianglou service...");
 			Intent intentSigninService = new Intent(context, DivSigninService.class);
@@ -66,4 +80,7 @@ public class DivQiangLouReceiver extends BroadcastReceiver {
 		}
 	}
 
+	@Override
+	public void run() {
+	}
 }

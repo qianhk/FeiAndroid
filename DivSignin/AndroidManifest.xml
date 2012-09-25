@@ -36,7 +36,8 @@
         <receiver android:name="com.njnu.kai.divsignin.qianglou.DivQiangLouReceiver" >
             <intent-filter>
                 <action android:name="com.njnu.kai.divsignin.action.qianglou.notify" />
-                <action android:name="com.njnu.kai.divsignin.action.qianglou.alarm" />
+                <action android:name="com.njnu.kai.divsignin.action.qianglou.alarm_needrandom" />
+                <action android:name="com.njnu.kai.divsignin.action.qianglou.alarm_dotask" />
             </intent-filter>
         </receiver>
 

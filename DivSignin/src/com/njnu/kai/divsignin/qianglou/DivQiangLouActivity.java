@@ -192,7 +192,7 @@ public class DivQiangLouActivity extends Activity {
 
 	public static PendingIntent getQiangLouAlarmPendingIntent(Context context) {
 		Intent intentAlarm = new Intent();
-		intentAlarm.setAction(DivConst.ACTION_QIANGLOU_ALARM);
+		intentAlarm.setAction(DivConst.ACTION_QIANGLOU_ALARM_NEEDRANDOM);
 		PendingIntent pintentAlarm = PendingIntent.getBroadcast(context, 1, intentAlarm, 0);
 		return pintentAlarm;
 	}
