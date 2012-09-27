@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Paint.FontMetrics;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -44,7 +45,7 @@ public class TouchImageView extends ImageView {
 	private void init() {
 		mRect = new Rect();
 		mRectF = new RectF();
-		
+
 		mPaintGray = new Paint();
 		mPaintGray.setColor(Color.GRAY);
 		mPaintGray.setStyle(Paint.Style.STROKE);
@@ -52,7 +53,7 @@ public class TouchImageView extends ImageView {
 //		mPaintGray.setStrokeJoin(Paint.Join.ROUND);
 //		mPaintGray.setStrokeMiter(2);
 		mPaintGray.setStrokeWidth(2);
-		
+
 		mPaintCyan = new Paint();
 		mPaintCyan.setColor(Color.CYAN);
 
@@ -70,23 +71,27 @@ public class TouchImageView extends ImageView {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		
+
 		int width = getWidth();
 		int height = getHeight();
 		int rectSizeX = 16;
 		int rectSizeY = 16;
-		
+
 		mRectF.set(0, 0, width, height);
 		canvas.drawRoundRect(mRectF, 5, 5, mPaintGray);
-		
+
 		mRect.set(10, 10, 10 + rectSizeX, 10 + rectSizeY);
 		canvas.drawRect(mRect, mPaintCyan);
-		
+
 		mRect.set(width - 10 - rectSizeX, (height - rectSizeY) / 2, width - 10, (height + rectSizeY) / 2);
 		canvas.drawRect(mRect, mPaintYellow);
-		
+
 		mRect.set((width - rectSizeX) / 2, height - 10 - rectSizeY, (width + rectSizeX) / 2, height - 10);
 		canvas.drawRect(mRect, mPaintMagenta);
+
+		FontMetrics fm = mPaintMagenta.getFontMetrics();
+		canvas.drawText("abg好好学习", 0, height - fm.descent, mPaintMagenta);
+		canvas.drawText("abg好好学习", 0, 0, mPaintMagenta);
 	}
 
 	@Override
