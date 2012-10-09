@@ -3,6 +3,7 @@ package com.njnu.kai;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,6 +85,17 @@ public class JavaHttp {
 		String needTest = "kaikaikai";
 		String test = String.format("haha_%s\t_good.", needTest);
 		System.out.println(test);;
+		
+		String url = "http://www.devdiv.com/10.9上班啦- thread-144532-1-1.html?aa=2&xx=1";
+		String encodeUrl = URLEncoder.encode(url, "UTF8");
+		System.out.println(encodeUrl);
+		encodeUrl = encodeUrl.replace("%2F", "/");
+		encodeUrl = encodeUrl.replace("%3A", ":");
+		encodeUrl = encodeUrl.replace("+", "%20");
+		encodeUrl = encodeUrl.replace("%3F", "?");
+		encodeUrl = encodeUrl.replace("%3D", "=");
+		encodeUrl = encodeUrl.replace("%26", "&");
+		System.out.println(encodeUrl);
 	}
 
 }

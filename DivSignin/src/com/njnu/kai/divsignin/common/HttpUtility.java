@@ -1,6 +1,7 @@
 package com.njnu.kai.divsignin.common;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -23,6 +24,23 @@ import org.apache.http.util.EntityUtils;
 
 public class HttpUtility {
 
+	static private String encodeChineseUrl(String url, String charsetName) {
+		String encodeUrl;
+		try {
+			encodeUrl = URLEncoder.encode(url, charsetName);
+			encodeUrl = encodeUrl.replace("%2F", "/");
+			encodeUrl = encodeUrl.replace("%3A", ":");
+			encodeUrl = encodeUrl.replace("+", "%20");
+			encodeUrl = encodeUrl.replace("%3F", "?");
+			encodeUrl = encodeUrl.replace("%3D", "=");
+			encodeUrl = encodeUrl.replace("%26", "&");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			encodeUrl = url;
+		}
+		return encodeUrl;
+	}
+
 	static public String GetUseAutoEncoding(String url) {
 		AbstractHttpClient client = new DefaultHttpClient();
 		// client.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
@@ -33,13 +51,14 @@ public class HttpUtility {
 		// System.out.println(httpParam.getParameter(ClientPNames.COOKIE_POLICY));
 		String ls_content = "";
 		try {
-			HttpGet httpGet = new HttpGet(url);
+			String encodeUrl = encodeChineseUrl(url, "UTF8");
+			HttpGet httpGet = new HttpGet(encodeUrl);
 			httpGet.setHeader("Referer", _lastUrl);
 			httpGet.setHeader("User-Agent", _user_agent);
 			client.setCookieStore(_cookieStore);
 			// httpGet.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
 			HttpResponse response = client.execute(httpGet);
-			_lastUrl = url;
+			_lastUrl = encodeUrl;
 			HttpEntity entity = response.getEntity();
 			// System.out.println(response.getStatusLine());
 			if (entity != null) {
@@ -83,22 +102,14 @@ public class HttpUtility {
 		httpParam.setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
 		String ls_content = "";
 		try {
-			HttpPost httpPost = new HttpPost(url);
-			// InputStream ins = postEntity.getContent();
-			// int len = ins.available();
-			// System.out.println(len);
-			// byte[] datahah = new byte[len];
-			// ins.read(datahah);
-			// String haha = new String(datahah, HTTP.UTF_8);
-			// System.out.println(haha);
-
-			// httpPost.setHeader(name, value)
+			String encodeUrl = encodeChineseUrl(url, "UTF8");
+			HttpPost httpPost = new HttpPost(encodeUrl);
 			httpPost.setHeader("Referer", _lastUrl);
 			httpPost.setHeader("User-Agent", _user_agent);
 			httpPost.setEntity(postEntity);
 			client.setCookieStore(_cookieStore);
 			HttpResponse response = client.execute(httpPost);
-			_lastUrl = url;
+			_lastUrl = encodeUrl;
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
 				String charset = EntityUtils.getContentCharSet(entity);
@@ -116,7 +127,7 @@ public class HttpUtility {
 	public static String getMD5(byte[] source) {
 		String s = null;
 		char hexDigits[] = { // 用来将字节转换成 16 进制表示的字符
-		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 		try {
 			java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
 			md.update(source);
