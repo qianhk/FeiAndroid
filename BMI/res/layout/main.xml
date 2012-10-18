@@ -8,28 +8,80 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/stature" />
-    <EditText android:id="@+id/stature"
+
+    <EditText
+        android:id="@+id/stature"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:numeric="integer"
         android:text="" />
 
-     <TextView
+    <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="@string/weight" />
-    <EditText android:id="@+id/weight"
+        android:text="@string/weight"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/weight"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:numeric="integer"
         android:text="" />
 
-    <Button android:id="@+id/submit" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/submit"/>
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/submit" />
 
-    <com.njnu.kai.bmi.TouchImageView android:layout_width="62dp" android:layout_height="40dp" android:src="@drawable/ic_launcher" android:layout_gravity="center"/>
+    <com.njnu.kai.bmi.TouchImageView
+        android:layout_width="62dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher" />
 
-    <TextView android:id="@+id/result" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" />
-    <TextView android:id="@+id/suggest" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" />
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/suggest"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/iv_testlayer1"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/layerlist" />
+
+        <Button
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:onClick="clickTestLayer1"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_testlayer2"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/apple" />
+
+        <Button
+            android:layout_width="0dip"
+            android:onClick="clickTestLayer2"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -6,18 +6,26 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class BMIActivity extends Activity {
+	
+	private ImageView mIvTestLayer1;
+	private ImageView mIvTestLayer2;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +34,10 @@ public class BMIActivity extends Activity {
 
         Button button = (Button)findViewById(R.id.submit);
         button.setOnClickListener(calcBMI);
+        
+        mIvTestLayer1 = (ImageView)findViewById(R.id.iv_testlayer1);
+        mIvTestLayer2 = (ImageView)findViewById(R.id.iv_testlayer2);
+        mIvTestLayer2.setImageDrawable(new LayerDrawable(new Drawable[] {getResources().getDrawable(R.drawable.apple), getResources().getDrawable(R.drawable.ic_launcher2)}));
     }
 
     public double calcBMI(double weight, double height) {
@@ -103,5 +115,23 @@ public class BMIActivity extends Activity {
     	}
 
     	return true;
+    }
+    
+    public void clickTestLayer1(View v) {
+    	Drawable drawable = mIvTestLayer1.getDrawable();
+    	Log.i("BMIActivity", drawable.toString());
+    	if (drawable instanceof LayerDrawable) {
+    		LayerDrawable ld = (LayerDrawable)drawable;
+    		ld.mutate();
+    		ld.setId(1, 1);
+    		Drawable dApple = getResources().getDrawable(R.drawable.apple);
+    		ld.setDrawableByLayerId(1, dApple);
+    		ld.invalidateSelf();
+    	}
+    	mIvTestLayer1.invalidate();
+    }
+    
+    public void clickTestLayer2(View v) {
+//    	mIvTestLayer2.setImageDrawable(mIvTestLayer1.getDrawable().mutate());
     }
 }
