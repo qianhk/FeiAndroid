@@ -1,16 +1,15 @@
 package com.njnu.kai.bmi;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,26 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class BMIActivity extends Activity {
-	
+public class BMIActivity extends Activity implements OnClickListener {
+
 	private ImageView mIvTestLayer1;
 	private ImageView mIvTestLayer2;
-	
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
 
-        Button button = (Button)findViewById(R.id.submit);
-        button.setOnClickListener(calcBMI);
-        
-        mIvTestLayer1 = (ImageView)findViewById(R.id.iv_testlayer1);
-        mIvTestLayer2 = (ImageView)findViewById(R.id.iv_testlayer2);
-        mIvTestLayer2.setImageDrawable(new LayerDrawable(new Drawable[] {getResources().getDrawable(R.drawable.apple), getResources().getDrawable(R.drawable.ic_launcher2)}));
-    }
-
-    public double calcBMI(double weight, double height) {
+	public double calcBMI(double weight, double height) {
     	double BMI = weight / (height * height);
     	return BMI;
     }
@@ -93,6 +78,9 @@ public class BMIActivity extends Activity {
 
     protected static final int MENU_ABOUT = Menu.FIRST;
     protected static final int MENU_Quit = Menu.FIRST + 1;
+	private Drawable mDrawableLauncher2;
+	private Drawable mDrawableApple;
+	private Drawable mDrawableLauncher1;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -116,22 +104,158 @@ public class BMIActivity extends Activity {
 
     	return true;
     }
-    
+
     public void clickTestLayer1(View v) {
-    	Drawable drawable = mIvTestLayer1.getDrawable();
-    	Log.i("BMIActivity", drawable.toString());
-    	if (drawable instanceof LayerDrawable) {
-    		LayerDrawable ld = (LayerDrawable)drawable;
-    		ld.mutate();
-    		ld.setId(1, 1);
-    		Drawable dApple = getResources().getDrawable(R.drawable.apple);
-    		ld.setDrawableByLayerId(1, dApple);
-    		ld.invalidateSelf();
-    	}
+    	LayerDrawable d = (LayerDrawable)mIvTestLayer2.getDrawable();
+    	d.setDrawableByLayerId(1, mDrawableLauncher2);
+    	d.invalidateSelf();
+    	mIvTestLayer2.invalidate();
+
+    	d = (LayerDrawable)mIvTestLayer1.getDrawable();
+    	d.setDrawableByLayerId(1, mDrawableLauncher1);
+    	d.invalidateSelf();
     	mIvTestLayer1.invalidate();
+
+    	setSettingPanelColorButtonFlag(2);
     }
-    
+
     public void clickTestLayer2(View v) {
 //    	mIvTestLayer2.setImageDrawable(mIvTestLayer1.getDrawable().mutate());
+    	LayerDrawable d = (LayerDrawable)mIvTestLayer2.getDrawable();
+    	d.setDrawableByLayerId(1, mDrawableLauncher1);
+    	d.invalidateSelf();
+    	mIvTestLayer2.invalidate();
+
+    	d = (LayerDrawable)mIvTestLayer1.getDrawable();
+    	d.setDrawableByLayerId(1, mDrawableLauncher2);
+    	d.invalidateSelf();
+    	mIvTestLayer1.invalidate();
+
+    	setSettingPanelColorButtonFlag(3);
     }
+
+	private View[] mArrayColorButton;
+	private ColorButtonManager mColorButtonMgr;
+	private Drawable mDrawableFlag;
+	private Drawable mDrawableTransparent;
+
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+
+        Button button = (Button)findViewById(R.id.submit);
+        button.setOnClickListener(calcBMI);
+
+        mIvTestLayer1 = (ImageView)findViewById(R.id.iv_testlayer1);
+        mIvTestLayer2 = (ImageView)findViewById(R.id.iv_testlayer2);
+        mDrawableApple = getResources().getDrawable(R.drawable.minilyric_btn_color_blue);
+		mDrawableLauncher2 = getResources().getDrawable(R.drawable.ic_launcher2);
+		mDrawableLauncher1 = getResources().getDrawable(R.drawable.ic_launcher);
+		LayerDrawable layerdrawable = new LayerDrawable(new Drawable[] {mDrawableApple, mDrawableLauncher2});
+        layerdrawable.setId(1, 1);
+        mIvTestLayer1.setImageDrawable(layerdrawable);
+
+        layerdrawable = new LayerDrawable(new Drawable[] {mDrawableApple, mDrawableLauncher2});
+        layerdrawable.setId(1, 1);
+		mIvTestLayer2.setImageDrawable(layerdrawable);
+
+		initColorButton();
+    }
+
+	private class ColorButtonManager {
+		private ArrayList<ColorButton> mList;
+
+		private class ColorButton {
+			private ImageView mImageButton;
+			private Drawable mImage;
+			private LayerDrawable mDrawable;
+			private int mId;
+//			private int mRed[] = {R.drawable.minilyric_icon_setting, R.drawable.minilyric_icon_fontzoomin, R.drawable.minilyric_icon_fontzoomout
+//					, R.drawable.minilyric_return_main_panel_normal, R.drawable.minilyric_unlocked};
+
+			public ColorButton(View button, Drawable image, int id) {
+				mId = id;
+				mImageButton = (ImageView)button;
+				mImage = image;
+				mDrawable = new LayerDrawable(new Drawable[] {mImage, mDrawableTransparent});
+				mDrawable.setId(1, 1);
+				mImageButton.setImageDrawable(mDrawable);
+			}
+
+			public void setFlag(boolean flag) {
+				Drawable needDrawable = flag ? mDrawableFlag : mDrawableTransparent;
+//				final Drawable drawableTmp = mContext.getResources().getDrawable(mRed[mId]);
+//				++mId;
+//				if (mId >= 5) {
+//					mId = 0;
+//				}
+//				if (needDrawable != mDrawable.getDrawable(1)) {
+//					mDrawable.setDrawableByLayerId(1, needDrawable);
+//				}
+				mDrawable.setDrawableByLayerId(1, needDrawable);
+				mDrawable.invalidateSelf();
+//				mImageButton.invalidate();
+			}
+		}
+
+		void appendColorButton(View button, Drawable image) {
+			ColorButton colorButton = new ColorButton(button, image, mList.size());
+			mList.add(colorButton);
+		}
+
+		void setChoosedButton(int index) {
+			for (int idx = mList.size() - 1; idx >= 0; --idx) {
+				ColorButton btn = mList.get(idx);
+				btn.setFlag(idx == index);
+			}
+		}
+
+		public ColorButtonManager() {
+			mList = new ArrayList<ColorButtonManager.ColorButton>(mArrayColorButton.length);
+
+		}
+	}
+
+	private void initColorButton() {
+		final Resources resources = this.getResources();
+		final int colorButtonAmount = 5;
+		mArrayColorButton = new View[colorButtonAmount];
+		mColorButtonMgr = new ColorButtonManager();
+		mDrawableFlag = resources.getDrawable(R.drawable.minilyric_choosed_color);
+		mDrawableTransparent = resources.getDrawable(R.drawable.minilyric_icon_lock);
+
+		setColorButtonPropety(0, R.id.iv_color_blue, R.drawable.minilyric_btn_color_blue);
+		setColorButtonPropety(1, R.id.iv_color_yellow, R.drawable.minilyric_btn_color_yellow);
+		setColorButtonPropety(2, R.id.iv_color_pink, R.drawable.minilyric_btn_color_pink);
+		setColorButtonPropety(3, R.id.iv_color_gray, R.drawable.minilyric_btn_color_gray);
+		setColorButtonPropety(4, R.id.iv_color_green, R.drawable.minilyric_btn_color_green);
+
+//		int colorStyle = 2;
+//		setSettingPanelColorButtonFlag(colorStyle);
+	}
+
+	private void setColorButtonPropety(int index, int buttonId, int imageResId) {
+		View button = findViewById(buttonId);
+		final Resources resources = getResources();
+		button.setOnClickListener(this);
+		Drawable drawable = resources.getDrawable(imageResId);
+		mArrayColorButton[index] = button;
+		mColorButtonMgr.appendColorButton(button, drawable);
+	}
+
+	private void setSettingPanelColorButtonFlag(int aColorStyle) {
+		mColorButtonMgr.setChoosedButton(aColorStyle);
+	}
+
+	@Override
+	public void onClick(View view) {
+		for (int idx = mArrayColorButton.length - 1; idx >= 0; --idx) {
+			if (view.equals(mArrayColorButton[idx])) {
+				setSettingPanelColorButtonFlag(idx);
+				break;
+			}
+		}
+	}
 }
