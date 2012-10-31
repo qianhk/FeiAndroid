@@ -45,7 +45,7 @@ public class HttpUtility {
 		return encodeUrl;
 	}
 
-	static public String GetUseAutoEncoding(String url, boolean useAgent) {
+	static public String GetUseAutoEncoding(String url) {
 		AbstractHttpClient client = new DefaultHttpClient();
 		// client.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
 		HttpParams httpParam = client.getParams();
@@ -58,9 +58,7 @@ public class HttpUtility {
 			String encodeUrl = encodeChineseUrl(url, "UTF8");
 			HttpGet httpGet = new HttpGet(encodeUrl);
 			httpGet.setHeader("Referer", _lastUrl);
-			if (useAgent) {
-				httpGet.setHeader("User-Agent", _user_agent);
-			}
+			httpGet.setHeader("User-Agent", _user_agent);
 			client.setCookieStore(_cookieStore);
 			// httpGet.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
 			HttpResponse response = client.execute(httpGet);

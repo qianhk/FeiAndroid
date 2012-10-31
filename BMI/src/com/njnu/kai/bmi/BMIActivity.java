@@ -130,10 +130,11 @@ public class BMIActivity extends Activity implements OnClickListener {
 		Intent it = new Intent(Intent.ACTION_SEND);
 		String[] toWho = {
 				"\u0068\u006f\u006e\u0067\u006b\u0061\u0069\u002e\u0071\u0069\u0061\u006e\u0040\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d",
-				"\u007a\u0068\u0065\u006e\u0068\u0075\u0061\u002e\u0067\u0061\u006f\u0040\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d"};
+				"\u007a\u0068\u0065\u006e\u0068\u0075\u0061\u002e\u0067\u0061\u006f\u0040\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d",
+				"\u0061\u006e\u0070\u0069\u006e\u0067\u002e\u0079\u0069\u006e\u0040\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d"};
 		it.putExtra(Intent.EXTRA_EMAIL, toWho);
 		it.putExtra(Intent.EXTRA_SUBJECT, "tt http test log");
-		it.putExtra(Intent.EXTRA_TEXT, mBuilder.toString());
+		it.putExtra(Intent.EXTRA_TEXT, "测试软件版本:201210301600\n\n" + mBuilder.toString());
 		it.setType("text/plain");
 		startActivity(Intent.createChooser(it, "Choose Email Client"));
 	}
@@ -273,6 +274,10 @@ public class BMIActivity extends Activity implements OnClickListener {
 		setColorButtonPropety(3, R.id.iv_color_gray, R.drawable.minilyric_btn_color_gray);
 		setColorButtonPropety(4, R.id.iv_color_green, R.drawable.minilyric_btn_color_green);
 
+		mArrayColorButton[2].setVisibility(View.INVISIBLE);
+		mArrayColorButton[3].setVisibility(View.INVISIBLE);
+		mArrayColorButton[4].setVisibility(View.INVISIBLE);
+
 //		int colorStyle = 2;
 //		setSettingPanelColorButtonFlag(colorStyle);
 	}
@@ -305,31 +310,27 @@ public class BMIActivity extends Activity implements OnClickListener {
 		mLayout1.setVisibility(View.INVISIBLE);
 		mLayout2.setVisibility(View.VISIBLE);
 		String result = "";
-		String from = "";
+		String from = "\n\n";
 		switch (v.getId()) {
 		case R.id.iv_color_blue:
-			from = "blue:\n\n";
-			result = HttpConnectionUtility.GetUseAutoEncoding(this, HttpUtility.TTGETHEADER, true);
+			from = "";
+			result = "blue:\n" + HttpUtility.GetUseAutoEncoding(HttpUtility.TTLRCDOWN);
 			break;
 
 		case R.id.iv_color_yellow:
-			from = "\n\nyellow:\n\n";
-			result = HttpConnectionUtility.GetUseAutoEncoding(this, HttpUtility.TTLRCSEARCH, true);
+			result = "yellow:\n" + HttpConnectionUtilityYellow.GetUseAutoEncoding(this, HttpUtility.TTLRCDOWN);
 			break;
 
 		case R.id.iv_color_pink:
-			from = "\n\npink:\n\n";
-			result = HttpConnectionUtility.GetUseAutoEncoding(this, HttpUtility.TTLRCDOWN, true);
+			result = "pink:\n" + HttpConnectionUtilityPink.GetUseAutoEncoding(this, HttpUtility.TTLRCDOWN);
 			break;
 
 		case R.id.iv_color_gray:
-			from = "\n\ngray:\n\n";
-			result = HttpConnectionUtility.GetUseAutoEncoding(this, HttpUtility.TTGETHEADER, false);
+			result = "gray:\n" + HttpConnectionUtilityGray.GetUseAutoEncoding(this, HttpUtility.TTLRCDOWN);
 			break;
 
 		case R.id.iv_color_green:
-			from = "\n\ngreen:\n\n";
-			result = HttpConnectionUtility.GetUseAutoEncoding(this, HttpUtility.TTLRCDOWN, false);
+			result = "green:\n" + HttpConnectionUtilityGreen.GetUseAutoEncoding(this, HttpUtility.TTLRCDOWN);
 			break;
 
 		default:
