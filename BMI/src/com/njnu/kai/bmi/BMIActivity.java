@@ -5,12 +5,16 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class BMIActivity extends Activity implements OnClickListener {
+public class BMIActivity extends Activity implements OnClickListener, HttpAsyncTaskNotify {
 
 	private ImageView mIvTestLayer1;
 	private ImageView mIvTestLayer2;
@@ -65,6 +69,7 @@ public class BMIActivity extends Activity implements OnClickListener {
 				Toast.makeText(BMIActivity.this, "error", Toast.LENGTH_SHORT).show();
 			}
 //			openOptionDialog();
+			sendQLBeginNotification2();
 		}
 	};
 
@@ -134,9 +139,39 @@ public class BMIActivity extends Activity implements OnClickListener {
 				"\u0061\u006e\u0070\u0069\u006e\u0067\u002e\u0079\u0069\u006e\u0040\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d"};
 		it.putExtra(Intent.EXTRA_EMAIL, toWho);
 		it.putExtra(Intent.EXTRA_SUBJECT, "tt http test log");
-		it.putExtra(Intent.EXTRA_TEXT, "测试软件版本:201210301600\n\n" + mBuilder.toString());
+		it.putExtra(Intent.EXTRA_TEXT, "测试软件版本:201210311745\nSDK Version=" + Build.VERSION.SDK_INT + "\n\n" + mBuilder.toString());
 		it.setType("text/plain");
 		startActivity(Intent.createChooser(it, "Choose Email Client"));
+	}
+
+	private void sendQLBeginNotification() {
+		Notification notify = new Notification(R.drawable.ico, "test notify icon", System.currentTimeMillis());
+//		notify.flags = Notification.FLAG_ONGOING_EVENT;
+		Intent intent = new Intent(this, BMIActivity.class);
+//		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, R.drawable.ic_launcher, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		notify.setLatestEventInfo(this, "test notify icon2", "test notify icon3", contentIntent);
+		NotificationManager notifyMgr = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+		notifyMgr.notify(R.drawable.ic_launcher, notify);
+		notifyMgr.cancel(R.drawable.ic_launcher);
+	}
+
+	private void sendQLBeginNotification2() {
+		Notification.Builder notifyBuilder = new Notification.Builder(this);
+		notifyBuilder.setSmallIcon(R.drawable.ico);
+		notifyBuilder.setContentTitle("title kaikai");
+		notifyBuilder.setContentText(" text text kaikai");
+		notifyBuilder.setTicker("tickerText test");
+//		notify.flags = Notification.FLAG_ONGOING_EVENT;
+		Intent intent = new Intent(this, BMIActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, R.drawable.ic_launcher, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		notifyBuilder.setContentIntent(contentIntent);
+//		notify.setLatestEventInfo(this, "test notify icon2", "test notify icon3", contentIntent);
+		NotificationManager notifyMgr = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+		notifyMgr.notify(R.drawable.ic_launcher, notifyBuilder.getNotification());
+		notifyMgr.cancel(R.drawable.ic_launcher);
 	}
 
 	public void clickTestLayer1(View v) {
@@ -274,7 +309,7 @@ public class BMIActivity extends Activity implements OnClickListener {
 		setColorButtonPropety(3, R.id.iv_color_gray, R.drawable.minilyric_btn_color_gray);
 		setColorButtonPropety(4, R.id.iv_color_green, R.drawable.minilyric_btn_color_green);
 
-		mArrayColorButton[2].setVisibility(View.INVISIBLE);
+//		mArrayColorButton[2].setVisibility(View.INVISIBLE);
 		mArrayColorButton[3].setVisibility(View.INVISIBLE);
 		mArrayColorButton[4].setVisibility(View.INVISIBLE);
 
@@ -309,28 +344,35 @@ public class BMIActivity extends Activity implements OnClickListener {
 	private void doColorButtonClicked(View v) {
 		mLayout1.setVisibility(View.INVISIBLE);
 		mLayout2.setVisibility(View.VISIBLE);
+		new HttpAsyncTask(this, this).execute(v.getId());
+		mEdtResult.setText("正在获取网络数据，请稍等...");
+//		mEdtResult.setText(HttpUtility.GetUseAutoEncoding(HttpUtility.TTLRCDOWN));
+	}
+
+	@Override
+	public void notifyResult(int id, String result2) {
 		String result = "";
 		String from = "\n\n";
-		switch (v.getId()) {
+		switch (id) {
 		case R.id.iv_color_blue:
 			from = "";
-			result = "blue:\n" + HttpUtility.GetUseAutoEncoding(HttpUtility.TTLRCDOWN);
+			result = "blue:\n" + result2;
 			break;
 
 		case R.id.iv_color_yellow:
-			result = "yellow:\n" + HttpConnectionUtilityYellow.GetUseAutoEncoding(this, HttpUtility.TTLRCDOWN);
+			result = "yellow:\n" + result2;
 			break;
 
 		case R.id.iv_color_pink:
-			result = "pink:\n" + HttpConnectionUtilityPink.GetUseAutoEncoding(this, HttpUtility.TTLRCDOWN);
+			result = "pink:\n" + result2;
 			break;
 
 		case R.id.iv_color_gray:
-			result = "gray:\n" + HttpConnectionUtilityGray.GetUseAutoEncoding(this, HttpUtility.TTLRCDOWN);
+			result = "gray:\n" + result2;
 			break;
 
 		case R.id.iv_color_green:
-			result = "green:\n" + HttpConnectionUtilityGreen.GetUseAutoEncoding(this, HttpUtility.TTLRCDOWN);
+			result = "green:\n" + result2;
 			break;
 
 		default:

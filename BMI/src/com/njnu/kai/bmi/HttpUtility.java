@@ -71,6 +71,7 @@ public class HttpUtility {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			ls_content = e.toString() + " " + e.getMessage();
 		} finally {
 			client.getConnectionManager().shutdown();
 		}
