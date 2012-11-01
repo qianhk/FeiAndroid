@@ -5,7 +5,8 @@
     <string name="application_name">BMI</string>
     <string name="activity_name">BMI</string>
 	<string name="weight">体重(kg)</string>
-	<string name="submit">计算 BMI 值</string>
+	<string name="submit">检查网络并发邮件</string>
+	<string name="submit2">不检查网络重发邮件</string>
 	<string name="advice_light">你该多吃点</string>
 	<string name="advice_average">体型很棒喔</string>
 	<string name="advice_heavy">你该节食了</string>

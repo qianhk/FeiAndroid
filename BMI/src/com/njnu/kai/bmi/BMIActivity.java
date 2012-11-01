@@ -34,6 +34,7 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 	private View mLayout2;
 	private EditText mEdtResult;
 	private StringBuilder mBuilder;
+	private String mUserInfo;
 
 	public double calcBMI(double weight, double height) {
 		double BMI = weight / (height * height);
@@ -44,32 +45,38 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 	{
 		@Override
 		public void onClick(View v) {
-			DecimalFormat nf = new DecimalFormat("0.00");
-			try {
-				EditText fieldHeight = (EditText)findViewById(R.id.stature);
-				EditText fieldWeight = (EditText)findViewById(R.id.weight);
-				double height = Double.parseDouble(fieldHeight.getText().toString()) / 100;
-				double weight = Double.parseDouble(fieldWeight.getText().toString());
-				double BMI = calcBMI(weight, height);
+			if (v.getId() == R.id.submit) {
+				DecimalFormat nf = new DecimalFormat("0.00");
+				try {
+					EditText fieldHeight = (EditText)findViewById(R.id.stature);
+					EditText fieldWeight = (EditText)findViewById(R.id.weight);
+					double height = Double.parseDouble(fieldHeight.getText().toString()) / 100;
+					double weight = Double.parseDouble(fieldWeight.getText().toString());
+					double BMI = calcBMI(weight, height);
 
-				TextView result = (TextView)findViewById(R.id.result);
-				result.setText("Your BMI is " + nf.format(BMI));
-				TextView fieldSuggest = (TextView)findViewById(R.id.suggest);
-				if (BMI > 25) {
-					fieldSuggest.setText(R.string.advice_heavy);
-				} else if (BMI < 20) {
-					fieldSuggest.setText(R.string.advice_light);
+					TextView result = (TextView)findViewById(R.id.result);
+					result.setText("Your BMI is " + nf.format(BMI));
+					TextView fieldSuggest = (TextView)findViewById(R.id.suggest);
+					if (BMI > 25) {
+						fieldSuggest.setText(R.string.advice_heavy);
+					} else if (BMI < 20) {
+						fieldSuggest.setText(R.string.advice_light);
+					}
+					else {
+						fieldSuggest.setText(R.string.advice_average);
+					}
 				}
-				else {
-					fieldSuggest.setText(R.string.advice_average);
+				catch (Exception err) {
+	//				Toast.makeText(BMIActivity.this, "error", Toast.LENGTH_SHORT).show();
 				}
+	//			openOptionDialog();
+				mBuilder.setLength(0);
+				new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(R.id.iv_color_blue);
+				sendQLBeginNotification("正在获取Blue网络数据...");
+			} else if (v.getId() == R.id.submit2) {
+				sendQLBeginNotification("正在发送邮件...");
+				new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(1, mUserInfo + "\n\n" + mBuilder.toString());
 			}
-			catch (Exception err)
-			{
-				Toast.makeText(BMIActivity.this, "error", Toast.LENGTH_SHORT).show();
-			}
-//			openOptionDialog();
-			sendQLBeginNotification2();
 		}
 	};
 
@@ -139,40 +146,40 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 				"\u0061\u006e\u0070\u0069\u006e\u0067\u002e\u0079\u0069\u006e\u0040\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d"};
 		it.putExtra(Intent.EXTRA_EMAIL, toWho);
 		it.putExtra(Intent.EXTRA_SUBJECT, "tt http test log");
-		it.putExtra(Intent.EXTRA_TEXT, "测试软件版本:201210311745\nSDK Version=" + Build.VERSION.SDK_INT + "\n\n" + mBuilder.toString());
+		it.putExtra(Intent.EXTRA_TEXT, mUserInfo + "\n\n" + mBuilder.toString());
 		it.setType("text/plain");
 		startActivity(Intent.createChooser(it, "Choose Email Client"));
 	}
 
-	private void sendQLBeginNotification() {
-		Notification notify = new Notification(R.drawable.ico, "test notify icon", System.currentTimeMillis());
+	private void sendQLBeginNotification(String tickerText) {
+		Notification notify = new Notification(R.drawable.ico32, tickerText, System.currentTimeMillis());
 //		notify.flags = Notification.FLAG_ONGOING_EVENT;
 		Intent intent = new Intent(this, BMIActivity.class);
 //		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, R.drawable.ic_launcher, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		notify.setLatestEventInfo(this, "test notify icon2", "test notify icon3", contentIntent);
+		notify.setLatestEventInfo(this, tickerText, tickerText, contentIntent);
 		NotificationManager notifyMgr = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
 		notifyMgr.notify(R.drawable.ic_launcher, notify);
 		notifyMgr.cancel(R.drawable.ic_launcher);
 	}
 
-	private void sendQLBeginNotification2() {
-		Notification.Builder notifyBuilder = new Notification.Builder(this);
-		notifyBuilder.setSmallIcon(R.drawable.ico);
-		notifyBuilder.setContentTitle("title kaikai");
-		notifyBuilder.setContentText(" text text kaikai");
-		notifyBuilder.setTicker("tickerText test");
-//		notify.flags = Notification.FLAG_ONGOING_EVENT;
-		Intent intent = new Intent(this, BMIActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, R.drawable.ic_launcher, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-		notifyBuilder.setContentIntent(contentIntent);
-//		notify.setLatestEventInfo(this, "test notify icon2", "test notify icon3", contentIntent);
-		NotificationManager notifyMgr = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-		notifyMgr.notify(R.drawable.ic_launcher, notifyBuilder.getNotification());
-		notifyMgr.cancel(R.drawable.ic_launcher);
-	}
+//	private void sendQLBeginNotification2() {
+//		Notification.Builder notifyBuilder = new Notification.Builder(this);
+//		notifyBuilder.setSmallIcon(R.drawable.ico);
+//		notifyBuilder.setContentTitle("title kaikai");
+//		notifyBuilder.setContentText(" text text kaikai");
+//		notifyBuilder.setTicker("tickerText test");
+////		notify.flags = Notification.FLAG_ONGOING_EVENT;
+//		Intent intent = new Intent(this, BMIActivity.class);
+//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+//		PendingIntent contentIntent = PendingIntent.getActivity(this, R.drawable.ic_launcher, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//		notifyBuilder.setContentIntent(contentIntent);
+////		notify.setLatestEventInfo(this, "test notify icon2", "test notify icon3", contentIntent);
+//		NotificationManager notifyMgr = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+//		notifyMgr.notify(R.drawable.ic_launcher, notifyBuilder.getNotification());
+//		notifyMgr.cancel(R.drawable.ic_launcher);
+//	}
 
 	public void clickTestLayer1(View v) {
 		LayerDrawable d = (LayerDrawable)mIvTestLayer2.getDrawable();
@@ -216,6 +223,8 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 
 		Button button = (Button)findViewById(R.id.submit);
 		button.setOnClickListener(calcBMI);
+		button = (Button)findViewById(R.id.submit2);
+		button.setOnClickListener(calcBMI);
 
 		mIvTestLayer1 = (ImageView)findViewById(R.id.iv_testlayer1);
 		mIvTestLayer2 = (ImageView)findViewById(R.id.iv_testlayer2);
@@ -236,6 +245,8 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 		mLayout2 = findViewById(R.id.layout_2);
 		mEdtResult = (EditText)findViewById(R.id.edt_result);
 		mLayout2.setVisibility(View.INVISIBLE);
+
+		mUserInfo = new GeneralData(this).getData().toString();
 
 		mBuilder = new StringBuilder(512);
 	}
@@ -342,25 +353,35 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 	}
 
 	private void doColorButtonClicked(View v) {
-		mLayout1.setVisibility(View.INVISIBLE);
-		mLayout2.setVisibility(View.VISIBLE);
-		new HttpAsyncTask(this, this).execute(v.getId());
-		mEdtResult.setText("正在获取网络数据，请稍等...");
-//		mEdtResult.setText(HttpUtility.GetUseAutoEncoding(HttpUtility.TTLRCDOWN));
+//		if (mLayout2.getVisibility() != View.VISIBLE) {
+//			mLayout1.setVisibility(View.INVISIBLE);
+//			mLayout2.setVisibility(View.VISIBLE);
+//		}
+//		new HttpAsyncTask(this, this).execute(v.getId());
+//		mEdtResult.setText("正在获取网络数据，请稍等...");
 	}
 
 	@Override
 	public void notifyResult(int id, String result2) {
+//		if (mLayout2.getVisibility() != View.VISIBLE) {
+//			mLayout1.setVisibility(View.INVISIBLE);
+//			mLayout2.setVisibility(View.VISIBLE);
+//		}
+
 		String result = "";
 		String from = "\n\n";
 		switch (id) {
 		case R.id.iv_color_blue:
 			from = "";
 			result = "blue:\n" + result2;
+			new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(R.id.iv_color_yellow);
+			sendQLBeginNotification("正在获取Yellow网络数据...");
 			break;
 
 		case R.id.iv_color_yellow:
 			result = "yellow:\n" + result2;
+			new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(R.id.iv_color_pink);
+			sendQLBeginNotification("正在获取Pink网络数据...");
 			break;
 
 		case R.id.iv_color_pink:
@@ -375,10 +396,22 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 			result = "green:\n" + result2;
 			break;
 
+		case 1:
+			sendQLBeginNotification(result2);
+			Toast.makeText(BMIActivity.this, result2, Toast.LENGTH_LONG).show();
+			result = result2;
+			break;
+
 		default:
 			break;
 		}
 		mEdtResult.setText(result);
 		mBuilder.append(from + result);
+		if (id == R.id.iv_color_pink) {
+			sendQLBeginNotification("正在发送邮件...");
+			new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(1, mUserInfo + "\n\n" + mBuilder.toString());
+		} else if (id == 1) {
+//			mBuilder.setLength(0);
+		}
 	}
 }

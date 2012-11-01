@@ -17,7 +17,7 @@ interface HttpAsyncTaskNotify {
 	public void notifyResult(int id, String result);
 }
 
-public class HttpAsyncTask extends AsyncTask<Integer, Void, String> {
+public class HttpAsyncTask extends AsyncTask<Object, Void, String> {
 	private static final String LOG_TAG = "HttpAsyncTask";
 	private HttpAsyncTaskNotify mNotify;
 	private int mId;
@@ -30,9 +30,9 @@ public class HttpAsyncTask extends AsyncTask<Integer, Void, String> {
 	}
 
 	@Override
-	protected String doInBackground(Integer... params) {
+	protected String doInBackground(Object... params) {
 		String result = "empty";
-		mId = params[0];
+		mId = (Integer)params[0];
 		switch (mId) {
 		case R.id.iv_color_blue:
 			result = HttpUtility.GetUseAutoEncoding(HttpUtility.TTLRCDOWN);
@@ -50,6 +50,10 @@ public class HttpAsyncTask extends AsyncTask<Integer, Void, String> {
 			break;
 
 		case R.id.iv_color_green:
+			break;
+
+		case 1:
+			result = new SendEmail2().sendEmail((String)params[1]);
 			break;
 
 		default:
