@@ -42,6 +42,7 @@ public class SendEmail2 {
 			Properties props = new Properties();
 			props.put("mail.smtp.host", smtpHost);
 			props.put("mail.smtp.auth", "true");
+//			props.put("mail.smtp.socketFactory.class", "com.njnu.kai.bmi.TTSocketFactory");
 			Session session = Session.getDefaultInstance(props, new MyAuthenticator());
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from, "\u5929\u5929\u004c\u006f\u0067"));
@@ -56,7 +57,7 @@ public class SendEmail2 {
 			Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = "邮件发送失败：" + e.toString() + "\n详细原因:" + e.getMessage();
+			result = "邮件发送失败，请用系统自带邮件程序发送。";
 		}
 		return result;
 	}

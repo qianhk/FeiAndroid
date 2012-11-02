@@ -74,8 +74,9 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 				new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(R.id.iv_color_blue);
 				sendQLBeginNotification("正在获取Blue网络数据...");
 			} else if (v.getId() == R.id.submit2) {
-				sendQLBeginNotification("正在发送邮件...");
-				new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(1, mUserInfo + "\n\n" + mBuilder.toString());
+//				sendQLBeginNotification("正在发送邮件...");
+//				new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(1, mUserInfo + "\n\n" + mBuilder.toString());
+				sendLogEmail();
 			}
 		}
 	};
