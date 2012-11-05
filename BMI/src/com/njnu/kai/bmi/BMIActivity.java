@@ -70,13 +70,13 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 	//				Toast.makeText(BMIActivity.this, "error", Toast.LENGTH_SHORT).show();
 				}
 	//			openOptionDialog();
-				mBuilder.setLength(0);
-				new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(R.id.iv_color_blue);
-				sendQLBeginNotification("正在获取Blue网络数据...");
+//				mBuilder.setLength(0);
+//				new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(R.id.iv_color_blue);
+//				sendQLBeginNotification("正在获取Blue网络数据...");
 			} else if (v.getId() == R.id.submit2) {
 //				sendQLBeginNotification("正在发送邮件...");
 //				new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(1, mUserInfo + "\n\n" + mBuilder.toString());
-				sendLogEmail();
+//				sendLogEmail();
 			}
 		}
 	};
@@ -99,6 +99,7 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 	protected static final int MENU_Quit = Menu.FIRST + 1;
 	protected static final int MENU_Email = Menu.FIRST + 2;
 	protected static final int MENU_Email_Clear = Menu.FIRST + 3;
+	protected static final int MENU_Email_DIRECT = Menu.FIRST + 4;
 	private Drawable mDrawableLauncher2;
 	private Drawable mDrawableApple;
 	private Drawable mDrawableLauncher1;
@@ -106,10 +107,11 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(0, MENU_Email, 0, "Send...");
-		menu.add(0, MENU_Email_Clear, 10, "Clear Send String");
-		menu.add(0, MENU_ABOUT, 20, "About...");
-		menu.add(0, MENU_Quit, 30, "Exit");
+		menu.add(0, MENU_Email_DIRECT, 0, "直接发送日志邮件");
+		menu.add(0, MENU_Email, 100, "使用系统邮件程序发送");
+		menu.add(0, MENU_Email_Clear, 200, "清空测试数据");
+		menu.add(0, MENU_ABOUT, 300, "About...");
+		menu.add(0, MENU_Quit, 400, "Exit");
 		return true;
 	}
 
@@ -130,6 +132,11 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 
 		case MENU_Email_Clear:
 			mBuilder.setLength(0);
+			break;
+
+		case MENU_Email_DIRECT:
+			sendQLBeginNotification("正在发送邮件...");
+			new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(1, mUserInfo + "\n\n" + mBuilder.toString());
 			break;
 
 		default:
@@ -250,6 +257,11 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 		mUserInfo = new GeneralData(this).getData().toString();
 
 		mBuilder = new StringBuilder(512);
+
+		mLayout1.setVisibility(View.INVISIBLE);
+		mLayout2.setVisibility(View.VISIBLE);
+
+		mEdtResult.setText("请依此点击下面的按钮，如果某个按钮返回的结果不正常，可以多次点击此按钮重试。\n全部点完后可以通过菜单中的\"直接发送日志邮件\"功能发送邮件，cmwap uniwap ctwap 3gwap等wap网络用户第一个发功功能可能失败，可选择第二个\"使用系统邮件程序发送\"。\n正常结果可能有两种：一种提示:好音质 天天动听，一种有一行文字本身就是测试正常。");
 	}
 
 	private class ColorButtonManager {
@@ -322,8 +334,8 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 		setColorButtonPropety(4, R.id.iv_color_green, R.drawable.minilyric_btn_color_green);
 
 //		mArrayColorButton[2].setVisibility(View.INVISIBLE);
-		mArrayColorButton[3].setVisibility(View.INVISIBLE);
-		mArrayColorButton[4].setVisibility(View.INVISIBLE);
+//		mArrayColorButton[3].setVisibility(View.INVISIBLE);
+//		mArrayColorButton[4].setVisibility(View.INVISIBLE);
 
 //		int colorStyle = 2;
 //		setSettingPanelColorButtonFlag(colorStyle);
@@ -354,12 +366,12 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 	}
 
 	private void doColorButtonClicked(View v) {
-//		if (mLayout2.getVisibility() != View.VISIBLE) {
-//			mLayout1.setVisibility(View.INVISIBLE);
-//			mLayout2.setVisibility(View.VISIBLE);
-//		}
-//		new HttpAsyncTask(this, this).execute(v.getId());
-//		mEdtResult.setText("正在获取网络数据，请稍等...");
+		if (mLayout2.getVisibility() != View.VISIBLE) {
+			mLayout1.setVisibility(View.INVISIBLE);
+			mLayout2.setVisibility(View.VISIBLE);
+		}
+		new HttpAsyncTask(this, this).execute(v.getId());
+		mEdtResult.setText("正在获取网络数据，请稍等...");
 	}
 
 	@Override
@@ -375,14 +387,10 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 		case R.id.iv_color_blue:
 			from = "";
 			result = "blue:\n" + result2;
-			new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(R.id.iv_color_yellow);
-			sendQLBeginNotification("正在获取Yellow网络数据...");
 			break;
 
 		case R.id.iv_color_yellow:
 			result = "yellow:\n" + result2;
-			new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(R.id.iv_color_pink);
-			sendQLBeginNotification("正在获取Pink网络数据...");
 			break;
 
 		case R.id.iv_color_pink:
@@ -398,7 +406,7 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 			break;
 
 		case 1:
-			sendQLBeginNotification(result2);
+//			sendQLBeginNotification(result2);
 			Toast.makeText(BMIActivity.this, result2, Toast.LENGTH_LONG).show();
 			result = result2;
 			break;
@@ -408,11 +416,5 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 		}
 		mEdtResult.setText(result);
 		mBuilder.append(from + result);
-		if (id == R.id.iv_color_pink) {
-			sendQLBeginNotification("正在发送邮件...");
-			new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(1, mUserInfo + "\n\n" + mBuilder.toString());
-		} else if (id == 1) {
-//			mBuilder.setLength(0);
-		}
 	}
 }

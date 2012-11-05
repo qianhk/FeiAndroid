@@ -17,9 +17,11 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-public class HttpConnectionUtilityPink {
+public class HttpConnectionUtility {
 	private static final String LOG_TAG = "HttpConnectionUtility";
 	private final static String _user_agent = "agent_ttkai_own";
+
+	private static boolean firstConnected = true;
 
 	public static final int CONNECTION_TIMEOUT = 10000;
 	public static final int READ_TIMEOUT = 10000;
@@ -49,25 +51,30 @@ public class HttpConnectionUtilityPink {
 			, NETWORK_3G // NETWORK_TYPE_HSPAP
 	};
 	private static int mNetWorkType = NETWORK_INVALID;
+	private static StringBuilder strBuilder = new StringBuilder();
 
 	static public String GetUseAutoEncoding(Context context, String url) {
-		String text = "发生错误：";
+		strBuilder.setLength(0);
+		strBuilder.append("\nUrl: " + url);
 		try {
 			HttpURLConnection connection = getRedirectHttpConnection(context, url, 0);
-			InputStream inputStream = connection.getInputStream();
-			BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-			byte[] buf = new byte[1024];
-			StringBuilder builder = new StringBuilder(1024);
-			int readLen = 0;
-			while ((readLen = bufferedInputStream.read(buf)) > 0) {
-				builder.append(new String(buf, 0, readLen, "UTF-8"));
+			if (connection != null) {
+				InputStream inputStream = connection.getInputStream();
+				BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+				byte[] buf = new byte[1024];
+				int readLen = 0;
+				while ((readLen = bufferedInputStream.read(buf)) > 0) {
+					strBuilder.append(new String(buf, 0, readLen, "UTF-8"));
+				}
+				connection.disconnect();
+			} else {
+				strBuilder.append("\n上面文字提示中应有异常发生。");
 			}
-			text = builder.toString();
-			connection.disconnect();
 		} catch (Exception e) {
-			text += e.getMessage();
+			strBuilder.append("\n发生异常 " + e.toString() + " 原因:" + e.getMessage());
 		}
-		return text;
+		strBuilder.append('\n');
+		return strBuilder.toString();
 	}
 
 	public static HttpURLConnection getRedirectHttpConnection(Context context, String url, long range) {
@@ -76,50 +83,81 @@ public class HttpConnectionUtilityPink {
 		int mNetWorkType = getNetWorkType(context);
 		int status = 0;
 		try {
+			strBuilder.append("\ngetRedirectHttpConnection A1");
 			hc = getHttpConnetionInternel(url, mNetWorkType, range);
+			strBuilder.append(" A2");
+			if (firstConnected) {
+				strBuilder.append(" A3");
+				String type = hc.getContentType();
+				strBuilder.append(" A4");
+				if (type != null && type.indexOf("text/vnd.wap.wml") != -1) {
+					strBuilder.append(" A5");
+					strBuilder.append("\nfirstConnected reGet Request Response Code = " + hc.getResponseCode() + " contentType=" + type);
+					hc.disconnect();
+					strBuilder.append(" A6");
+					hc = getHttpConnetionInternel(url, mNetWorkType, range);
+					strBuilder.append(" A7");
+				}
+				firstConnected = false;
+				strBuilder.append(" A8");
+			}
 
+			strBuilder.append(" A9");
 			status = hc.getResponseCode();
-			if (status == 307
-					|| status == HttpURLConnection.HTTP_MOVED_TEMP
-					|| status == HttpURLConnection.HTTP_MOVED_PERM) {
+			strBuilder.append(" A10");
+			strBuilder.append("\nFirst Request Response Code = " + status + " contentType=" + hc.getContentType());
+			if (status == 307 || status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_MOVED_PERM) {
 				String location = hc.getHeaderField("Location");
+				strBuilder.append("\nLocation=" + location);
 				if (location != null) {
 					String lowerCaseLocation = location.toLowerCase(Locale.US);
+					strBuilder.append(" LowerLocation=" + lowerCaseLocation);
 					if (!lowerCaseLocation.startsWith("http://") && !lowerCaseLocation.startsWith("https://")) {
 						int idx = url.lastIndexOf('/');
 						if (idx >= 0) {
 							url = url.substring(0, idx + 1);
 						}
 						location = url + location;
+						strBuilder.append("\nNew Location=" + lowerCaseLocation + " trunkedUrl=" + url);
 					}
 					hc.disconnect();
 					hc = getHttpConnetionInternel(location, mNetWorkType, range);
+					strBuilder.append("\nSecond Request Response Code = " + hc.getResponseCode());
 				}
 			} else if (status == HttpURLConnection.HTTP_NOT_FOUND) {
 //                TTLog.d(LOG_TAG, "http code : " + status + " url: " + url);
+				strBuilder.append(" A11");
 				hc.disconnect();
 				hc = null;
 			}
 		} catch (Exception e) {
+			strBuilder.append(" A12");
 			e.printStackTrace();
 //            TTLog.d(LOG_TAG, "err code : " + status + " url: " + url + " err:" + e.getMessage());
+			strBuilder.append("\ngetRedirectHttpConnection Exception: " + e.toString() + " 原因:" + e.getMessage() + "\nhc is null ? " + (hc == null));
 			if (hc != null) {
+				strBuilder.append(" A13");
 				hc.disconnect();
+				strBuilder.append(" A14");
 				hc = null;
 			}
 		}
+		strBuilder.append(" A15");
 		return hc;
 	}
 
 	private static HttpURLConnection getHttpConnetionInternel(String url, int netMode, long range)
 			throws Exception {
 		HttpURLConnection hc = null;
+		strBuilder.append("\ngetHttpConnetionInternel B1 ");
 		URL httpUrl = null;
 		if (url != null) {
 			httpUrl = new URL(url);
 		} else {
 			return hc;
 		}
+		strBuilder.append(" B2");
+		boolean chinaTelecom = false;
 		switch (netMode) {
 		default:
 		case NETWORK_2G:
@@ -129,15 +167,19 @@ public class HttpConnectionUtilityPink {
 			break;
 		case NETWORK_WAP:
 			String proxyHost = android.net.Proxy.getDefaultHost();
-
+			strBuilder.append(" B3");
 			Proxy proxy = new Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress(proxyHost, PORT));
+			strBuilder.append(" B4");
 			hc = (HttpURLConnection)httpUrl.openConnection(proxy);
+			strBuilder.append(" B5");
 
 			// 电信的wap代理地址是10.0.0.200，如果是电信的wap代理，则不用设置X-Online-Host和Accept，否则连接不成功
-			if (!proxyHost.equals("10.0.0.200")) {
+			chinaTelecom = proxyHost != null && proxyHost.equalsIgnoreCase("10.0.0.200");
+			strBuilder.append(" B6 " + chinaTelecom);
+			if (!chinaTelecom) {
 				hc.setRequestProperty("X-Online-Host", httpUrl.getAuthority());
-				hc.setRequestProperty("Accept", "*/*");
 			}
+			strBuilder.append(" B7");
 
 			break;
 		}
@@ -145,22 +187,30 @@ public class HttpConnectionUtilityPink {
 		if (range > 0) {
 			hc.setRequestProperty("RANGE", "bytes=" + range + "-");
 		}
-
+		strBuilder.append(" B8");
+		if (!chinaTelecom) {
+			hc.setRequestProperty("Accept", "*/*");
+		}
+		strBuilder.append(" B9");
 		hc.setRequestProperty("Connection", "Keep-Alive");
-		hc.setRequestProperty("Accept", "*/*");
 		hc.setRequestProperty("Accept-Language", "zh-CN,zh;q=0.8");
 		hc.setRequestProperty("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3");
 		hc.setRequestProperty("User-Agent", "TTPod_Agent_Android_1.0");
-
+		strBuilder.append(" B10");
 		hc.setConnectTimeout(CONNECTION_TIMEOUT);
 		hc.setReadTimeout(READ_TIMEOUT);
+		strBuilder.append(" B11");
 		hc.connect();
+		strBuilder.append(" B12");
 		return hc;
 	}
 
 	public static int getNetWorkType(Context context) {
 		ConnectivityManager manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+
+		strBuilder.append("\nnetworkInfo=" + networkInfo.getType() + " name=" + networkInfo.getTypeName() + " connected=" + networkInfo.isConnected());
+		strBuilder.append("\nProxy=" + android.net.Proxy.getDefaultHost() + ":" + android.net.Proxy.getDefaultPort());
 
 		if (!networkConnected(networkInfo)) {
 			mNetWorkType = NETWORK_INVALID;
@@ -172,6 +222,7 @@ public class HttpConnectionUtilityPink {
 			TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 			mNetWorkType = NETWORK_MATCH_TABLE[telephonyManager.getNetworkType()];
 		}
+		strBuilder.append("\nTTNetworkType=" + mNetWorkType);
 		return mNetWorkType;
 	}
 
