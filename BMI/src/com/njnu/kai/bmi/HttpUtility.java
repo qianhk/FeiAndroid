@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -45,6 +46,8 @@ public class HttpUtility {
 		return encodeUrl;
 	}
 
+	private static boolean isFirstConnect = true;
+
 	static public String GetUseAutoEncoding(String url) {
 		AbstractHttpClient client = new DefaultHttpClient();
 		// client.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BROWSER_COMPATIBILITY);
@@ -66,8 +69,17 @@ public class HttpUtility {
 			HttpEntity entity = response.getEntity();
 			// System.out.println(response.getStatusLine());
 			if (entity != null) {
-				String charset = EntityUtils.getContentCharSet(entity);
-				ls_content = EntityUtils.toString(entity, ((charset == null) ? "UTF-8" : charset));
+				if (isFirstConnect) {
+					isFirstConnect = false;
+					Header type = entity.getContentType();
+					if (type != null && type.getValue().indexOf("/vnd.wap.") != -1) {
+						return GetUseAutoEncoding(url);
+					}
+				}
+				if (entity != null) {
+					String charset = EntityUtils.getContentCharSet(entity);
+					ls_content = EntityUtils.toString(entity, ((charset == null) ? "UTF-8" : charset));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

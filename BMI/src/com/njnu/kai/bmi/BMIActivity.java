@@ -2,8 +2,10 @@ package com.njnu.kai.bmi;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -115,11 +118,31 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 		return true;
 	}
 
+	public static boolean isAppOnForground(Context context) {
+        ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        String  packageName =  context.getPackageName();
+        List<ActivityManager.RunningAppProcessInfo>  appProcess = activityManager.getRunningAppProcesses();
+        if (appProcess == null) {
+            return false;
+        }
+        for (ActivityManager.RunningAppProcessInfo appProcessInfo: appProcess) {
+             if (appProcessInfo.processName.equals(packageName) && appProcessInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                 return true;
+             }
+        }
+
+        return false;
+    }
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case MENU_ABOUT:
-			openOptionDialog();
+//			openOptionDialog();
+		{
+			boolean appOnForground = isAppOnForground(this);
+			Log.i("BMIActivity", "isAppOnForground=" + appOnForground);
+		}
 			break;
 
 		case MENU_Quit:
@@ -261,7 +284,7 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 		mLayout1.setVisibility(View.INVISIBLE);
 		mLayout2.setVisibility(View.VISIBLE);
 
-		mEdtResult.setText("请依此点击下面的按钮，如果某个按钮返回的结果不正常，可以多次点击此按钮重试。\n全部点完后可以通过菜单中的\"直接发送日志邮件\"功能发送邮件，cmwap uniwap ctwap 3gwap等wap网络用户第一个发功功能可能失败，可选择第二个\"使用系统邮件程序发送\"。\n正常结果可能有两种：一种提示:好音质 天天动听，一种有一行文字本身就是测试正常。");
+		mEdtResult.setText("请依此点击下面的按钮，如果某个按钮返回的结果不正常，可以多次点击此按钮重试。\n全部点完后可以通过菜单中的\"直接发送日志邮件\"功能发送邮件，cmwap uniwap ctwap 3gwap等wap网络用户第一个发功功能可能失败，可选择第二个\"使用系统邮件程序发送\"。\n正常结果可能有三种：一种提示:好音质 天天动听，一种有一行文字本身就是测试正常，还有种最后有lrc_list的文字。");
 	}
 
 	private class ColorButtonManager {

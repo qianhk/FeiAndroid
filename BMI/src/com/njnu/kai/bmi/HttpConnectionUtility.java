@@ -90,7 +90,7 @@ public class HttpConnectionUtility {
 				strBuilder.append(" A3");
 				String type = hc.getContentType();
 				strBuilder.append(" A4");
-				if (type != null && type.indexOf("text/vnd.wap.wml") != -1) {
+				if (type != null && type.indexOf("/vnd.wap.") != -1) {
 					strBuilder.append(" A5");
 					strBuilder.append("\nfirstConnected reGet Request Response Code = " + hc.getResponseCode() + " contentType=" + type);
 					hc.disconnect();
@@ -106,25 +106,26 @@ public class HttpConnectionUtility {
 			status = hc.getResponseCode();
 			strBuilder.append(" A10");
 			strBuilder.append("\nFirst Request Response Code = " + status + " contentType=" + hc.getContentType());
-			if (status == 307 || status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_MOVED_PERM) {
-				String location = hc.getHeaderField("Location");
-				strBuilder.append("\nLocation=" + location);
-				if (location != null) {
-					String lowerCaseLocation = location.toLowerCase(Locale.US);
-					strBuilder.append(" LowerLocation=" + lowerCaseLocation);
-					if (!lowerCaseLocation.startsWith("http://") && !lowerCaseLocation.startsWith("https://")) {
-						int idx = url.lastIndexOf('/');
-						if (idx >= 0) {
-							url = url.substring(0, idx + 1);
-						}
-						location = url + location;
-						strBuilder.append("\nNew Location=" + lowerCaseLocation + " trunkedUrl=" + url);
-					}
-					hc.disconnect();
-					hc = getHttpConnetionInternel(location, mNetWorkType, range);
-					strBuilder.append("\nSecond Request Response Code = " + hc.getResponseCode());
-				}
-			} else if (status == HttpURLConnection.HTTP_NOT_FOUND) {
+//			if (status == 307 || status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_MOVED_PERM) {
+//				String location = hc.getHeaderField("Location");
+//				strBuilder.append("\nLocation=" + location);
+//				if (location != null) {
+//					String lowerCaseLocation = location.toLowerCase(Locale.US);
+//					strBuilder.append(" LowerLocation=" + lowerCaseLocation);
+//					if (!lowerCaseLocation.startsWith("http://") && !lowerCaseLocation.startsWith("https://")) {
+//						int idx = url.lastIndexOf('/');
+//						if (idx >= 0) {
+//							url = url.substring(0, idx + 1);
+//						}
+//						location = url + location;
+//						strBuilder.append("\nNew Location=" + lowerCaseLocation + " trunkedUrl=" + url);
+//					}
+//					hc.disconnect();
+//					hc = getHttpConnetionInternel(location, mNetWorkType, range);
+//					strBuilder.append("\nSecond Request Response Code = " + hc.getResponseCode());
+//				}
+//			} else
+			if (status == HttpURLConnection.HTTP_NOT_FOUND) {
 //                TTLog.d(LOG_TAG, "http code : " + status + " url: " + url);
 				strBuilder.append(" A11");
 				hc.disconnect();
@@ -192,6 +193,8 @@ public class HttpConnectionUtility {
 			hc.setRequestProperty("Accept", "*/*");
 		}
 		strBuilder.append(" B9");
+		hc.setDoInput(true);
+		hc.setDoOutput(true);
 		hc.setRequestProperty("Connection", "Keep-Alive");
 		hc.setRequestProperty("Accept-Language", "zh-CN,zh;q=0.8");
 		hc.setRequestProperty("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3");
@@ -200,6 +203,7 @@ public class HttpConnectionUtility {
 		hc.setConnectTimeout(CONNECTION_TIMEOUT);
 		hc.setReadTimeout(READ_TIMEOUT);
 		strBuilder.append(" B11");
+		hc.setFollowRedirects(true);
 		hc.connect();
 		strBuilder.append(" B12");
 		return hc;
