@@ -19,7 +19,6 @@ import android.text.TextUtils;
 
 public class HttpConnectionUtility {
 	private static final String LOG_TAG = "HttpConnectionUtility";
-	private final static String _user_agent = "agent_ttkai_own";
 
 	private static boolean firstConnected = true;
 
@@ -180,7 +179,7 @@ public class HttpConnectionUtility {
 			if (!chinaTelecom) {
 				hc.setRequestProperty("X-Online-Host", httpUrl.getAuthority());
 			}
-			strBuilder.append(" B7");
+			strBuilder.append(" B7 authority=" + httpUrl.getAuthority() + " ");
 
 			break;
 		}
@@ -198,7 +197,7 @@ public class HttpConnectionUtility {
 		hc.setRequestProperty("Connection", "Keep-Alive");
 		hc.setRequestProperty("Accept-Language", "zh-CN,zh;q=0.8");
 		hc.setRequestProperty("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3");
-		hc.setRequestProperty("User-Agent", "TTPod_Agent_Android_1.0");
+		hc.setRequestProperty("User-Agent", HttpUtility._user_agent);
 		strBuilder.append(" B10");
 		hc.setConnectTimeout(CONNECTION_TIMEOUT);
 		hc.setReadTimeout(READ_TIMEOUT);

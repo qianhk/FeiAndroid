@@ -36,6 +36,7 @@ public class HttpBySocket {
 	private static final String LOG_TAG = "HttpBySocket";
 
 	private static StringBuilder strBuilder = new StringBuilder();
+	private static boolean mProxyUsed;
 
 	static public String GetUseAutoEncoding(Context context, String url) {
 		strBuilder.setLength(0);
@@ -44,17 +45,34 @@ public class HttpBySocket {
 			URL url2 = new URL(url);
 			Socket socket = createSocket(context, url2);
 			int urlPort = url2.getPort() < 0 ? url2.getDefaultPort() : url2.getPort();
-			strBuilder.append("\nafter createSocket");
+			strBuilder.append("\nafter createSocket proxyUsed=" + mProxyUsed);
 
 			OutputStream oos = socket.getOutputStream();
 			InputStream inputStream = socket.getInputStream();
-			String willWrite = "GET " + url2.getPath() + " HTTP/1.1\r\n";
-			willWrite += "Host: " + url2.getHost() + ":" + urlPort + "\r\n";
+			String willWrite = "";
+			if (mProxyUsed) {
+				willWrite += "CONNECT " + url2.getHost() + ":" + urlPort + " HTTP/1.1\r\nUser-Agent: " + HttpUtility._user_agent + "\r\nConnection: Keep-Alive\r\n\r\n";
+				strBuilder.append("\nfirst write:\n" + willWrite);
+				oos.write(willWrite.getBytes());
+				oos.flush();
+				readResponse(inputStream);
+			}
+			strBuilder.append("\nafter connect to proxy if have.");
+			willWrite = "";
+			if (mProxyUsed) {
+				willWrite += "GET " + url + " HTTP/1.1\r\n";
+				willWrite += "X-Online-Host: " + url2.getHost() + ":" + urlPort + "\r\n";
+				willWrite += "Connection: keep-alive\r\n";
+			} else {
+				willWrite += "GET " + url2.getPath() + " HTTP/1.1\r\n";
+				willWrite += "Host: " + url2.getHost() + ":" + urlPort + "\r\n";
+				willWrite += "Connection: keep-alive\r\n";
+			}
 			willWrite += "Accept: */*\r\n";
 			willWrite += "Accept-Language: zh-cn\r\n";
-			willWrite += "User-Agent: ttkai_by_socket_1.0\r\n";
+			willWrite += "User-Agent: " + HttpUtility._user_agent + "\r\n";
 			willWrite += "\r\n";
-//			strBuilder.append("\nwill write: \n" + willWrite);
+			strBuilder.append("\nwill write: \n" + willWrite);
 			oos.write(willWrite.getBytes());
 			oos.flush();
 			strBuilder.append("after flush oos\n");
@@ -88,19 +106,21 @@ public class HttpBySocket {
 		Properties properties = System.getProperties();
 		String proxyHost = properties.getProperty("http.proxyHost", null);
 		String proxyPort = properties.getProperty("http.proxyPort", null);
-		strBuilder.append("\ncreateSocket: proxyHost=" + proxyHost + ":" + proxyPort);
-		Socket socket = null;
-		int urlPort = url2.getPort() < 0 ? url2.getDefaultPort() : url2.getPort();
 		ConnectivityManager manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+		strBuilder.append("\ncreateSocket: proxyHost=" + proxyHost + ":" + proxyPort + " proxyHost2=" + android.net.Proxy.getDefaultHost() + ":" + android.net.Proxy.getDefaultPort() + " apn=" + networkInfo.getExtraInfo());
+		Socket socket = null;
+		int urlPort = url2.getPort() < 0 ? url2.getDefaultPort() : url2.getPort();
 		strBuilder.append("\nnetworkInfo=" + networkInfo.getType() + " name=" + networkInfo.getTypeName() + " connected=" + networkInfo.isConnected());
 		socket = new Socket();
 		strBuilder.append("\nin createSocket after new Socket");
 		if (TextUtils.isEmpty(proxyHost)) {
 			socket.connect(new InetSocketAddress(url2.getHost(), urlPort), 10000);
+			mProxyUsed = false;
 		} else {
 //			socket = new Socket(new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxyHost, TextUtils.isEmpty(proxyPort) ? 80: Integer.parseInt(proxyPort))));
 			socket.connect(new InetSocketAddress(proxyHost, TextUtils.isEmpty(proxyPort) ? 80: Integer.parseInt(proxyPort)), 10000);
+			mProxyUsed = true;
 		}
 		strBuilder.append("\nin createSocket after connect");
 		return socket;
@@ -117,7 +137,11 @@ public class HttpBySocket {
         // 消息报头
         Map<String, String> headers = readHeaders(in);
 
-        int contentLength = Integer.valueOf(headers.get("Content-Length"));
+        final String strContentLen = headers.get("Content-Length");
+        if (TextUtils.isEmpty(strContentLen)) {
+        	return "";
+        }
+		int contentLength = Integer.valueOf(strContentLen);
 
         // 可选的响应正文
         byte[] body = readResponseBody(in, contentLength);

@@ -47,13 +47,12 @@ public class HttpAsyncTask extends AsyncTask<Object, Void, String> {
 			break;
 
 		case R.id.iv_color_gray:
-//			result = HttpBySocket.GetUseAutoEncoding(mContext, HttpUtility.TTLRCSEARCH);
 			result = HttpConnectionUtility.GetUseAutoEncoding(mContext, HttpUtility.TTLRCSEARCH);
 			break;
 
 		case R.id.iv_color_green:
-//			result = HttpBySocket.GetUseAutoEncoding(mContext, HttpUtility.TTLRCDOWN);
-			result = HttpConnectionUtility.GetUseAutoEncoding(mContext, HttpUtility.TTLRCDOWN);
+			result = HttpBySocket.GetUseAutoEncoding(mContext, HttpUtility.TTLRCSEARCH);
+//			result = HttpConnectionUtility.GetUseAutoEncoding(mContext, HttpUtility.TTLRCDOWN);
 			break;
 
 		case 1:

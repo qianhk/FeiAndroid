@@ -1,5 +1,6 @@
 package com.njnu.kai.bmi;
 
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -26,7 +27,7 @@ import org.apache.http.util.EntityUtils;
 public class HttpUtility {
 
 	public final static String TTGETHEADER = "\u0068\u0074\u0074\u0070\u003a\u002f\u002f\u0062\u0062\u0073\u002e\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d\u002f\u0067\u0065\u0074\u0068\u0065\u0061\u0064\u0065\u0072\u002e\u0070\u0068\u0070";
-	public final static String TTLRCSEARCH = "\u0068\u0074\u0074\u0070\u003a\u002f\u002f\u006c\u0072\u0063\u002e\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d\u002f\u0073\u0065\u0061\u0072\u0063\u0068\u003f\u0074\u0069\u0074\u006c\u0065\u003d\u0054\u0068\u0065\u0025\u0032\u0030\u0044\u0061\u0079\u0025\u0032\u0030\u0059\u006f\u0075\u0025\u0032\u0030\u0057\u0065\u006e\u0074\u0025\u0032\u0030\u0041\u0077\u0061\u0079\u0026\u0061\u0072\u0074\u0069\u0073\u0074\u003d\u0026\u0072\u0061\u0077\u003d\u0032";
+	public final static String TTLRCSEARCH = "\u0068\u0074\u0074\u0070\u003a\u002f\u002f\u006c\u0072\u0063\u002e\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d";
 	public final static String TTLRCDOWN = "\u0068\u0074\u0074\u0070\u003a\u002f\u002f\u006c\u0072\u0063\u002e\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d\u002f\u0064\u006f\u0077\u006e";
 
 	static private String encodeChineseUrl(String url, String charsetName) {
@@ -78,7 +79,15 @@ public class HttpUtility {
 				}
 				if (entity != null) {
 					String charset = EntityUtils.getContentCharSet(entity);
-					ls_content = EntityUtils.toString(entity, ((charset == null) ? "UTF-8" : charset));
+//					InputStream is = entity.getContent();
+//					byte bb[] = new byte[512];
+//					int rLen = 0;
+//					StringBuilder strB = new StringBuilder();
+//					while ((rLen = is.read(bb)) > 0) {
+//						strB.append(new String(bb, 0, rLen, (charset == null) ? "UTF-8" : charset));
+//					}
+					ls_content = EntityUtils.toString(entity, "UTF-8");
+//					is.close();
 				}
 			}
 		} catch (Exception e) {
@@ -173,6 +182,6 @@ public class HttpUtility {
 	private static CookieStore _cookieStore = new BasicCookieStore();
 
 	private final static int Http_Timeout_Time = 30000;
-//	private final static String _user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.163 Safari/535.19";
-	private final static String _user_agent = "agent_ttkai";
+	public final static String _user_agent = "Mozilla/5.0 (Linux; U; Android 2.3.6; en-us; Nexus S Build/GRK39F) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1";
+//	private final static String _user_agent = "agent_ttkai";
 }
