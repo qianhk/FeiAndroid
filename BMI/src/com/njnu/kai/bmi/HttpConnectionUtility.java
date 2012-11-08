@@ -54,7 +54,7 @@ public class HttpConnectionUtility {
 
 	static public String GetUseAutoEncoding(Context context, String url) {
 		strBuilder.setLength(0);
-		strBuilder.append("\nUrl: " + url);
+		strBuilder.append("HttpConnectionUtility:\nUrl: " + url);
 		try {
 			HttpURLConnection connection = getRedirectHttpConnection(context, url, 0);
 			if (connection != null) {

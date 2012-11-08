@@ -32,15 +32,15 @@ import android.text.TextUtils;
  * @version 1.0.0
  * @since 2012-11-5
  */
-public class HttpBySocket {
-	private static final String LOG_TAG = "HttpBySocket";
+public class HttpSocketByGet {
+	private static final String LOG_TAG = "HttpSocketByGet";
 
 	private static StringBuilder strBuilder = new StringBuilder();
 	private static boolean mProxyUsed;
 
 	static public String GetUseAutoEncoding(Context context, String url) {
 		strBuilder.setLength(0);
-		strBuilder.append("\nUrl: " + url);
+		strBuilder.append("HttpSocketByGet:\nUrl: " + url);
 		try {
 			URL url2 = new URL(url);
 			Socket socket = createSocket(context, url2);
@@ -50,29 +50,16 @@ public class HttpBySocket {
 			OutputStream oos = socket.getOutputStream();
 			InputStream inputStream = socket.getInputStream();
 			String willWrite = "";
-			if (mProxyUsed) {
-				willWrite += "CONNECT " + url2.getHost() + ":" + urlPort + " HTTP/1.1\r\nUser-Agent: " + HttpUtility._user_agent + "\r\nConnection: Keep-Alive\r\n\r\n";
-				strBuilder.append("\nfirst write:\n" + willWrite);
-				oos.write(willWrite.getBytes());
-				oos.flush();
-				readResponse(inputStream);
-			}
-			strBuilder.append("\nafter connect to proxy if have.");
-			willWrite = "";
-			if (mProxyUsed) {
-				willWrite += "GET " + url + " HTTP/1.1\r\n";
-				willWrite += "X-Online-Host: " + url2.getHost() + ":" + urlPort + "\r\n";
-				willWrite += "Connection: keep-alive\r\n";
-			} else {
-				willWrite += "GET " + url2.getPath() + " HTTP/1.1\r\n";
-				willWrite += "Host: " + url2.getHost() + ":" + urlPort + "\r\n";
-				willWrite += "Connection: keep-alive\r\n";
-			}
+			
+			willWrite += "GET " + (TextUtils.isEmpty(url2.getPath()) ? "/" : url2.getPath()) + " HTTP/1.1\r\n";
+			willWrite += "Host: " + url2.getHost() + ":" + urlPort + "\r\n";
+			willWrite += "Connection: keep-alive\r\n";
 			willWrite += "Accept: */*\r\n";
 			willWrite += "Accept-Language: zh-cn\r\n";
 			willWrite += "User-Agent: " + HttpUtility._user_agent + "\r\n";
 			willWrite += "\r\n";
 			strBuilder.append("\nwill write: \n" + willWrite);
+			
 			oos.write(willWrite.getBytes());
 			oos.flush();
 			strBuilder.append("after flush oos\n");
@@ -81,7 +68,7 @@ public class HttpBySocket {
 //			while ((readLen = bufferedInputStream.read(buf)) > 0 && bufferedInputStream.) {
 //				strBuilder.append(new String(buf, 0, readLen, "UTF-8"));
 //			}
-			strBuilder.append(readResponse(inputStream));
+			strBuilder.append("\n" + readResponse(inputStream));
 			oos.close();
 			strBuilder.append("\nafter close oos");
 			inputStream.close();
@@ -115,12 +102,12 @@ public class HttpBySocket {
 		socket = new Socket();
 		strBuilder.append("\nin createSocket after new Socket");
 		if (TextUtils.isEmpty(proxyHost)) {
-			socket.connect(new InetSocketAddress(url2.getHost(), urlPort), 10000);
 			mProxyUsed = false;
+			socket.connect(new InetSocketAddress(url2.getHost(), urlPort), 10000);
 		} else {
 //			socket = new Socket(new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxyHost, TextUtils.isEmpty(proxyPort) ? 80: Integer.parseInt(proxyPort))));
-			socket.connect(new InetSocketAddress(proxyHost, TextUtils.isEmpty(proxyPort) ? 80: Integer.parseInt(proxyPort)), 10000);
 			mProxyUsed = true;
+			socket.connect(new InetSocketAddress(proxyHost, TextUtils.isEmpty(proxyPort) ? 80: Integer.parseInt(proxyPort)), 10000);
 		}
 		strBuilder.append("\nin createSocket after connect");
 		return socket;
@@ -133,9 +120,10 @@ public class HttpBySocket {
         // 读取状态行
         String statusLine = readStatusLine(in);
         System.out.println("statusLine :" + statusLine);
-
+        strBuilder.append("\nafter read StatusLine\n");
         // 消息报头
         Map<String, String> headers = readHeaders(in);
+        strBuilder.append("\nafter read Header");
 
         final String strContentLen = headers.get("Content-Length");
         if (TextUtils.isEmpty(strContentLen)) {
@@ -143,8 +131,10 @@ public class HttpBySocket {
         }
 		int contentLength = Integer.valueOf(strContentLen);
 
+		strBuilder.append("\nwill read responseBody");
         // 可选的响应正文
         byte[] body = readResponseBody(in, contentLength);
+        strBuilder.append("\nafter read responseBody");
 
         String charset = headers.get("Content-Type");
         if(charset.matches(".+;charset=.+")) {
@@ -153,6 +143,7 @@ public class HttpBySocket {
 //            charset = "ISO-8859-1";     // 默认编码
             charset = "UTF-8";     // 默认编码
         }
+        strBuilder.append("\nafter get charset:" + charset);
 
 //        System.out.println("content:\n" + new String(body, charset));
         return new String(body, charset);
@@ -203,7 +194,7 @@ public class HttpBySocket {
         in.read();      // 读取 LF
 
         String line = buff.toString();
-
+        strBuilder.append(line + "\n");
         return line;
     }
 }

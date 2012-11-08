@@ -27,7 +27,7 @@ import org.apache.http.util.EntityUtils;
 public class HttpUtility {
 
 	public final static String TTGETHEADER = "\u0068\u0074\u0074\u0070\u003a\u002f\u002f\u0062\u0062\u0073\u002e\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d\u002f\u0067\u0065\u0074\u0068\u0065\u0061\u0064\u0065\u0072\u002e\u0070\u0068\u0070";
-	public final static String TTLRCSEARCH = "\u0068\u0074\u0074\u0070\u003a\u002f\u002f\u006c\u0072\u0063\u002e\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d";
+	public final static String TTLRCSEARCH = "\u0068\u0074\u0074\u0070\u003a\u002f\u002f\u006c\u0072\u0063\u002e\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d/index.html";
 	public final static String TTLRCDOWN = "\u0068\u0074\u0074\u0070\u003a\u002f\u002f\u006c\u0072\u0063\u002e\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d\u002f\u0064\u006f\u0077\u006e";
 
 	static private String encodeChineseUrl(String url, String charsetName) {
@@ -97,7 +97,7 @@ public class HttpUtility {
 			client.getConnectionManager().shutdown();
 		}
 
-		return "Url: " + url + "\n" + ls_content;
+		return "HttpUtility:\nUrl: " + url + "\n" + ls_content;
 	}
 
 	static public String PostUseAutoEncoding(String url, String postData, String encoding) {

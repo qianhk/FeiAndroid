@@ -284,10 +284,10 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 
 		mBuilder = new StringBuilder(512);
 
-//		mLayout1.setVisibility(View.INVISIBLE);
-//		mLayout2.setVisibility(View.VISIBLE);
+		mLayout1.setVisibility(View.INVISIBLE);
+		mLayout2.setVisibility(View.VISIBLE);
 
-		mEdtResult.setText("请依此点击下面的按钮，如果某个按钮返回的结果不正常，可以多次点击此按钮重试。\n全部点完后可以通过菜单中的\"直接发送日志邮件\"功能发送邮件，cmwap uniwap ctwap 3gwap等wap网络用户第一个发功功能可能失败，可选择第二个\"使用系统邮件程序发送\"。\n正常结果可能有三种：一种提示:好音质 天天动听，一种有一行文字本身就是测试正常，还有种最后有lrc_list的文字。");
+		mEdtResult.setText("请依此点击下面的按钮，如果某个按钮返回的结果不正常，可以多次点击此按钮重试。\n全部点完后可以通过菜单中的\"直接发送日志邮件\"功能发送邮件，cmwap uniwap ctwap 3gwap等wap网络用户第一个发功功能可能失败，可选择第二个\"使用系统邮件程序发送\"。\n正常结果可能有三种：一种提示:好音质 天天动听，一种有一行文字本身就是测试正常，还有一种有文字Thank you。");
 
 //		EditText fieldHeight = (EditText)findViewById(R.id.stature);
 //		SpannableString listSearchPrompt = new SpannableString("请依此点击下面的按钮");
@@ -417,23 +417,23 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 		switch (id) {
 		case R.id.iv_color_blue:
 			from = "";
-			result = "blue:\n" + result2;
+			result = "1.blue:\n" + result2;
 			break;
 
 		case R.id.iv_color_yellow:
-			result = "yellow:\n" + result2;
+			result = "2.yellow:\n" + result2;
 			break;
 
 		case R.id.iv_color_pink:
-			result = "pink:\n" + result2;
+			result = "3. pink:\n" + result2;
 			break;
 
 		case R.id.iv_color_gray:
-			result = "gray:\n" + result2;
+			result = "4.gray:\n" + result2;
 			break;
 
 		case R.id.iv_color_green:
-			result = "green:\n" + result2;
+			result = "5.green:\n" + result2;
 			break;
 
 		case 1:
