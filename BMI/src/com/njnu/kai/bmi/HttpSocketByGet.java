@@ -50,16 +50,17 @@ public class HttpSocketByGet {
 			OutputStream oos = socket.getOutputStream();
 			InputStream inputStream = socket.getInputStream();
 			String willWrite = "";
-			
+
 			willWrite += "GET " + (TextUtils.isEmpty(url2.getPath()) ? "/" : url2.getPath()) + " HTTP/1.1\r\n";
 			willWrite += "Host: " + url2.getHost() + ":" + urlPort + "\r\n";
 			willWrite += "Connection: keep-alive\r\n";
-			willWrite += "Accept: */*\r\n";
-			willWrite += "Accept-Language: zh-cn\r\n";
+			willWrite += "Accept: application/xml,application/vnd.wap.xhtml+xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,text/vnd.wap.wml;q=0.6,*/*;q=0.5,UC/145,plugin/1\r\n";
+			willWrite += "Accept-Language: zh-CN\r\n";
 			willWrite += "User-Agent: " + HttpUtility._user_agent + "\r\n";
+			willWrite += "Cache-Control: max-age=0\r\n";
 			willWrite += "\r\n";
 			strBuilder.append("\nwill write: \n" + willWrite);
-			
+
 			oos.write(willWrite.getBytes());
 			oos.flush();
 			strBuilder.append("after flush oos\n");

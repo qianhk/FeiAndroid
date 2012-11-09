@@ -207,7 +207,7 @@ public class HttpConnectionUtility {
 		}
 		strBuilder.append(" B8");
 		if (!chinaTelecom) {
-			hc.setRequestProperty("Accept", "*/*");
+			hc.setRequestProperty("Accept", "application/xml,application/vnd.wap.xhtml+xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,text/vnd.wap.wml;q=0.6,*/*;q=0.5,UC/145,plugin/1");
 		}
 		strBuilder.append(" B9");
 		hc.setDoInput(true);
@@ -219,6 +219,7 @@ public class HttpConnectionUtility {
 		hc.setRequestProperty("Accept-Language", "zh-CN,zh;q=0.8");
 		hc.setRequestProperty("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3");
 		hc.setRequestProperty("User-Agent", HttpUtility._user_agent);
+		hc.setRequestProperty("Cache-Control", "max-age=0");
 		strBuilder.append(" B10");
 		hc.setConnectTimeout(CONNECTION_TIMEOUT);
 		hc.setReadTimeout(READ_TIMEOUT);
