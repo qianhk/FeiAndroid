@@ -22,7 +22,9 @@ public class GeneralData {
 	public List<String> getData() {
 		List<String> list = new ArrayList<String>();
 
-		list.add("测试软件版本: 201211090015");
+		list.add("测试软件版本: 201211091340");
+		list.add("\nProduct: " + Build.PRODUCT);
+      	list.add("\nCPU_ABI: " + Build.CPU_ABI);
 		list.add("\nModel number: " + Build.MODEL);
 		list.add("\nAndroid version: " + Build.VERSION.RELEASE);
 		list.add("\nBuild Number: " + Build.DISPLAY);
@@ -74,6 +76,23 @@ public class GeneralData {
 		list.add("\nMCC MNC: " + "mcc=" + mContext.getResources().getConfiguration().mcc + " mnc=" + mContext.getResources().getConfiguration().mnc);
 		list.add("\nIMEI/MEID: " + phoneMgr.getDeviceId());
 
+//		String phoneInfo = "Product: " + android.os.Build.PRODUCT;
+//        phoneInfo += ", CPU_ABI: " + android.os.Build.CPU_ABI;
+//        phoneInfo += ", TAGS: " + android.os.Build.TAGS;
+//        phoneInfo += ", VERSION_CODES.BASE: " + android.os.Build.VERSION_CODES.BASE;
+//        phoneInfo += ", MODEL: " + android.os.Build.MODEL;
+//        phoneInfo += ", SDK: " + android.os.Build.VERSION.SDK;
+//        phoneInfo += ", VERSION.RELEASE: " + android.os.Build.VERSION.RELEASE;
+//        phoneInfo += ", DEVICE: " + android.os.Build.DEVICE;
+//        phoneInfo += ", DISPLAY: " + android.os.Build.DISPLAY;
+//        phoneInfo += ", BRAND: " + android.os.Build.BRAND;
+//        phoneInfo += ", BOARD: " + android.os.Build.BOARD;
+//        phoneInfo += ", FINGERPRINT: " + android.os.Build.FINGERPRINT;
+//        phoneInfo += ", ID: " + android.os.Build.ID;
+//        phoneInfo += ", MANUFACTURER: " + android.os.Build.MANUFACTURER;
+//        phoneInfo += ", USER: " + android.os.Build.USER;
+//
+//        list.add("\n" + phoneInfo);
 		return list;
 	}
 }
