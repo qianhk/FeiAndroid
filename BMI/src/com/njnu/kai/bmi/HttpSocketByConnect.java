@@ -28,7 +28,7 @@ import android.net.NetworkInfo;
 import android.text.TextUtils;
 
 /**
- *
+ * 
  * @version 1.0.0
  * @since 2012-11-5
  */
@@ -51,7 +51,8 @@ public class HttpSocketByConnect {
 			InputStream inputStream = socket.getInputStream();
 			String willWrite = "";
 			if (mProxyUsed) {
-				willWrite += "CONNECT " + url2.getHost() + ":" + urlPort + " HTTP/1.1\r\nUser-Agent: " + HttpUtility._user_agent + "\r\nConnection: keep-alive\r\n\r\n";
+				willWrite += "CONNECT " + url2.getHost() + ":" + urlPort + " HTTP/1.1\r\nUser-Agent: " + HttpUtility._user_agent
+						+ "\r\nConnection: keep-alive\r\n\r\n";
 				strBuilder.append("\nfirst write:\n" + willWrite);
 				oos.write(willWrite.getBytes());
 				oos.flush();
@@ -108,10 +109,12 @@ public class HttpSocketByConnect {
 		String proxyPort = properties.getProperty("http.proxyPort", null);
 		ConnectivityManager manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-		strBuilder.append("\ncreateSocket: proxyHost=" + proxyHost + ":" + proxyPort + " proxyHost2=" + android.net.Proxy.getDefaultHost() + ":" + android.net.Proxy.getDefaultPort() + " apn=" + networkInfo.getExtraInfo());
+		strBuilder.append("\ncreateSocket: proxyHost=" + proxyHost + ":" + proxyPort + " proxyHost2=" + android.net.Proxy.getDefaultHost() + ":"
+				+ android.net.Proxy.getDefaultPort() + " apn=" + networkInfo.getExtraInfo());
 		Socket socket = null;
 		int urlPort = url2.getPort() < 0 ? url2.getDefaultPort() : url2.getPort();
-		strBuilder.append("\nnetworkInfo=" + networkInfo.getType() + " name=" + networkInfo.getTypeName() + " connected=" + networkInfo.isConnected());
+		strBuilder
+				.append("\nnetworkInfo=" + networkInfo.getType() + " name=" + networkInfo.getTypeName() + " connected=" + networkInfo.isConnected());
 		socket = new Socket();
 		strBuilder.append("\nin createSocket after new Socket");
 		if (TextUtils.isEmpty(proxyHost)) {
@@ -120,94 +123,101 @@ public class HttpSocketByConnect {
 		} else {
 //			socket = new Socket(new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxyHost, TextUtils.isEmpty(proxyPort) ? 80: Integer.parseInt(proxyPort))));
 			mProxyUsed = true;
-			socket.connect(new InetSocketAddress(proxyHost, TextUtils.isEmpty(proxyPort) ? 80: Integer.parseInt(proxyPort)), 10000);
+			socket.connect(new InetSocketAddress(proxyHost, TextUtils.isEmpty(proxyPort) ? 80 : Integer.parseInt(proxyPort)), 10000);
 		}
 		strBuilder.append("\nin createSocket after connect");
 		return socket;
 	}
 
-
 //	private final static byte[] CRLF = {'\r', '\n'};
 
-    private static String readResponse(InputStream in) throws IOException {
-        // 读取状态行
-        String statusLine = readStatusLine(in);
-        System.out.println("statusLine :" + statusLine);
-        strBuilder.append("\nafter read StatusLine\n");
-        // 消息报头
-        Map<String, String> headers = readHeaders(in);
-        strBuilder.append("\nafter read Header");
+	private static String readResponse(InputStream in) throws IOException {
+		// 读取状态行
+		String statusLine = readStatusLine(in);
+		System.out.println("statusLine :" + statusLine);
+		strBuilder.append("\nafter read StatusLine\n");
+		// 消息报头
+		Map<String, String> headers = readHeaders(in);
+		strBuilder.append("\nafter read Header");
 
-        final String strContentLen = headers.get("Content-Length");
-        if (TextUtils.isEmpty(strContentLen)) {
-        	return "";
-        }
+		final String strContentLen = headers.get("Content-Length");
+		if (TextUtils.isEmpty(strContentLen)) {
+			return "";
+		}
 		int contentLength = Integer.valueOf(strContentLen);
 
 		strBuilder.append("\nwill read responseBody");
-        // 可选的响应正文
-        byte[] body = readResponseBody(in, contentLength);
-        strBuilder.append("\nafter read responseBody");
+		// 可选的响应正文
+		byte[] body = readResponseBody(in, contentLength);
+		strBuilder.append("\nafter read responseBody");
 
-        String charset = headers.get("Content-Type");
-        if(charset.matches(".+;charset=.+")) {
-            charset = charset.split(";")[1].split("=")[1];
-        } else {
+		String charset = headers.get("Content-Type");
+		if (charset.matches(".+;charset=.+")) {
+			charset = charset.split(";")[1].split("=")[1];
+		} else {
 //            charset = "ISO-8859-1";     // 默认编码
-            charset = "UTF-8";     // 默认编码
-        }
-        strBuilder.append("\nafter get charset:" + charset);
+			charset = "UTF-8"; // 默认编码
+		}
+		strBuilder.append("\nafter get charset:" + charset);
 
 //        System.out.println("content:\n" + new String(body, charset));
-        return new String(body, charset);
-    }
+		return new String(body, charset);
+	}
 
-    private static byte[] readResponseBody(InputStream in, int contentLength) throws IOException {
+	private static byte[] readResponseBody(InputStream in, int contentLength) throws IOException {
 
-        ByteArrayOutputStream buff = new ByteArrayOutputStream(contentLength);
+		ByteArrayOutputStream buff = new ByteArrayOutputStream(contentLength);
 
-        int b;
-        int count = 0;
-        while(count++ < contentLength) {
-            b = in.read();
-            buff.write(b);
-        }
+		int b;
+		int count = 0;
+		while (count++ < contentLength) {
+			b = in.read();
+			buff.write(b);
+		}
 
-        return buff.toByteArray();
-    }
+		return buff.toByteArray();
+	}
 
-    private static Map<String, String> readHeaders(InputStream in) throws IOException {
-        Map<String, String> headers = new HashMap<String, String>();
+	private static Map<String, String> readHeaders(InputStream in) throws IOException {
+		Map<String, String> headers = new HashMap<String, String>();
 
-        String line;
+		String line;
 
-        while(!("".equals(line = readLine(in)))) {
-            String[] nv = line.split(": ");     // 头部字段的名值都是以(冒号+空格)分隔的
-            headers.put(nv[0], nv[1]);
-        }
+		while (!("".equals(line = readLine(in)))) {
+			String[] nv = line.split(": "); // 头部字段的名值都是以(冒号+空格)分隔的
+			headers.put(nv[0], nv[1]);
+		}
 
-        return headers;
-    }
+		return headers;
+	}
 
-    private static String readStatusLine(InputStream in) throws IOException {
-        return readLine(in);
-    }
+	private static String readStatusLine(InputStream in) throws IOException {
+		return readLine(in);
+	}
 
-    /**
-     * 读取以CRLF分隔的一行，返回结果不包含CRLF
-     */
-    private static String readLine(InputStream in) throws IOException {
-        int b;
+	/**
+	 * 读取以CRLF分隔的一行，返回结果不包含CRLF
+	 */
+	private static String readLine(InputStream in) throws IOException {
+		ByteArrayOutputStream buff = new ByteArrayOutputStream();
+		int b = 2;
+		int ii = 0;
+		try {
+			while ((b = in.read()) != '\r' && b != -1) {
+				++ii;
+				buff.write(b);
+			}
 
-        ByteArrayOutputStream buff = new ByteArrayOutputStream();
-        while((b = in.read()) != '\r') {
-            buff.write(b);
-        }
-
-        in.read();      // 读取 LF
-
-        String line = buff.toString();
-        strBuilder.append(line + "\n");
-        return line;
-    }
+			in.read(); // 读取 LF
+		} catch (OutOfMemoryError e) {
+			System.out.println("ii=" + ii + " b=" + b);
+			e.printStackTrace();
+		}
+		String line = buff.toString();
+		strBuilder.append(line + "\n");
+//		if (b == -1) {
+//			strBuilder.append("read = -1\n");
+//		}
+		return line;
+	}
 }

@@ -51,7 +51,8 @@ public class HttpSocketByGet {
 			InputStream inputStream = socket.getInputStream();
 			String willWrite = "";
 			
-			willWrite += "GET " + (TextUtils.isEmpty(url2.getPath()) ? "/" : url2.getPath()) + " HTTP/1.1\r\n";
+//			willWrite += "GET " + (TextUtils.isEmpty(url2.getPath()) ? "/" : url2.getPath()) + " HTTP/1.1\r\n";
+			willWrite += "GET " + url + " HTTP/1.1\r\n"; //有些普通代理也要写全，貌似不看host
 			willWrite += "Host: " + url2.getHost() + ":" + urlPort + "\r\n";
 			willWrite += "Connection: keep-alive\r\n";
 			willWrite += "Accept: */*\r\n";
@@ -184,17 +185,25 @@ public class HttpSocketByGet {
      * 读取以CRLF分隔的一行，返回结果不包含CRLF
      */
     private static String readLine(InputStream in) throws IOException {
-        int b;
+		ByteArrayOutputStream buff = new ByteArrayOutputStream();
+		int b = 2;
+		int ii = 0;
+		try {
+			while ((b = in.read()) != '\r' && b != -1) {
+				++ii;
+				buff.write(b);
+			}
 
-        ByteArrayOutputStream buff = new ByteArrayOutputStream();
-        while((b = in.read()) != '\r') {
-            buff.write(b);
-        }
-
-        in.read();      // 读取 LF
-
-        String line = buff.toString();
-        strBuilder.append(line + "\n");
-        return line;
-    }
+			in.read(); // 读取 LF
+		} catch (OutOfMemoryError e) {
+			System.out.println("ii=" + ii + " b=" + b);
+			e.printStackTrace();
+		}
+		String line = buff.toString();
+		strBuilder.append(line + "\n");
+//		if (b == -1) {
+//			strBuilder.append("read = -1\n");
+//		}
+		return line;
+	}
 }
