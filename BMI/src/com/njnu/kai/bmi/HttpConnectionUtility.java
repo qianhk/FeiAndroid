@@ -5,6 +5,8 @@ package com.njnu.kai.bmi;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -137,12 +139,28 @@ public class HttpConnectionUtility {
 			strBuilder.append("\ngetRedirectHttpConnection Exception: " + e.toString() + " 原因:" + e.getMessage() + "\nhc is null ? " + (hc == null));
 			if (hc != null) {
 				strBuilder.append(" A13");
-				hc.disconnect();
+				InputStream errorStream = hc.getErrorStream();
 				strBuilder.append(" A14");
+				try {
+					InputStreamReader reader = new InputStreamReader(errorStream, "UTF-8");
+					char tmpS[] = new char[128];
+					int l;
+					strBuilder.append(" readErrorStream: ");
+					while ((l = reader.read(tmpS)) != -1) {
+						strBuilder.append(tmpS, 0, l);
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					strBuilder.append(" readErrorStream error: " + e1.toString() + " reason" + e.getMessage());
+				}
+
+				strBuilder.append(" A15");
+				hc.disconnect();
+				strBuilder.append(" A16");
 				hc = null;
 			}
 		}
-		strBuilder.append(" A15");
+		strBuilder.append(" A17");
 		return hc;
 	}
 
@@ -189,15 +207,19 @@ public class HttpConnectionUtility {
 		}
 		strBuilder.append(" B8");
 		if (!chinaTelecom) {
-			hc.setRequestProperty("Accept", "*/*");
+			hc.setRequestProperty("Accept", "application/xml,application/vnd.wap.xhtml+xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,text/vnd.wap.wml;q=0.6,*/*;q=0.5,UC/145,plugin/1");
 		}
 		strBuilder.append(" B9");
 		hc.setDoInput(true);
-		hc.setDoOutput(true);
+		if (hc.getRequestMethod().equalsIgnoreCase("POST")) {
+			hc.setDoOutput(true);
+		}
+		strBuilder.append(" RequestMethod:" + hc.getRequestMethod());
 		hc.setRequestProperty("Connection", "Keep-Alive");
 		hc.setRequestProperty("Accept-Language", "zh-CN,zh;q=0.8");
 		hc.setRequestProperty("Accept-Charset", "GBK,utf-8;q=0.7,*;q=0.3");
 		hc.setRequestProperty("User-Agent", HttpUtility._user_agent);
+		hc.setRequestProperty("Cache-Control", "max-age=0");
 		strBuilder.append(" B10");
 		hc.setConnectTimeout(CONNECTION_TIMEOUT);
 		hc.setReadTimeout(READ_TIMEOUT);
@@ -212,8 +234,10 @@ public class HttpConnectionUtility {
 		ConnectivityManager manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = manager.getActiveNetworkInfo();
 
-		strBuilder.append("\nnetworkInfo=" + networkInfo.getType() + " name=" + networkInfo.getTypeName() + " connected=" + networkInfo.isConnected());
-		strBuilder.append("\nProxy=" + android.net.Proxy.getDefaultHost() + ":" + android.net.Proxy.getDefaultPort());
+		strBuilder
+				.append("\nnetworkInfo=" + networkInfo.getType() + " name=" + networkInfo.getTypeName() + " connected=" + networkInfo.isConnected());
+		strBuilder.append("\nProxy=" + android.net.Proxy.getDefaultHost() + ":" + android.net.Proxy.getDefaultPort() + " apn="
+				+ networkInfo.getExtraInfo());
 
 		if (!networkConnected(networkInfo)) {
 			mNetWorkType = NETWORK_INVALID;
