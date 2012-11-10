@@ -4,20 +4,13 @@
  */
 package com.njnu.kai.bmi;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;

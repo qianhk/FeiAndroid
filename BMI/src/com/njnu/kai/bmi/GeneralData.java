@@ -22,7 +22,7 @@ public class GeneralData {
 	public List<String> getData() {
 		List<String> list = new ArrayList<String>();
 
-		list.add("测试软件版本: 201211091340");
+		list.add("测试软件版本: 201211102337");
 		list.add("\nProduct: " + Build.PRODUCT);
       	list.add("\nCPU_ABI: " + Build.CPU_ABI);
 		list.add("\nModel number: " + Build.MODEL);
