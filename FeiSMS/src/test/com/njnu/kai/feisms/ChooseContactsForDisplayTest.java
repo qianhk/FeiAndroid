@@ -61,12 +61,12 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[1] = new char[] {'2', '2', '3'};
 		py.mT9Key[2] = new char[] {'3', '2', '3'};
 		py.mT9Key[3] = new char[] {'4', '2', '3'};
-		
+
 		String keyString = py.toString();
 		assertEquals("4,123,1,223,1,323,1,423,1", keyString);
 //		Pinyin parse = HanziToPinyin.Pinyin.parse(keyString);
 //		assertEquals("4,123,1,223,1,323,1,423,1", parse.toString());
-		
+
 		int[] matchesInfo = c1.getMatchesInfo("33");
 		assertNotNull(matchesInfo);
 		assertEquals(0, matchesInfo[0]);
@@ -193,7 +193,7 @@ public class ChooseContactsForDisplayTest extends TestCase {
 		py.mT9Key[4] = null;
 		py.mT9Key[5] = new char[] {'6', '2'};
 		py.mT9Key[6] = new char[] {'7', '4', '2'};
-		
+
 		String keyString = py.toString();
 		assertEquals("7,94264,1,936,1,0,2,3645474,7,0,1,62,1,742,1", keyString);
 //		Pinyin parse = HanziToPinyin.Pinyin.parse(keyString);
@@ -235,7 +235,7 @@ public class ChooseContactsForDisplayTest extends TestCase {
 //		assertEquals(1, arrToken.size());
 //		assertEquals("ZHONG", arrToken.get(0).target); //JIN
 //	}
-//	
+//
 //	public final void testHanziToPinyin() {
 //		ArrayList<Token> arrToken = mHanziToPinyin.get("中文  English 那啥");
 //		assertEquals(7, arrToken.size());
