@@ -1,8 +1,10 @@
 package com.njnu.kai.aidl.client;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,16 +28,16 @@ public class AIDLClientMainActivity extends Activity {
         Button btn = (Button)findViewById(R.id.btn);
         mEdt = (EditText)findViewById(R.id.edt_stock);
         mQuote = (TextView)findViewById(R.id.tv_quote);
-        
+
         btn.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				if (!mBindService) {
 					//
 				}
 				String str = mEdt.getText().toString();
-				
+
 			}
 		});
     }
@@ -43,8 +45,17 @@ public class AIDLClientMainActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		
+
 	}
-	
-	private ServiceConnection
+
+	private ServiceConnection serConn = new ServiceConnection() {
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+		}
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+		}
+	};
 }
