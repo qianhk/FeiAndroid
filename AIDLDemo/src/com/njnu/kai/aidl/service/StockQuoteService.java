@@ -39,9 +39,9 @@ public class StockQuoteService extends Service {
 	public class StockQuoteServiceImpl extends IStockQuoteService.Stub {
 
 		@Override
-		public double getQuote(String ticker) throws RemoteException {
+		public String getQuote(String ticker, Person requester) throws RemoteException {
 			Log.v(LOG_TAG, "getQuote(" + ticker + ") called.");
-			return 21.3;
+			return "hello: " + requester.getName() + " quote for " + ticker + " is 21.3";
 		}
 	}
 }

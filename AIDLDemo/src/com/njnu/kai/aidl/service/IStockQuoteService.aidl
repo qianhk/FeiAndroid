@@ -1,7 +1,9 @@
 
 package com.njnu.kai.aidl.service;
 
+import com.njnu.kai.aidl.service.Person;
+
 interface IStockQuoteService {
-	double getQuote(String ticker);
+	String getQuote(in String ticker, in Person requester);
 }
 
