@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.njnu.kai.aidldemo"
     android:versionCode="1"
@@ -13,17 +14,17 @@
         android:process="com.njnu.kai.aidldemo.client"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="AIDLClientMainActivity"
+            android:name="com.njnu.kai.aidl.client.AIDLClientMainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" >
-            <intent-fileter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-fileter>
+            </intent-filter>
         </activity>
 
         <service
-            android:name=".StockQuoteService"
+            android:name="com.njnu.kai.aidl.service.StockQuoteService"
             android:process="com.njnu.kai.aidldemo.service" >
             <intent-filter>
                 <action android:name="com.njnu.kai.aidl.service.IStockQuoteService" />

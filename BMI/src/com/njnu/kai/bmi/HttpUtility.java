@@ -89,6 +89,8 @@ public class HttpUtility {
 //					}
 					ls_content = EntityUtils.toString(entity, "UTF-8");
 //					is.close();
+//					Header[] headers = response.getHeaders("Accept-Ranges");
+//					System.out.println(headers);;
 				}
 			}
 		} catch (Exception e) {
