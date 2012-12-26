@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<Button android:id="@+id/bt1"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:text="Notification测试"
+/>
+<Button android:id="@+id/bt2"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:text="清除Notification"
+/>
+<SeekBar android:id="@+id/lrc_pics_volume"
+                 style="?android:attr/progressBarStyleHorizontal"
+                 android:progressDrawable="@drawable/volume_seekbar_progress"
+                 android:thumb="@drawable/lyric_pics_volume_thumb"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:paddingLeft="20dp"
+                 android:paddingRight="20dp"/>
+<Button android:id="@+id/btn_dialog"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:text="Test Dialog"
+/>
+</LinearLayout>

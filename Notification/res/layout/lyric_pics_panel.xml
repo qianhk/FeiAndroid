@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#880000">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/ll_volume_up"
+                  android:layout_alignParentTop="true"
+                  android:orientation="vertical"
+                  android:layout_marginTop="20dp">
+        <SeekBar android:id="@+id/lrc_pics_volume"
+                 style="?android:attr/progressBarStyleHorizontal"
+                 android:progressDrawable="@drawable/volume_seekbar_progress"
+                 android:thumb="@drawable/lyric_pics_volume_thumb"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:paddingLeft="20dp"
+                 android:paddingRight="20dp"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="string/volume"
+                  android:textSize="14sp"
+                  android:textColor="#FFFFFFFF"
+                  android:gravity="center"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

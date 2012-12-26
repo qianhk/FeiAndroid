@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5.0dp"
+        android:layout_marginRight="10.0dp"
+        android:background="#0F0" />
+
+    <TextView
+        android:id="@+id/down_tv"
+        style="@style/TTNotificationTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="下载中下载中下载中"
+        android:layout_toRightOf="@id/image"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" >
+
+        <ImageView
+            android:id="@+id/btn_next"
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:background="#FF0" />
+
+        <ImageView
+            android:id="@+id/btn_star"
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:background="#00F" />
+    </LinearLayout>
+
+</RelativeLayout>
