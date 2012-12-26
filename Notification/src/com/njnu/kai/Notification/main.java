@@ -48,7 +48,8 @@ public class main extends Activity {
 		bt1.setOnClickListener(bt1lis);
 		Button bt2 = (Button)findViewById(R.id.bt2);
 		bt2.setOnClickListener(bt2lis);
-
+		Button bt3 = (Button)findViewById(R.id.btn_dialog);
+		bt3.setOnClickListener(btClicked);
 		final IntentFilter filter = new IntentFilter(ACTION_COM_NJNU_KAI_TEST_PREVIOUS);
 		filter.addAction(ACTION_COM_NJNU_KAI_TEST_PLAYPAUSE);
 		filter.addAction(ACTION_COM_NJNU_KAI_TEST_NEXT);
@@ -206,6 +207,15 @@ public class main extends Activity {
 		public void onClick(View v) {
 			nm.cancel(notification_id);
  		}
+
+	};
+	OnClickListener btClicked = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			MenuMoreDialog dlg = new MenuMoreDialog(main.this, R.style.transparent_dialog);
+			dlg.show();
+		}
 
 	};
 
