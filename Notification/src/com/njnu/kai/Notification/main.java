@@ -90,6 +90,8 @@ public class main extends Activity {
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 		mBuilder.setContentIntent(contentIntent);
 		RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
+		extractDefaultTextStyle(this); //即使用了不同的sytle，但是由于很多自制固件未修改系统风格代表的颜色值，但却改了通知栏背景色，仍有可能导致看看不清文字颜色
+		remoteViews.setTextColor(R.id.title, mDefaultNotificationTitleFontColor);
 		mBuilder.setContent(remoteViews);
 //		NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 //
@@ -108,8 +110,6 @@ public class main extends Activity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			notification.bigContentView = new RemoteViews(getPackageName(), R.layout.notification_big);
 		}
-		extractDefaultTextStyle(this); //即使用了不同的sytle，但是由于很多自制固件未修改系统风格代表的颜色值，但却改了通知栏背景色，仍有可能导致看看不清文字颜色
-		notification.contentView.setTextColor(R.id.title, mDefaultNotificationTitleFontColor);
 	}
 
 	private void createNotification2() {
