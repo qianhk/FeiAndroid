@@ -15,14 +15,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RemoteViews;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 
 public class main extends Activity {
@@ -50,6 +47,23 @@ public class main extends Activity {
 		bt2.setOnClickListener(bt2lis);
 		Button bt3 = (Button)findViewById(R.id.btn_dialog);
 		bt3.setOnClickListener(btClicked);
+		final SeekBar seekBar = (SeekBar)findViewById(R.id.seekbar);
+		seekBar.setMax(20);
+		seekBar.setProgress(5);
+		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				Log.e("KaiKai", "onProgressChanged progress" + progress + " fromUser=" + fromUser);
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+		});
 		final IntentFilter filter = new IntentFilter(ACTION_COM_NJNU_KAI_TEST_PREVIOUS);
 		filter.addAction(ACTION_COM_NJNU_KAI_TEST_PLAYPAUSE);
 		filter.addAction(ACTION_COM_NJNU_KAI_TEST_NEXT);
@@ -65,7 +79,7 @@ public class main extends Activity {
 	}
 
 	private void createNotification1() {
-		notification = new Notification(R.drawable.home, "Í¼±ê±ßµÄÎÄ×Ö1", System.currentTimeMillis());
+		notification = new Notification(R.drawable.home, "Í¼ï¿½ï¿½ßµï¿½ï¿½ï¿½ï¿½ï¿½1", System.currentTimeMillis());
 		notification.contentView = new RemoteViews(getPackageName(), R.layout.notification);
 		PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, new Intent(ACTION_COM_NJNU_KAI_TEST_PREVIOUS), 0);
 		notification.contentView.setOnClickPendingIntent(R.id.iv_star, broadcast);
@@ -91,7 +105,7 @@ public class main extends Activity {
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 		mBuilder.setContentIntent(contentIntent);
 		RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
-		extractDefaultTextStyle(this); //¼´Ê¹ÓÃÁË²»Í¬µÄsytle£¬µ«ÊÇÓÉÓÚºÜ¶à×ÔÖÆ¹Ì¼þÎ´ÐÞ¸ÄÏµÍ³·ç¸ñ´ú±íµÄÑÕÉ«Öµ£¬µ«È´¸ÄÁËÍ¨ÖªÀ¸±³¾°É«£¬ÈÔÓÐ¿ÉÄÜµ¼ÖÂ¿´¿´²»ÇåÎÄ×ÖÑÕÉ«
+		extractDefaultTextStyle(this); //ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½Ë²ï¿½Í¬ï¿½ï¿½sytleï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÚºÜ¶ï¿½ï¿½ï¿½ï¿½Æ¹Ì¼ï¿½Î´ï¿½Þ¸ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Öµï¿½ï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½Í¨Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½Üµï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
 		remoteViews.setTextColor(R.id.title, mDefaultNotificationTitleFontColor);
 		mBuilder.setContent(remoteViews);
 //		NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();

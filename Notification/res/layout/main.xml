@@ -27,4 +27,6 @@
 	android:layout_width="fill_parent"
 	android:text="Test Dialog"
 />
+	<SeekBar android:id="@+id/seekbar" android:layout_height="wrap_content" android:layout_width="fill_parent"
+	/>
 </LinearLayout>
