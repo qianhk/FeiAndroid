@@ -4,12 +4,27 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
+<Button android:id="@+id/bt0"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:text="Notification测试0"
+/>
 <Button android:id="@+id/bt1"
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent"
-	android:text="Notification测试"
+	android:text="Notification测试1"
 />
 <Button android:id="@+id/bt2"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:text="Notification测试2"
+/>
+<Button android:id="@+id/bt3"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:text="Notification测试3"
+/>
+<Button android:id="@+id/bt_clear"
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent"
 	android:text="清除Notification"

@@ -41,10 +41,16 @@ public class main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		Button bt1 = (Button)findViewById(R.id.bt1);
-		bt1.setOnClickListener(bt1lis);
-		Button bt2 = (Button)findViewById(R.id.bt2);
-		bt2.setOnClickListener(bt2lis);
+		Button bt = (Button)findViewById(R.id.bt0);
+		bt.setOnClickListener(btNotify);
+		bt = (Button)findViewById(R.id.bt1);
+		bt.setOnClickListener(btNotify);
+		bt = (Button)findViewById(R.id.bt2);
+		bt.setOnClickListener(btNotify);
+		bt = (Button)findViewById(R.id.bt3);
+		bt.setOnClickListener(btNotify);
+		Button btClear = (Button)findViewById(R.id.bt_clear);
+		btClear.setOnClickListener(this.btClear);
 		Button bt3 = (Button)findViewById(R.id.btn_dialog);
 		bt3.setOnClickListener(btClicked);
 		final SeekBar seekBar = (SeekBar)findViewById(R.id.seekbar);
@@ -75,11 +81,10 @@ public class main extends Activity {
 		}, filter);
 
 		nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-		createNotification0();
 	}
 
 	private void createNotification1() {
-		notification = new Notification(R.drawable.home, "ͼ��ߵ�����1", System.currentTimeMillis());
+		notification = new Notification(R.drawable.home, "通知栏上的测试文字1", System.currentTimeMillis());
 		notification.contentView = new RemoteViews(getPackageName(), R.layout.notification);
 		PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, new Intent(ACTION_COM_NJNU_KAI_TEST_PREVIOUS), 0);
 		notification.contentView.setOnClickPendingIntent(R.id.iv_star, broadcast);
@@ -105,7 +110,7 @@ public class main extends Activity {
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 		mBuilder.setContentIntent(contentIntent);
 		RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
-		extractDefaultTextStyle(this); //��ʹ���˲�ͬ��sytle���������ںܶ����ƹ̼�δ�޸�ϵͳ��������ɫֵ����ȴ����֪ͨ������ɫ�����п��ܵ��¿�������������ɫ
+		extractDefaultTextStyle(this);
 		remoteViews.setTextColor(R.id.title, mDefaultNotificationTitleFontColor);
 		mBuilder.setContent(remoteViews);
 //		NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
@@ -122,6 +127,7 @@ public class main extends Activity {
 //		mBuilder.setStyle(inboxStyle);
 
 		notification = mBuilder.build();
+		notification.tickerText = "通知栏上的测试文字0";
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			notification.bigContentView = new RemoteViews(getPackageName(), R.layout.notification_big);
 		}
@@ -163,8 +169,8 @@ public class main extends Activity {
 		mBuilder.addAction(R.drawable.home, "Test3", contentIntent);
 		mBuilder.addAction(R.drawable.home, "Test4", contentIntent);
 		mBuilder.addAction(R.drawable.home, "Test5", contentIntent);
-
 		notification = mBuilder.build();
+		notification.tickerText = "通知栏上的测试文字2";
 	}
 
 	private void createNotification3() {
@@ -193,14 +199,37 @@ public class main extends Activity {
 		mBuilder.addAction(R.drawable.home, "Test5", contentIntent);
 
 		notification = mBuilder.build();
+		notification.tickerText = "通知栏上的测试文字3";
 	}
 
-	OnClickListener bt1lis = new OnClickListener() {
+	OnClickListener btNotify = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
-			showNotification();
-			handler.post(run);
+			switch (v.getId()) {
+				case R.id.bt0:
+					createNotification0();
+					break;
+
+				case R.id.bt1:
+					createNotification1();
+					break;
+
+				case R.id.bt2:
+					createNotification2();
+					break;
+
+				case R.id.bt3:
+					createNotification3();
+					break;
+
+				default:
+					notification = null;
+			}
+
+			nm.notify(notification_id, notification);
+
+//			handler.post(run);
 		}
 
 	};
@@ -215,7 +244,7 @@ public class main extends Activity {
 		}
 
 	};
-	OnClickListener bt2lis = new OnClickListener() {
+	OnClickListener btClear = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
@@ -232,10 +261,6 @@ public class main extends Activity {
 		}
 
 	};
-
-	public void showNotification() {
-		nm.notify(notification_id, notification);
-	}
 
 	 private final static String NOTIFICATION_TITLE_TEST_TAG = "{notification_title_test_tag}";
 	    private final static String NOTIFICATION_TEXT_TEST_TAG = "{notification_text_test_tag}";
