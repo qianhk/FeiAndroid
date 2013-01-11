@@ -1,5 +1,7 @@
 package com.njnu.kai.bmi;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -33,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class BMIActivity extends Activity implements OnClickListener, HttpAsyncTaskNotify {
+	private final static String LOG_TAG = "BMIActivity";
 
 	private ImageView mIvTestLayer1;
 	private ImageView mIvTestLayer2;
@@ -106,6 +110,7 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 	protected static final int MENU_Email = Menu.FIRST + 2;
 	protected static final int MENU_Email_Clear = Menu.FIRST + 3;
 	protected static final int MENU_Email_DIRECT = Menu.FIRST + 4;
+	protected static final int MENU_TEST_STH = Menu.FIRST + 5;
 	private Drawable mDrawableLauncher2;
 	private Drawable mDrawableApple;
 	private Drawable mDrawableLauncher1;
@@ -117,6 +122,7 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 		menu.add(0, MENU_Email, 100, "使用系统邮件程序发送");
 		menu.add(0, MENU_Email_Clear, 200, "清空测试数据");
 		menu.add(0, MENU_ABOUT, 300, "About...");
+		menu.add(0, MENU_TEST_STH, 350, "Test sth");
 		menu.add(0, MENU_Quit, 400, "Exit");
 		return true;
 	}
@@ -165,11 +171,39 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 			new HttpAsyncTask(BMIActivity.this, BMIActivity.this).execute(1, mUserInfo + "\n\n" + mBuilder.toString());
 			break;
 
+		case MENU_TEST_STH:
+			testSomeThing();
+			break;
+
 		default:
 			break;
 		}
 
 		return true;
+	}
+
+	private void testSomeThing() {
+		try {
+			Log.d(LOG_TAG, "Environment.getExternalStorageDirectory()=" + Environment.getExternalStorageDirectory().getAbsolutePath());
+
+			File file = new File("/sdcard");
+			Log.d(LOG_TAG, "getPath=" + file.getPath() + " absPath=" + file.getAbsolutePath() + " canonicalPath=" + file.getCanonicalPath());
+
+			file = new File("/storage/emulated/legacy");
+			Log.d(LOG_TAG, "getPath=" + file.getPath() + " absPath=" + file.getAbsolutePath() + " canonicalPath=" + file.getCanonicalPath());
+
+			file = new File("/mnt/sdcard");
+			Log.d(LOG_TAG, "getPath=" + file.getPath() + " absPath=" + file.getAbsolutePath() + " canonicalPath=" + file.getCanonicalPath());
+
+			file = new File("/mnt/shell/emulated/0");
+			Log.d(LOG_TAG, "getPath=" + file.getPath() + " absPath=" + file.getAbsolutePath() + " canonicalPath=" + file.getCanonicalPath());
+
+			file = new File("/data/local/ltest");
+			Log.d(LOG_TAG, "getPath=" + file.getPath() + " absPath=" + file.getAbsolutePath() + " canonicalPath=" + file.getCanonicalPath());
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void sendLogEmail() {

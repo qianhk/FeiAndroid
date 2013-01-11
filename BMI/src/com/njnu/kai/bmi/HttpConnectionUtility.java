@@ -3,9 +3,7 @@
  */
 package com.njnu.kai.bmi;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -51,6 +49,41 @@ public class HttpConnectionUtility {
 	};
 	private static int mNetWorkType = NETWORK_INVALID;
 	private static StringBuilder strBuilder = new StringBuilder();
+
+	static public String WriteToFile(Context context, String url, String filePath) {
+		strBuilder.setLength(0);
+		strBuilder.append("HttpConnectionUtility:\nUrl: " + url);
+		try {
+			HttpURLConnection connection = getRedirectHttpConnection(context, url, 0);
+			if (connection != null) {
+				InputStream inputStream = connection.getInputStream();
+				BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+				byte[] buf = new byte[512];
+				int readLen = 0;
+				int allLen = 0;
+				File of = new File(filePath);
+				if (of.exists()) {
+					of.delete();
+				}
+				FileOutputStream fos = new FileOutputStream(filePath);
+				while ((readLen = bufferedInputStream.read(buf)) > 0) {
+					allLen += readLen;
+					fos.write(buf, 0, readLen);
+				}
+				fos.flush();
+				fos.close();
+				bufferedInputStream.close();
+				connection.disconnect();
+				strBuilder.append("\nDown Complete: " + filePath + " downlen=" + allLen);
+			} else {
+				strBuilder.append("\n上面文字提示中应有异常发生。");
+			}
+		} catch (Exception e) {
+			strBuilder.append("\n发生异常 " + e.toString() + " 原因:" + e.getMessage());
+		}
+		strBuilder.append('\n');
+		return strBuilder.toString();
+	}
 
 	static public String GetUseAutoEncoding(Context context, String url) {
 		strBuilder.setLength(0);

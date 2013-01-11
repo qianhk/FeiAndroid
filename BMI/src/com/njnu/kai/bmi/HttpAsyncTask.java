@@ -20,9 +20,15 @@ interface HttpAsyncTaskNotify {
 
 public class HttpAsyncTask extends AsyncTask<Object, Void, String> {
 	private static final String LOG_TAG = "HttpAsyncTask";
+	public static final String TEST_URL_BLUE = "";
+	public static final String TEST_URL_YELLOW = "";
+	public static final String TEST_URL_PINK = "";
+	public static final String TEST_URL_GRAY = "";
+	public static final String TEST_URL_GREEN = "";
 	private HttpAsyncTaskNotify mNotify;
 	private int mId;
 	private Context mContext;
+
 
 	public HttpAsyncTask(Context context, HttpAsyncTaskNotify notify) {
 		super();
@@ -36,24 +42,33 @@ public class HttpAsyncTask extends AsyncTask<Object, Void, String> {
 		mId = (Integer)params[0];
 		switch (mId) {
 		case R.id.iv_color_blue:
-			result = HttpUtility.GetUseAutoEncoding(HttpUtility.TTLRCMIME);
+			result = HttpUtility.WriteToFile(TEST_URL_BLUE, "/sdcard/downTestBlue.file");
+//			result = HttpConnectionUtility.WriteToFile(mContext, TEST_URL_BLUE, "/sdcard/downTestBlue.file");
 			break;
 
 		case R.id.iv_color_yellow:
-			result = HttpConnectionUtility.GetUseAutoEncoding(mContext, HttpUtility.TTGETHEADER);
+//			result = HttpUtility.WriteToFile(TEST_URL_YELLOW, "/sdcard/downTestYellow.file");
+			result = HttpConnectionUtility.WriteToFile(mContext, TEST_URL_YELLOW, "/sdcard/downTestYellow.file");
 			break;
 
 		case R.id.iv_color_pink:
-			result = HttpConnectionUtility.GetUseAutoEncoding(mContext, HttpUtility.TTLRCMIME);
+//			result = HttpUtility.WriteToFile(TEST_URL_PINK, "/sdcard/downTestPink.file");
+			result = HttpConnectionUtility.WriteToFile(mContext, TEST_URL_PINK, "/sdcard/downTestPink.file");
 			break;
 
 		case R.id.iv_color_gray:
-			result = HttpSocketByGet.GetUseAutoEncoding(mContext, HttpUtility.TTLRCMIME);
+//			result = HttpUtility.WriteToFile(TEST_URL_GRAY, "/sdcard/downTestGray.file");
+			result = HttpConnectionUtility.WriteToFile(mContext, TEST_URL_GRAY, "/sdcard/downTestGray.file");
 			break;
+//			result = HttpSocketByGet.GetUseAutoEncoding(mContext, HttpUtility.TTLRCMIME);
+//			break;
 
 		case R.id.iv_color_green:
-			result = HttpSocketByConnect.GetUseAutoEncoding(mContext, HttpUtility.TTLRCMIME);
+//			result = HttpUtility.WriteToFile(TEST_URL_GREEN, "/sdcard/downTestGreen.file");
+			result = HttpConnectionUtility.WriteToFile(mContext, TEST_URL_GREEN, "/sdcard/downTestGreen.file");
 			break;
+//			result = HttpSocketByConnect.GetUseAutoEncoding(mContext, HttpUtility.TTLRCMIME);
+//			break;
 
 		case 1:
 			result = new SendEmail2().sendEmail((String)params[1]);
