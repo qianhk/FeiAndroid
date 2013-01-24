@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.njnu.kai.aidl.service.IStockQuoteService;
-import com.njnu.kai.aidl.service.Person;
+import com.njnu.kai.aidl.service.PersonIml;
 import com.njnu.kai.aidldemo.R;
 
 public class AIDLClientMainActivity extends Activity {
@@ -50,7 +50,7 @@ public class AIDLClientMainActivity extends Activity {
 				} else if (mBindState == BIND_STATE_BINDED) {
 					String str = mEdt.getText().toString();
 					try {
-						String quote = mStockService.getQuote(str, new Person(29, "QHK"));
+						String quote = mStockService.getQuote(str, new PersonIml(29, "QHK"));
 						mQuote.setText("Stock Quote is: " + quote);
 					} catch (Exception e) {
 						e.printStackTrace();

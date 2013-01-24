@@ -7,7 +7,7 @@ package com.njnu.kai.aidl.service;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Person implements Parcelable {
+public abstract class Person implements Parcelable {
 	private static final String LOG_TAG = "Person";
 
 	private int mAge;
@@ -33,7 +33,7 @@ public class Person implements Parcelable {
 
 		@Override
 		public Person createFromParcel(Parcel source) {
-			return new Person(source);
+			return new PersonIml(source);
 		}
 
 		@Override
@@ -42,7 +42,7 @@ public class Person implements Parcelable {
 		}
 	};
 
-	private Person(Parcel source) {
+	public Person(Parcel source) {
 		readFromParcel(source);
 	}
 

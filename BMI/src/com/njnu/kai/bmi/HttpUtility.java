@@ -140,6 +140,7 @@ public class HttpUtility {
 		String ls_content = "";
 		try {
 			String encodeUrl = encodeChineseUrl(url, "UTF8");
+//			String encodeUrl = url.replace(' ', '+');
 			HttpGet httpGet = new HttpGet(encodeUrl);
 			httpGet.setHeader("Referer", _lastUrl);
 			httpGet.setHeader("User-Agent", _user_agent);
