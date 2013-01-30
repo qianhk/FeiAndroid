@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical"
+>
+
+    <TextView
+        android:id="@+id/tv_catalog"
+        style="@style/MMListCatalog"
+        android:layout_height="wrap_content"
+        android:paddingRight="4.0dip" />
+
+    <LinearLayout
+        android:id="@+id/contactitem_layout"
+        style="@style/MMListItem"
+        android:layout_height="56.0dip"
+        android:background="@drawable/mm_listitem"
+        android:paddingLeft="8.0dip" >
+
+        <ImageView
+            android:id="@+id/contactitem_avatar_iv"
+            android:layout_width="40.0dip"
+            android:layout_height="40.0dip" android:src="@drawable/default_avatar" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:orientation="vertical"
+            android:paddingLeft="8.0dip" >
+
+            <TextView
+                android:id="@+id/tv_nick"
+                style="@style/MMFontTitleInList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true" android:text="姓名" />
+
+            <TextView
+                android:id="@+id/tv_mobile"
+         
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="13123456789"
+                android:textColor="#666666" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/imgbtn_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dip"
+            android:background="@drawable/nav_left"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+    </LinearLayout>
+
+
+    
+</LinearLayout>

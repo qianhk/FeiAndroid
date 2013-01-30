@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/llParent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/lvShow"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <TextView
+            android:id="@+id/tvLetter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/show_head_toast_bg"
+            android:gravity="center"
+            android:maxWidth="70dip"
+            android:minWidth="70dip"
+            android:padding="10dip"
+            android:textColor="#99FFFFFF"
+            android:textSize="50sp" >
+        </TextView>
+
+        <com.njnu.kai.letterview.AZSideBar
+            android:id="@+id/myView"
+            android:layout_width="30dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right" >
+        </com.njnu.kai.letterview.AZSideBar>
+    </FrameLayout>
+
+</LinearLayout>
