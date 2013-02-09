@@ -2,6 +2,7 @@ package com.njnu.kai.feisms;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
@@ -69,7 +70,8 @@ public final class SMSUtils {
 					ContactsContract.Contacts.HAS_PHONE_NUMBER };
 			
 			Cursor cur = context.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, personProjection, null, null,
-					ContactsContract.Contacts.SORT_KEY_PRIMARY + " asc");
+					 Build.VERSION.SDK_INT < 8 ? null : ContactsContract.Contacts.SORT_KEY_PRIMARY + " asc"
+					);
 			mContactsData = new ContactsData(cur.getCount());
 			int phoneNo = 0;
 			if (cur.moveToFirst()) {

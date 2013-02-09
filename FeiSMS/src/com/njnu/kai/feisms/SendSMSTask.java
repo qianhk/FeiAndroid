@@ -3,6 +3,7 @@ package com.njnu.kai.feisms;
 import java.util.Iterator;
 import java.util.concurrent.Semaphore;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -13,6 +14,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -115,12 +117,15 @@ public class SendSMSTask extends AsyncTask<Integer, Integer, Boolean> {
 		return true;
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
 		mDataForSend = mDataManager.getDataForSend(mGroudIds);
 		mProgressDialog = new ProgressDialog(mContext);
-		mProgressDialog.setIconAttribute(android.R.attr.icon);
+		if (Build.VERSION.SDK_INT > 10) {
+			mProgressDialog.setIconAttribute(android.R.attr.icon);
+		}
 		mProgressDialog.setTitle("Sending sms...");
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		Log.i(PREFIX, "onPreExecute max is: " + mDataForSend.getCount());

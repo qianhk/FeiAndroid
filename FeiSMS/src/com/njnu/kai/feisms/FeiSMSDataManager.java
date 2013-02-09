@@ -241,7 +241,7 @@ public final class FeiSMSDataManager {
 		executeSql(deleteSql.toString());
 	}
 
-	public void deleteSMSContacts(int[] contactsIds) {
+	public void deleteSMSContacts(long[] contactsIds) {
 		StringBuffer deleteSql = new StringBuffer("delete from " + FeiSMSDBHelper.TABLE_NAME_SMS_CONTACTS + " where _id in(-100");
 		for (int idx = contactsIds.length - 1; idx >= 0; --idx) {
 			deleteSql.append("," + contactsIds[idx]);

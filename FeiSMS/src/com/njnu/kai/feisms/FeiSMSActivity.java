@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.njnu.kai.feisms.HanziToPinyin.Pinyin;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.Notification;
@@ -13,6 +14,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -226,6 +228,7 @@ public class FeiSMSActivity extends ListActivity implements SendSMSTask.UpdateSM
 		}
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 1, "Add Group");
@@ -233,10 +236,12 @@ public class FeiSMSActivity extends ListActivity implements SendSMSTask.UpdateSM
 		menu.add(0, 3, 3, "Send Selected Group");
 		menu.add(0, 4, 4, "Send All Group");
 		MenuItem itemExclude = menu.add(0, 50, 50, "Exclude Contacts");
-		itemExclude.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			itemExclude.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		}
 		itemExclude.setIcon(android.R.drawable.ic_menu_crop);
-		menu.add(100, 100, 100, "Test");
-		menu.add(100, 101, 101, "Test2");
+//		menu.add(100, 100, 100, "Test");
+//		menu.add(100, 101, 101, "Test2");
 
 		return super.onCreateOptionsMenu(menu);
 	}

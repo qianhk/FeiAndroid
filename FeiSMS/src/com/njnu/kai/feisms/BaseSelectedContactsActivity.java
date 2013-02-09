@@ -1,11 +1,9 @@
 package com.njnu.kai.feisms;
 
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -27,6 +25,7 @@ public class BaseSelectedContactsActivity extends ListActivity {
 	protected FeiSMSDataManager mDataManager;
 	private ListView mListView;
 	private TextView mTextViewSummary;
+
 //	private GroupIDUpdateReceiver mReceiver;
 //
 //	private class GroupIDUpdateReceiver extends BroadcastReceiver {
@@ -50,7 +49,7 @@ public class BaseSelectedContactsActivity extends ListActivity {
 		mGroupId = getIntent().getIntExtra(FeiSMSConst.KEY_GROUP_ID, FeiSMSConst.GROUP_ID_EXCLUDE);
 		mDataManager = FeiSMSDataManager.getDefaultInstance(this);
 		mListView = getListView();
-		mTextViewSummary = (TextView) findViewById(R.id.summary);
+		mTextViewSummary = (TextView)findViewById(R.id.summary);
 		mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		refreshGroupContacts();
 
@@ -73,19 +72,29 @@ public class BaseSelectedContactsActivity extends ListActivity {
 		mTextViewSummary.setText(String.format("Total %1$d contacts.", entryContacts != null ? entryContacts.getCount() : 0));
 	}
 
+	@SuppressLint("NewApi")
 	private void removeCheckedContacts() {
-		ArrayAdapter<SMSGroupEntryContactsItem> listAdapter = (ArrayAdapter<SMSGroupEntryContactsItem>) getListAdapter();
+		ArrayAdapter<SMSGroupEntryContactsItem> listAdapter = (ArrayAdapter<SMSGroupEntryContactsItem>)getListAdapter();
 		if (listAdapter != null) {
-			SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-			int[] checkedItemIds = new int[mListView.getCheckedItemCount()];
-			int size = checkedItemPositions.size();
-			for (int idx = 0, j = -1; idx < size; ++idx) {
-				if (checkedItemPositions.valueAt(idx)) {
-					int pos = checkedItemPositions.keyAt(idx);
-					checkedItemIds[++j] = listAdapter.getItem(pos).getDbId();
+			if (Build.VERSION.SDK_INT > 10) {
+				SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+				long[] checkedItemIds = new long[mListView.getCheckedItemCount()];
+				int size = checkedItemPositions.size();
+				for (int idx = 0, j = -1; idx < size; ++idx) {
+					if (checkedItemPositions.valueAt(idx)) {
+						int pos = checkedItemPositions.keyAt(idx);
+						checkedItemIds[++j] = listAdapter.getItem(pos).getDbId();
+					}
 				}
+				mDataManager.deleteSMSContacts(checkedItemIds);
+			} else {
+				long[] checkItemIds1 = mListView.getCheckItemIds();
+				long[] checkedItemIds = new long[checkItemIds1.length];
+				for (int idx = checkItemIds1.length - 1; idx >= 0; --idx) {
+					checkedItemIds[idx] = listAdapter.getItem((int)checkItemIds1[idx]).getDbId();
+				}
+				mDataManager.deleteSMSContacts(checkedItemIds);
 			}
-			mDataManager.deleteSMSContacts(checkedItemIds);
 			refreshGroupContacts();
 		}
 	}
@@ -123,11 +132,17 @@ public class BaseSelectedContactsActivity extends ListActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (mGroupId >= -1) {
 			menu.getItem(0).setVisible(true);
-			boolean haveCheckItems = mListView.getCheckedItemCount() > 0;
+			boolean haveCheckItems = false;
+			if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+				haveCheckItems = mListView.getCheckItemIds().length > 0;
+			} else {
+				haveCheckItems = mListView.getCheckedItemCount() > 0;
+			}
 			menu.getItem(1).setVisible(haveCheckItems);
 		} else {
 			menu.getItem(0).setVisible(false);
@@ -162,7 +177,7 @@ public class BaseSelectedContactsActivity extends ListActivity {
 				IBinder windowToken = currentFocus != null ? currentFocus.getWindowToken() : null;
 //				Log.i(PREFIX, "after onPostResume focusView=" + currentFocus + " token=" + windowToken);
 				if (windowToken != null) {
-					((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(windowToken,
+					((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(windowToken,
 							InputMethodManager.HIDE_NOT_ALWAYS);
 				}
 			}

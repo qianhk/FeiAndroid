@@ -3,8 +3,10 @@ package com.njnu.kai.feisms;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -26,7 +28,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 
-public class ChooseContactsActivity extends Activity implements OnQueryTextListener {
+public class ChooseContactsActivity extends Activity/* implements OnQueryTextListener*/ {
 	private static final String PREFIX = "ChooseContactsActivity";
 	private ListView mListViewContacts;
 	private ChooseContactsAdapter mAdapter;
@@ -37,7 +39,7 @@ public class ChooseContactsActivity extends Activity implements OnQueryTextListe
 	private CheckedTextView mCheckedTextViewShowDifference;
 	private ContactsData mContactsData;
 	private GetSysContactsTask mTask;
-	private SearchView mSearchView;
+//	private SearchView mSearchView;
 	private Toast mToast;
 
 //	private EditText mEditTextFilter;
@@ -90,10 +92,16 @@ public class ChooseContactsActivity extends Activity implements OnQueryTextListe
 		mListViewContacts.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		mListViewContacts.setOnItemClickListener(new OnItemClickListener() {
 
+			@SuppressLint("NewApi")
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //				Log.i(PREFIX, "onItemClick " + position + " id=" + id);
-				int checkedItemCount = mListViewContacts.getCheckedItemCount();
+				int checkedItemCount = 0;
+				if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+					checkedItemCount = mListViewContacts.getCheckItemIds().length;
+				} else {
+					checkedItemCount = mListViewContacts.getCheckedItemCount();
+				}
 				if (checkedItemCount > 0) {
 					setTitle(String.format(mTitle_choosed_contacts, checkedItemCount));
 				} else {
@@ -116,56 +124,56 @@ public class ChooseContactsActivity extends Activity implements OnQueryTextListe
 			break;
 
 		case 101:
-			Log.i(PREFIX, "searchView iconified=" + mSearchView.isIconified());
-			mSearchView.setIconified(!mSearchView.isIconified());
+//			Log.i(PREFIX, "searchView iconified=" + mSearchView.isIconified());
+//			mSearchView.setIconified(!mSearchView.isIconified());
 			break;
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
 
-	@Override
-	public void onBackPressed() {
-		if (!mSearchView.isIconified()) {
-//			mEditTextFilter.removeTextChangedListener(mTextWatcher);
-//			mEditTextFilter.setVisibility(View.GONE);
-//			mEditTextFilter.setText("");
-			mSearchView.setIconified(true);
-			if (!mSearchView.isIconified()) {
-				mSearchView.setIconified(true);
-			}
-			mCheckedTextViewShowDifference.setVisibility(View.VISIBLE);
-		} else {
-			super.onBackPressed();
-		}
-	}
+//	@Override
+//	public void onBackPressed() {
+//		if (!mSearchView.isIconified()) {
+////			mEditTextFilter.removeTextChangedListener(mTextWatcher);
+////			mEditTextFilter.setVisibility(View.GONE);
+////			mEditTextFilter.setText("");
+//			mSearchView.setIconified(true);
+//			if (!mSearchView.isIconified()) {
+//				mSearchView.setIconified(true);
+//			}
+//			mCheckedTextViewShowDifference.setVisibility(View.VISIBLE);
+//		} else {
+//			super.onBackPressed();
+//		}
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuItem item = menu.add(100, 100, 100, "Search");
-		item.setIcon(android.R.drawable.ic_menu_search);
-		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		mSearchView = new SearchView(this);
-		item.setActionView(mSearchView);
-		mSearchView.setOnQueryTextListener(this);
-		mSearchView.setQueryHint("Input digital only");
-		mSearchView.setInputType(InputType.TYPE_CLASS_NUMBER);
-		mSearchView.setOnSearchClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				mCheckedTextViewShowDifference.setVisibility(View.GONE);
-			}
-
-		});
-		mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
-
-			@Override
-			public boolean onClose() {
-				mCheckedTextViewShowDifference.setVisibility(View.VISIBLE);
-				return false;
-			}
-		});
-		menu.add(100, 101, 101, "Test");
+//		MenuItem item = menu.add(100, 100, 100, "Search");
+//		item.setIcon(android.R.drawable.ic_menu_search);
+//		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		mSearchView = new SearchView(this);
+//		item.setActionView(mSearchView);
+//		mSearchView.setOnQueryTextListener(this);
+//		mSearchView.setQueryHint("Input digital only");
+//		mSearchView.setInputType(InputType.TYPE_CLASS_NUMBER);
+//		mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				mCheckedTextViewShowDifference.setVisibility(View.GONE);
+//			}
+//
+//		});
+//		mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+//
+//			@Override
+//			public boolean onClose() {
+//				mCheckedTextViewShowDifference.setVisibility(View.VISIBLE);
+//				return false;
+//			}
+//		});
+//		menu.add(100, 101, 101, "Test");
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -221,24 +229,24 @@ public class ChooseContactsActivity extends Activity implements OnQueryTextListe
 		}
 	}
 
-	@Override
-	public boolean onQueryTextSubmit(String query) {
-		return true;
-	}
-
-	@Override
-	public boolean onQueryTextChange(String newText) {
-		if (!TextUtils.isDigitsOnly(newText)) {
-			if (mToast == null) {
-				mToast = Toast.makeText(this, newText, Toast.LENGTH_SHORT);
-			}
-			mToast.setText("Need all text is digits");
-			mToast.show();
-		} else {
-			mAdapter.filter(newText);
-//			Log.i(PREFIX, "onQueryTextChange " + newText);
-		}
-		return true;
-	}
+//	@Override
+//	public boolean onQueryTextSubmit(String query) {
+//		return true;
+//	}
+//
+//	@Override
+//	public boolean onQueryTextChange(String newText) {
+//		if (!TextUtils.isDigitsOnly(newText)) {
+//			if (mToast == null) {
+//				mToast = Toast.makeText(this, newText, Toast.LENGTH_SHORT);
+//			}
+//			mToast.setText("Need all text is digits");
+//			mToast.show();
+//		} else {
+//			mAdapter.filter(newText);
+////			Log.i(PREFIX, "onQueryTextChange " + newText);
+//		}
+//		return true;
+//	}
 
 }
