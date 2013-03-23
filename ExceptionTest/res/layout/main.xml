@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:id="@+id/layoutRoot"
+        >
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Hello, Kai Exception Test"
+            />
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Crash In Activity"
+                android:id="@+id/btnActivity"/>
+        <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Crash In Service"
+                android:id="@+id/btnService"/>
+
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+        <Button
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Crash In Receiver"
+                android:id="@+id/btnReceiver"/>
+
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Crash In Provider"
+                android:layout_weight="1"
+                android:id="@+id/btnProvider"/>
+    </LinearLayout>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Crash In Activity Thread"
+            android:id="@+id/btnActivityThread"/>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Crash In Service Thread"
+            android:id="@+id/btnServiceThread"/>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Crash In Receiver Thread"
+            android:id="@+id/btnReceiverThread"/>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Crash In Provider Thread"
+            android:id="@+id/btnProviderThread"/>
+</LinearLayout>
+
