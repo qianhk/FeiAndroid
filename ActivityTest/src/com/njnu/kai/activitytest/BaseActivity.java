@@ -40,7 +40,12 @@ public abstract class BaseActivity extends Activity {
         printUri(uri);
         isSinged();
     }
-	
+
+    public void button2Clicked(View v) {
+        Log.d("test button2, haha", v.toString());
+        startActivity(new Intent(this, LuaTestActivity.class));
+    }
+
 	@Override
 	protected void onNewIntent(Intent intent) {
 		Log.i("OOXX_XXOO2", "OOXX_XXOO3");

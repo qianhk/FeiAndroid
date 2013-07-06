@@ -1,0 +1,12 @@
+function functionInLuaFile(key)
+    return ' Function in 中文 lua file, Return : ' ..key.. '!'
+end
+
+function callAndroidApi(context , layout,tip)
+    tv = luajava.newInstance("android.widget.TextView",context)
+    tv:setText(tip)
+    layout:addView(tv)
+end
+
+
+

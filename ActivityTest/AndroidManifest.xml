@@ -27,6 +27,7 @@
             android:name=".SecondActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask" />
+        <activity android:name=".LuaTestActivity" android:configChanges="orientation|screenSize|keyboardHidden"/>
     </application>
 
 </manifest>

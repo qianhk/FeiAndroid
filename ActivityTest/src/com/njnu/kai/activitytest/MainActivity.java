@@ -21,7 +21,6 @@ public class MainActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		sendQLBeginNotification(this);
 	}
 
 	@Override
@@ -33,16 +32,5 @@ public class MainActivity extends BaseActivity {
 		return intent;
 	}
 
-	private void sendQLBeginNotification(Context context) {
-		Notification notify = new Notification(R.drawable.ic_launcher, "divsignin qianglouing", System.currentTimeMillis());
-		notify.flags = Notification.FLAG_ONGOING_EVENT;
-		Intent intent = new Intent(context, SecondActivity.class);
-//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, R.string.app_name, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		notify.setLatestEventInfo(context, "divsignin qianglou", "qianglouing......", contentIntent);
-		NotificationManager notifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		notifyMgr.notify(R.string.app_name, notify);
-	}
 
 }
