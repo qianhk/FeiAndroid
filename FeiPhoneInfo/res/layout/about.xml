@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+        <ScrollView  xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent">
+<LinearLayout
+              android:orientation="vertical"
+              android:background="#FFF"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <View
+            android:background="#000"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="40dp"
+            android:layout_height="20dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:text="上面的黑色长方形左边距30dp 上边距10dp 宽度40dp 高度20dp 本行文字使用android默认size"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
+            android:text="本行文字8sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="本行文字10sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="本行文字12sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="本行文字14sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="本行文字16sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="本行文字18sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="本行文字20sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:text="本行文字22sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="本行文字24sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="26sp"
+            android:text="本行文字26sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:text="本行文字28sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="本行文字30sp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:text="本行文字32sp"/>
+
+</LinearLayout>
+</ScrollView>

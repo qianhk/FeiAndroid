@@ -143,7 +143,27 @@ public class HardwareActivity extends Activity implements OnItemClickListener {
 
 	}
 
-	private List<Map<String, Object>> getData() {
+    private String getIp(){
+        WifiManager wm=(WifiManager)getSystemService(Context.WIFI_SERVICE);
+        //检查Wifi状态
+        if(!wm.isWifiEnabled())
+            return null;
+
+        WifiInfo wi=wm.getConnectionInfo();
+        //获取32位整型IP地址
+        int ipAdd=wi.getIpAddress();
+        //把整型地址转换成“*.*.*.*”地址
+        return intToIp(ipAdd);
+    }
+
+    private String intToIp(int i) {
+        return (i & 0xFF ) + "." +
+                ((i >> 8 ) & 0xFF) + "." +
+                ((i >> 16 ) & 0xFF) + "." +
+                ( i >> 24 & 0xFF) ;
+    }
+
+    private List<Map<String, Object>> getData() {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
 		String linuxVer = cmd.executeCat("/proc/version");
@@ -182,10 +202,13 @@ public class HardwareActivity extends Activity implements OnItemClickListener {
 		// map.put("no", 3);
 		list.add(map);
 
-		String netInfo = cmd.execute(new String[] { "/system/bin/netcfg" });
-		if (netInfo.length() > 0) {
-			netInfo = netInfo.substring(0, netInfo.length() - 1);
-		}
+        String netInfo = getIp();
+        if (netInfo == null) {
+		    netInfo = cmd.execute(new String[] { "/system/bin/netcfg" });
+            if (netInfo.length() > 0) {
+                netInfo = netInfo.substring(0, netInfo.length() - 1);
+            }
+        }
 		map = new HashMap<String, Object>();
 		map.put("title", "Network");
 		map.put("info", netInfo);

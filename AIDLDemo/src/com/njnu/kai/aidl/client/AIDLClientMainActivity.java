@@ -32,33 +32,69 @@ public class AIDLClientMainActivity extends Activity {
 	private int mBindState;
 	private IStockQuoteService mStockService;
 
-	@Override
+    private OnClickListener mOnClickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn:
+                    if (mBindState == BIND_STATE_IDLE) {
+                        Intent intent = new Intent(IStockQuoteService.class.getName());
+                        bindService(intent, serConn, Context.BIND_AUTO_CREATE);
+                    } else if (mBindState == BIND_STATE_BINDED) {
+                        String str = mEdt.getText().toString();
+                        try {
+                            String quote = mStockService.getQuote(str, new PersonIml(29, "QHK"));
+                            mQuote.setText("Stock Quote is: " + quote);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            mQuote.setText("Exception: " + e.toString());
+                        }
+                    }
+                    break;
+
+                case R.id.btnBind:
+                    if (mBindState == BIND_STATE_IDLE) {
+                        Intent intent = new Intent(IStockQuoteService.class.getName());
+                        bindService(intent, serConn, Context.BIND_AUTO_CREATE);
+                    }
+                    break;
+
+                case R.id.btnUnbind:
+                    if (mBindState == BIND_STATE_BINDED) {
+                        unbindService(serConn);
+                        mBindState = BIND_STATE_IDLE;
+                    }
+                    break;
+
+                case R.id.btnStartService:
+                    startService(new Intent(IStockQuoteService.class.getName()));
+                    break;
+
+                case R.id.btnStopService:
+//                    mBindState = BIND_STATE_IDLE;
+                    stopService(new Intent(IStockQuoteService.class.getName()));
+                    break;
+            }
+        }
+    };
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aidl_client_main);
         Button btn = (Button)findViewById(R.id.btn);
         mEdt = (EditText)findViewById(R.id.edt_stock);
         mQuote = (TextView)findViewById(R.id.tv_quote);
-
-        btn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (mBindState == BIND_STATE_IDLE) {
-					Intent intent = new Intent(IStockQuoteService.class.getName());
-					bindService(intent, serConn, Context.BIND_AUTO_CREATE);
-				} else if (mBindState == BIND_STATE_BINDED) {
-					String str = mEdt.getText().toString();
-					try {
-						String quote = mStockService.getQuote(str, new PersonIml(29, "QHK"));
-						mQuote.setText("Stock Quote is: " + quote);
-					} catch (Exception e) {
-						e.printStackTrace();
-						mQuote.setText("Exception: " + e.toString());
-					}
-				}
-			}
-		});
+        btn.setOnClickListener(mOnClickListener);
+        btn = (Button)findViewById(R.id.btnBind);
+        btn.setOnClickListener(mOnClickListener);
+        btn = (Button)findViewById(R.id.btnUnbind);
+        btn.setOnClickListener(mOnClickListener);
+        btn = (Button)findViewById(R.id.btnStartService);
+        btn.setOnClickListener(mOnClickListener);
+        btn = (Button)findViewById(R.id.btnStopService);
+        btn.setOnClickListener(mOnClickListener);
     }
 
 	@Override

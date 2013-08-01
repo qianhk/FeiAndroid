@@ -15,6 +15,26 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Get" />
+    <Button
+        android:id="@+id/btnBind"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Bind" />
+    <Button
+        android:id="@+id/btnUnbind"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Unbind" />
+    <Button
+        android:id="@+id/btnStartService"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Start Service" />
+    <Button
+        android:id="@+id/btnStopService"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Stop Service" />
 
     <TextView
         android:id="@+id/tv_quote"
