@@ -3,8 +3,8 @@
       package="com.njnu.kai.optimize"
       android:versionCode="1"
       android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18" />
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="18" />
+    <application android:vmSafeMode="false" android:label="@string/app_name" android:icon="@drawable/ic_launcher">
         <activity android:name="OptimizeActivity"
                   android:label="@string/app_name">
             <intent-filter>
