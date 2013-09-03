@@ -19,6 +19,7 @@ public class FibonacciActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fibonacci);
+
         mTvResult = (TextView)findViewById(R.id.tv_result);
         mTvResult2 = (TextView)findViewById(R.id.tv_result2);
         mTvResult3 = (TextView)findViewById(R.id.tv_result3);

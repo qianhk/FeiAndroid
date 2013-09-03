@@ -1,0 +1,1 @@
+libs/armeabi/testjni: is not an object file

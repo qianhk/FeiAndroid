@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TaskActivity extends ListActivity implements OnItemClickListener {
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		packageManager = getApplicationContext().getPackageManager();
@@ -44,7 +45,7 @@ public class TaskActivity extends ListActivity implements OnItemClickListener {
 //		taskAdapter.reloadData(procList);
 		getListView().setOnItemClickListener(this);
 
-
+        handler.sendMessageDelayed(handler.obtainMessage(METHOD_FLUSH_PROCESS), FLUSH_PROCESS_TIME);
 //		handler.post(r);
 //		System.out.println("TaskActivity ---> " + Thread.currentThread().getId());
 	}
@@ -61,7 +62,16 @@ public class TaskActivity extends ListActivity implements OnItemClickListener {
 //		Log.v("TaskActivity", "onRestart");
 //	}
 
-	@Override
+    public static final int FLUSH_PROCESS_TIME = 2000;
+    private static final int METHOD_FLUSH_PROCESS = 0x800;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeMessages(METHOD_FLUSH_PROCESS);
+    }
+
+    @Override
 	public void onResume() {
 		super.onResume();
 //		Log.v("TaskActivity", "onResume");
@@ -320,7 +330,7 @@ public class TaskActivity extends ListActivity implements OnItemClickListener {
 	}
 
 	ProgressDialog pd = null;
-	Handler handler = null;
+	Handler handler = new RefreshHandler();
 
 	private void updateProcessList() {
 		pd = new ProgressDialog(TaskActivity.this);
@@ -328,7 +338,6 @@ public class TaskActivity extends ListActivity implements OnItemClickListener {
 		pd.setTitle(getString(R.string.progress_tips_title));
 		pd.setMessage(getString(R.string.progress_tips_content));
 
-		handler = new RefreshHandler();
 		RefreshThread thread = new RefreshThread();
 		thread.start();
 
