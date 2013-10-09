@@ -21,10 +21,10 @@ interface HttpAsyncTaskNotify {
 public class HttpAsyncTask extends AsyncTask<Object, Void, String> {
 	private static final String LOG_TAG = "HttpAsyncTask";
 	public static final String TEST_URL_BLUE = "http://wap.baidu.com";
-	public static final String TEST_URL_YELLOW = "http://picdown.ttpod.cn/picsearch?artist=john";
-	public static final String TEST_URL_PINK = "http://lrc.ttpod.com/search?artist=john";
+	public static final String TEST_URL_YELLOW = "http://picdown.ttpod.cn/picsearch?artist=SHE";
+	public static final String TEST_URL_PINK = "http://lrc.ttpod.com/search?artist=SHE";
 	public static final String TEST_URL_GRAY = "http://v1.ard.h.itlily.com/plaza/newest/50";
-	public static final String TEST_URL_GREEN = "";
+	public static final String TEST_URL_GREEN = "http://wrap.ttpod.com";
 	private HttpAsyncTaskNotify mNotify;
 	private int mId;
 	private Context mContext;
@@ -68,6 +68,7 @@ public class HttpAsyncTask extends AsyncTask<Object, Void, String> {
 //			break;
 
 		case R.id.iv_color_green:
+            result = HttpUtility.GetUseAutoEncoding(TEST_URL_GREEN);
 //			result = HttpUtility.WriteToFile(TEST_URL_GREEN, "/sdcard/downTestGreen.file");
 //			result = HttpConnectionUtility.WriteToFile(mContext, TEST_URL_GREEN, "/sdcard/downTestGreen.file");
 			break;
