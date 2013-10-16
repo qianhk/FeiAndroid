@@ -138,5 +138,7 @@
             android:textSize="32sp"
             android:text="本行文字32sp"/>
 
+    <com.njnu.kai.feiphoneinfo.FontDimensionView android:layout_width="match_parent" android:layout_height="80dp"/>
+
 </LinearLayout>
 </ScrollView>
