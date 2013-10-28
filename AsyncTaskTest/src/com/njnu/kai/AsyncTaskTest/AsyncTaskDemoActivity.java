@@ -80,7 +80,7 @@ public class AsyncTaskDemoActivity extends Activity {
                  */
                 task.execute();
 
-                // use AsyncTask#SERIAL_EXECUTOR is the same to #execute();
+//                use AsyncTask#SERIAL_EXECUTOR is the same to #execute();
 //                task.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
 
                 // use AsyncTask#THREAD_POOL_EXECUTOR is the same to older version #execute() (less than API 11)
