@@ -12,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,9 +33,26 @@ public class AsyncTaskDemoActivity extends Activity {
         FULL_TASK_EXECUTOR = (ExecutorService) Executors.newCachedThreadPool();
     };
 
+    private void setAsyncTaskDefaultExecutor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//            AsyncTask.setDefaultExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            try {
+                Method setDefaultExecutorMethod = AsyncTask.class.getMethod("setDefaultExecutor", Executor.class);
+                setDefaultExecutorMethod.invoke(null, AsyncTask.THREAD_POOL_EXECUTOR);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        setAsyncTaskDefaultExecutor();
         setContentView(R.layout.asynctask_demo_activity);
         String title = "AsyncTask of API " + Build.VERSION.SDK_INT;
         setTitle(title);
