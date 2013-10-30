@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="宽高正好" android:layout_marginTop="10dp"/>
+        <ImageView android:layout_width="640px" android:layout_height="960px" android:src="@drawable/splash" android:background="#F0F" android:scaleType="matrix"/>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="宽高正好 等比例" android:layout_marginTop="10dp"/>
+        <ImageView android:layout_width="320px" android:layout_height="480px" android:src="@drawable/splash" android:background="#F0F" android:scaleType="matrix"/>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="太宽" android:layout_marginTop="10dp"/>
+        <ImageView android:layout_width="400px" android:layout_height="480px" android:src="@drawable/splash" android:background="#F0F" android:scaleType="matrix"/>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="太高" android:layout_marginTop="10dp"/>
+        <ImageView android:layout_width="320px" android:layout_height="600px" android:src="@drawable/splash" android:background="#F0F" android:scaleType="matrix"/>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="宽放大 高缩小" android:layout_marginTop="10dp"/>
+        <ImageView android:layout_width="768px" android:layout_height="900px" android:src="@drawable/splash" android:background="#F0F" android:scaleType="matrix"/>
+
+    </LinearLayout>
+</ScrollView>

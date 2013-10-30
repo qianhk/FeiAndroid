@@ -49,6 +49,7 @@ public class OptimizeActivity extends ListActivity {
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
         addActivityToData(list, FibonacciActivity.class);
+        addActivityToData(list, FitCenterImageViewActivity.class);
 
         return list;
     }

@@ -13,5 +13,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".FibonacciActivity"/>
+        <activity android:name=".FitCenterImageViewActivity"/>
     </application>
 </manifest>
