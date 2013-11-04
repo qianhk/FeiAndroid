@@ -1,15 +1,19 @@
 package com.njnu.kai.optimize;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 
-public class FitCenterImageViewActivity extends Activity {
+public class FitCenterImageViewActivity extends Activity implements ImageView.OnClickListener {
 
     private static final String LOG_TAG = "FitCenterImageViewActivity";
     private ImageView mImageView1;
@@ -17,6 +21,7 @@ public class FitCenterImageViewActivity extends Activity {
     private ImageView mImageView3;
     private ImageView mImageView4;
     private ImageView mImageView5;
+    private SharedPreferences.Editor mEditor;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,7 @@ public class FitCenterImageViewActivity extends Activity {
                 }
             });
         }
+        imageView.setOnClickListener(this);
     }
 
     private void amendAllImageView() {
@@ -91,5 +97,26 @@ public class FitCenterImageViewActivity extends Activity {
             imageView.setImageMatrix(matrix);
             Log.d(LOG_TAG, String.format("use my matrix %f %f scale=%f", horizontalScaleRatio, verticalScaleRatio, scaleRatio));
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == mImageView1) {
+            Log.d(LOG_TAG, "open Editor");
+            mEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        } else if (v == mImageView2) {
+            Log.d(LOG_TAG, "put iv 2");
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("imageview2", 1).commit();
+        } else if (v == mImageView3) {
+            Log.d(LOG_TAG, "put iv 1");
+            mEditor.putInt("imageview1", 1).commit();
+        } else if (v == mImageView4) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            Log.d(LOG_TAG, String.format("i1=%d i2=%d", preferences.getInt("imageview1", 0), preferences.getInt("imageview2", 0)));
+        } else if (v == mImageView5) {
+//            SharedPreferences preferences = getSharedPreferences("testp", Context.MODE_MULTI_PROCESS);
+//            SharedPreferences.Editor edit = preferences.edit();
+        }
+
     }
 }
