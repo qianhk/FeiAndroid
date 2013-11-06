@@ -2,6 +2,8 @@ package com.njnu.kai.feiphoneinfo;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.util.AttributeSet;
@@ -19,6 +21,7 @@ public class FontDimensionView extends View {
     private String mTextString = "水渡石 钱红凯 Shui Qian 12345 字体尺寸";
     private TextPaint mTextPaint;
     private Typeface mTypefaceNormal;
+    private Rect mTextRect;
 
     public FontDimensionView(Context context) {
         super(context);
@@ -42,12 +45,15 @@ public class FontDimensionView extends View {
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTypeface(mTypefaceNormal);
         mTextPaint.setTextSize(mFontSize);
+        mTextPaint.setTextAlign(Paint.Align.CENTER);
+        mTextPaint.setStyle(Paint.Style.STROKE);
+        mTextRect = new Rect(20, 100, 400, 120);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        canvas.drawText(mTextString, 20, 70, mTextPaint);
+        canvas.drawRect(mTextRect, mTextPaint);
+        canvas.drawText(mTextString, mTextRect.left, mTextRect.top, mTextPaint);
     }
 }
