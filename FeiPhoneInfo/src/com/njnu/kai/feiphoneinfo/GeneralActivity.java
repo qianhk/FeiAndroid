@@ -169,6 +169,12 @@ public class GeneralActivity extends Activity {
         map.put("no", 12);
         list.add(map);
 
+        map = new HashMap<String, Object>();
+        map.put("title", "ROM");
+        map.put("info", Build.FINGERPRINT);
+        map.put("no", 13);
+        list.add(map);
+
         return list;
     }
 
