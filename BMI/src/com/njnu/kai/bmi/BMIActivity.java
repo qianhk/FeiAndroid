@@ -209,9 +209,9 @@ public class BMIActivity extends Activity implements OnClickListener, HttpAsyncT
 	private void sendLogEmail() {
 		Intent it = new Intent(Intent.ACTION_SEND);
 		String[] toWho = {
-				"\u0068\u006f\u006e\u0067\u006b\u0061\u0069\u002e\u0071\u0069\u0061\u006e\u0040\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d",
-				"\u007a\u0068\u0065\u006e\u0068\u0075\u0061\u002e\u0067\u0061\u006f\u0040\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d",
-				"\u0061\u006e\u0070\u0069\u006e\u0067\u002e\u0079\u0069\u006e\u0040\u0074\u0074\u0070\u006f\u0064\u002e\u0063\u006f\u006d"};
+				"hongkai.qian@ttpod.com",
+				"zhenhua.gao@ttpod.com",
+				"anping.yin@ttpod.com"};
 		it.putExtra(Intent.EXTRA_EMAIL, toWho);
 		it.putExtra(Intent.EXTRA_SUBJECT, "tt http test log");
 		it.putExtra(Intent.EXTRA_TEXT, mUserInfo + "\n\n" + mBuilder.toString());

@@ -1,42 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1450452-6d1e-456c-8d1b-3a79fa50072c" name="Default" comment="" />
+    <list default="true" id="d1450452-6d1e-456c-8d1b-3a79fa50072c" name="Default" comment="add rom info.&#10;">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BMI.iml" afterPath="$PROJECT_DIR$/BMI.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/njnu/kai/bmi/BMIActivity.java" afterPath="$PROJECT_DIR$/src/com/njnu/kai/bmi/BMIActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpAsyncTask.java" afterPath="$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpAsyncTask.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpUtility.java" afterPath="$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpUtility.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="BMI.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/fragment.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1358845214375" ignored="false" />
-    <file path="$PROJECT_DIR$/.idea/compiler.xml" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357702834899" ignored="false" />
-    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357726342631" ignored="false" />
-    <file path="/BMIActivity.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357799861509" ignored="false" />
-    <file path="$PROJECT_DIR$/gen/com/njnu/kai/bmi/Manifest.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357714966912" ignored="false" />
-    <file path="$PROJECT_DIR$/gen/com/njnu/kai/bmi/BuildConfig.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1368718594434" ignored="false" />
-    <file path="/TTAndroid/ttpod_lib/src/com/sds/android/lib/net/TTHttpResponse.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357873073019" ignored="false" />
-    <file path="/TTAndroid/ttpod_lib/src/com/sds/android/lib/net/HttpURLConnectionHelper.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357884522508" ignored="false" />
-    <file path="/TTAndroid/ttpod_lib/src/com/sds/android/lib/util/ChineseToPinyin.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357713640634" ignored="false" />
-    <file path="/TTAndroid/ttpod_core/src/com/sds/android/ttpod/core/model/market/MarketDownloadCountUpdate.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357895920048" ignored="false" />
-    <file path="/TTAndroid/ttpod_core/src/com/sds/android/ttpod/core/model/online/LabelMusicPlaza.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357713640634" ignored="false" />
-    <file path="/HttpUtility.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1358834580995" ignored="false" />
-    <file path="/AndroidManifest.xml" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357714962932" ignored="false" />
-    <file path="/HttpConnectionUtility.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357724623842" ignored="false" />
-    <file path="/HttpAsyncTask.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357724904066" ignored="false" />
-    <file path="/a.dummy" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357800224992" ignored="false" />
-    <file path="/TTAndroid/ttpod_core/src/com/sds/android/ttpod/core/model/download/DownloadTask.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1358847897650" ignored="false" />
-    <file path="/DownloadTask.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357875504291" ignored="false" />
-    <file path="/HttpURLConnectionHelper.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357876363484" ignored="false" />
-    <file path="/TTAndroid/ttpod_lib/src/com/sds/android/lib/net/HttpClientUtils.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1358847847136" ignored="false" />
-    <file path="/TTHttpResponse.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357872986498" ignored="false" />
-    <file path="/Dummy.txt" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1358390058035" ignored="false" />
-    <file path="/TTAndroid/ttpod_core/src/com/sds/android/ttpod/core/model/download/DownloadTaskData.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357875474046" ignored="false" />
-    <file path="/DownloadTaskData.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357875280930" ignored="false" />
-    <file path="/MarketDownloadCountUpdate.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357876535394" ignored="false" />
-    <file path="/HttpClientUtils.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357882529621" ignored="false" />
-    <file path="/TTAndroid/ttpod_core/src/com/sds/android/ttpod/core/model/search/LyricSearchTask.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357882357751" ignored="false" />
-    <file path="/TTAndroid/ttpod_core/src/com/sds/android/ttpod/core/model/search/PictureSearchTask.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357882377565" ignored="false" />
-    <file path="/PictureSearchTask.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357882376686" ignored="false" />
-    <file path="/TTAndroid/ttpod_lib/src/com/sds/android/lib/io/FileUtils.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1357884522508" ignored="false" />
-    <file path="/TTAndroid/ttpod_lib/src/com/sds/android/lib/io/ZhInputStreamReader.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1358847897650" ignored="false" />
-    <file path="/ZhInputStreamReader.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1358847527825" ignored="false" />
-    <file path="$PROJECT_DIR$/gen/com/njnu/kai/bmi/R.java" changelist="d1450452-6d1e-456c-8d1b-3a79fa50072c" time="1368718582524" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +81,7 @@
       <file leaf-file-name="BMIActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/BMIActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="437" column="20" selection-start="16289" selection-end="16289" vertical-scroll-proportion="0.0">
+            <state line="222" column="44" selection-start="7589" selection-end="7589" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6765">
               <folding />
             </state>
           </provider>
@@ -109,16 +90,19 @@
       <file leaf-file-name="GeneralData.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/GeneralData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="13" selection-start="326" selection-end="326" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="48" column="0" selection-start="1581" selection-end="1581" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1440">
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#513#521#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HttpAsyncTask.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="HttpAsyncTask.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpAsyncTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="18" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.81395346">
+            <state line="27" column="40" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575">
               <folding />
             </state>
           </provider>
@@ -127,16 +111,16 @@
       <file leaf-file-name="HttpUtility.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpUtility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="215" column="22" selection-start="9251" selection-end="9251" vertical-scroll-proportion="0.0">
+            <state line="281" column="29" selection-start="10749" selection-end="10749" vertical-scroll-proportion="0.0" vertical-offset="2047" max-vertical-offset="4050">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HttpConnectionUtility.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="HttpConnectionUtility.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="28" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.0">
+            <state line="177" column="26" selection-start="6524" selection-end="6524" vertical-scroll-proportion="0.6686047" vertical-offset="2130" max-vertical-offset="4530">
               <folding />
             </state>
           </provider>
@@ -154,13 +138,17 @@
     <option name="KEY_ALIAS" value="ttpod" />
     <option name="REMEMBER_PASSWORDS" value="true" />
   </component>
+  <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="REBASE" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java" />
-        <option value="$PROJECT_DIR$/src/com/njnu/kai/bmi/BMIActivity.java" />
         <option value="$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpUtility.java" />
+        <option value="$PROJECT_DIR$/src/com/njnu/kai/bmi/BMIActivity.java" />
         <option value="$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpAsyncTask.java" />
       </list>
     </option>
@@ -170,7 +158,7 @@
     <option name="width" value="1440" />
     <option name="height" value="874" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -196,7 +184,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -215,27 +202,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BMI" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BMI" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bmi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -247,7 +217,7 @@
     <property name="ExportedApkPath" value="$PROJECT_DIR$/BMI_HttpConnectionUtility.apk" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="ExportedModule" value="BMI" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -264,7 +234,139 @@
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
   </component>
+  <component name="RestoreUpdateTree">
+    <UpdateInfo date="Moments ago" ActionInfo="_Update">
+      <UpdatedFiles>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated from server" />
+          <option name="myStatusName" value="Changed on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CHANGED_ON_SERVER" />
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Updated" />
+            <option name="myStatusName" value="Changed" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="UPDATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Created" />
+            <option name="myStatusName" value="Created" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="CREATED" />
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/../IdealC13_settings.jar</PATH>
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Deleted" />
+            <option name="myStatusName" value="Deleted" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="true" />
+            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Restored" />
+            <option name="myStatusName" value="Will be restored" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="RESTORED" />
+          </FILE-GROUP>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Modified" />
+          <option name="myStatusName" value="Modified" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MODIFIED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Skipped" />
+          <option name="myStatusName" value="Skipped" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SKIPPED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with conflicts" />
+          <option name="myStatusName" value="Will be merged with conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_CONFLICTS" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with tree conflicts" />
+          <option name="myStatusName" value="Merged with tree conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with property conflicts" />
+          <option name="myStatusName" value="Will be merged with property conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged" />
+          <option name="myStatusName" value="Will be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Not in repository" />
+          <option name="myStatusName" value="Not in repository" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally added" />
+          <option name="myStatusName" value="Locally added" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_ADDED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed" />
+          <option name="myStatusName" value="Locally removed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Switched" />
+          <option name="myStatusName" value="Switched" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SWITCHED" />
+        </FILE-GROUP>
+      </UpdatedFiles>
+    </UpdateInfo>
+  </component>
   <component name="RunManager" selected="Android Application.BMI">
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -325,7 +427,9 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
       <option name="USE_COMMAND_LINE" value="true" />
       <option name="COMMAND_LINE" value="" />
@@ -334,6 +438,7 @@
       <option name="NETWORK_SPEED" value="full" />
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="false" name="BMI" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -341,7 +446,9 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
       <option name="USE_COMMAND_LINE" value="true" />
       <option name="COMMAND_LINE" value="" />
@@ -350,6 +457,7 @@
       <option name="NETWORK_SPEED" value="full" />
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <RunnerSettings RunnerId="AndroidDebugRunner" />
       <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
       <method />
@@ -376,89 +484,50 @@
     <option name="totallyTimeSpent" value="32000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="874" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="22" width="1440" height="874" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32972324" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917705" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41636583" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3990025" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3054863" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2876053" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32851985" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5824308" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24930556" sideWeight="0.6708229" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917705" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32851985" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917705" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USERS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="CHECK_NEW_TODO" value="true" />
     <option name="myTodoPanelSettings">
-      <value>
-        <are-packages-shown value="false" />
-        <are-modules-shown value="false" />
-        <flatten-packages value="false" />
-        <is-autoscroll-to-source value="false" />
-      </value>
+      <TodoPanelSettings />
     </option>
-    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
-    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
-    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
-    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
-    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
-    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
-    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
-    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
-    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
-    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
-    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
-    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
-    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
-    <option name="LIMIT_HISTORY" value="true" />
-    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
-    <option name="UPDATE_FILTER_SCOPE_NAME" />
-    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
-    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
-    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
-    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" />
-    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
-    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
-    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
-    <option name="ACTIVE_VCS_NAME" />
-    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
-    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
-    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
-    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
-    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -468,112 +537,151 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="28" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="28" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/BMIActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="43" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpAsyncTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="102" selection-start="1623" selection-end="1623" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="152" column="85" selection-start="6932" selection-end="6997" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="28" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/SendEmail2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="27" selection-start="1510" selection-end="1510" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="39" selection-start="823" selection-end="823" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///AndroidDev/android-sdk-macosx/sources/android-16/java/io/File.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1155" column="7" selection-start="42644" selection-end="42644" vertical-scroll-proportion="0.6030246" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="28" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///AndroidDev/android-sdk-macosx/sources/android-16/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1311" column="65" selection-start="48890" selection-end="48890" vertical-scroll-proportion="0.27450982" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="215" column="22" selection-start="9251" selection-end="9251" vertical-scroll-proportion="0.0">
+        <state line="437" column="20" selection-start="16289" selection-end="16289" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7365">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/GeneralData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="326" selection-end="326" vertical-scroll-proportion="0.0">
+        <state line="12" column="13" selection-start="326" selection-end="326" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="1560">
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#513#521#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpAsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="18" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.0" vertical-offset="795" max-vertical-offset="1575">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///AndroidDev/android-sdk-macosx/sources/android-16/android/os/AsyncTask.java">
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpUtility.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="538" column="46" selection-start="21630" selection-end="21630" vertical-scroll-proportion="0.50980395">
+        <state line="215" column="22" selection-start="9251" selection-end="9251" vertical-scroll-proportion="0.0" vertical-offset="3225" max-vertical-offset="4380">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="28" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.0" vertical-offset="1095" max-vertical-offset="4710">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="28" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="28" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/BMIActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="437" column="20" selection-start="16289" selection-end="16289" vertical-scroll-proportion="0.0">
+        <state line="56" column="43" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpAsyncTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="18" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.81395346">
+        <state line="26" column="102" selection-start="1623" selection-end="1623" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpUtility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="152" column="85" selection-start="6932" selection-end="6997" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="28" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/SendEmail2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="27" selection-start="1510" selection-end="1510" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="39" selection-start="823" selection-end="823" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///AndroidDev/android-sdk-macosx/sources/android-16/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1155" column="7" selection-start="42644" selection-end="42644" vertical-scroll-proportion="0.6030246" vertical-offset="0" max-vertical-offset="0" />
+      </provider>
+    </entry>
+    <entry file="file:///AndroidDev/android-sdk-macosx/sources/android-16/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1311" column="65" selection-start="48890" selection-end="48890" vertical-scroll-proportion="0.27450982" vertical-offset="0" max-vertical-offset="0" />
+      </provider>
+    </entry>
+    <entry file="file:///AndroidDev/android-sdk-macosx/sources/android-16/android/os/AsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="538" column="46" selection-start="21630" selection-end="21630" vertical-scroll-proportion="0.50980395" vertical-offset="0" max-vertical-offset="0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/BMIActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="222" column="44" selection-start="7589" selection-end="7589" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6765">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/GeneralData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="0" selection-start="1581" selection-end="1581" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1440">
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#513#521#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpAsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="40" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpUtility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="281" column="29" selection-start="10749" selection-end="10749" vertical-scroll-proportion="0.0" vertical-offset="2047" max-vertical-offset="4050">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/njnu/kai/bmi/HttpConnectionUtility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="177" column="26" selection-start="6524" selection-end="6524" vertical-scroll-proportion="0.6686047" vertical-offset="2130" max-vertical-offset="4530">
           <folding />
         </state>
       </provider>
@@ -618,7 +726,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>Android 4.1 Platform</last-edited>
+          <last-edited>Android 2.1 Platform</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

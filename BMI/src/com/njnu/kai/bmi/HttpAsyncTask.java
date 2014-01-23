@@ -24,7 +24,7 @@ public class HttpAsyncTask extends AsyncTask<Object, Void, String> {
 	public static final String TEST_URL_YELLOW = "http://picdown.ttpod.cn/picsearch?artist=SHE";
 	public static final String TEST_URL_PINK = "http://lrc.ttpod.com/search?artist=SHE";
 	public static final String TEST_URL_GRAY = "http://v1.ard.h.itlily.com/plaza/newest/50";
-	public static final String TEST_URL_GREEN = "http://wrap.ttpod.com";
+	public static final String TEST_URL_GREEN = "http://v1.ard.q.itlily.com/share/celebrities";
 	private HttpAsyncTaskNotify mNotify;
 	private int mId;
 	private Context mContext;
