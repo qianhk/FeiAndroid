@@ -10,6 +10,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -246,7 +247,7 @@ public class TaskActivity extends ListActivity implements OnItemClickListener {
 		PackageInfo tempPkgInfo = null;
 		try {
 			tempPkgInfo = packageManager.getPackageInfo(tempAppInfo.packageName, PackageManager.GET_UNINSTALLED_PACKAGES
-					| PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES | PackageManager.GET_PERMISSIONS);
+					| PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES | PackageManager.GET_PERMISSIONS | PackageManager.GET_RECEIVERS);
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -278,7 +279,11 @@ public class TaskActivity extends ListActivity implements OnItemClickListener {
 		complexProgramUtil.setServices(tempPkgInfo.services);
 		complexProgramUtil.setActivities(tempPkgInfo.activities);
 
-		return complexProgramUtil;
+        ActivityInfo[] receivers = tempPkgInfo.receivers;
+
+        complexProgramUtil.setReceivers(receivers);
+
+        return complexProgramUtil;
 	}
 
 	public class BasicProgramUtil {

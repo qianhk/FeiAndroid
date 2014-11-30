@@ -6,8 +6,11 @@ import java.text.DecimalFormat;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ServiceInfo;
 import android.text.format.DateFormat;
+import android.util.Log;
 
 public class DetailProgramUtil implements Serializable {
+
+    private static final String TAG = "DetailProgramUtil";
 
 	private static final long serialVersionUID = 1L;
 	/*
@@ -306,4 +309,15 @@ public class DetailProgramUtil implements Serializable {
 				+ "External Media Size: " + externalMediaSize + "KB\n" + "External Obb Size: " + externalObbSize + "KB";
 		return resultString;
 	}
+
+    public void setReceivers(ActivityInfo[] receivers) {
+        if (receivers != null) {
+            for (ActivityInfo receiver : receivers) {
+                boolean enabled1 = receiver.enabled;
+                boolean enabled2 = receiver.isEnabled();
+                String packageName = receiver.packageName;
+                Log.i(TAG, String.format("%b %b %s", enabled1, enabled2, packageName));
+            }
+        }
+    }
 }
