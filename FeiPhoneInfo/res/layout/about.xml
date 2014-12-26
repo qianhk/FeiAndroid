@@ -19,7 +19,7 @@
             android:textColor="#000"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:text="上面的黑色长方形左边距30dp 上边距10dp 宽度40dp 高度20dp 本行文字使用android默认size"/>
+            android:text="@string/about_prompt"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="8sp"
-            android:text="本行文字8sp"/>
+            android:text="@string/abount_text_8sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:text="本行文字10sp"/>
+            android:text="@string/abount_text_10sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:text="本行文字12sp"/>
+            android:text="@string/abount_text_12sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="本行文字14sp"/>
+            android:text="@string/abount_text_14sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="本行文字16sp"/>
+            android:text="@string/abount_text_16sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="本行文字18sp"/>
+            android:text="@string/abount_text_18sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="本行文字20sp"/>
+            android:text="@string/abount_text_20sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="22sp"
-            android:text="本行文字22sp"/>
+            android:text="@string/abount_text_22sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:text="本行文字24sp"/>
+            android:text="@string/abount_text_24sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="26sp"
-            android:text="本行文字26sp"/>
+            android:text="@string/abount_text_26sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="28sp"
-            android:text="本行文字28sp"/>
+            android:text="@string/abount_text_28sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="30sp"
-            android:text="本行文字30sp"/>
+            android:text="@string/abount_text_30sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -136,7 +136,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="32sp"
-            android:text="本行文字32sp"/>
+            android:text="@string/abount_text_32sp"/>
 
     <com.njnu.kai.feiphoneinfo.FontDimensionView android:layout_width="match_parent" android:layout_height="80dp"/>
 

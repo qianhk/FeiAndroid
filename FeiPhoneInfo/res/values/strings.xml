@@ -20,4 +20,18 @@
 	<string name="no_use">no_use</string>
 	<string name="progress_tips_title">Flush Process</string>
 	<string name="progress_tips_content">Flush Processing&#8230;\nPlease Wait&#8230;</string>
+	<string name="about_prompt">上面的黑色长方形左边距30dp 上边距10dp 宽度40dp 高度20dp 本行文字使用android默认size</string>
+	<string name="abount_text_8sp">本行文字8sp</string>
+	<string name="abount_text_10sp">本行文字10sp</string>
+	<string name="abount_text_12sp">本行文字12sp</string>
+	<string name="abount_text_14sp">本行文字14sp</string>
+	<string name="abount_text_16sp">本行文字16sp</string>
+	<string name="abount_text_18sp">本行文字18sp</string>
+	<string name="abount_text_20sp">本行文字20sp</string>
+	<string name="abount_text_22sp">本行文字22sp</string>
+	<string name="abount_text_24sp">本行文字24sp</string>
+	<string name="abount_text_26sp">本行文字26sp</string>
+	<string name="abount_text_28sp">本行文字28sp</string>
+	<string name="abount_text_30sp">本行文字30sp</string>
+	<string name="abount_text_32sp">本行文字32sp</string>
 </resources>
