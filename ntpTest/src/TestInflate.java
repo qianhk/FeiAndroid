@@ -1,7 +1,10 @@
 import util.FileUtils;
+import util.LyricXmlParseUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.zip.Inflater;
 
 /**
@@ -10,7 +13,6 @@ import java.util.zip.Inflater;
  * @since 15-10-27
  */
 public class TestInflate {
-
 
     private static byte[] unZipByte2(byte[] data) {
         final Inflater inflater = new Inflater();
@@ -100,7 +102,7 @@ public class TestInflate {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
 //        final File file = new File("/Users/ttkai/");
 //        final String[] list = file.list();
@@ -112,19 +114,31 @@ public class TestInflate {
 
 
         final byte[] bytes = unZipByte(oriBytes);
+
+        System.out.println("qian");
+
+        final List<LyricXmlParseUtils.LyricItem> lyricItemList = LyricXmlParseUtils.parserXmlBySax(new ByteArrayInputStream(bytes));
+        int lyricCount = lyricItemList != null ? lyricItemList.size() : 0;
+        for (int idx = 0; idx < 1; ++idx) {
+            final LyricXmlParseUtils.LyricItem lyricItem = lyricItemList.get(idx);
+            final String qrc = lyricItem.mQrc;
+            System.out.println(qrc);
+        }
+        System.out.println("hou");
+
         final String str1 = new String(bytes);
-        System.out.println("str1=" + str1);
+//        System.out.println("str1=" + str1);
 
-        System.out.println();
-
-        final byte[] bytes2 = unZipByte2(oriBytes);
-        final String str2 = new String(bytes2);
-//        System.out.println("str2=" + str2);
-
-        final Object oo = oriBytes;
-        byte[] bbb = (byte[]) oo;
-        System.out.println(bbb);
-        System.out.println(constructByteStr(oriBytes));
+//        System.out.println();
+//
+//        final byte[] bytes2 = unZipByte2(oriBytes);
+//        final String str2 = new String(bytes2);
+////        System.out.println("str2=" + str2);
+//
+//        final Object oo = oriBytes;
+//        byte[] bbb = (byte[]) oo;
+//        System.out.println(bbb);
+//        System.out.println(constructByteStr(oriBytes));
 
 //        Byte[] BBB = (Byte[]) oo;
 //        System.out.println(BBB);
