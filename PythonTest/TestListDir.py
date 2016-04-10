@@ -12,7 +12,7 @@ for file in os.listdir('.'):
         extension = os.path.splitext(file)[1][1:]
         logTxt = "file={vfile} extension={exten}".format(vfile=file,exten=extension)
         print logTxt
-        if extension != "" and extension in 'apk':
+        if extension == 'apk':
             src_apks.append(file)
 
 
