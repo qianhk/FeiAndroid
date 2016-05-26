@@ -82,5 +82,9 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
-# Self File
-YiDaoZou_modify.txt
+
+# node.js
+#
+node_modules/
+npm-debug.log
+
