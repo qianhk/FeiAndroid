@@ -1,0 +1,29 @@
+group 'com.njnu.kai.aop'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.6
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'cglib:cglib-nodep:3.2.2'
+    compile 'org.javassist:javassist:3.20.0-GA'
+}
+
+
+//sourceSets {
+//    main {
+//        java {
+//            srcDir 'src/java'
+//        }
+//        resources {
+//            srcDir 'src/resources'
+//        }
+//    }
+//}
