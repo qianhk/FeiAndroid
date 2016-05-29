@@ -83,7 +83,7 @@ android {
     defaultConfig {
         applicationId "com.njnu.kai.rn"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 10
         versionCode 1
         versionName "1.0"
         ndk {

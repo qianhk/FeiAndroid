@@ -1,0 +1,19 @@
+{
+  "name": "testnpm",
+  "version": "0.0.1",
+  "description": "凯 test npm",
+  "main": "index.js",
+  "dependencies": {
+    "semver": "^5.1.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "kai",
+  "license": "ISC"
+}
