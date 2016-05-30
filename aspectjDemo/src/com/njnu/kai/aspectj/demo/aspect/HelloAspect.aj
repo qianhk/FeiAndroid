@@ -1,5 +1,7 @@
 package com.njnu.kai.aspectj.demo.aspect;
 
+import com.njnu.kai.aspectj.demo.test.*;
+
 public aspect HelloAspect {
 	
 	pointcut HelloWorld2PointCut(int i) : call(* com.njnu.kai.aspectj.demo.test.HelloWorld.printI(int)) && args(i);
@@ -13,10 +15,10 @@ public aspect HelloAspect {
 //		System.out.println("Hello world, Aspect after x=" + x);
 //	}
 	
-	void around(int x) : HelloWorld2PointCut(x) {
-		System.out.println("Enter:" + thisJoinPoint);
-		proceed(x * 3);
-	}
+//	void around(int x) : HelloWorld2PointCut(x) {
+//		System.out.println("Enter:" + thisJoinPoint);
+//		proceed(x * 3);
+//	}
 	
 	
 	pointcut barPoint() : execution(* bar(..));
@@ -31,4 +33,11 @@ public aspect HelloAspect {
 //	before() : fooInBar() {
 //		System.out.println("Enter:" + thisJoinPoint);
 //	}
+	
+//	pointcut testFunctionPoint() : execution(@TestFunction * foo());
+	pointcut testFunctionPoint() : execution(@TestFunction * *(..));
+	
+	after() : testFunctionPoint() {
+		System.out.println("Leave:" + thisJoinPoint);
+	}
 }
