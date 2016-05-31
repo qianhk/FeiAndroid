@@ -37,7 +37,7 @@ public aspect HelloAspect {
 //	pointcut testFunctionPoint() : execution(@TestFunction * foo());
 	pointcut testFunctionPoint() : execution(@TestFunction * *(..));
 	
-	after() : testFunctionPoint() {
-		System.out.println("Leave:" + thisJoinPoint);
-	}
+//	after() : testFunctionPoint() {
+//		System.out.println("Leave:" + thisJoinPoint);
+//	}
 }
