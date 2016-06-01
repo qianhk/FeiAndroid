@@ -18,7 +18,7 @@ public aspect MoveAspect {
 	
 	//target：用于匹配当前目标对象类型的执行方法；注意是目标对象的类型匹配，这样就不包括引入接口也类型匹配；  它被干啥
 //    target()是指：我们pointcut 所选取的Join point 的所有者，直白点说就是： 指明拦截的方法属于那个类。
-//	pointcut MoveAspect() : call(* move(..)) && target(Animal); //拦截2个move方法 target获取继承关系 Entering Move TestMove.java:9  Entering Move TestMove.java:9
+	pointcut MoveAspect() : call(* move(..)) && target(Bird); //拦截2个move方法 target获取继承关系 Entering Move TestMove.java:9  Entering Move TestMove.java:9
 //	pointcut MoveAspect() : execution(* move(..)) && target(Animal); //拦截2个move方法 target获取继承关系  Entering Move Bird.java:6 Entering Move Snake.java:6
 //	pointcut MoveAspect() : call(* move(..)) && target(TestMove); //拦截1个方法(HelloWorld.java:26里调用了testmove里的move方法) Entering Move HelloWorld.java:26
 //	pointcut MoveAspect() : execution(* move(..)) && target(TestMove); //拦截1个方法(testmove里调用了自己的move方法)  Entering Move TestMove.java:7
@@ -28,9 +28,9 @@ public aspect MoveAspect {
 //	pointcut MoveAspect() :   execution(* move(..)) && within(Bird); //Entering Move Bird.java:6
 //	pointcut MoveAspect() :   call(* move(..)) && target(Animal) && this(TestMove);  
 	
-//	before() : MoveAspect() {
-//		System.out.println("Entering Move " + thisJoinPoint.getSourceLocation());
-//	}
+	before() : MoveAspect() {
+		System.out.println("MoveAspect Entering Move " + thisJoinPoint.getSourceLocation());
+	}
 	
 	pointcut MoveAspectWithParameter(Animal a, TestMove t) :   call(* move(..)) && target(a) && this(t);  
     
