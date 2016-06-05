@@ -134,7 +134,7 @@ function test_this() {
         }
     };
     // console.log("xiaoming age1=" + age()); //Uncaught ReferenceError: age is not defined
-    console.log("xiaoming age2=" + xiaoming.age());
+    console.log(`xiaoming age2 use \`\` = ${xiaoming.age()}`);
     var fn = xiaoming.age;
     // console.log("xiaoming age3=" + fn()); // Uncaught TypeError: Cannot read property 'birth' of undefined
     console.log("xiaoming age3=" + fn.apply(xiaoming, []));
@@ -142,6 +142,8 @@ function test_this() {
     var testfun = xiaoming.test;
     console.log("xiaoming test1=" + testfun.apply(xiaoming, [1, 2, 3, 4, 5]));
     console.log("xiaoming test2=" + testfun.call(xiaoming, 1, 2, 3, 4));
+    console.log("xiaoming json:\n" + JSON.stringify(xiaoming));
+    console.log("xiaoming json:\n" + JSON.stringify(xiaoming, null, ' '));
 }
 
 test_this();
@@ -211,16 +213,46 @@ function testMapReduce() {
 
     if (string2int('0') === 0 && string2int('12345') === 12345 && string2int('12300') === 12300) {
         if (string2int.toString().indexOf('parseInt') !== -1) {
-            console.log('请勿使用parseInt()!');
+            console.log('string2int 请勿使用parseInt()!');
         } else if (string2int.toString().indexOf('Number') !== -1) {
-            console.log('请勿使用Number()!');
+            console.log('string2int 请勿使用Number()!');
         } else {
-            console.log('测试通过!');
+            console.log('string2int 测试通过!');
         }
     }
     else {
-        console.log('测试失败!');
+        console.log('string2int 测试失败!');
     }
+
+    var re = /^<([\w\s]+)> (\w+@\w+\.\w+)$/;
+    var r = re.exec('<Tom Paris> tom@voyager.org');
+    console.log("regexp result=" + r);
+    if (r === null || r.toString() !== ['<Tom Paris> tom@voyager.org', 'Tom Paris', 'tom@voyager.org'].toString()) {
+        console.log('regexp 测试失败!');
+    }
+    else {
+        console.log('regexp 测试成功!');
+    }
+
+
+    class Cat {
+        constructor(name) {
+            this.name = name;
+        }
+
+        say() {
+            return `Hello, ${this.name}!`;
+        }
+    }
+
+    var kitty = new Cat('Kitty');
+    var doraemon = new Cat('哆啦A梦');
+    if (kitty && kitty.name === 'Kitty' && kitty.say && typeof kitty.say === 'function' && kitty.say() === 'Hello, Kitty!' && kitty.say === doraemon.say) {
+        console.log('cat测试通过!');
+    } else {
+        console.log('cat测试失败!');
+    }
+
 }
 
 testMapReduce();
