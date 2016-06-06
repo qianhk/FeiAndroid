@@ -234,10 +234,15 @@ function testMapReduce() {
         console.log('regexp 测试成功!');
     }
 
-
-    class Cat {
+    class Animal {
         constructor(name) {
             this.name = name;
+        }
+    }
+
+    class Cat extends Animal {
+        constructor(name) {
+            super(name);
         }
 
         say() {
@@ -248,9 +253,9 @@ function testMapReduce() {
     var kitty = new Cat('Kitty');
     var doraemon = new Cat('哆啦A梦');
     if (kitty && kitty.name === 'Kitty' && kitty.say && typeof kitty.say === 'function' && kitty.say() === 'Hello, Kitty!' && kitty.say === doraemon.say) {
-        console.log('cat测试通过!');
+        console.log('cat测试通过! ' + doraemon.say());
     } else {
-        console.log('cat测试失败!');
+        console.log('cat测试失败! ' + kitty.say());
     }
 
 }
