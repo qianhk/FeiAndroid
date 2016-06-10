@@ -3,14 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>Test ECMAScript 6</title>
-    <script src="practice.js">
-    </script>
+    <script src="jquery-3.0.0.min.js"></script>
+    <script src="practice.js"></script>
 </head>
 <body>
 abc凯2\n line2 \n 3
 <br>
 `1
-      2
-    3`
+2
+3`
+
+<!-- HTML结构 -->
+<div id="test-div">
+    <div class="c-red">
+        <p id="test-p">JavaScript</p>
+        <p>Java</p>
+    </div>
+    <div class="c-red c-green">
+        <p>Python</p>
+        <p>Ruby</p>
+        <p>Swift</p>
+    </div>
+    <div class="c-green">
+        <p>Scheme</p>
+        <p>Haskell</p>
+    </div>
+</div>
+
+<form id="test-form" action="#0" onsubmit="return false;">
+    <p><label>Name: <input name="name"></label></p>
+    <p><label>Email: <input name="email"></label></p>
+    <p><label>Password: <input name="password" type="password"></label></p>
+    <p>Gender: <label><input name="gender" type="radio" value="m" checked> Male</label> <label><input name="gender"
+                                                                                                      type="radio"
+                                                                                                      value="f"> Female</label>
+    </p>
+    <p><label>City: <select name="city">
+        <option value="BJ" selected>Beijing</option>
+        <option value="SH">Shanghai</option>
+        <option value="CD">Chengdu</option>
+        <option value="XM">Xiamen</option>
+    </select></label></p>
+    <p>
+        <button type="submit">Submit</button>
+    </p>
+</form>
+
+<button id="btnRunAgain" type="button">Run Again</button>
+<p id="tvTestDbl">test dbl</p>
+<br><br><br>
+
+<div id="test-append-sort">
+    <ul>
+        <li><span>JavaScript</span></li>
+        <li><span>Python</span></li>
+        <li><span>Swift</span></li>
+    </ul>
+</div>
+
+<form id="test-form-select" action="test" onsubmit="return false;">
+    <legend>请选择想要学习的编程语言：</legend>
+    <fieldset>
+        <p><label class="selectAll"><input type="checkbox"> <span class="selectAll">全选</span><span class="deselectAll">全不选</span></label>
+            <a href="#0" class="invertSelect">反选</a></p>
+        <p><label><input type="checkbox" name="lang" value="javascript"> JavaScript</label></p>
+        <p><label><input type="checkbox" name="lang" value="python"> Python</label></p>
+        <p><label><input type="checkbox" name="lang" value="ruby"> Ruby</label></p>
+        <p><label><input type="checkbox" name="lang" value="haskell"> Haskell</label></p>
+        <p><label><input type="checkbox" name="lang" value="scheme"> Scheme</label></p>
+        <p>
+            <button id="test-form-select-submit" type="submit">Submit</button>
+        </p>
+    </fieldset>
+</form>
+
 </body>
 </html>

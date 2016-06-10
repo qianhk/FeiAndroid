@@ -257,7 +257,129 @@ function testMapReduce() {
     } else {
         console.log('cat测试失败! ' + kitty.say());
     }
-
+    // document.title = "kai Test";
 }
 
 testMapReduce();
+
+function testSelectDOM() {
+// 选择<p>JavaScript</p>:
+// var js = document.querySelector('#test-p');
+    var js = document.getElementById('test-p');
+    var js2 = $('#test-p');
+    console.log("select js=" + js.innerText);
+    console.log("select jQuery=" + js2);
+
+// 选择<p>Python</p>,<p>Ruby</p>,<p>Swift</p>:
+//     var arr = document.querySelectorAll('.c-red.c-green > p');
+    var arr = document.getElementsByClassName("c-red c-green")[0].children;
+    console.log("select attr=" + arr.length);
+    console.log("select attr=" + arr[0].innerText);
+    console.log("select attr=" + arr[0].innerHTML);
+
+// 选择<p>Haskell</p>:
+//     var haskell = document.querySelectorAll('.c-green')[1].lastElementChild;
+//     var haskell = document.querySelector(".c-green:last-child").lastElementChild;
+//     console.log("select haskell=" + haskell.innerText);
+
+    js.innerText = 'ECMAScript 6';
+    js.style.color = '#F0F';
+    js.style.fontSize = '20px';
+    js.style.paddingTop = '2em';
+
+    var list = document.querySelector("#test-div");
+    var kai = document.createElement('p');
+    kai.innerText = 'Kai Test Append new element';
+    list.appendChild(kai);
+
+    console.log('jQuery版本：' + $.fn.jquery);
+
+    // var selected = $('div.test-selector li:first-child');
+
+
+    var ul = $("#test-append-sort ul");
+    ["Pascal", "Lua", "Ruby"].map(
+        function (x) {
+            ul.append("<li><span>" + x + "</span></li>");
+        }
+    );
+    var li = ul.find('li');
+    li.sort(function (x, y) {
+        if ($(x).text() > $(y).text()) {
+            return 1;
+        } else {
+            return -1;
+        }
+        // return $(x).text().localeCompare($(y).text());
+    });
+    ul.append(li);
+
+}
+
+function testSelectDOM2() {
+    var jsonObj = {};
+    // var select = $('form#test-form :input')
+    //     .filter(function () {
+    //         return this.type != 'submit';
+    //     })
+    //     .map(function () {
+    //     if ($(this).get(0).type == 'radio') {
+    //         jsonObj[this.name] = $('input[type=radio]:checked').val();
+    //     } else {
+    //         jsonObj[this.name] = this.value;
+    //     }
+    // });
+
+    // var select = $('form#test-form input[type!=submit],select')
+    //     .map(function () {
+    //         if (this.type == 'radio' || this.type == 'select') {
+    //             if (this.checked) {
+    //                 jsonObj[this.name] = this.value;
+    //             }
+    //         } else {
+    //             jsonObj[this.name] = this.value;
+    //         }
+    //     });
+
+    var input = $('#test-form :input[type!=submit]');
+    // console.log("json input=" + input.html());
+    input.map(function () {
+        if (this.type !== "radio" || this.checked) {
+            jsonObj[this.name] = this.value;
+        }
+    });
+
+
+    var json = JSON.stringify(jsonObj);
+    console.log("json=" + json);
+}
+
+$(function () {  //$(document).ready(function ()
+    console.log("document ready")
+    testSelectDOM();
+    testSelectDOM2();
+});
+
+function dblClickTest() {
+    console.log("dblclick");
+}
+
+$(function () {
+    console.log("document ready2: " + $.fn.jquery);
+    $('#btnRunAgain').click(testSelectDOM2);
+
+    $('#tvTestDbl').dblclick(dblClickTest);
+
+    // $('#tvTestDbl').dblclick(function () { //会多次按绑定顺序执行,但ide有警告
+    //     console.log("dblclick2");
+    // });
+
+    setTimeout(function () {
+        console.log('off dblclick event');
+        $('#tvTestDbl').off('dblclick', dblClickTest);
+    }, 10 * 1000);
+
+    $('#test-form-select-submit').click(function () {
+        console.log('click test-form-select-submit');
+    })
+});
