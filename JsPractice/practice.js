@@ -352,6 +352,8 @@ function testSelectDOM2() {
 
     var json = JSON.stringify(jsonObj);
     console.log("json=" + json);
+
+    testSelectCheckForm();
 }
 
 $(function () {  //$(document).ready(function ()
@@ -383,3 +385,75 @@ $(function () {
         console.log('click test-form-select-submit');
     })
 });
+
+function testSelectCheckForm() {
+    var
+        form = $('#test_form_select'),
+        langs = form.find('[name=lang]'),
+        selectAll = form.find('label.selectAll :checkbox'),
+        selectAllLabel = form.find('label.selectAll span.selectAll'),
+        deselectAllLabel = form.find('label.selectAll span.deselectAll'),
+        invertSelect = form.find('a.invertSelect');
+
+// 重置初始化状态:
+    form.find('*').show().off();
+    form.find(':checkbox').prop('checked', false).off();
+    deselectAllLabel.hide();
+// 拦截form提交事件:
+    form.off().submit(function (e) {
+        e.preventDefault();
+        alert(form.serialize());
+    });
+
+    selectAll.click(function () {
+        var isSelectAll = selectAll.is(':checked');
+        langs.prop('checked', isSelectAll);
+        // if (isSelectAll) {
+        //     selectAllLabel.hide();
+        //     deselectAllLabel.show();
+        // } else {
+        //     selectAllLabel.show();
+        //     deselectAllLabel.hide();
+        // }
+        selectAllLabel.toggle(!this.checked);
+        deselectAllLabel.toggle(this.checked)
+    });
+    // invertSelect.click(function () {
+    //     // langs.prop('checked', function (i, val) {
+    //     //     return !val;
+    //     // });
+    //     // langs.each(function () {
+    //     //     var lang = $(this);
+    //     //     lang.prop('checked', !lang.is(':checked'));
+    //     //     lang.change();
+    //     // });
+    //     langs.click();
+    // });
+
+    invertSelect.click(()=>langs.click());
+
+    langs.change(function () {
+
+        //注意箭头函数和匿名函数的区别：箭头函数的this指向window对象，而匿名函数的this指向call这个函数的对象
+        // var allChecked = langs.map(() => { //Error
+        //     console.log("langs.change map thisType=" + this.type + ' this=' + this + " value=" + this.value);
+        //     return this.checked;
+        // }).get().reduce((x, y) => x && y);
+
+        // var allChecked = langs.map(function () { //此处不可换成箭头函数, 箭头函数this指向外层,匿名函数指向内层
+        //     return this.checked;
+        // }).get().reduce((x, y) => x && y);
+
+        var allChecked = langs.map(function () {
+            return this.checked;
+        }).get().every(x => x);
+
+        // var allChecked = langs.filter(':not(:checked)').length == 0;
+
+        if (allChecked || selectAll.is(":checked")) {
+            selectAll.prop('checked', allChecked);
+            selectAllLabel.toggle(!allChecked);
+            deselectAllLabel.toggle(allChecked)
+        }
+    });
+}
