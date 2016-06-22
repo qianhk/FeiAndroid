@@ -196,7 +196,9 @@ var RCTZhiHuDaily = React.createClass({
     }
 });
 
-AppRegistry.registerComponent('RnPractice', () => RCTZhiHuDaily);
+var MeiTuan = require('./meituan');
+
+AppRegistry.registerComponent('RnPractice', () => MeiTuan);
 
 // import React, { Component } from 'react';
 // import {
