@@ -89,7 +89,6 @@ class AwesomeProject extends Component {
         );
     }
 }
-;
 
 var styles = StyleSheet.create({
     container: {
@@ -120,146 +119,8 @@ var styles = StyleSheet.create({
     },
 });
 
-var styles = StyleSheet.create({
-    style_1: {
-        height: 40,
-        borderWidth: 1,
-        borderColor: 'red',
-    }
-});
 
-var HelloWorld = React.createClass({
-    render: function () {
-        return (
-            <View >
-                <View style={styles.style_1}></View>
-            </View>
-        );
-    }
-});
+const MeiTuan = require('./meituan');
+const ZhiHuDaily = require('./zhihu/ZhihuDaily');
 
-var SplashScreen = require('./SplashScreen');
-var TimerMixin = require('react-timer-mixin');
-
-var RCTZhiHuDaily = React.createClass({
-    mixins: [TimerMixin],
-    componentDidMount: function () {
-        this.setTimeout(
-            () => {
-                this.setState({splashed: true});
-            },
-            2000,
-        );
-    },
-    RouteMapper: function (route, navigationOperations, onComponentRef) {
-        _navigator = navigationOperations;
-        if (route.name === 'home') {
-            return (
-                <View style={styles.container}>
-                    <MainScreen navigator={navigationOperations}/>
-                </View>
-            );
-        } else if (route.name === 'story') {
-            return (
-                <View style={styles.container}>
-                    <StoryScreen
-                        style={{flex: 1}}
-                        navigator={navigationOperations}
-                        story={route.story}/>
-                </View>
-            );
-        }
-    },
-    getInitialState: function () {
-        return {
-            splashed: false
-        };
-    },
-    onActionSelected: function (position) {
-    },
-    render: function () {
-        if (this.state.splashed) {
-            var initialRoute = {name: 'home'};
-            return (
-                <Navigator
-                    style={styles.container}
-                    initialRoute={initialRoute}
-                    configureScene={() => Navigator.SceneConfigs.FadeAndroid}
-                    renderScene={this.RouteMapper}
-                />
-            );
-        } else {
-            return (
-                <SplashScreen />
-            );
-        }
-    }
-});
-
-var MeiTuan = require('./meituan');
-
-AppRegistry.registerComponent('RnPractice', () => MeiTuan);
-
-// import React, { Component } from 'react';
-// import {
-//   AppRegistry,
-//   StyleSheet,
-//   Text,
-//   Image,
-//   View
-// } from 'react-native';
-
-// var MOCKED_MOVIES_DATA = [
-//   {title: '标题', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
-// ];
-
-// class RnPractice extends Component {
-//   render() {
-//     var movie = MOCKED_MOVIES_DATA[0];
-//     return (
-//       <View style={styles.container}>
-//         <Text style={styles.welcome}>
-//           Welcome to React Native!
-//         </Text>
-//         <Text style={styles.instructions}>
-//           To get started, edit index.android.js  kai掌2
-//         </Text>
-//         <Text style={styles.instructions}>
-//           Shake or press menu button for dev menu
-//         </Text>
-
-//         <Image source={{uri: movie.posters.thumbnail}} 
-//           style={styles.thumbnail}/>
-//           <View style={styles.rightContainer}>
-//           <Text>{movie.title}</Text>
-//         <Text>{movie.year}</Text>
-//           </View>
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#F5FCFF',
-//   },
-//   welcome: {
-//     fontSize: 20,
-//     textAlign: 'center',
-//     margin: 10,
-//   },
-//   instructions: {
-//     textAlign: 'center',
-//     color: '#333333',
-//     marginBottom: 5,
-//   },
-//   thumbnail:{
-//       width: 100,
-//       height: 200,
-//   },
-// });
-
-// AppRegistry.registerComponent('RnPractice', () => RnPractice);
+AppRegistry.registerComponent('RnPractice', () => ZhiHuDaily);

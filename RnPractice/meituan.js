@@ -21,7 +21,7 @@ class MeiTuan extends Component {
             <View style={{}}>
                 <View style={[styles.height160, styles.row,]}>
                     <View style={[styles.height160, styles.part_1_left,]}>
-                        <Text style={[styles.font14, styles.marTop18, styles.marLeft10, styles.green]}>我们约吧</Text>
+                        <Text style={[styles.font14, styles.marTop18, styles.marLeft10, styles.green]}>我们约吧2</Text>
                         <Text style={[styles.font10, styles.marTop14, styles.marLeft10]}>恋爱家人好朋友</Text>
                         <Image style={[styles.yue]}
                                source={{uri: 'http://p0.meituan.net/mmc/fe4d2e89827aa829e12e2557ded363a112289.png'}}></Image>
