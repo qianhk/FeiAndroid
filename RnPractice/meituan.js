@@ -1,25 +1,27 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
+ * Created by ttkai on 16-6-21.
  */
 
 'use strict';
 
-import React, {Component} from 'react';
+import React, {
+    Component,
+} from 'react';
+
 import {
-    AppRegistry,
+    Image,
+    ListView,
     StyleSheet,
     Text,
-    View
+    View,
 } from 'react-native';
 
-class RnPractice extends Component {
+class MeiTuan extends Component {
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>
-                    Welcome to Kai React Native!
+                    Welcome to Kai meituan React Native!
                 </Text>
                 <Text style={styles.instructions}>
                     To get started, edit index.ios.js
@@ -51,7 +53,3 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
 });
-
-
-
-AppRegistry.registerComponent('RnPractice', () => RnPractice);

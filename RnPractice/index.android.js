@@ -3,18 +3,19 @@
  * https://github.com/facebook/react-native
  */
 
- import React, {
-  Component,
+import React, {
+    Component,
 } from 'react';
 
 import {
-  AppRegistry,
-  Image,
-  ListView,
-  StyleSheet,
-  Text,
-  View,
+    AppRegistry,
+    Image,
+    ListView,
+    StyleSheet,
+    Text,
+    View,
 } from 'react-native';
+
 
 var API_KEY = '7waqfqbprs7pajbz28mqf6vz';
 var API_URL = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json';
@@ -23,102 +24,179 @@ var PARAMS = '?apikey=' + API_KEY + '&page_limit=' + PAGE_SIZE;
 var REQUEST_URL = API_URL + PARAMS;
 
 class AwesomeProject extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-      loaded: false,
-    };
-  }
-
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData() {
-    fetch(REQUEST_URL)
-      .then((response) => response.json())
-      .then((responseData) => {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
-          loaded: true,
-        });
-      })
-      .done();
-  }
-
-  render() {
-    if (!this.state.loaded) {
-      return this.renderLoadingView();
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataSource: new ListView.DataSource({
+                rowHasChanged: (row1, row2) => row1 !== row2,
+            }),
+            loaded: false,
+        };
     }
 
-    return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderMovie}
-        style={styles.listView}
-      />
-    );
-  }
+    componentDidMount() {
+        this.fetchData();
+    }
 
-  renderLoadingView() {
-    return (
-      <View style={styles.container}>
-        <Text>
-          Loading movies...
-        </Text>
-      </View>
-    );
-  }
+    fetchData() {
+        fetch(REQUEST_URL)
+            .then((response) => response.json())
+            .then((responseData) => {
+                this.setState({
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
+                    loaded: true,
+                });
+            })
+            .done();
+    }
 
-  renderMovie(movie) {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{uri: movie.posters.thumbnail}}
-          style={styles.thumbnail}
-        />
-        <View style={styles.rightContainer}>
-          <Text style={styles.title}>{movie.title}</Text>
-          <Text style={styles.year}>{movie.year}</Text>
-        </View>
-      </View>
-    );
-  }
-};
+    render() {
+        if (!this.state.loaded) {
+            return this.renderLoadingView();
+        }
+
+        return (
+            <ListView
+                dataSource={this.state.dataSource}
+                renderRow={this.renderMovie}
+                style={styles.listView}
+            />
+        );
+    }
+
+    renderLoadingView() {
+        return (
+            <View style={styles.container}>
+                <Text>
+                    Loading movies...
+                </Text>
+            </View>
+        );
+    }
+
+    renderMovie(movie) {
+        return (
+            <View style={styles.container}>
+                <Image
+                    source={{uri: movie.posters.thumbnail}}
+                    style={styles.thumbnail}
+                />
+                <View style={styles.rightContainer}>
+                    <Text style={styles.title}>{movie.title}</Text>
+                    <Text style={styles.year}>{movie.year}</Text>
+                </View>
+            </View>
+        );
+    }
+}
+;
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  rightContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  year: {
-    textAlign: 'center',
-  },
-  thumbnail: {
-    width: 53,
-    height: 81,
-  },
-  listView: {
-    paddingTop: 20,
-    backgroundColor: '#F5FCFF',
-  },
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    rightContainer: {
+        flex: 1,
+    },
+    title: {
+        fontSize: 20,
+        marginBottom: 8,
+        textAlign: 'center',
+    },
+    year: {
+        textAlign: 'center',
+    },
+    thumbnail: {
+        width: 53,
+        height: 81,
+    },
+    listView: {
+        paddingTop: 20,
+        backgroundColor: '#F5FCFF',
+    },
 });
 
-AppRegistry.registerComponent('RnPractice', () => AwesomeProject);
+var styles = StyleSheet.create({
+    style_1: {
+        height: 40,
+        borderWidth: 1,
+        borderColor: 'red',
+    }
+});
+
+var HelloWorld = React.createClass({
+    render: function () {
+        return (
+            <View >
+                <View style={styles.style_1}></View>
+            </View>
+        );
+    }
+});
+
+var SplashScreen = require('./SplashScreen');
+var TimerMixin = require('react-timer-mixin');
+
+var RCTZhiHuDaily = React.createClass({
+    mixins: [TimerMixin],
+    componentDidMount: function () {
+        this.setTimeout(
+            () => {
+                this.setState({splashed: true});
+            },
+            2000,
+        );
+    },
+    RouteMapper: function (route, navigationOperations, onComponentRef) {
+        _navigator = navigationOperations;
+        if (route.name === 'home') {
+            return (
+                <View style={styles.container}>
+                    <MainScreen navigator={navigationOperations}/>
+                </View>
+            );
+        } else if (route.name === 'story') {
+            return (
+                <View style={styles.container}>
+                    <StoryScreen
+                        style={{flex: 1}}
+                        navigator={navigationOperations}
+                        story={route.story}/>
+                </View>
+            );
+        }
+    },
+    getInitialState: function () {
+        return {
+            splashed: false
+        };
+    },
+    onActionSelected: function (position) {
+    },
+    render: function () {
+        if (this.state.splashed) {
+            var initialRoute = {name: 'home'};
+            return (
+                <Navigator
+                    style={styles.container}
+                    initialRoute={initialRoute}
+                    configureScene={() => Navigator.SceneConfigs.FadeAndroid}
+                    renderScene={this.RouteMapper}
+                />
+            );
+        } else {
+            return (
+                <SplashScreen />
+            );
+        }
+    }
+});
+
+AppRegistry.registerComponent('RnPractice', () => RCTZhiHuDaily);
 
 // import React, { Component } from 'react';
 // import {
@@ -147,7 +225,7 @@ AppRegistry.registerComponent('RnPractice', () => AwesomeProject);
 //         <Text style={styles.instructions}>
 //           Shake or press menu button for dev menu
 //         </Text>
-        
+
 //         <Image source={{uri: movie.posters.thumbnail}} 
 //           style={styles.thumbnail}/>
 //           <View style={styles.rightContainer}>

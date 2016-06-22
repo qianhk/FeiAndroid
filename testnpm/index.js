@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require("underscore");
-var $ = require("jquery");
 var hello = require('./hello');
 var greet2 = require('./hello');
 
@@ -18,5 +17,3 @@ hello.greet6('kai');
 // $.getJSON('http://www.liaoxuefeng.com/api/categories', function(data) {
 //   console.log('io result: ' + data);
 // });
-
-

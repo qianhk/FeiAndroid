@@ -23,7 +23,7 @@ function greet5(name) {
 }
 
 function greet6(name) {
-	console.log('hello6' + ', ' + name + '!');
+	console.log('hello6, $(name) !!');
 }
 
 
