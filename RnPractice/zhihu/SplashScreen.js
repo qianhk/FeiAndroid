@@ -52,6 +52,7 @@ var SplashScreen = React.createClass({
         };
     },
     componentDidMount: function () {
+        // setTimeout(() => this.fetchData(), 1000);
         this.fetchData();
         this.state.bounceValue.setValue(1);
         Animated.timing(
@@ -67,8 +68,11 @@ var SplashScreen = React.createClass({
         if (this.state.cover) {
             img = {uri: this.state.cover.img};
             text = this.state.cover.text;
+            // console.log('run over conver')
         } else {
-            img = require('image!splash');
+            // console.log('run over no conver')
+            // img = require('image!splash');
+            img = require("../pic/splash.png");
             text = '';
         }
 
@@ -87,7 +91,7 @@ var SplashScreen = React.createClass({
                 <Text style={styles.text}>
                     {text}
                 </Text>
-                <Image style={styles.logo} source={require('image!splash_logo')}/>
+                <Image style={styles.logo} source={require('../pic/splash_logo.png')}/>
             </View>
         );
     }
@@ -97,6 +101,7 @@ var styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
+        // backgroundColor: '#F0F',
     },
     cover: {
         flex: 1,
@@ -108,7 +113,7 @@ var styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: 30,
+        bottom: 36,
         height: 54,
         backgroundColor: 'transparent',
     },

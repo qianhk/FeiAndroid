@@ -22,5 +22,6 @@ import {
 const MeiTuan = require('./meituan');
 const ZhiHuDaily = require('./zhihu/ZhihuDaily');
 import MovieFetcher from './MovieFetcher';
+const MoviesApp = require('./movie/MoviesApp.android');
 
-AppRegistry.registerComponent('RnPractice', () => MovieFetcher);
+AppRegistry.registerComponent('RnPractice', () => MoviesApp);
