@@ -15,5 +15,6 @@ const ZhiHuDaily = require('./zhihu/ZhihuDaily');
 import MovieFetcher from './MovieFetcher';
 const MoviesApp = require('./movie/MoviesApp.android');
 const TicTacToeApp = require('./TicTacToeApp');
+const UIExplorerApp = require('./UIExplorer/UIExplorerApp.android')
 
-AppRegistry.registerComponent('RnPractice', () => TicTacToeApp);
+AppRegistry.registerComponent('RnPractice', () => UIExplorerApp);
