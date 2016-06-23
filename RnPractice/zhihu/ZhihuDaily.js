@@ -14,6 +14,7 @@ import {
     Text,
     View,
     Navigator,
+    BackAndroid,
 } from 'react-native';
 
 var SplashScreen = require('./SplashScreen');

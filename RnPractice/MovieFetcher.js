@@ -13,6 +13,7 @@ import {
     Text,
     View,
     ListView,
+    TouchableHighlight,
 } from 'react-native';
 
 
@@ -29,7 +30,7 @@ export default class MovieFetcher extends Component {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2,
             })
-            , loaded: false
+            , loadState: 0
         };
         this.fetchData = this.fetchData.bind(this);
     }
@@ -44,21 +45,29 @@ export default class MovieFetcher extends Component {
             .then((responseData) => {
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
-                    loaded: true,
+                    loadState: 1,
+                });
+            })
+            .catch((error) => {
+                this.setState({
+                    loadState: -1
                 });
             })
             .done();
     }
 
     render() {
-        if (!this.state.loaded) {
+        if (this.state.loadState === 0) {
             return this.renderLoadingView();
+        } else if (this.state.loadState < 0) {
+            return this.renderLoadFailedView();
         }
 
         return (
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this.renderMovie}
+                renderSeparator={this.renderMovieSeparator}
                 style={styles.listView}
             />
         );
@@ -66,38 +75,65 @@ export default class MovieFetcher extends Component {
 
     renderLoadingView() {
         return (
-            <View style={styles.container}>
-                <Text>
+            <View style={styles.loadingContainer}>
+                <Text style={{color:'#FFF'}}>
                     正在加载电影数据……
                 </Text>
             </View>
         );
     }
 
-    renderMovie(movie) {
+    renderLoadFailedView() {
         return (
-            <View style={styles.container}>
-                <Image
-                    source={{uri: movie.posters.thumbnail}}
-                    style={styles.thumbnail}
-                />
-                <View style={styles.rightContainer}>
-                    <Text style={styles.title}>{movie.title}</Text>
-                    <Text style={styles.year}>{movie.year}</Text>
-                </View>
+            <View style={styles.loadingContainer}>
+                <Text style={{color:'#F00'}}>
+                    加载失败
+                </Text>
             </View>
+        );
+    }
+
+    renderMovieSeparator() {
+        return (
+            <View style={styles.separator}/>
+        );
+    }
+
+    renderMovie(movie, sectionId, rowId) {
+        return (
+            <TouchableHighlight>
+                <View style={[styles.itemContainer, rowId % 2 == 0 && {backgroundColor: '#0FF'}]}>
+                    <Image
+                        source={{uri: movie.posters.thumbnail}}
+                        style={styles.thumbnail}
+                    />
+                    <View style={styles.rightContainer}>
+                        <Text style={styles.title}>{movie.title}</Text>
+                        <Text style={styles.year}>{movie.year}</Text>
+                    </View>
+                </View>
+            </TouchableHighlight>
         );
     }
 }
 
 var styles = StyleSheet.create({
-    container: {
+    loadingContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 10,
-        backgroundColor: '#F5FCFF',
+        padding: 0,
+        backgroundColor: '#2862C2',
+    },
+    itemContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 0,
+        backgroundColor: '#F0F',
+        paddingVertical: 10,
     },
     rightContainer: {
         flex: 1,
@@ -114,8 +150,13 @@ var styles = StyleSheet.create({
         width: 53,
         height: 81,
     },
+    separator: {
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        height: 1,
+        marginVertical: 0,
+    },
     listView: {
         paddingTop: 20,
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#58E2C2',
     },
 });
