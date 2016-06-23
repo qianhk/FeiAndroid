@@ -6,11 +6,6 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "react": "15.1.0",
-    "react-native": "^0.27.2",
-    "react-timer-mixin": "^0.13.3",
-    "react-native-drawer": "^2.2.0",
-    "react-native-viewpager": "^0.2.0",
     "absolute-path": "^0.0.0",
     "art": "^0.10.0",
     "babel-core": "^6.6.4",
@@ -56,9 +51,16 @@
     "plist": "^1.2.0",
     "progress": "^1.1.8",
     "promise": "^7.1.1",
+    "react": "15.1.0",
     "react-clone-referenced-element": "^1.0.1",
+    "react-native": "^0.27.2",
+    "react-native-drawer": "^2.2.0",
+    "react-native-viewpager": "^0.2.0",
+    "react-redux": "^4.4.5",
+    "react-timer-mixin": "^0.13.3",
     "react-transform-hmr": "^1.0.4",
     "rebound": "^0.0.13",
+    "redux": "^3.5.2",
     "regenerator-runtime": "^0.9.5",
     "sane": "^1.2.0",
     "semver": "^5.0.3",
@@ -85,6 +87,7 @@
     "jest": "12.1.1",
     "portfinder": "0.4.0",
     "react": "~15.2.0-rc.1",
+    "redux-devtools": "^3.3.1",
     "shelljs": "0.6.0"
   }
 }
