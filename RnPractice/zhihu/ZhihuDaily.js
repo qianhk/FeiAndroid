@@ -19,7 +19,17 @@ import {
 var SplashScreen = require('./SplashScreen');
 var TimerMixin = require('react-timer-mixin');
 var MainScreen = require('./MainScreen');
-// var StoryScreen = require('./StoryScreen');
+var StoryScreen = require('./StoryScreen');
+
+var _navigator;
+
+BackAndroid.addEventListener('hardwareBackPress', function () {
+    if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+        _navigator.pop();
+        return true;
+    }
+    return false;
+});
 
 class RCTZhiHuDaily extends Component {
     // mixins: [TimerMixin]
@@ -44,7 +54,7 @@ class RCTZhiHuDaily extends Component {
     }
 
     RouteMapper(route, navigationOperations, onComponentRef) {
-        // _navigator = navigationOperations;
+        _navigator = navigationOperations;
         if (route.name === 'home') {
             return (
                 <View style={styles.container}>
