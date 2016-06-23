@@ -3,25 +3,17 @@
  * https://github.com/facebook/react-native
  */
 
-import React, {
-    Component,
-} from 'react';
+import React, {} from 'react';
 
 import {
     AppRegistry,
-    Image,
-    ListView,
-    StyleSheet,
-    Text,
-    View,
 } from 'react-native';
-
-
 
 
 const MeiTuan = require('./meituan');
 const ZhiHuDaily = require('./zhihu/ZhihuDaily');
 import MovieFetcher from './MovieFetcher';
 const MoviesApp = require('./movie/MoviesApp.android');
+const TicTacToeApp = require('./TicTacToeApp');
 
-AppRegistry.registerComponent('RnPractice', () => MoviesApp);
+AppRegistry.registerComponent('RnPractice', () => TicTacToeApp);
