@@ -13,10 +13,13 @@ import {
     StyleSheet,
     Text,
     View,
+    Navigator,
 } from 'react-native';
 
 var SplashScreen = require('./SplashScreen');
 var TimerMixin = require('react-timer-mixin');
+var MainScreen = require('./MainScreen');
+// var StoryScreen = require('./StoryScreen');
 
 class RCTZhiHuDaily extends Component {
     // mixins: [TimerMixin]
@@ -27,15 +30,17 @@ class RCTZhiHuDaily extends Component {
         this.state = {
             splashed: false,
         }
+        // setTimeout = setTimeout.bind(this);
+        // this.setState = this.setState.bind(this);
+        // this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     componentDidMount() {
-        // this.setTimeout(
-        //     () => {
-        //         this.setState({splashed: true});
-        //     },
-        //     2000,
-        // );
+        // let self = this;
+        // setTimeout(function () {
+        //     self.setState({splashed: true});
+        // }, 2000);
+        setTimeout(() => this.setState({splashed: true}), 2000);
     }
 
     RouteMapper(route, navigationOperations, onComponentRef) {
@@ -79,5 +84,17 @@ class RCTZhiHuDaily extends Component {
         }
     }
 }
+
+var styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+    },
+    instructions: {
+        textAlign: 'center',
+        color: '#333333',
+        marginBottom: 5,
+    },
+});
 
 module.exports = RCTZhiHuDaily;

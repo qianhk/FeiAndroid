@@ -3,8 +3,9 @@ package com.njnu.kai.rn;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.njnu.kai.rn.view.CustomReactPackage;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends ReactActivity {
@@ -33,8 +34,12 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-                new MainReactPackage()
-        );
+        ArrayList<ReactPackage> reactPackageList = new ArrayList<>();
+        reactPackageList.add(new MainReactPackage());
+        reactPackageList.add(new CustomReactPackage());
+        return reactPackageList;
+//        return Arrays.<ReactPackage>asList(
+//                new MainReactPackage()
+//        );
     }
 }

@@ -1,15 +1,5 @@
 'use strict';
 
-// var React = require('react-native');
-// var {
-//     AsyncStorage,
-//     Image,
-//     StyleSheet,
-//     Text,
-//     View,
-//     Dimensions,
-// } = React;
-
 import React, {
     Component,
 } from 'react';
