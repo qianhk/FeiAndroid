@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 var SplashScreen = require('./SplashScreen');
-var TimerMixin = require('react-timer-mixin');
+import {Timer} from 'react-timer-mixin';
 var MainScreen = require('./MainScreen');
 var StoryScreen = require('./StoryScreen');
 
@@ -51,7 +51,11 @@ class RCTZhiHuDaily extends Component {
         // setTimeout(function () {
         //     self.setState({splashed: true});
         // }, 2000);
-        setTimeout(() => this.setState({splashed: true}), 2000);
+        this.timer = setTimeout(() => this.setState({splashed: true}), 2000);
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
     }
 
     RouteMapper(route, navigationOperations, onComponentRef) {

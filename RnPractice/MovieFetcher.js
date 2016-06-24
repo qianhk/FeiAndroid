@@ -99,9 +99,13 @@ export default class MovieFetcher extends Component {
         );
     }
 
-    renderMovie(movie, sectionId, rowId) {
+    renderMovie(movie, sectionId, rowId, highlightRow) {
         return (
-            <TouchableHighlight>
+            <TouchableHighlight
+                activeOpacit={0.1}
+                underlayColor="#00F"
+                onPress={()=> {highlightRow(sectionId, rowId)}}
+            >
                 <View style={[styles.itemContainer, rowId % 2 == 0 && {backgroundColor: '#0FF'}]}>
                     <Image
                         source={{uri: movie.posters.thumbnail}}
@@ -147,8 +151,8 @@ var styles = StyleSheet.create({
         textAlign: 'center',
     },
     thumbnail: {
-        width: 53,
-        height: 81,
+        width: 60,
+        height: 80,
     },
     separator: {
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
