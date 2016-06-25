@@ -17,6 +17,8 @@
   "scripts": {
     "build": "browserify ./index.js -t babelify -o bundle.js",
     "lsl": "ls -al",
-    "start": "watchify ./index.js -v -t babelify -o bundle.js"
+    "start": "watchify ./index.js -v -t babelify -o bundle.js",
+    "start2": "babel --watch index.js -o bundle.js",
+    "start3": "babel --presets es2015,react --watch src/ --out-dir lib/"
   }
 }
