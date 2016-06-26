@@ -13,9 +13,9 @@ import {
 const MeiTuan = require('./meituan');
 const ZhiHuDaily = require('./zhihu/ZhihuDaily');
 import MovieFetcher from './MovieFetcher';
-const MoviesApp = require('./movie/MoviesApp.android');
+const MoviesApp = require('./movie/MoviesApp');
 const TicTacToeApp = require('./TicTacToeApp');
-const UIExplorerApp = require('./UIExplorer/UIExplorerApp.android');
+const UIExplorerApp = require('./UIExplorer/UIExplorerApp');
 const Game2048 = require('./2048/Game2048');
 
-AppRegistry.registerComponent('RnPractice', () => MovieFetcher);
+AppRegistry.registerComponent('RnPractice', () => UIExplorerApp);

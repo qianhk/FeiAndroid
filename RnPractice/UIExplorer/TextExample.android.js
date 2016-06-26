@@ -26,6 +26,8 @@ var {
 var UIExplorerBlock = require('./UIExplorerBlock');
 var UIExplorerPage = require('./UIExplorerPage');
 
+import timeago from 'timeago';
+
 var Entity = React.createClass({
   render: function() {
     return (
@@ -166,7 +168,7 @@ var TextExample = React.createClass({
           <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
             <View style={{flex: 1}}>
               <Text style={{fontFamily: 'notoserif'}}>
-                NotoSerif Regular
+                NotoSerif Regular + timeago.format('2016-07-12');
               </Text>
               <Text style={{fontFamily: 'notoserif', fontStyle: 'italic', fontWeight: 'bold'}}>
                 NotoSerif Bold Italic

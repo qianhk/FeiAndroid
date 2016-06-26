@@ -55,7 +55,7 @@ class RCTZhiHuDaily extends Component {
     }
 
     componentWillUnmount() {
-        clearTimeout(this.timer);
+        this.timer && clearTimeout(this.timer);
     }
 
     RouteMapper(route, navigationOperations, onComponentRef) {

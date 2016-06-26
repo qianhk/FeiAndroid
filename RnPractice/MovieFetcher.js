@@ -13,6 +13,7 @@ import {
     Text,
     View,
     ListView,
+    ToastAndroid,
     TouchableHighlight,
 } from 'react-native';
 
@@ -33,6 +34,8 @@ export default class MovieFetcher extends Component {
             , loadState: 0
         };
         this.fetchData = this.fetchData.bind(this);
+        this._handleRowPress = this._handleRowPress.bind(this);
+        this.renderMovie = this.renderMovie.bind(this);
     }
 
     componentDidMount() {
@@ -99,12 +102,19 @@ export default class MovieFetcher extends Component {
         );
     }
 
+    _handleRowPress(item) {
+        ToastAndroid.show("haha " + item.title, ToastAndroid.SHORT)
+    }
+
     renderMovie(movie, sectionId, rowId, highlightRow) {
         return (
             <TouchableHighlight
                 activeOpacit={0.1}
                 underlayColor="#00F"
-                onPress={()=> {highlightRow(sectionId, rowId)}}
+                onPress={()=> {
+                highlightRow(sectionId, rowId);
+                this._handleRowPress(movie);
+                }}
             >
                 <View style={[styles.itemContainer, rowId % 2 == 0 && {backgroundColor: '#0FF'}]}>
                     <Image
@@ -119,6 +129,7 @@ export default class MovieFetcher extends Component {
             </TouchableHighlight>
         );
     }
+
 }
 
 var styles = StyleSheet.create({
