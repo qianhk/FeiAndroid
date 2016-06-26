@@ -11,6 +11,7 @@
  */
 
 var fs = require('fs');
+var fsp = require('fs-promise');
 var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -28,7 +29,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(function (req, res, next) {
     // Set permissive CORS header - this allows this server to be used only as
     // an API server in conjunction with something like webpack-dev-server.
-    console.log("port=" + app.get('port') + " dirname=" + __dirname)
+    // console.log("port=" + app.get('port') + " dirname=" + __dirname)
 
     res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -37,17 +38,37 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/api/comments', function (req, res) {
-    fs.readFile(COMMENTS_FILE, function (err, data) {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
+app.all('/api/comments', function (req, res) {
+
+    let promise;
+
+    // promise = new Promise(function (resolve, reject) {
+    //     fs.readFile(COMMENTS_FILE, function (err, data) {
+    //             if (err) {
+    //                 reject(err);
+    //             } else {
+    //                 resolve(data);
+    //             }
+    //         }
+    //     );
+    // });
+    promise = fsp.readFile(COMMENTS_FILE);
+
+    promise.then(data => {
+        console.log("读取文件成功 length=" + data.length);
         res.json(JSON.parse(data));
+        // res.write(JSON.parse(data));
+        // res.send();
+    }).catch(err => {
+        console.error(err);
+        res.status(503);
+        res.header('Content-type', 'text/html;charset=utf-8;kai=hong');
+        res.write("你妹 ,json转换错误")
+        res.send();
     });
 });
 
-app.post('/api/comments', function (req, res) {
+app.post('/api/send_comment', function (req, res) {
     fs.readFile(COMMENTS_FILE, function (err, data) {
         if (err) {
             console.error(err);
