@@ -18,7 +18,13 @@ import {
     TouchableHighlight,
 } from 'react-native';
 
-const TEST_ITEM_LIST = [{_id: 100, name: "MoveFetch"}, {_id: 101, name: "Game 2048"}];
+const TEST_ITEM_LIST = [
+    {_id: 100, key: 'movieFetch', name: "MovieFetch"}
+    , {
+        _id: 101,
+        key: 'game2048',
+        name: "Game 2048"
+    },];
 
 export default class TestEntry extends Component {
     constructor(props) {
@@ -55,7 +61,12 @@ export default class TestEntry extends Component {
     }
 
     _handleRowPress(item) {
-        ToastAndroid.show("haha " + item.name, ToastAndroid.SHORT)
+        // ToastAndroid.show("haha " + item.name, ToastAndroid.SHORT)
+        this.props.navigator.push({
+            title: item.name,
+            name: item.key,
+            item: item,
+        });
     }
 
     renderTestItem(item, sectionId, rowId, highlightRow) {
