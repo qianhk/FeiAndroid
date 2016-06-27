@@ -13,13 +13,6 @@ import {
 } from 'react-native';
 
 
-const MeiTuan = require('./meituan');
-const ZhiHuDaily = require('./zhihu/ZhihuDaily');
-import MovieFetcher from './MovieFetcher';
-const MoviesApp = require('./movie/MoviesApp');
-const TicTacToeApp = require('./TicTacToeApp');
-const UIExplorerApp = require('./UIExplorer/UIExplorerApp');
-const Game2048 = require('./2048/Game2048');
 import TestEntry from './TestEntry';
 
 var _navigator;
@@ -36,10 +29,8 @@ var RouteMapper = function (route, navigationOperations, onComponentRef) {
     _navigator = navigationOperations;
     if (route.name === "testEntry") {
         return (<TestEntry navigator={navigationOperations}/>);
-    } else if (route.name === 'movieFetch') {
-        return (<MovieFetcher navigator={navigationOperations}/>);
-    } else if (route.name === 'game2048') {
-        return (<Game2048 navigator={navigationOperations}/>);
+    } else {
+        return (<route.component navigator={navigationOperations}/>);
     }
 }
 

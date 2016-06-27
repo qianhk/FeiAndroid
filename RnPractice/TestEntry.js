@@ -18,13 +18,23 @@ import {
     TouchableHighlight,
 } from 'react-native';
 
+const MeiTuan = require('./meituan');
+const ZhiHuDaily = require('./zhihu/ZhihuDaily');
+import MovieFetcher from './MovieFetcher';
+const MoviesApp = require('./movie/MoviesApp');
+const TicTacToeApp = require('./TicTacToeApp');
+const UIExplorerApp = require('./UIExplorer/UIExplorerApp');
+const Game2048 = require('./2048/Game2048');
+
 const TEST_ITEM_LIST = [
-    {_id: 100, key: 'movieFetch', name: "MovieFetch"}
-    , {
-        _id: 101,
-        key: 'game2048',
-        name: "Game 2048"
-    },];
+    {_id: 100, component: MovieFetcher, name: "MovieFetch"}
+    , {_id: 101, component: Game2048, name: "Game 2048"}
+    , {_id: 102, component: MeiTuan, name: "MeiTuan"}
+    , {_id: 103, component: ZhiHuDaily, name: "ZhiHuDaily"}
+    , {_id: 104, component: MoviesApp, name: "MoviesApp"}
+    , {_id: 105, component: UIExplorerApp, name: "UIExplorerApp"}
+    , {_id: 106, component: TicTacToeApp, name: "TicTacToeApp"}
+];
 
 export default class TestEntry extends Component {
     constructor(props) {
@@ -41,7 +51,6 @@ export default class TestEntry extends Component {
     componentDidMount() {
         this.setState({dataSource: this.state.dataSource.cloneWithRows(TEST_ITEM_LIST)});
     }
-
 
     render() {
         return (
@@ -63,9 +72,8 @@ export default class TestEntry extends Component {
     _handleRowPress(item) {
         // ToastAndroid.show("haha " + item.name, ToastAndroid.SHORT)
         this.props.navigator.push({
-            title: item.name,
-            name: item.key,
             item: item,
+            component: item.component
         });
     }
 
