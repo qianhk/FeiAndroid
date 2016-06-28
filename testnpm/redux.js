@@ -9,12 +9,12 @@ import {Provider, connect} from 'react-redux'
 // React component
 class Counter extends Component {
     render() {
-        const {value, onIncreaseClick, onDecreaseClick} = this.props
+        const {value, onDecreaseClick, dispatch} = this.props
         return (
             <div>
                 <span>{value}</span>
-                <button onClick={onIncreaseClick}>Increase</button>
-                <button onClick={onDecreaseClick}>Decrease</button>
+                <button onClick={()=>{dispatch(increaseAction)}}>Increase</button>
+                <button onClick={()=>{dispatch(decreaseAction)}}>Decrease</button>
             </div>
         )
     }
@@ -22,8 +22,8 @@ class Counter extends Component {
 
 Counter.propTypes = {
     value: PropTypes.number.isRequired,
-    onIncreaseClick: PropTypes.func.isRequired,
-    onDecreaseClick: PropTypes.func.isRequired,
+    // onIncreaseClick: PropTypes.func.isRequired,
+    // onDecreaseClick: PropTypes.func.isRequired,
 }
 
 // Action
@@ -31,13 +31,13 @@ const increaseAction = {type: 'increase'}
 const decreaseAction = {type: 'decrease'}
 
 // Reducer
-function counter2(state = {count: 0}, action) {
+function counter2(state = {count: 82}, action) {
     const count = state.count
     switch (action.type) {
         case 'increase':
-            return {count: count + 1}
+            return {count: count + 2}
         case 'decrease':
-            return {count: count - 1}
+            return {count: count - 2}
         default:
             return state
     }
@@ -54,17 +54,17 @@ function mapStateToProps(state) {
 }
 
 // Map Redux actions to component props
-function mapDispatchToProps(dispatch) {
-    return {
-        onIncreaseClick: () => dispatch(increaseAction),
-        onDecreaseClick: () => dispatch(decreaseAction),
-    }
-}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         onIncreaseClick: () => dispatch(increaseAction),
+//         onDecreaseClick: () => dispatch(decreaseAction),
+//     }
+// }
 
 // Connected Component
 const App = connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
+    // , mapDispatchToProps
 )(Counter)
 
 ReactDOM.render(

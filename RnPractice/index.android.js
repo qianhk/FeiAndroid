@@ -27,16 +27,12 @@ BackAndroid.addEventListener('hardwareBackPress', function () {
 
 var RouteMapper = function (route, navigationOperations, onComponentRef) {
     _navigator = navigationOperations;
-    if (route.name === "testEntry") {
-        return (<TestEntry navigator={navigationOperations}/>);
-    } else {
-        return (<route.component navigator={navigationOperations}/>);
-    }
+    return (<route.component navigator={navigationOperations}/>);
 }
 
 var EntryClass = React.createClass({
     render: function () {
-        var initialRoute = {name: 'testEntry'};
+        let initialRoute = {component: TestEntry};
         return (
             <Navigator
                 style={styles.container}

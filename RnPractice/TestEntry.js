@@ -59,8 +59,14 @@ export default class TestEntry extends Component {
                 renderRow={this.renderTestItem}
                 renderSeparator={this.renderTestItemSeparator}
                 style={styles.listView}
+                renderHeader={this.renderHeader}
             />
         );
+    }
+
+    renderHeader() {
+        return (<View style={{flex:1, paddingVertical: 6
+            , justifyContent:'center',alignItems: 'center'}}><Text > kai Test Entry Header</Text></View>);
     }
 
     renderTestItemSeparator() {
