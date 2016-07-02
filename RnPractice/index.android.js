@@ -37,7 +37,7 @@ var EntryClass = React.createClass({
             <Navigator
                 style={styles.container}
                 initialRoute={initialRoute}
-                configureScene={() => Navigator.SceneConfigs.HorizontalSwipeJump}
+                configureScene={() => Navigator.SceneConfigs.PushFromRight}
                 renderScene={RouteMapper}
             />
         );
