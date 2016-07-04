@@ -9,6 +9,7 @@ import AppNavigator from './AppNavigator';
 class App extends Component {
     componentDidMount() {
         AppState.addEventListener('change', this.handleAppStateChange);
+        CodePush.notifyApplicationReady();
     }
 
     componentWillUnmount() {

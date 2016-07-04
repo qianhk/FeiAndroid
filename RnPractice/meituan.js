@@ -112,7 +112,7 @@ class MeiTuan extends Component {
                             </View>
                             <View style={{flex:1}}>
                                 <Image style={{width:60,height:55}}
-                                       source={{uri: 'http://p1.meituan.net/mmc/a616a48152a895ddb34ca45bd97bbc9d13050.png'}}></Image>
+                                       source={require("./pic/test_union.jpg")}></Image>
                             </View>
                         </View>
                     </View>
