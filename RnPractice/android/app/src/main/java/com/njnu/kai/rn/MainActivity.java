@@ -5,8 +5,10 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.microsoft.codepush.react.CodePush;
 import com.njnu.kai.rn.view.CustomReactPackage;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,12 @@ public class MainActivity extends ReactActivity {
         return "RnPractice";
     }
 
+    @Nullable
+    @Override
+    protected String getJSBundleFile() {
+        return CodePush.getJSBundleFile("index.android.bundle");
+    }
+
     /**
      * Returns whether dev mode should be enabled.
      * This enables e.g. the dev menu.
@@ -42,12 +50,11 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected List<ReactPackage> getPackages() {
+        String deploymentKey = BuildConfig.DEBUG ? "hv4DIHXtcGtdChiPqxgwXDFL9kSKVyyaBGmLZ" : "Et9W_AvJDNwcQi8qv4WgwGRe7PD2VyyaBGmLZ";
         ArrayList<ReactPackage> reactPackageList = new ArrayList<>();
         reactPackageList.add(new MainReactPackage());
+        reactPackageList.add(new CodePush(deploymentKey, this, BuildConfig.DEBUG));
         reactPackageList.add(new CustomReactPackage());
         return reactPackageList;
-//        return Arrays.<ReactPackage>asList(
-//                new MainReactPackage()
-//        );
     }
 }

@@ -85,7 +85,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 10
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -121,6 +121,7 @@ android {
 
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
+    compile project(':react-native-code-push')
     compile "com.facebook.react:react-native:+"  // From node_modules
 //    compile(name: 'react-native-0.20.1', ext: 'aar') //本地aar依赖，也放在libs目录
 //    但发现在最新到Android Studio中这样设置之后还是提示找不到react-native-0.14.0包，推测可能是不支持这种老的方式了，那么该如何引入本地.aar依赖呢？目前可行的方式是基于.aar文件新建一个module，并选择导入.JAR/.AAR包
