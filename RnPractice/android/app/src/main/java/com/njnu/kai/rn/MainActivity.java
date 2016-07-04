@@ -50,7 +50,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected List<ReactPackage> getPackages() {
-        String deploymentKey = BuildConfig.DEBUG ? "hv4DIHXtcGtdChiPqxgwXDFL9kSKVyyaBGmLZ" : "Et9W_AvJDNwcQi8qv4WgwGRe7PD2VyyaBGmLZ";
+        String deploymentKey = true ? "hv4DIHXtcGtdChiPqxgwXDFL9kSKVyyaBGmLZ" : "Et9W_AvJDNwcQi8qv4WgwGRe7PD2VyyaBGmLZ";
         ArrayList<ReactPackage> reactPackageList = new ArrayList<>();
         reactPackageList.add(new MainReactPackage());
         reactPackageList.add(new CodePush(deploymentKey, this));

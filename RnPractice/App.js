@@ -9,7 +9,7 @@ import AppNavigator from './AppNavigator';
 class App extends Component {
     componentDidMount() {
         AppState.addEventListener('change', this.handleAppStateChange);
-        CodePush.notifyApplicationReady();
+        CodePush.notifyAppReady();
     }
 
     componentWillUnmount() {
@@ -18,7 +18,7 @@ class App extends Component {
 
     handleAppStateChange(state:string) {
         if (state === 'active') {
-            CodePush.sync({installMode: CodePush.InstallMode.IMMEDIATE});
+            CodePush.sync({installMode: CodePush.InstallMode.IMMEDIATE, minimumBackgroundDuration: 0 * 5});
         }
     }
     render() {
