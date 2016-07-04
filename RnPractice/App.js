@@ -18,7 +18,7 @@ class App extends Component {
 
     handleAppStateChange(state:string) {
         if (state === 'active') {
-            CodePush.sync({installMode: CodePush.InstallMode.IMMEDIATE, minimumBackgroundDuration: 0 * 5});
+            CodePush.sync({installMode: CodePush.InstallMode.IMMEDIATE, minimumBackgroundDuration: 60 * 5});
         }
     }
     render() {
