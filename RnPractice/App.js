@@ -7,9 +7,14 @@ import { StyleSheet, Text, View, AppState} from 'react-native';
 import AppNavigator from './AppNavigator';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.handleAppStateChange = this.handleAppStateChange.bind(this);
+    }
+
     componentDidMount() {
         AppState.addEventListener('change', this.handleAppStateChange);
-        CodePush.notifyAppReady();
+        // CodePush.notifyAppReady();
     }
 
     componentWillUnmount() {
@@ -18,12 +23,17 @@ class App extends Component {
 
     handleAppStateChange(state:string) {
         if (state === 'active') {
-            CodePush.sync({installMode: CodePush.InstallMode.IMMEDIATE, minimumBackgroundDuration: 60 * 5});
+            if (this.props.outprops.native_build_debug) {
+                console.warn("app-in-js native_build_debug yes");
+            } else {
+                console.warn("app-in-js native_build_debug no");
+                CodePush.sync({installMode: CodePush.InstallMode.IMMEDIATE, minimumBackgroundDuration: 60 * 5});
+            }
         }
     }
     render() {
         return (
-            <AppNavigator store={this.props.store} />
+            <AppNavigator store={this.props.store} outprops={this.props.outprops} />
         );
     }
 }

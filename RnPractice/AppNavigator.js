@@ -41,7 +41,13 @@ const reducerCreate = params=> {
 
 var _routeMapper = function (route, navigationOperations, onComponentRef) {
     _navigator = navigationOperations;
-    return (<route.component navigator={navigationOperations}/>);
+    if (route.component == TestEntry) {
+        // console.info("AppNavigator function is TestEntry", route)
+        return (<TestEntry outprops={route.outprops} navigator={navigationOperations}/>);
+    } else {
+        // console.info("AppNavigator function is not TestEntry", route)
+        return (<route.component navigator={navigationOperations}/>);
+    }
 };
 
 
@@ -49,6 +55,7 @@ class AppNavigator extends Component {
 
     constructor(props) {
         super(props);
+        console.info("AppNavigator constructor ", props);
     }
 
     componentDidMount() {
@@ -80,7 +87,7 @@ class AppNavigator extends Component {
     }
 
     render() {
-        let initialRoute = {component: TestEntry};
+        let initialRoute = {component: TestEntry, outprops: this.props.outprops};
         return (
             <Navigator
                 // ref={(ref) => this._navigator = ref}

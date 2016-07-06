@@ -11,8 +11,8 @@ import {StyleSheet, View} from 'react-native';
 
 export default class extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             isLoading: false,
             store: configureStore(()=> this.setState({isLoading: false})),
@@ -21,8 +21,8 @@ export default class extends Component {
 
     render() {
         return (
-            <Provider store={this.state.store}>
-                <App store={this.state.store}/>
+            <Provider store={this.state.store}  >
+                <App store={this.state.store} outprops={this.props}/>
             </Provider>
         );
     }

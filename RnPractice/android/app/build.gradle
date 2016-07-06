@@ -116,10 +116,12 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+//            buildConfigField "String", "CODEPUSH_KEY", "Et9W_AvJDNwcQi8qv4WgwGRe7PD2VyyaBGmLZ"
         }
 
         debug {
             signingConfig signingConfigs.release
+//            buildConfigField "String", "CODEPUSH_KEY", "hv4DIHXtcGtdChiPqxgwXDFL9kSKVyyaBGmLZ"
         }
     }
     // applicationVariants are e.g. debug, release

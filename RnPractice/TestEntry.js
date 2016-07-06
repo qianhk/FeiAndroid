@@ -27,18 +27,19 @@ const UIExplorerApp = require('./UIExplorer/UIExplorerApp');
 const Game2048 = require('./2048/Game2048');
 
 const TEST_ITEM_LIST = [
-    {_id: 100, component: MovieFetcher, name: "MovieFetch"}
-    , {_id: 101, component: Game2048, name: "Game 2048"}
-    , {_id: 102, component: MeiTuan, name: "MeiTuan"}
-    , {_id: 103, component: ZhiHuDaily, name: "ZhiHuDaily"}
-    , {_id: 104, component: MoviesApp, name: "MoviesApp"}
-    , {_id: 105, component: UIExplorerApp, name: "UIExplorerApp"}
-    , {_id: 106, component: TicTacToeApp, name: "TicTacToeApp"}
+    {key: 100, component: MovieFetcher, name: "MovieFetch"}
+    , {key: 101, component: Game2048, name: "Game 2048"}
+    , {key: 102, component: MeiTuan, name: "MeiTuan"}
+    , {key: 103, component: ZhiHuDaily, name: "ZhiHuDaily"}
+    , {key: 104, component: MoviesApp, name: "MoviesApp"}
+    , {key: 105, component: UIExplorerApp, name: "UIExplorerApp"}
+    , {key: 106, component: TicTacToeApp, name: "TicTacToeApp"}
 ];
 
 export default class TestEntry extends Component {
     constructor(props) {
         super(props);
+        console.info("TestEntry constructor ", props.outprops);
         this.state = {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2,
@@ -46,6 +47,7 @@ export default class TestEntry extends Component {
         };
         this._handleRowPress = this._handleRowPress.bind(this);
         this.renderTestItem = this.renderTestItem.bind(this);
+        this.renderHeader = this.renderHeader.bind(this);
     }
 
     componentDidMount() {
@@ -65,8 +67,13 @@ export default class TestEntry extends Component {
     }
 
     renderHeader() {
-        return (<View style={{flex:1, paddingVertical: 6
-            , justifyContent:'center',alignItems: 'center'}}><Text >kai Test Entry Header v11</Text></View>);
+        // let {key_from} = this.props;
+        return (
+            <View style={{flex:1, paddingVertical: 6, justifyContent:'center',alignItems: 'center'}}>
+                <Text >Test Entry Header v07-05 20:16</Text>
+                <Text >native version: {this.props.outprops.native_version}</Text>
+            </View>
+        );
     }
 
     renderTestItemSeparator() {
