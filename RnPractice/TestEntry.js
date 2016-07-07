@@ -118,7 +118,7 @@ export default class TestEntry extends Component {
         // let {key_from} = this.props;
         return (
             <View style={{flex:1, paddingVertical: 6, justifyContent:'center',alignItems: 'center'}}>
-                <Text >Test Entry Header v07-05 20:16</Text>
+                <Text >Test Entry Header v07-07 16:39</Text>
                 <Text >native version: {this.props.outprops.native_version}</Text>
             </View>
         );
