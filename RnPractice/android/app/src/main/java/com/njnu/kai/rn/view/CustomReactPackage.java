@@ -5,6 +5,7 @@ import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
+import com.njnu.kai.rn.modules.ReactAppManagerModule;
 import com.njnu.kai.rn.view.webview.ReactWebViewManager;
 
 import java.util.ArrayList;
@@ -12,13 +13,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Jing on 15/9/22.
  */
 public class CustomReactPackage implements ReactPackage {
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        ArrayList<NativeModule> nativeModuleList = new ArrayList<>();
+        nativeModuleList.add(new ReactAppManagerModule(reactContext));
+        return nativeModuleList;
     }
 
     @Override

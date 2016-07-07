@@ -55,7 +55,6 @@ class AppNavigator extends Component {
 
     constructor(props) {
         super(props);
-        console.info("AppNavigator constructor ", props);
     }
 
     componentDidMount() {

@@ -9,7 +9,6 @@ import com.microsoft.codepush.react.CodePush;
 import com.njnu.kai.rn.view.CustomReactPackage;
 
 import javax.annotation.Nullable;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +38,8 @@ public class MainActivity extends ReactActivity {
         bundle.putInt("key_int", 83);
         bundle.putFloat("key_float", 66.66f);
         bundle.putDouble("key_double", 66.66);
-        bundle.putStringArray("key_string_array", new String[] {"item1", "item2"});
-        bundle.putIntArray("key_int_array", new int[] {4, 5}); //不可long型数组
+        bundle.putStringArray("key_string_array", new String[]{"item1", "item2"});
+        bundle.putIntArray("key_int_array", new int[]{4, 5}); //不可long型数组
 
         Bundle bundleInfo = new Bundle();
         bundleInfo.putLong("key_info_long", 100L);
@@ -65,9 +64,12 @@ public class MainActivity extends ReactActivity {
     @Nullable
     @Override
     protected String getJSBundleFile() {
-//        return CodePush.getJSBundleFile("index.android.bundle");
-//        return null;
-        return getFilesDir().getAbsolutePath() + File.separator + "ReactNativeDevBundle.js";
+        if (BuildConfig.DEBUG) {
+            return null;
+        } else {
+            return CodePush.getJSBundleFile();
+        }
+//        return getFilesDir().getAbsolutePath() + File.separator + "ReactNativeDevBundle.js";
     }
 
     /**
@@ -76,7 +78,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected boolean getUseDeveloperSupport() {
-        return false;
+        return BuildConfig.DEBUG;
     }
 
     /**
@@ -89,7 +91,7 @@ public class MainActivity extends ReactActivity {
         reactPackageList.add(new MainReactPackage());
         if (!BuildConfig.DEBUG) {
             String deploymentKey = true ? "hv4DIHXtcGtdChiPqxgwXDFL9kSKVyyaBGmLZ" : "Et9W_AvJDNwcQi8qv4WgwGRe7PD2VyyaBGmLZ";
-            reactPackageList.add(new CodePush(deploymentKey, this, BuildConfig.DEBUG));
+            reactPackageList.add(new CodePush(deploymentKey, this));
         }
         reactPackageList.add(new CustomReactPackage());
         return reactPackageList;
