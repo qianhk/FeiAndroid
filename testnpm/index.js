@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require("underscore");
-var hello = require('./hello');
+import hello from './hello';
 var greet2 = require('./hello');
 
 var result = _.map([1, 2, 3], function(num) { return num * 3;})
