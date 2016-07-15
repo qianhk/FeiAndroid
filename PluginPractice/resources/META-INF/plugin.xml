@@ -1,0 +1,49 @@
+<idea-plugin version="2">
+    <id>com.njnu.kai.plugin.practice</id>
+    <name>Kai Plugin Practice</name>
+    <version>0.0.4</version>
+    <vendor email="qhk83@qq.com" url="http://qianhk.com">凯凯公司</vendor>
+
+    <description><![CDATA[
+      插件的短描述,凯试验<br>
+      <em>plugin practice</em>
+    ]]></description>
+
+    <change-notes><![CDATA[
+    长描述这插件干啥的<br>
+    1. 作用1 <br>
+    2. 作用2 <br>
+    3. 作用3 <br>
+    <br>
+    更新历史:<br>
+     ● 0.0.4: Support bbbbb.<br>
+     ● 0.0.3: Support aaaa.<br>
+     ● 0.0.2: Add yyy.<br>
+     ● 0.0.1: Add xx.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="141.0" />
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <group id="kai.practice" text="KaiPlugin" description="kai plugin group description插件组描述">
+            <add-to-group group-id="ToolsMenu" anchor="last" />
+            <action id="kai.practice.SayHiAction" class="com.njnu.kai.plugin.practice.SayHiAction" text="Kai Say Hello!"
+                description="Say Hi Action的描述文字">
+            </action>
+        </group>
+    </actions>
+
+</idea-plugin>
