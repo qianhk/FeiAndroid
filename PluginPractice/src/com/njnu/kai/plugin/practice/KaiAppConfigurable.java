@@ -1,5 +1,7 @@
 package com.njnu.kai.plugin.practice;
 
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import org.jetbrains.annotations.Nls;
@@ -15,7 +17,7 @@ import javax.swing.*;
 public class KaiAppConfigurable implements Configurable {
 
     private HelloWorldConfigurationForm mHelloWorldConfigurationForm;
-    private HelloworldMsg mHelloworldMsg = new HelloworldMsg();
+    private HelloworldMsg mHelloworldMsg;
 
     @Nls
     @Override
@@ -34,6 +36,9 @@ public class KaiAppConfigurable implements Configurable {
     public JComponent createComponent() {
         if (mHelloWorldConfigurationForm == null) {
             mHelloWorldConfigurationForm = new HelloWorldConfigurationForm();
+            final Application application = ApplicationManager.getApplication();
+            final KaiAppComponent kaiAppComponent = application.getComponent(KaiAppComponent.class);
+            mHelloworldMsg = kaiAppComponent.getState();
             mHelloWorldConfigurationForm.setData(mHelloworldMsg);
         }
         return mHelloWorldConfigurationForm.getRootView();
@@ -58,4 +63,5 @@ public class KaiAppConfigurable implements Configurable {
     public void disposeUIResources() {
         mHelloWorldConfigurationForm = null;
     }
+
 }

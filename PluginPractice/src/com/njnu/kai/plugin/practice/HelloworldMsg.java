@@ -1,7 +1,7 @@
 package com.njnu.kai.plugin.practice;
 
 public class HelloworldMsg {
-    private String mTitle;
+    public String mTitle;
     private String mMsg;
 
     public HelloworldMsg() {

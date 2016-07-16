@@ -34,17 +34,15 @@
     -->
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
-        <applicationConfigurable
-            instance="com.njnu.kai.plugin.practice.KaiAppConfigurable"/>
+        <applicationService serviceInterface="com.njnu.kai.plugin.practice.KaiAppComponent"
+            serviceImplementation="com.njnu.kai.plugin.practice.KaiAppComponent" />
+        <applicationConfigurable instance="com.njnu.kai.plugin.practice.KaiAppConfigurable" />
     </extensions>
 
     <actions>
         <group id="kai.practice" text="KaiPlugin" description="kai plugin group description插件组描述">
             <add-to-group group-id="ToolsMenu" anchor="last" />
-            <action id="kai.practice.SayHiAction" class="com.njnu.kai.plugin.practice.SayHiAction" text="Say Hi"
-                description="Say Hi Action的描述文字">
-            </action>
+            <action id="kai.practice.SayHiAction" class="com.njnu.kai.plugin.practice.SayHiAction" text="Say Hi" description="Say Hi Action的描述文字"></action>
         </group>
     </actions>
 
