@@ -40,10 +40,25 @@
     <actions>
         <group id="kai.practice" text="KaiPlugin" description="kai plugin group description插件组描述">
             <add-to-group group-id="ToolsMenu" anchor="last" />
-            <action id="kai.practice.SayHiAction" class="com.njnu.kai.plugin.practice.SayHiAction" text="Kai Say Hello!"
+            <action id="kai.practice.SayHiAction" class="com.njnu.kai.plugin.practice.SayHiAction" text="Say Hi"
                 description="Say Hi Action的描述文字">
             </action>
         </group>
     </actions>
 
+    <application-components>
+        <component>
+            <implementation-class>com.njnu.kai.plugin.practice.KaiAppComponent</implementation-class>
+        </component>
+    </application-components>
+    <project-components>
+        <component>
+            <implementation-class>com.njnu.kai.plugin.practice.KaiProjectComponent</implementation-class>
+        </component>
+    </project-components>
+    <module-components>
+        <component>
+            <implementation-class>com.njnu.kai.plugin.practice.KaiModuleComponent</implementation-class>
+        </component>
+    </module-components>
 </idea-plugin>
