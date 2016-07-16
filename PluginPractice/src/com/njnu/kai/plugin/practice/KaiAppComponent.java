@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
  * @since 16-7-16
  */
 public class KaiAppComponent implements ApplicationComponent {
+
+
     public KaiAppComponent() {
     }
 
@@ -31,6 +33,8 @@ public class KaiAppComponent implements ApplicationComponent {
     }
 
     public void sayHi() {
-        Messages.showMessageDialog("Hello world, Plugin! from " + getClass().getSimpleName(), "Kai Plugin", Messages.getInformationIcon());
+//        Messages.showMessageDialog(mHelloworldMsg.getMsg(), mHelloworldMsg.getTitle(), Messages.getInformationIcon());
     }
+
+
 }
