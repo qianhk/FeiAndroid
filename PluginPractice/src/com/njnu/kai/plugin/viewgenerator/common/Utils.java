@@ -1,5 +1,7 @@
 package com.njnu.kai.plugin.viewgenerator.common;
 
+import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.util.PsiUtilBase;
 import com.njnu.kai.plugin.viewgenerator.Settings.Settings;
 import com.njnu.kai.plugin.viewgenerator.model.Element;
 import com.njnu.kai.plugin.viewgenerator.model.VGContext;
@@ -398,5 +400,24 @@ public class Utils {
 
     public static boolean ifClassContainsMethod(PsiClass psiClass, String methodName) {
         return psiClass.findMethodsByName(methodName, false).length != 0;
+    }
+
+    public static PsiClass getEditedClass(Editor editor, Project project) {
+        PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
+        PsiElement element = file.findElementAt(editor.getCaretModel().getOffset());
+        if(element != null) {
+            PsiClass target = PsiTreeUtil.getParentOfType(element, PsiClass.class);
+            return target instanceof SyntheticElement ? null : target;
+        }
+        return null;
+    }
+
+    public static PsiClass getEditedClass(Editor editor, PsiFile file) {
+        PsiElement element = file.findElementAt(editor.getCaretModel().getOffset());
+        if(element != null) {
+            PsiClass target = PsiTreeUtil.getParentOfType(element, PsiClass.class);
+            return target instanceof SyntheticElement ? null : target;
+        }
+        return null;
     }
 }

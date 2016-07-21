@@ -1,5 +1,6 @@
 package com.njnu.kai.plugin.viewgenerator.action;
 
+import com.intellij.openapi.actionSystem.AnAction;
 import com.njnu.kai.plugin.viewgenerator.common.InjectWriter;
 import com.njnu.kai.plugin.viewgenerator.common.Utils;
 import com.njnu.kai.plugin.viewgenerator.form.EntryList;
@@ -23,24 +24,11 @@ import java.util.ArrayList;
 /**
  * Created by liquanmin on 16/2/24.
  */
-public class ViewGenerateAction extends BaseGenerateAction implements IConfirmListener, ICancelListener {
+public class ViewGenerateAction extends AnAction implements IConfirmListener, ICancelListener {
     protected JFrame mDialog;
     protected VGContext context;
 
-    public ViewGenerateAction() {
-        super(new CodeInsightActionHandler() {
-            @Override
-            public void invoke(Project project, Editor editor, PsiFile psiFile) {
-
-            }
-
-            @Override
-            public boolean startInWriteAction() {
-                return false;
-            }
-        });
-    }
-
+    @Override
     public void actionPerformed(AnActionEvent event) {
         Project project = event.getData(PlatformDataKeys.PROJECT);
         Editor editor = event.getData(PlatformDataKeys.EDITOR);
@@ -48,9 +36,7 @@ public class ViewGenerateAction extends BaseGenerateAction implements IConfirmLi
         actionPerformedImpl(project, editor);
     }
 
-    @Override
-    public void actionPerformedImpl(Project project, Editor editor) {
-        super.actionPerformedImpl(project, editor);
+    private void actionPerformedImpl(Project project, Editor editor) {
         PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
         if (file == null) {
             return;
@@ -62,7 +48,7 @@ public class ViewGenerateAction extends BaseGenerateAction implements IConfirmLi
             return;
         }
 
-        PsiClass clazz = getTargetClass(editor, file);
+        PsiClass clazz = Utils.getEditedClass(editor, file);
         if (clazz == null) {
             Utils.showErrorNotification(project, "No class found");
             return;
