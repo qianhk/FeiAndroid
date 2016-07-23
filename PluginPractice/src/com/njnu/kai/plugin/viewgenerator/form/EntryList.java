@@ -18,7 +18,7 @@ public class EntryList extends JPanel {
     protected ArrayList<Element> mElements;
     protected List<Entry> mEntries = new ArrayList<Entry>();
     protected VGContext mContext;
-    protected String mPrefix = "m";
+    protected String mPrefix = "m"; // no effect
     protected IConfirmListener mConfirmListener;
     protected ICancelListener mCancelListener;
     protected JCheckBox mHolderCheck;

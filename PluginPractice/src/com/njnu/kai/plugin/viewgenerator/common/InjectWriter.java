@@ -132,6 +132,7 @@ public class InjectWriter extends WriteCommandAction.Simple {
             boolean isFirst = true;
             for (Element element : mElements) {
                 if (element.isClick && !mContext.getClickIdsList().contains(element.getFullID())) {
+                    // int viewId = view.getId(); if (viewId == ) else if (viewId == ) else {}
                     if (isFirst) {
                         method.append("if(view.getId() == " + element.getFullID() + "){\n\n");
                         isFirst = false;
