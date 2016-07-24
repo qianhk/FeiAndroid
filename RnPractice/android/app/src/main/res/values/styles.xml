@@ -1,7 +1,0 @@
-<resources>
-
-    <style name="BaseAppTheme" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
-
-    </style>
-
-</resources>
