@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.njnu.kai.plugin.practice</id>
     <name>Kai Plugin Practice</name>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
     <vendor email="qhk83@qq.com" url="http://qianhk.com">凯凯公司</vendor>
 
     <description><![CDATA[
@@ -16,6 +16,7 @@
     3. 作用3 <br>
     <br>
     更新历史:<br>
+     ● 0.0.6: Support po mapper to vo.<br>
      ● 0.0.5: Support generate view.<br>
      ● 0.0.4: Support bbbbb.<br>
      ● 0.0.3: Support aaaa.<br>
@@ -26,7 +27,7 @@
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="141.0" />
+    <idea-version since-build="141.0"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -36,41 +37,48 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!--<applicationService serviceInterface="com.njnu.kai.plugin.practice.KaiAppComponent"-->
-            <!--serviceImplementation="com.njnu.kai.plugin.practice.KaiAppComponent" />-->
+        <!--serviceImplementation="com.njnu.kai.plugin.practice.KaiAppComponent" />-->
         <!--<applicationConfigurable instance="com.njnu.kai.plugin.practice.KaiAppConfigurable" />-->
 
         <!--<applicationConfigurable instance="com.avast.android.butterknifezelezny.Settings" />-->
         <!--<codeInsight.lineMarkerProvider language="JAVA"-->
-            <!--implementationClass="com.avast.android.butterknifezelezny.navigation.NavigationMarkerProvider" />-->
+        <!--implementationClass="com.avast.android.butterknifezelezny.navigation.NavigationMarkerProvider" />-->
 
     </extensions>
 
     <actions>
         <group id="kai.practice" text="KaiPlugin" description="kai plugin group description插件组描述">
-            <add-to-group group-id="ToolsMenu" anchor="last" />
-            <action id="kai.practice.SayHiAction" class="com.njnu.kai.plugin.practice.SayHiAction" text="Say Hi" description="Say Hi Action的描述文字"></action>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <action id="kai.practice.SayHiAction" class="com.njnu.kai.plugin.practice.SayHiAction" text="Say Hi"
+                    description="Say Hi Action的描述文字"></action>
         </group>
 
-        <action id="kai.viewgeneration" class="com.njnu.kai.plugin.viewgenerator.action.ViewGenerateAction" text="Generate Kai View Code..."
-            description="根据布局自动生成findViewById">
-            <add-to-group group-id="GenerateGroup" anchor="last" />
+        <action id="kai.viewgeneration" class="com.njnu.kai.plugin.viewgenerator.action.ViewGenerateAction"
+                text="Generate Kai View Code..."
+                description="根据布局自动生成findViewById">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+        </action>
+
+        <action id="kai.mappergeneration" class="com.njnu.kai.plugin.mapper.MapperCodeGenAction" text="PO Mapper VO"
+                description="将PO通过Mapper转换成VO">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
     </actions>
 
     <!--<application-components>-->
-        <!--<component>-->
-            <!--<implementation-class>com.njnu.kai.plugin.practice.KaiAppComponent</implementation-class>-->
-        <!--</component>-->
+    <!--<component>-->
+    <!--<implementation-class>com.njnu.kai.plugin.practice.KaiAppComponent</implementation-class>-->
+    <!--</component>-->
     <!--</application-components>-->
     <!--<project-components>-->
-        <!--<component>-->
-            <!--<implementation-class>com.njnu.kai.plugin.practice.KaiProjectComponent</implementation-class>-->
-        <!--</component>-->
+    <!--<component>-->
+    <!--<implementation-class>com.njnu.kai.plugin.practice.KaiProjectComponent</implementation-class>-->
+    <!--</component>-->
     <!--</project-components>-->
     <!--<module-components>-->
-        <!--<component>-->
-            <!--<implementation-class>com.njnu.kai.plugin.practice.KaiModuleComponent</implementation-class>-->
-        <!--</component>-->
+    <!--<component>-->
+    <!--<implementation-class>com.njnu.kai.plugin.practice.KaiModuleComponent</implementation-class>-->
+    <!--</component>-->
     <!--</module-components>-->
 </idea-plugin>

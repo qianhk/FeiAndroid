@@ -1,4 +1,4 @@
-package com.njnu.kai.plugin.viewgenerator.common;
+package com.njnu.kai.plugin.util;
 
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtilBase;
@@ -424,5 +424,16 @@ public class Utils {
             return target instanceof SyntheticElement ? null : target;
         }
         return null;
+    }
+
+    public static String getClassEntityName(String className) {
+        int pos = className.lastIndexOf('.');
+        if (pos > 0) {
+            className = className.substring(pos + 1);
+        }
+        if (className.endsWith("PO") || className.endsWith("VO")) {
+            className = className.substring(0, className.length() - 2);
+        }
+        return className;
     }
 }

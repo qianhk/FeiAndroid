@@ -10,7 +10,7 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiUtilBase;
 import com.njnu.kai.plugin.viewgenerator.common.InjectWriter;
-import com.njnu.kai.plugin.viewgenerator.common.Utils;
+import com.njnu.kai.plugin.util.Utils;
 import com.njnu.kai.plugin.viewgenerator.form.EntryList;
 import com.njnu.kai.plugin.viewgenerator.iface.ICancelListener;
 import com.njnu.kai.plugin.viewgenerator.iface.IConfirmListener;

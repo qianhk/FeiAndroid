@@ -1,5 +1,6 @@
 package com.njnu.kai.plugin.viewgenerator.common;
 
+import com.njnu.kai.plugin.util.Utils;
 import com.njnu.kai.plugin.viewgenerator.model.Element;
 import com.njnu.kai.plugin.viewgenerator.model.VGContext;
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;

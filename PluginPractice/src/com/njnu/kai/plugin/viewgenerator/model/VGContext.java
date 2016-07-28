@@ -1,7 +1,7 @@
 package com.njnu.kai.plugin.viewgenerator.model;
 
 import com.njnu.kai.plugin.viewgenerator.common.Definitions;
-import com.njnu.kai.plugin.viewgenerator.common.Utils;
+import com.njnu.kai.plugin.util.Utils;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.search.EverythingGlobalScope;

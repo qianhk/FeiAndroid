@@ -1,6 +1,6 @@
 package com.njnu.kai.plugin.viewgenerator.Settings;
 
-import com.njnu.kai.plugin.viewgenerator.common.Utils;
+import com.njnu.kai.plugin.util.Utils;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;

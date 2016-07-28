@@ -1,7 +1,7 @@
 package com.njnu.kai.plugin.viewgenerator.model;
 
 
-import com.njnu.kai.plugin.viewgenerator.common.Utils;
+import com.njnu.kai.plugin.util.Utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
