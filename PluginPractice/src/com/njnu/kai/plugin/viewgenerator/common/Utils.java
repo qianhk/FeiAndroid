@@ -263,6 +263,11 @@ public class Utils {
                 .show(RelativePoint.getCenterOf(statusBar.getComponent()), Balloon.Position.atRight);
     }
 
+    public static void showSimpleInfo(Project project, String text) {
+        StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);
+        statusBar.setInfo(text);
+    }
+
     /**
      * Load field name prefix from code style
      *

@@ -1,18 +1,20 @@
 package com.njnu.kai.plugin.viewgenerator.form;
 
+import com.intellij.ui.components.JBScrollPane;
 import com.njnu.kai.plugin.viewgenerator.iface.ICancelListener;
 import com.njnu.kai.plugin.viewgenerator.iface.IConfirmListener;
 import com.njnu.kai.plugin.viewgenerator.model.Element;
 import com.njnu.kai.plugin.viewgenerator.model.VGContext;
-import com.intellij.ui.components.JBScrollPane;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 public class EntryList extends JPanel {
     protected ArrayList<Element> mElements;
@@ -37,6 +39,22 @@ public class EntryList extends JPanel {
 
         addInjections();
         addButtons();
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                if (mCancelListener != null) {
+                    mCancelListener.onCancel();
+                }
+            }
+        });
+
+        registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (mCancelListener != null) {
+                    mCancelListener.onCancel();
+                }
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     protected void addInjections() {

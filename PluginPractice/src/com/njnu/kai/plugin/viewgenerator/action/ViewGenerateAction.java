@@ -1,6 +1,14 @@
 package com.njnu.kai.plugin.viewgenerator.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.wm.WindowManager;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.util.PsiUtilBase;
 import com.njnu.kai.plugin.viewgenerator.common.InjectWriter;
 import com.njnu.kai.plugin.viewgenerator.common.Utils;
 import com.njnu.kai.plugin.viewgenerator.form.EntryList;
@@ -8,24 +16,16 @@ import com.njnu.kai.plugin.viewgenerator.iface.ICancelListener;
 import com.njnu.kai.plugin.viewgenerator.iface.IConfirmListener;
 import com.njnu.kai.plugin.viewgenerator.model.Element;
 import com.njnu.kai.plugin.viewgenerator.model.VGContext;
-import com.intellij.codeInsight.CodeInsightActionHandler;
-import com.intellij.codeInsight.generation.actions.BaseGenerateAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiUtilBase;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
  * Created by liquanmin on 16/2/24.
  */
 public class ViewGenerateAction extends AnAction implements IConfirmListener, ICancelListener {
-    protected JFrame mDialog;
+    protected JDialog mDialog;
     protected VGContext context;
 
     @Override
@@ -63,17 +63,20 @@ public class ViewGenerateAction extends AnAction implements IConfirmListener, IC
         context = new VGContext(project, file, layout, clazz);
         context.parseClass();
         context.preDealWithElements(elements);
-        showDialog(elements);
+        showDialog(project, elements);
     }
 
-    protected void showDialog(ArrayList<Element> elements) {
+    protected void showDialog(Project project, ArrayList<Element> elements) {
         EntryList panel = new EntryList(context, elements, this, this);
-        mDialog = new JFrame();
+        mDialog = new JDialog();
+        mDialog.setMinimumSize(new Dimension(640, 360));
+        mDialog.setModal(true);
         mDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         mDialog.getRootPane().setDefaultButton(panel.getConfirmButton());
         mDialog.getContentPane().add(panel);
         mDialog.pack();
-        mDialog.setLocationRelativeTo(null);
+//        mDialog.setLocationRelativeTo(null); //屏幕居中
+        mDialog.setLocationRelativeTo(WindowManager.getInstance().getFrame(project)); //ide工程窗口居中
         mDialog.setVisible(true);
     }
 
