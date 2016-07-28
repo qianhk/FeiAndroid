@@ -19,9 +19,9 @@ import java.awt.*;
 
 public class MapperCodeGenAction extends AnAction {
 
-    public static final String OBJECT_CLASS_CANONICAL_NAME = "objectClassCanonicalName";
-    public static final String MAPPER_CLASS_CANONICAL_NAME = "mapperClassCanonicalName";
-    public static final String IS_TRANSFORM_OBJECT_LIST = "isSupportList";
+    private static final String VO_CLASS_CANONICAL_NAME = "voClassCanonicalName";
+    private static final String MAPPER_CLASS_CANONICAL_NAME = "mapperClassCanonicalName";
+    private static final String IS_SUPPORT_LIST = "isSupportList";
     private static final String BOUND_X = "bound_x";
     private static final String BOUND_Y = "bound_y";
     private static final String BOUND_WIDTH = "bound_width";
@@ -35,20 +35,20 @@ public class MapperCodeGenAction extends AnAction {
         Editor editor = event.getData(PlatformDataKeys.EDITOR);
         PsiClass originClass = getEditedClass(editor, project);
         if (originClass == null) {
-            Utils.showErrorNotification(project, "没检索出要转换的类,光标换个位置吧");
+            Utils.showErrorNotification(project, "没检索出要转换的类, 注意光标或焦点位置");
             return;
         }
 
         final TmpRuntimeParams context = new TmpRuntimeParams(new TmpRuntimeParams.Action() {
             @Override
-            public void run(TmpRuntimeParams context1) {
+            public void run(TmpRuntimeParams params) {
                 final Rectangle bounds = mDialog.getBounds();
                 PropertiesComponent.getInstance().setValue(BOUND_X, bounds.x, 100);
                 PropertiesComponent.getInstance().setValue(BOUND_Y, bounds.y, 100);
                 PropertiesComponent.getInstance().setValue(BOUND_WIDTH, bounds.width, 800);
                 PropertiesComponent.getInstance().setValue(BOUND_HEIGHT, bounds.height, 200);
-                new MapperProcessor(context1).execute();
-                saveProperties(context1);
+                saveProperties(params);
+                new MapperProcessor(params).execute();
             }
         }, project, originClass);
         loadProperties(context);
@@ -60,15 +60,15 @@ public class MapperCodeGenAction extends AnAction {
     }
 
     private void loadProperties(TmpRuntimeParams context) {
-        context.setVoClassCanonicalName(PropertiesComponent.getInstance().getValue(OBJECT_CLASS_CANONICAL_NAME, "com.example.app.model.NewObject"));
+        context.setVoClassCanonicalName(PropertiesComponent.getInstance().getValue(VO_CLASS_CANONICAL_NAME, "com.example.app.model.NewObject"));
         context.setMapperClassCanonicalName(PropertiesComponent.getInstance().getValue(MAPPER_CLASS_CANONICAL_NAME, "com.example.app.mapper.NewObjectMapper"));
-        context.setSupportList(PropertiesComponent.getInstance().getBoolean(IS_TRANSFORM_OBJECT_LIST));
+        context.setSupportList(PropertiesComponent.getInstance().getBoolean(IS_SUPPORT_LIST));
     }
 
     private void saveProperties(TmpRuntimeParams context) {
-        PropertiesComponent.getInstance().setValue(OBJECT_CLASS_CANONICAL_NAME, context.getVoClassCanonicalName());
+        PropertiesComponent.getInstance().setValue(VO_CLASS_CANONICAL_NAME, context.getVoClassCanonicalName());
         PropertiesComponent.getInstance().setValue(MAPPER_CLASS_CANONICAL_NAME, context.getMapperClassCanonicalName());
-        PropertiesComponent.getInstance().setValue(IS_TRANSFORM_OBJECT_LIST, context.isSupportList());
+        PropertiesComponent.getInstance().setValue(IS_SUPPORT_LIST, context.isSupportList());
     }
 
     private PsiClass getEditedClass(Editor editor, Project project) {

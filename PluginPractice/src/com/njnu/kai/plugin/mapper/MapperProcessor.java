@@ -17,12 +17,14 @@ class MapperProcessor extends WriteCommandAction.Simple {
     private PsiClass mMapperClass;
     private boolean mGenerateObjectListTransformMethod;
 
+    private TmpRuntimeParams mTmpRuntimeParams;
+
     private static String OBJECT_TRANSFORM_METHOD =
-            "        /** \n" +
+                    "        /** \n" +
                     "        * @param originObject origin object \n" +
                     "        * @return mapped object \n" +
                     "        */ \n" +
-                    "        public static $MAPPED_CLASS$ transform(@NonNull $ORIGIN_CLASS$ originObject) {\n" +
+                    "        public static $MAPPED_CLASS$ transform($ORIGIN_CLASS$ originObject) {\n" +
                     "        $MAPPED_CLASS$  mappedObject = new $MAPPED_CLASS$();\n\n" +
                     "        $BODY$\n" +
                     "        return mappedObject;\n" +
@@ -47,17 +49,18 @@ class MapperProcessor extends WriteCommandAction.Simple {
     private static String METHOD_BODY_ITEM = "mappedObject.set$PROPERTY$(originObject.$GETTER$());\n";
 
 
-    public MapperProcessor(final TmpRuntimeParams context) {
-        super(context.getProject(), null);
+    public MapperProcessor(final TmpRuntimeParams params) {
+        super(params.getProject(), null);
+        mTmpRuntimeParams = params;
         mFactory = JavaPsiFacade.getElementFactory(getProject());
-        mOriginClass = context.getOriginClass();
-        mObjectClass = createClass(context.getVoClassCanonicalName(), false);
-        mMapperClass = createClass(context.getMapperClassCanonicalName(), true);
-        mGenerateObjectListTransformMethod = context.isSupportList();
+        mOriginClass = params.getOriginClass();
+        mGenerateObjectListTransformMethod = params.isSupportList();
     }
 
     @Override
     protected void run() {
+        mObjectClass = createClass(mTmpRuntimeParams.getVoClassCanonicalName(), false);
+        mMapperClass = createClass(mTmpRuntimeParams.getMapperClassCanonicalName(), false);
         generateObjectClass();
         generateMapperClass();
     }
@@ -86,6 +89,7 @@ class MapperProcessor extends WriteCommandAction.Simple {
                 .replace("$MAPPED_CLASS$", mappedClassName)
                 .replace("$ENTITY$", Utils.getClassEntityName(originClassName))
                 .replace("$BODY$", methodBody());
+        System.out.println("methodText is: " + methodText);
         mapperClass.add(mFactory.createMethodFromText(methodText, mapperClass));
     }
 
@@ -109,7 +113,6 @@ class MapperProcessor extends WriteCommandAction.Simple {
         GlobalSearchScope searchScope = GlobalSearchScope.allScope(getProject());
         styleManager.addImport(file, javaPsiFacade.findClass("java.util.List", searchScope));
         styleManager.addImport(file, javaPsiFacade.findClass("java.util.ArrayList", searchScope));
-        styleManager.addImport(file, javaPsiFacade.findClass("android.support.annotation.NonNull", searchScope));
     }
 
     private String methodBody() {
@@ -189,7 +192,7 @@ class MapperProcessor extends WriteCommandAction.Simple {
                 file.delete();
             }
         }
-
+        //todo 如果此类存在且keepFile不createclass
         return JavaDirectoryService.getInstance().createClass(directory, className);
     }
 
@@ -211,20 +214,16 @@ class MapperProcessor extends WriteCommandAction.Simple {
 
     private PsiDirectory createDirectory(PsiPackage pkg) {
         PsiDirectory[] directories = pkg.getDirectories();
+        if (directories.length == 1) {
+            return directories[0];
+        }
         for (PsiDirectory directory : directories) {
-            if (getPath(directory).contains("src/main/java")) {
+            final String canonicalPath = directory.getVirtualFile().getCanonicalPath();
+            if (canonicalPath.contains("/src/")) {
                 return directory;
             }
         }
         return null;
     }
 
-    private String getPath(PsiDirectory directory) {
-        StringBuilder stringBuilder = new StringBuilder(directory.getName());
-        while (directory.getParent() != null) {
-            directory = directory.getParent();
-            stringBuilder.insert(0, directory.getName() + "/");
-        }
-        return stringBuilder.toString();
-    }
 }
