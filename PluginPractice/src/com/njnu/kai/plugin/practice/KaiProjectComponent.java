@@ -15,12 +15,10 @@ public class KaiProjectComponent implements ProjectComponent {
 
     @Override
     public void initComponent() {
-        // TODO: insert component initialization logic here
     }
 
     @Override
     public void disposeComponent() {
-        // TODO: insert component disposal logic here
     }
 
     @Override

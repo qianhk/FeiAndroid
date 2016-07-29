@@ -198,7 +198,7 @@ public class Utils {
                     try {
                         elements.add(new Element(name, value));
                     } catch (IllegalArgumentException e) {
-                        // TODO log
+                        e.printStackTrace();
                     }
                 }
             }

@@ -59,7 +59,7 @@ class MapperProcessor extends WriteCommandAction.Simple {
     @Override
     protected void run() {
         mObjectClass = createClass(mTmpRuntimeParams.getVoClassCanonicalName(), false);
-        mMapperClass = createClass(mTmpRuntimeParams.getMapperClassCanonicalName(), false);
+        mMapperClass = createClass(mTmpRuntimeParams.getMapperClassCanonicalName(), true);
         generateObjectClass();
         generateMapperClass();
     }
@@ -174,10 +174,10 @@ class MapperProcessor extends WriteCommandAction.Simple {
     }
 
     private void optimizeStyle(PsiClass clazz) {
-        JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(getProject());
-        PsiJavaFile file = (PsiJavaFile) clazz.getContainingFile();
-        styleManager.optimizeImports(file);
-        styleManager.shortenClassReferences(clazz);
+//        JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(getProject());
+//        PsiJavaFile file = (PsiJavaFile) clazz.getContainingFile();
+//        styleManager.optimizeImports(file);
+//        styleManager.shortenClassReferences(clazz);
     }
 
     private PsiClass createClass(String classPath, boolean keepFile) {
@@ -186,14 +186,22 @@ class MapperProcessor extends WriteCommandAction.Simple {
         String className = classPath.substring(i + 1);
 
         PsiDirectory directory = createDirectory(packagePath);
-        if (!keepFile) {
-            PsiFile file = directory.findFile(className + ".java");
+        PsiFile file = directory.findFile(className + ".java");
+        if (keepFile && file != null) {
+            PsiJavaFile psiJavaFile = (PsiJavaFile) file;
+            final PsiClass[] classes = psiJavaFile.getClasses();
+            if (classes.length > 0) {
+                return classes[0];
+            } else {
+                file.delete();
+                return JavaDirectoryService.getInstance().createClass(directory, className);
+            }
+        } else {
             if (file != null) {
                 file.delete();
             }
+            return JavaDirectoryService.getInstance().createClass(directory, className);
         }
-        //todo 如果此类存在且keepFile不createclass
-        return JavaDirectoryService.getInstance().createClass(directory, className);
     }
 
     private PsiDirectory createDirectory(String packagePath) {

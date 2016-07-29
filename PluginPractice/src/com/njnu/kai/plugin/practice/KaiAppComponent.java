@@ -25,12 +25,10 @@ public class KaiAppComponent implements ApplicationComponent, PersistentStateCom
 
     @Override
     public void initComponent() {
-        // TODO: insert component initialization logic here
     }
 
     @Override
     public void disposeComponent() {
-        // TODO: insert component disposal logic here
 
     }
 
