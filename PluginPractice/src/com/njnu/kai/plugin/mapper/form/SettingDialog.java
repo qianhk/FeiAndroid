@@ -50,7 +50,7 @@ public class SettingDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        System.err.println("SettingDialog tmpRuntimeParams=" + tmpRuntimeParams);
+//        System.err.println("SettingDialog tmpRuntimeParams=" + tmpRuntimeParams);
         final String voClassFullName = amendCanonicalName(tmpRuntimeParams.getVoClassCanonicalName(), tmpRuntimeParams.getOriginClass().getName()) + "VO";
         mVoClass.setText(voClassFullName);
         mMapperClass.setText(amendCanonicalName(tmpRuntimeParams.getMapperClassCanonicalName(), tmpRuntimeParams.getOriginClass().getQualifiedName()) + "Mapper");

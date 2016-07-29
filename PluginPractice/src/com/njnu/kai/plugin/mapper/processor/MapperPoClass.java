@@ -91,7 +91,7 @@ public class MapperPoClass {
                 .replace("$MAPPED_CLASS$", mappedClassName)
                 .replace("$ENTITY$", Utils.getClassEntityName(originClassName))
                 .replace("$BODY$", methodBody());
-        System.out.println("methodText is: " + methodText);
+//        System.out.println("methodText is: " + methodText);
         mapperClass.add(mFactory.createMethodFromText(methodText, mapperClass));
     }
 
@@ -162,6 +162,7 @@ public class MapperPoClass {
         for (PsiField field : mPoClass.getFields()) {
             if (!field.hasModifierProperty("static")) {
                 objectClass.add(mFactory.createField(field.getName(), field.getType()));
+                mMapperPoClassListener.notifyFoundFieldInPoClass(field);
             }
         }
     }
@@ -238,6 +239,6 @@ public class MapperPoClass {
     }
 
     public interface MapperPoClassListener {
-        void notifyFoundNewPoClass();
+        void notifyFoundFieldInPoClass(PsiField field);
     }
 }
