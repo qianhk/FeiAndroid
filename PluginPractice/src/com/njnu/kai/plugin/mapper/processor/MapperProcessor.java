@@ -1,15 +1,16 @@
-package com.njnu.kai.plugin.mapper;
+package com.njnu.kai.plugin.mapper.processor;
 
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.search.GlobalSearchScope;
+import com.njnu.kai.plugin.mapper.TmpRuntimeParams;
 import com.njnu.kai.plugin.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class MapperProcessor extends WriteCommandAction.Simple {
+public class MapperProcessor extends WriteCommandAction.Simple {
 
     private PsiElementFactory mFactory;
     private final PsiClass mOriginClass;

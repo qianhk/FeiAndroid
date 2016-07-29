@@ -407,20 +407,20 @@ public class Utils {
         return psiClass.findMethodsByName(methodName, false).length != 0;
     }
 
-    public static PsiClass getEditedClass(Editor editor, Project project) {
+    public static PsiClass getEditedClass(Editor editor, Project project, boolean strict) {
         PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
         PsiElement element = file.findElementAt(editor.getCaretModel().getOffset());
         if(element != null) {
-            PsiClass target = PsiTreeUtil.getParentOfType(element, PsiClass.class);
+            PsiClass target = PsiTreeUtil.getParentOfType(element, PsiClass.class, strict);
             return target instanceof SyntheticElement ? null : target;
         }
         return null;
     }
 
-    public static PsiClass getEditedClass(Editor editor, PsiFile file) {
+    public static PsiClass getEditedClass(Editor editor, PsiFile file, boolean strict) {
         PsiElement element = file.findElementAt(editor.getCaretModel().getOffset());
         if(element != null) {
-            PsiClass target = PsiTreeUtil.getParentOfType(element, PsiClass.class);
+            PsiClass target = PsiTreeUtil.getParentOfType(element, PsiClass.class, strict);
             return target instanceof SyntheticElement ? null : target;
         }
         return null;

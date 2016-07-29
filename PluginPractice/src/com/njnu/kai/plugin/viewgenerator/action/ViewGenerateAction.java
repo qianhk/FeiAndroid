@@ -48,7 +48,7 @@ public class ViewGenerateAction extends AnAction implements IConfirmListener, IC
             return;
         }
 
-        PsiClass clazz = Utils.getEditedClass(editor, file);
+        PsiClass clazz = Utils.getEditedClass(editor, file, true);
         if (clazz == null) {
             Utils.showErrorNotification(project, "No class found");
             return;

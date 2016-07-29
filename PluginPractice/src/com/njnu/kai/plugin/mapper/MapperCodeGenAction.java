@@ -4,15 +4,13 @@ import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.SyntheticElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.util.PsiUtilBase;
+import com.njnu.kai.plugin.mapper.form.SettingDialog;
+import com.njnu.kai.plugin.mapper.model.WaitPOItem;
+import com.njnu.kai.plugin.mapper.model.WaitPOManager;
+import com.njnu.kai.plugin.mapper.processor.MapperProcessor;
 import com.njnu.kai.plugin.util.Utils;
 
 import java.awt.*;
@@ -33,13 +31,13 @@ public class MapperCodeGenAction extends AnAction {
     public void actionPerformed(AnActionEvent event) {
         Project project = event.getData(PlatformDataKeys.PROJECT);
         Editor editor = event.getData(PlatformDataKeys.EDITOR);
-        PsiClass originClass = getEditedClass(editor, project);
+        PsiClass originClass = Utils.getEditedClass(editor, project, false);
         if (originClass == null) {
             Utils.showErrorNotification(project, "没检索出要转换的类, 注意光标或焦点位置");
             return;
         }
 
-        final TmpRuntimeParams context = new TmpRuntimeParams(new TmpRuntimeParams.Action() {
+        final TmpRuntimeParams params = new TmpRuntimeParams(new TmpRuntimeParams.Action() {
             @Override
             public void run(TmpRuntimeParams params) {
                 final Rectangle bounds = mDialog.getBounds();
@@ -48,11 +46,14 @@ public class MapperCodeGenAction extends AnAction {
                 PropertiesComponent.getInstance().setValue(BOUND_WIDTH, bounds.width, 800);
                 PropertiesComponent.getInstance().setValue(BOUND_HEIGHT, bounds.height, 200);
                 saveProperties(params);
+                final WaitPOItem waitPOItem = new WaitPOItem();
+                waitPOItem.setOriginClass(params.getOriginClass());
+                WaitPOManager.getInstance().push(waitPOItem);
                 new MapperProcessor(params).execute();
             }
         }, project, originClass);
-        loadProperties(context);
-        mDialog = new SettingDialog(context);
+        loadProperties(params);
+        mDialog = new SettingDialog(params);
 
         mDialog.setBounds(PropertiesComponent.getInstance().getInt(BOUND_X, 100), PropertiesComponent.getInstance().getInt(BOUND_Y, 100)
                 , PropertiesComponent.getInstance().getInt(BOUND_WIDTH, 800), PropertiesComponent.getInstance().getInt(BOUND_HEIGHT, 200));
@@ -71,15 +72,4 @@ public class MapperCodeGenAction extends AnAction {
         PropertiesComponent.getInstance().setValue(IS_SUPPORT_LIST, context.isSupportList());
     }
 
-    private PsiClass getEditedClass(Editor editor, Project project) {
-        PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
-        final CaretModel caretModel = editor.getCaretModel();
-        final int offset = caretModel.getOffset();
-        PsiElement element = file.findElementAt(offset);
-        if (element != null) {
-            PsiClass target = PsiTreeUtil.getParentOfType(element, PsiClass.class, false);
-            return target instanceof SyntheticElement ? null : target;
-        }
-        return null;
-    }
 }

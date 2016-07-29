@@ -3,9 +3,9 @@ package com.njnu.kai.plugin.mapper;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 
-class TmpRuntimeParams {
+public class TmpRuntimeParams {
 
-    interface Action {
+    public interface Action {
         void run(TmpRuntimeParams context);
     }
 
