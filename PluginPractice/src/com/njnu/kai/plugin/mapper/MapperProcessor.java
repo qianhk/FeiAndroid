@@ -19,16 +19,15 @@ class MapperProcessor extends WriteCommandAction.Simple {
 
     private TmpRuntimeParams mTmpRuntimeParams;
 
-    private static String OBJECT_TRANSFORM_METHOD =
-                    "        /** \n" +
-                    "        * @param originObject origin object \n" +
-                    "        * @return mapped object \n" +
-                    "        */ \n" +
-                    "        public static $MAPPED_CLASS$ transform($ORIGIN_CLASS$ originObject) {\n" +
-                    "        $MAPPED_CLASS$  mappedObject = new $MAPPED_CLASS$();\n\n" +
-                    "        $BODY$\n" +
-                    "        return mappedObject;\n" +
-                    "    }\n\n";
+    private static String OBJECT_TRANSFORM_METHOD = "/**\n" +
+            "        * @param originObject origin object\n" +
+            "        * @return mapped object\n" +
+            "        */\n" +
+            "        public static $MAPPED_CLASS$ transform($ORIGIN_CLASS$ originObject) {\n" +
+            "        $MAPPED_CLASS$  mappedObject = new $MAPPED_CLASS$();\n\n" +
+            "        $BODY$\n" +
+            "        return mappedObject;\n" +
+            "    }\n\n";
 
     private static String OBJECT_LIST_TRANSFORM_METHOD = "/**\n" +
             "        * @param originObjectList list of origin object\n" +
@@ -98,6 +97,7 @@ class MapperProcessor extends WriteCommandAction.Simple {
         String mappedClassName = mObjectClass.getName();
 
         String methodText = OBJECT_LIST_TRANSFORM_METHOD.replace("$ORIGIN_CLASS$", originClassName)
+                .replace("$ENTITY$", Utils.getClassEntityName(originClassName))
                 .replace("$MAPPED_CLASS$", mappedClassName);
         mapperClass.add(mFactory.createMethodFromText(methodText, mapperClass));
     }

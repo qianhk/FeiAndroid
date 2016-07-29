@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class ManageModulePO implements Serializable {
     private int mBubble;
     private boolean mAllowed;
+    private boolean mAllowed2;
     private String mName;
 
     public ManageModulePO() {
@@ -34,4 +35,11 @@ public class ManageModulePO implements Serializable {
         this.mName = value;
     }
 
+    public boolean isAllowed2() {
+        return mAllowed2;
+    }
+
+    public void setAllowed2(boolean allowed2) {
+        mAllowed2 = allowed2;
+    }
 }
