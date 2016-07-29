@@ -13,7 +13,7 @@ public class WaitPOManager {
 
     private static WaitPOManager mManager;
 
-    private ArrayList<WaitPOItem> mMapperedPOList = new ArrayList<>();
+    private ArrayList<WaitPOItem> mMappedPOList = new ArrayList<>();
     private ArrayList<WaitPOItem> mWaitingPOList = new ArrayList<>();
 
     public static WaitPOManager getInstance() {
@@ -28,12 +28,12 @@ public class WaitPOManager {
     }
 
     public void clear() {
-        mMapperedPOList.clear();
+        mMappedPOList.clear();
         mWaitingPOList.clear();
     }
 
     public void push(WaitPOItem item) {
-        if (!mMapperedPOList.contains(item) && !mWaitingPOList.contains(item)) {
+        if (!mMappedPOList.contains(item) && !mWaitingPOList.contains(item)) {
             mWaitingPOList.add(item);
         }
     }
@@ -42,7 +42,9 @@ public class WaitPOManager {
         if (mWaitingPOList.isEmpty()) {
             return null;
         } else {
-            return mWaitingPOList.remove(0);
+            final WaitPOItem poItem = mWaitingPOList.remove(0);
+            mMappedPOList.add(poItem);
+            return poItem;
         }
     }
 

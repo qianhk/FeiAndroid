@@ -9,32 +9,32 @@ import com.intellij.psi.PsiClass;
  */
 public class WaitPOItem {
 
-    private String mWaitClass;
-    private String mWaitPkg;
-    private PsiClass mOriginClass;
+    private PsiClass mPoClass;
+    private String mVoClassCanonicalName;
+    private String mMapperClassCanonicalName;
 
-    public PsiClass getOriginClass() {
-        return mOriginClass;
+    public PsiClass getPoClass() {
+        return mPoClass;
     }
 
-    public void setOriginClass(PsiClass originClass) {
-        mOriginClass = originClass;
+    public void setPoClass(PsiClass poClass) {
+        mPoClass = poClass;
     }
 
-    public String getWaitClass() {
-        return mWaitClass;
+    public String getVoClassCanonicalName() {
+        return mVoClassCanonicalName;
     }
 
-    public void setWaitClass(String waitClass) {
-        mWaitClass = waitClass;
+    public void setVoClassCanonicalName(String voClassCanonicalName) {
+        mVoClassCanonicalName = voClassCanonicalName;
     }
 
-    public String getWaitPkg() {
-        return mWaitPkg;
+    public String getMapperClassCanonicalName() {
+        return mMapperClassCanonicalName;
     }
 
-    public void setWaitPkg(String waitPkg) {
-        mWaitPkg = waitPkg;
+    public void setMapperClassCanonicalName(String mapperClassCanonicalName) {
+        mMapperClassCanonicalName = mapperClassCanonicalName;
     }
 
     @Override
@@ -44,14 +44,17 @@ public class WaitPOItem {
 
         WaitPOItem that = (WaitPOItem) o;
 
-        if (mWaitClass != null ? !mWaitClass.equals(that.mWaitClass) : that.mWaitClass != null) return false;
-        return mWaitPkg != null ? mWaitPkg.equals(that.mWaitPkg) : that.mWaitPkg == null;
+        if (!mPoClass.equals(that.mPoClass)) return false;
+        if (!mVoClassCanonicalName.equals(that.mVoClassCanonicalName)) return false;
+        return mMapperClassCanonicalName.equals(that.mMapperClassCanonicalName);
+
     }
 
     @Override
     public int hashCode() {
-        int result = mWaitClass != null ? mWaitClass.hashCode() : 0;
-        result = 31 * result + (mWaitPkg != null ? mWaitPkg.hashCode() : 0);
+        int result = mPoClass.hashCode();
+        result = 31 * result + mVoClassCanonicalName.hashCode();
+        result = 31 * result + mMapperClassCanonicalName.hashCode();
         return result;
     }
 }

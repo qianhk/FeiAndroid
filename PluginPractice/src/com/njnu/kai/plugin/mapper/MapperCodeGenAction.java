@@ -46,9 +46,6 @@ public class MapperCodeGenAction extends AnAction {
                 PropertiesComponent.getInstance().setValue(BOUND_WIDTH, bounds.width, 800);
                 PropertiesComponent.getInstance().setValue(BOUND_HEIGHT, bounds.height, 200);
                 saveProperties(params);
-                final WaitPOItem waitPOItem = new WaitPOItem();
-                waitPOItem.setOriginClass(params.getOriginClass());
-                WaitPOManager.getInstance().push(waitPOItem);
                 new MapperProcessor(params).execute();
             }
         }, project, originClass);
