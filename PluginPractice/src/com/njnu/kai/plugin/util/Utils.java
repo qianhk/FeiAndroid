@@ -436,4 +436,12 @@ public class Utils {
         }
         return className;
     }
+
+    public static String replaceFullPkgWithGivenClass(String fullPkg, String oriClass) {
+        final int pos = fullPkg.lastIndexOf('.');
+        if (pos > 0) {
+            return fullPkg.substring(0, pos + 1) + getClassEntityName(oriClass);
+        }
+        return fullPkg;
+    }
 }

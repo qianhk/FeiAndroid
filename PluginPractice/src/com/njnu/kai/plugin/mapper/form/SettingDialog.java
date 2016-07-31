@@ -51,18 +51,10 @@ public class SettingDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
 //        System.err.println("SettingDialog tmpRuntimeParams=" + tmpRuntimeParams);
-        final String voClassFullName = amendCanonicalName(tmpRuntimeParams.getVoClassCanonicalName(), tmpRuntimeParams.getOriginClass().getName()) + "VO";
+        final String voClassFullName = Utils.replaceFullPkgWithGivenClass(tmpRuntimeParams.getVoClassCanonicalName(), tmpRuntimeParams.getOriginClass().getName()) + "VO";
         mVoClass.setText(voClassFullName);
-        mMapperClass.setText(amendCanonicalName(tmpRuntimeParams.getMapperClassCanonicalName(), tmpRuntimeParams.getOriginClass().getQualifiedName()) + "Mapper");
+        mMapperClass.setText(Utils.replaceFullPkgWithGivenClass(tmpRuntimeParams.getMapperClassCanonicalName(), tmpRuntimeParams.getOriginClass().getQualifiedName()) + "Mapper");
         mCbSupportList.setSelected(tmpRuntimeParams.isSupportList());
-    }
-
-    private String amendCanonicalName(String fullPkg, String oriClass) {
-        final int pos = fullPkg.lastIndexOf('.');
-        if (pos > 0) {
-            return fullPkg.substring(0, pos + 1) + Utils.getClassEntityName(oriClass);
-        }
-        return fullPkg;
     }
 
     private void onOK() {
