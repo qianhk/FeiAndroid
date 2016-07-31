@@ -10,12 +10,15 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.njnu.kai.plugin.mapper.TmpRuntimeParams;
 import com.njnu.kai.plugin.mapper.model.WaitPOItem;
 import com.njnu.kai.plugin.mapper.model.WaitPOManager;
+import com.njnu.kai.plugin.util.Utils;
 
 public class MapperProcessor extends WriteCommandAction.Simple implements MapperPoClass.MapperPoClassListener {
 
+    private TmpRuntimeParams mTmpRuntimeParams;
+
     public MapperProcessor(final TmpRuntimeParams params) {
         super(params.getProject(), "po-to-vo-mapper-command");
-
+        mTmpRuntimeParams = params;
         final WaitPOItem waitPOItem = new WaitPOItem();
         waitPOItem.setPoClass(params.getOriginClass());
         waitPOItem.setVoClassCanonicalName(params.getVoClassCanonicalName());
@@ -50,8 +53,9 @@ public class MapperProcessor extends WriteCommandAction.Simple implements Mapper
                 final WaitPOItem waitPOItem = new WaitPOItem();
                 waitPOItem.setPoClass(typePoClass);
                 //todo get new po to vo
-                waitPOItem.setVoClassCanonicalName(params.getVoClassCanonicalName());
-                waitPOItem.setMapperClassCanonicalName(params.getMapperClassCanonicalName());
+                String voClassFullName = Utils.replaceFullPkgWithGivenClass(mTmpRuntimeParams.getVoClassCanonicalName(), typePoClass.getName()) + "VO";
+                waitPOItem.setVoClassCanonicalName(voClassFullName);
+                waitPOItem.setMapperClassCanonicalName(mTmpRuntimeParams.getMapperClassCanonicalName());
                 WaitPOManager.getInstance().push(waitPOItem);
             }
         }
