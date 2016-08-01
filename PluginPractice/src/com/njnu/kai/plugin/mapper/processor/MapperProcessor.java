@@ -43,7 +43,7 @@ public class MapperProcessor extends WriteCommandAction.Simple implements Mapper
         final String name = field.getName(); //getType PsiClassreferenceType //PsiJavaCodeReferenceElement
         if (name.endsWith("PO")) {
 //            System.out.println("field po: " + field + " name=" + name);
-            final PsiType type = field.getType();
+            final PsiType type = field.getType();//PsiClassReferenceType PsiJavaCodeReferenceElementImpl
             final String canonicalText = type.getCanonicalText();
             final Project project = getProject();
             JavaPsiFacade javaPsiFacade = JavaPsiFacade.getInstance(project);

@@ -159,12 +159,29 @@ public class MapperPoClass {
     }
 
     private void generateFields(PsiClass objectClass) {
+        StringBuilder injection = new StringBuilder();
         for (PsiField field : mPoClass.getFields()) {
             if (!field.hasModifierProperty("static")) {
-                objectClass.add(mFactory.createField(field.getName(), field.getType()));
-                mMapperPoClassListener.notifyFoundFieldInPoClass(field);
+                final String name = field.getName();
+                if (name.endsWith("PO")) {
+                    injection.setLength(0);
+                    injection.append("private ");
+                    injection.append(getVoFieldTypeNameFromPoField(field));
+                    injection.append(" ");
+                    injection.append(name.substring(0, name.length() - 2));
+                    injection.append(";");
+                    objectClass.add(mFactory.createFieldFromText(injection.toString(), objectClass));
+                    mMapperPoClassListener.notifyFoundFieldInPoClass(field);
+                } else {
+                    objectClass.add(mFactory.createField(name, field.getType()));
+                }
             }
         }
+    }
+
+    private String getVoFieldTypeNameFromPoField(PsiField field) {
+        final String canonicalText = field.getType().getCanonicalText();
+        return Utils.replaceFullPkgWithGivenClass(mWaitPOItem.getVoClassCanonicalName(), canonicalText) + "VO";
     }
 
     private void generateMethods(PsiClass objectClass) {
