@@ -166,10 +166,12 @@ public class MapperPoClass {
                 if (name.endsWith("PO")) {
                     injection.setLength(0);
                     injection.append("private ");
-                    injection.append(getVoFieldTypeNameFromPoField(field));
+                    final String voTypeCanonicalName = getVoFieldTypeNameFromPoField(field);
+                    injection.append(voTypeCanonicalName);
                     injection.append(" ");
                     injection.append(name.substring(0, name.length() - 2));
                     injection.append(";");
+//                    objectClass.add(mFactory.createImportStatementOnDemand(voTypeCanonicalName));
                     objectClass.add(mFactory.createFieldFromText(injection.toString(), objectClass));
                     mMapperPoClassListener.notifyFoundFieldInPoClass(field);
                 } else {
@@ -185,13 +187,34 @@ public class MapperPoClass {
     }
 
     private void generateMethods(PsiClass objectClass) {
+        final StringBuilder stringBuilder = new StringBuilder();
         for (PsiMethod method : mPoClass.getMethods()) {
             String methodName = method.getName();
             if (methodName.startsWith("set") || methodName.startsWith("get") || methodName.startsWith("is")) {
-                String methodText = method.getText().replace("\b" + mPoClass.getName() + "\b", objectClass.getName());
-                objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
+                if (methodName.startsWith("get")) {
+                    final String canonicalText = method.getReturnType().getCanonicalText();
+                    if (canonicalText.endsWith("PO")) {
+                        String entity = Utils.getClassEntityName(canonicalText);
+                        stringBuilder.setLength(0);
+                        stringBuilder.append("public ");
+                        stringBuilder.append(entity + "VO get");
+                        stringBuilder.append(entity + "() {\nreturn m");
+                        stringBuilder.append(entity + ";\n}");
+                        objectClass.add(mFactory.createMethodFromText(stringBuilder.toString(), objectClass));
+                    } else {
+                        addNormalMethod(objectClass, method);
+                    }
+                } else {
+                    addNormalMethod(objectClass, method);
+                }
             }
         }
+    }
+
+    private void addNormalMethod(PsiClass objectClass, PsiMethod method) {
+        final String oriMethodText = method.getText();
+        String methodText = oriMethodText.replace("\b" + mPoClass.getName() + "\b", objectClass.getName());
+        objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
     }
 
     private void optimizeStyle(PsiClass clazz) {
