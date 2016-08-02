@@ -204,6 +204,15 @@ public class MapperPoClass {
                     } else {
                         addNormalMethod(objectClass, method);
                     }
+                } else if (methodName.startsWith("set") && methodName.endsWith("PO")) {
+                    String entity = methodName.substring(3, methodName.length() - 2);
+                    String smallEntity = entity.toLowerCase().substring(0, 1) + entity.substring(1);
+                    stringBuilder.setLength(0);
+                    stringBuilder.append("public void set");
+                    stringBuilder.append(entity + "(");
+                    stringBuilder.append(entity + "VO " + smallEntity + ") {\n");
+                    stringBuilder.append("m" + entity + " = " + smallEntity + ";\n}");
+                    objectClass.add(mFactory.createMethodFromText(stringBuilder.toString(), objectClass));
                 } else {
                     addNormalMethod(objectClass, method);
                 }
