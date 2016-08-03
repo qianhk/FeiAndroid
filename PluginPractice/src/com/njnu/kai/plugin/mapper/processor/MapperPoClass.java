@@ -53,6 +53,7 @@ public class MapperPoClass {
             "    }\n\n";
 
     private static String METHOD_BODY_ITEM = "mappedObject.set$PROPERTY$(originObject.$GETTER$());\n";
+    private static String METHOD_BODY_PO_ITEM = "mappedObject.set$PROPERTY$(transform(originObject.$GETTER$()));\n";
 
     public MapperPoClass(Project project, MapperPoClassListener mapperPoClassListener, WaitPOItem waitPOItem) {
         mProject = project;
@@ -64,7 +65,7 @@ public class MapperPoClass {
     public void execute() {
         mPoClass = mWaitPOItem.getPoClass();
         mVoClass = createClass(mWaitPOItem.getVoClassCanonicalName(), false);
-        mMapperClass = createClass(mWaitPOItem.getMapperClassCanonicalName(), true);
+        mMapperClass = createClass(mWaitPOItem.getMapperClassCanonicalName(), false);
         generateObjectClass();
         generateMapperClass();
     }
@@ -146,11 +147,18 @@ public class MapperPoClass {
             } else {
                 String getter = "get" + property;
                 final PsiMethod[] methodsByName = mPoClass.findMethodsByName(getter, false);
-                if (methodsByName.length > 0) {
-                    final String methodItem = METHOD_BODY_ITEM
-                            .replace("$GETTER$", getter)
-                            .replace("$PROPERTY$", property);
-                    methodBody.append(methodItem);
+                if (methodsByName.length > 0) {//"mappedObject.set$PROPERTY$(originObject.$GETTER$());\n";
+                    if (property.endsWith("PO")) {
+                        final String methodItem = METHOD_BODY_PO_ITEM
+                                .replace("$PROPERTY$", Utils.getClassEntityName(property))
+                                .replace("$GETTER$", getter);
+                        methodBody.append(methodItem);
+                    } else {
+                        final String methodItem = METHOD_BODY_ITEM
+                                .replace("$PROPERTY$", Utils.getClassEntityName(property))
+                                .replace("$GETTER$", getter);
+                        methodBody.append(methodItem);
+                    }
                 }
             }
         }
