@@ -62,10 +62,10 @@ public class MapperPoClass {
         mFactory = JavaPsiFacade.getElementFactory(mProject);
     }
 
-    public void execute() {
+    public void execute(boolean newMapperClass) {
         mPoClass = mWaitPOItem.getPoClass();
         mVoClass = createClass(mWaitPOItem.getVoClassCanonicalName(), false);
-        mMapperClass = createClass(mWaitPOItem.getMapperClassCanonicalName(), false);
+        mMapperClass = createClass(mWaitPOItem.getMapperClassCanonicalName(), newMapperClass);
         generateObjectClass();
         generateMapperClass();
     }

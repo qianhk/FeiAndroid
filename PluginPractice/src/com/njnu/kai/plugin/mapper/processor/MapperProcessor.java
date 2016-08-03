@@ -29,10 +29,12 @@ public class MapperProcessor extends WriteCommandAction.Simple implements Mapper
     @Override
     protected void run() {
         final WaitPOManager instance = WaitPOManager.getInstance();
+        int index = 0;
         while (!instance.empty()) {
             final WaitPOItem waitPOItem = instance.pop();
             if (waitPOItem != null) {
-                new MapperPoClass(getProject(), this, waitPOItem).execute();
+                ++index;
+                new MapperPoClass(getProject(), this, waitPOItem).execute(index > 1);
             }
         }
         instance.clear();
