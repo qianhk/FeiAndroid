@@ -193,7 +193,7 @@ public class MapperPoClass {
                             if (name.endsWith("s")) {
                                 filedStr = filedStr.replace(name, name.substring(0, name.length() - 1) + "List");
                             }
-                            filedStr = filedStr.replace("VO", "").replace("PO", "VO");
+                            filedStr = filedStr.replace("VO", "").replace("PO", "VO").replace(" List<", " " + JAVA_LIST_TYPE+ "<");
                             objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
                             mMapperPoClassListener.notifyFoundFieldInPoClass(itemCanonicalText);
                             continue;
@@ -202,6 +202,7 @@ public class MapperPoClass {
                             if (name.endsWith("s")) {
                                 filedStr = filedStr.replace(name, name.substring(0, name.length() - 1) + "List");
                             }
+                            filedStr = filedStr.replace(" List<", " " + JAVA_LIST_TYPE+ "<");
                             objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
                             continue;
                         }
@@ -250,6 +251,8 @@ public class MapperPoClass {
                         if (itemCanonicalText.endsWith("PO")) {
                             final String oriMethodText = method.getText();
                             String methodText = oriMethodText.replace("VO", "").replace("PO", "VO");
+                            String itemEntity = Utils.getClassEntityName(itemCanonicalText);
+                            methodText = methodText.replace(itemEntity + "s", itemEntity + "List");
                             objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
                         } else {
                             addNormalMethod(objectClass, method);
@@ -274,6 +277,8 @@ public class MapperPoClass {
                             if (itemCanonicalText.endsWith("PO")) {
                                 final String oriMethodText = method.getText();
                                 String methodText = oriMethodText.replace("VO", "").replace("PO", "VO");
+                                String itemEntity = Utils.getClassEntityName(itemCanonicalText);
+                                methodText = methodText.replace(itemEntity + "s", itemEntity + "List");
                                 objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
                             } else {
                                 addNormalMethod(objectClass, method);
@@ -296,10 +301,10 @@ public class MapperPoClass {
     }
 
     private void optimizeStyle(PsiClass clazz) {
-//        JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(mProject);
-//        PsiJavaFile file = (PsiJavaFile) clazz.getContainingFile();
-//        styleManager.optimizeImports(file);
-//        styleManager.shortenClassReferences(clazz);
+        JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(mProject);
+        PsiJavaFile file = (PsiJavaFile) clazz.getContainingFile();
+        styleManager.optimizeImports(file);
+        styleManager.shortenClassReferences(clazz);
     }
 
     private PsiClass createClass(String classPath, boolean keepFile) {
