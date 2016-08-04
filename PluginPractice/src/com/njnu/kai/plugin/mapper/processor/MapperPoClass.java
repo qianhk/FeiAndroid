@@ -255,7 +255,14 @@ public class MapperPoClass {
                             methodText = methodText.replace(itemEntity + "s", itemEntity + "List");
                             objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
                         } else {
-                            addNormalMethod(objectClass, method);
+                            if (methodName.endsWith("s")) {
+                                String itemEntity = methodName.substring(3, methodName.length() - 1);
+                                final String oriMethodText = method.getText();
+                                String methodText = oriMethodText.replace(itemEntity + "s", itemEntity + "List");
+                                objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
+                            } else {
+                                addNormalMethod(objectClass, method);
+                            }
                         }
                     } else {
                         addNormalMethod(objectClass, method);
@@ -281,7 +288,14 @@ public class MapperPoClass {
                                 methodText = methodText.replace(itemEntity + "s", itemEntity + "List");
                                 objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
                             } else {
-                                addNormalMethod(objectClass, method);
+                                if (methodName.endsWith("s")) {
+                                    String itemEntity = methodName.substring(3, methodName.length() - 1);
+                                    final String oriMethodText = method.getText();
+                                    String methodText = oriMethodText.replace(itemEntity + "s", itemEntity + "List");
+                                    objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
+                                } else {
+                                    addNormalMethod(objectClass, method);
+                                }
                             }
                         } else {
                             addNormalMethod(objectClass, method);
@@ -297,6 +311,7 @@ public class MapperPoClass {
     private void addNormalMethod(PsiClass objectClass, PsiMethod method) {
         final String oriMethodText = method.getText();
         String methodText = oriMethodText.replace("\b" + mPoClass.getName() + "\b", objectClass.getName());
+        methodText = methodText.replace("this.", "");
         objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
     }
 
