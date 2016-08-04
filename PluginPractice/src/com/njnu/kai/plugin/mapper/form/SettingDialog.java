@@ -14,7 +14,6 @@ public class SettingDialog extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField mVoClass;
-    private JCheckBox mCbSupportList;
     private JTextField mMapperClass;
 
     public SettingDialog(TmpRuntimeParams tmpRuntimeParams) {
@@ -54,7 +53,6 @@ public class SettingDialog extends JDialog {
         final String voClassFullName = Utils.replaceFullPkgWithGivenClass(tmpRuntimeParams.getVoClassCanonicalName(), tmpRuntimeParams.getOriginClass().getName()) + "VO";
         mVoClass.setText(voClassFullName);
         mMapperClass.setText(Utils.replaceFullPkgWithGivenClass(tmpRuntimeParams.getMapperClassCanonicalName(), tmpRuntimeParams.getOriginClass().getQualifiedName()) + "Mapper");
-        mCbSupportList.setSelected(tmpRuntimeParams.isSupportList());
     }
 
     private void onOK() {
@@ -65,8 +63,6 @@ public class SettingDialog extends JDialog {
         String mapperClassCanonicalName = getClassCanonicalName(mMapperClass);
         if (mapperClassCanonicalName == null) return;
         mTmpRuntimeParams.setMapperClassCanonicalName(mapperClassCanonicalName);
-
-        mTmpRuntimeParams.setSupportList(mCbSupportList.isSelected());
 
         mTmpRuntimeParams.getAction().run(mTmpRuntimeParams);
 

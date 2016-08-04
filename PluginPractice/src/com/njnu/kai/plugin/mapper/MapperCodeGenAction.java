@@ -19,7 +19,6 @@ public class MapperCodeGenAction extends AnAction {
 
     private static final String VO_CLASS_CANONICAL_NAME = "voClassCanonicalName";
     private static final String MAPPER_CLASS_CANONICAL_NAME = "mapperClassCanonicalName";
-    private static final String IS_SUPPORT_LIST = "isSupportList";
     private static final String BOUND_X = "bound_x";
     private static final String BOUND_Y = "bound_y";
     private static final String BOUND_WIDTH = "bound_width";
@@ -60,13 +59,11 @@ public class MapperCodeGenAction extends AnAction {
     private void loadProperties(TmpRuntimeParams context) {
         context.setVoClassCanonicalName(PropertiesComponent.getInstance().getValue(VO_CLASS_CANONICAL_NAME, "com.example.app.model.NewObject"));
         context.setMapperClassCanonicalName(PropertiesComponent.getInstance().getValue(MAPPER_CLASS_CANONICAL_NAME, "com.example.app.mapper.NewObjectMapper"));
-        context.setSupportList(PropertiesComponent.getInstance().getBoolean(IS_SUPPORT_LIST));
     }
 
     private void saveProperties(TmpRuntimeParams context) {
         PropertiesComponent.getInstance().setValue(VO_CLASS_CANONICAL_NAME, context.getVoClassCanonicalName());
         PropertiesComponent.getInstance().setValue(MAPPER_CLASS_CANONICAL_NAME, context.getMapperClassCanonicalName());
-        PropertiesComponent.getInstance().setValue(IS_SUPPORT_LIST, context.isSupportList());
     }
 
 }

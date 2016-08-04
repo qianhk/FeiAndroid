@@ -14,7 +14,6 @@ public class TmpRuntimeParams {
     PsiClass mOriginClass;
     String mVoClassCanonicalName;
     String mMapperClassCanonicalName;
-    boolean mSupportList;
 
     public TmpRuntimeParams(Action action, Project project, PsiClass originClass) {
         mAction = action;
@@ -50,11 +49,4 @@ public class TmpRuntimeParams {
         mMapperClassCanonicalName = mapperClassCanonicalName;
     }
 
-    public boolean isSupportList() {
-        return mSupportList;
-    }
-
-    public void setSupportList(boolean supportList) {
-        mSupportList = supportList;
-    }
 }
