@@ -186,9 +186,23 @@ public class MapperPoClass {
                 if (field.getType() instanceof PsiClassReferenceType) {
                     if (canonicalText.startsWith(JAVA_LIST_TYPE)) {
                         String itemCanonicalText = canonicalText.substring(JAVA_LIST_TYPE.length() + 1, canonicalText.length() - 1);
+//                        String itemEntity = Utils.getClassEntityName(itemCanonicalText);
                         if (itemCanonicalText.endsWith("PO")) {
-                            objectClass.add(mFactory.createFieldFromText(field.getText().replace("VO", "").replace("PO", "VO"), objectClass));
+                            String filedStr = field.getText();
+//                            String filedStr = String.format("private %s<%sVO> m%sList;\n", JAVA_LIST_TYPE, itemEntity, itemEntity);
+                            if (name.endsWith("s")) {
+                                filedStr = filedStr.replace(name, name.substring(0, name.length() - 1) + "List");
+                            }
+                            filedStr = filedStr.replace("VO", "").replace("PO", "VO");
+                            objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
                             mMapperPoClassListener.notifyFoundFieldInPoClass(itemCanonicalText);
+                            continue;
+                        } else {
+                            String filedStr = field.getText();
+                            if (name.endsWith("s")) {
+                                filedStr = filedStr.replace(name, name.substring(0, name.length() - 1) + "List");
+                            }
+                            objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
                             continue;
                         }
                     }
