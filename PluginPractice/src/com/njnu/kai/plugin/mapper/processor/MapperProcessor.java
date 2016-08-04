@@ -5,7 +5,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiType;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.njnu.kai.plugin.mapper.TmpRuntimeParams;
 import com.njnu.kai.plugin.mapper.model.WaitPOItem;
@@ -42,23 +41,25 @@ public class MapperProcessor extends WriteCommandAction.Simple implements Mapper
 
     @Override
     public void notifyFoundFieldInPoClass(PsiField field) {
-        final String name = field.getName(); //getType PsiClassreferenceType //PsiJavaCodeReferenceElement
-        if (name.endsWith("PO")) {
-//            System.out.println("field po: " + field + " name=" + name);
-            final PsiType type = field.getType();//PsiClassReferenceType PsiJavaCodeReferenceElementImpl
-            final String canonicalText = type.getCanonicalText();
+        notifyFoundFieldInPoClass(field.getType().getCanonicalText());
+    }
+
+    @Override
+    public void notifyFoundFieldInPoClass(String poCanonicalText) {
+        if (poCanonicalText.endsWith("PO")) {
             final Project project = getProject();
             JavaPsiFacade javaPsiFacade = JavaPsiFacade.getInstance(project);
             GlobalSearchScope searchScope = GlobalSearchScope.allScope(project);
-            final PsiClass typePoClass = javaPsiFacade.findClass(canonicalText, searchScope);
+            final PsiClass typePoClass = javaPsiFacade.findClass(poCanonicalText, searchScope);
             if (typePoClass != null) {
                 final WaitPOItem waitPOItem = new WaitPOItem();
                 waitPOItem.setPoClass(typePoClass);
-                //todo get new po to vo
                 String voClassFullName = Utils.replaceFullPkgWithGivenClass(mTmpRuntimeParams.getVoClassCanonicalName(), typePoClass.getName()) + "VO";
                 waitPOItem.setVoClassCanonicalName(voClassFullName);
                 waitPOItem.setMapperClassCanonicalName(mTmpRuntimeParams.getMapperClassCanonicalName());
                 WaitPOManager.getInstance().push(waitPOItem);
+            } else {
+                System.err.println("notifyFoundFieldInPoClass but not found class: " + poCanonicalText);
             }
         }
     }

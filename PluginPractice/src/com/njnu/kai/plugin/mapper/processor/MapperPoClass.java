@@ -3,6 +3,7 @@ package com.njnu.kai.plugin.mapper.processor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
+import com.intellij.psi.impl.source.PsiClassReferenceType;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.njnu.kai.plugin.mapper.model.WaitPOItem;
 import com.njnu.kai.plugin.util.Utils;
@@ -119,6 +120,14 @@ public class MapperPoClass {
         styleManager.addImport(file, javaPsiFacade.findClass("java.util.ArrayList", searchScope));
     }
 
+    private void addImport(PsiClass whichClass, String canonicalText) {
+        JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(mProject);
+        PsiJavaFile file = (PsiJavaFile) whichClass.getContainingFile();
+        JavaPsiFacade javaPsiFacade = JavaPsiFacade.getInstance(mProject);
+        GlobalSearchScope searchScope = GlobalSearchScope.allScope(mProject);
+        styleManager.addImport(file, javaPsiFacade.findClass(canonicalText, searchScope));
+    }
+
     private String methodBody() {
         StringBuilder methodBody = new StringBuilder();
 
@@ -166,11 +175,24 @@ public class MapperPoClass {
         return methodBody.toString();
     }
 
+    private static final String JAVA_LIST_TYPE = "java.util.List";
+
     private void generateFields(PsiClass objectClass) {
         StringBuilder injection = new StringBuilder();
         for (PsiField field : mPoClass.getFields()) {
             if (!field.hasModifierProperty("static")) {
                 final String name = field.getName();
+                final String canonicalText = field.getType().getCanonicalText();
+                if (field.getType() instanceof PsiClassReferenceType) {
+                    if (canonicalText.startsWith(JAVA_LIST_TYPE)) {
+                        String itemCanonicalText = canonicalText.substring(JAVA_LIST_TYPE.length() + 1, canonicalText.length() - 1);
+                        if (itemCanonicalText.endsWith("PO")) {
+                            objectClass.add(mFactory.createFieldFromText(field.getText().replace("PO", "VO"), objectClass));
+                            mMapperPoClassListener.notifyFoundFieldInPoClass(itemCanonicalText);
+                            continue;
+                        }
+                    }
+                }
                 if (name.endsWith("PO")) {
                     injection.setLength(0);
                     injection.append("private ");
@@ -296,6 +318,9 @@ public class MapperPoClass {
     }
 
     public interface MapperPoClassListener {
+
         void notifyFoundFieldInPoClass(PsiField field);
+
+        void notifyFoundFieldInPoClass(String poCanonicalText);
     }
 }
