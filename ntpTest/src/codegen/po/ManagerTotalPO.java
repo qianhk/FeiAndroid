@@ -7,6 +7,7 @@ public class ManagerTotalPO implements Serializable {
     private long mManagerGroupId;
     private int mManagerGroupMaxCount;
     private List<ManagerDetailPO> mManagerDetailVOs;
+    private List<String> mTestStrings;
     private String mManagerGroupName;
     private ManageModulePO mManageModulePO;
 
@@ -51,5 +52,13 @@ public class ManagerTotalPO implements Serializable {
 
     public void setManagerGroupName(String value) {
         this.mManagerGroupName = value;
+    }
+
+    public List<String> getTestStrings() {
+        return mTestStrings;
+    }
+
+    public void setTestStrings(List<String> testStrings) {
+        mTestStrings = testStrings;
     }
 }

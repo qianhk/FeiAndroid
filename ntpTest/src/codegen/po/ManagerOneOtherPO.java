@@ -1,12 +1,14 @@
 package codegen.po;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ManagerOneOtherPO implements Serializable {
     private long mManagerGroupId;
     private int mManagerGroupMaxCount;
     private String mManagerGroupName;
     private ManageModulePO mManageModulePO;
+    private List<ManageModulePO> mManageModuleVOs;
 
     public ManagerOneOtherPO() {
     }
@@ -41,5 +43,13 @@ public class ManagerOneOtherPO implements Serializable {
 
     public void setManagerGroupName(String value) {
         this.mManagerGroupName = value;
+    }
+
+    public List<ManageModulePO> getManageModuleVOs() {
+        return mManageModuleVOs;
+    }
+
+    public void setManageModuleVOs(List<ManageModulePO> manageModuleVOs) {
+        mManageModuleVOs = manageModuleVOs;
     }
 }
