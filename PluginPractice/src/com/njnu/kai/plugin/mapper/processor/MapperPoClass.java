@@ -252,13 +252,13 @@ public class MapperPoClass {
                             final String oriMethodText = method.getText();
                             String methodText = oriMethodText.replace("VO", "").replace("PO", "VO");
                             String itemEntity = Utils.getClassEntityName(itemCanonicalText);
-                            methodText = methodText.replace(itemEntity + "s", itemEntity + "List");
+                            methodText = methodText.replace(itemEntity + "s", itemEntity + "List").replace("this.", "");
                             objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
                         } else {
                             if (methodName.endsWith("s")) {
                                 String itemEntity = methodName.substring(3, methodName.length() - 1);
                                 final String oriMethodText = method.getText();
-                                String methodText = oriMethodText.replace(itemEntity + "s", itemEntity + "List");
+                                String methodText = oriMethodText.replace(itemEntity + "s", itemEntity + "List").replace("this.", "");
                                 objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
                             } else {
                                 addNormalMethod(objectClass, method);
@@ -285,13 +285,13 @@ public class MapperPoClass {
                                 final String oriMethodText = method.getText();
                                 String methodText = oriMethodText.replace("VO", "").replace("PO", "VO");
                                 String itemEntity = Utils.getClassEntityName(itemCanonicalText);
-                                methodText = methodText.replace(itemEntity + "s", itemEntity + "List");
+                                methodText = methodText.replace(itemEntity + "s", itemEntity + "List").replace("this.", "");
                                 objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
                             } else {
                                 if (methodName.endsWith("s")) {
                                     String itemEntity = methodName.substring(3, methodName.length() - 1);
                                     final String oriMethodText = method.getText();
-                                    String methodText = oriMethodText.replace(itemEntity + "s", itemEntity + "List");
+                                    String methodText = oriMethodText.replace(itemEntity + "s", itemEntity + "List").replace("this.", "");
                                     objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
                                 } else {
                                     addNormalMethod(objectClass, method);
