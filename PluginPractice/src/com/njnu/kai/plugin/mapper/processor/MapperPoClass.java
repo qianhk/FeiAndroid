@@ -53,8 +53,11 @@ public class MapperPoClass {
             "        return mappedObjects;\n" +
             "    }\n\n";
 
+    private static final String JAVA_LIST_TYPE = "java.util.List";
     private static String METHOD_BODY_ITEM = "mappedObject.set$PROPERTY$(originObject.$GETTER$());\n";
     private static String METHOD_BODY_PO_ITEM = "mappedObject.set$PROPERTY$(transform(originObject.$GETTER$()));\n";
+    private static String METHOD_BODY_ITEM_LIST = "mappedObject.set$PROPERTY$List(originObject.$GETTER$());\n";
+    private static String METHOD_BODY_PO_ITEM_LIST = "mappedObject.set$PROPERTY$List(transform$PROPERTY$List(originObject.$GETTER$()));\n";
 
     public MapperPoClass(Project project, MapperPoClassListener mapperPoClassListener, WaitPOItem waitPOItem) {
         mProject = project;
@@ -156,17 +159,32 @@ public class MapperPoClass {
             } else {
                 String getter = "get" + property;
                 final PsiMethod[] methodsByName = mPoClass.findMethodsByName(getter, false);
-                if (methodsByName.length > 0) {//"mappedObject.set$PROPERTY$(originObject.$GETTER$());\n";
-                    if (property.endsWith("PO")) {
-                        final String methodItem = METHOD_BODY_PO_ITEM
-                                .replace("$PROPERTY$", Utils.getClassEntityName(property))
-                                .replace("$GETTER$", getter);
-                        methodBody.append(methodItem);
+                if (methodsByName.length > 0) {
+                    final String canonicalText = field.getType().getCanonicalText();
+                    if (canonicalText.startsWith(JAVA_LIST_TYPE)) {
+                        String itemCanonicalText = canonicalText.substring(JAVA_LIST_TYPE.length() + 1, canonicalText.length() - 1);
+                        String itemEntity = Utils.getClassEntityName(itemCanonicalText);
+                        String fieldEntifyName = property;
+                        if (fieldEntifyName.endsWith("s")) {
+                            fieldEntifyName = fieldEntifyName.substring(0, fieldEntifyName.length() - 1);
+                        }
+                        if (fieldEntifyName.startsWith("m")) {
+                            fieldEntifyName = fieldEntifyName.substring(1);
+                        }
+                        if (itemCanonicalText.endsWith("PO")) {
+                            final String methodItem = METHOD_BODY_PO_ITEM_LIST
+                                    .replace("$PROPERTY$", itemEntity)
+                                    .replace("$GETTER$", getter);
+                            methodBody.append(methodItem);
+                        } else {
+                            final String methodItem = METHOD_BODY_ITEM_LIST
+                                    .replace("$PROPERTY$", fieldEntifyName)
+                                    .replace("$GETTER$", getter);
+                            methodBody.append(methodItem);
+                        }
+
                     } else {
-                        final String methodItem = METHOD_BODY_ITEM
-                                .replace("$PROPERTY$", Utils.getClassEntityName(property))
-                                .replace("$GETTER$", getter);
-                        methodBody.append(methodItem);
+                        addNormalMapperBodyItem(methodBody, property);
                     }
                 }
             }
@@ -175,7 +193,20 @@ public class MapperPoClass {
         return methodBody.toString();
     }
 
-    private static final String JAVA_LIST_TYPE = "java.util.List";
+    private void addNormalMapperBodyItem(StringBuilder methodBody, String property) {
+        String getter = "get" + property;
+        if (property.endsWith("PO")) {
+            final String methodItem = METHOD_BODY_PO_ITEM
+                    .replace("$PROPERTY$", Utils.getClassEntityName(property))
+                    .replace("$GETTER$", getter);
+            methodBody.append(methodItem);
+        } else {
+            final String methodItem = METHOD_BODY_ITEM
+                    .replace("$PROPERTY$", Utils.getClassEntityName(property))
+                    .replace("$GETTER$", getter);
+            methodBody.append(methodItem);
+        }
+    }
 
     private void generateFields(PsiClass objectClass) {
         StringBuilder injection = new StringBuilder();
