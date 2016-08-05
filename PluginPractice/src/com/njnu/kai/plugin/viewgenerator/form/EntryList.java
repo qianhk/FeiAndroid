@@ -14,8 +14,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
-
 public class EntryList extends JPanel {
     protected ArrayList<Element> mElements;
     protected List<Entry> mEntries = new ArrayList<Entry>();
@@ -39,14 +37,6 @@ public class EntryList extends JPanel {
 
         addInjections();
         addButtons();
-
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                if (mCancelListener != null) {
-                    mCancelListener.onCancel();
-                }
-            }
-        });
 
         registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

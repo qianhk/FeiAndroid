@@ -1,11 +1,7 @@
 package com.njnu.kai.plugin.util;
 
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.util.PsiUtilBase;
-import com.njnu.kai.plugin.viewgenerator.Settings.Settings;
-import com.njnu.kai.plugin.viewgenerator.model.Element;
-import com.njnu.kai.plugin.viewgenerator.model.VGContext;
 import com.intellij.ide.util.PropertiesComponent;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
@@ -23,9 +19,14 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsManager;
 import com.intellij.psi.search.EverythingGlobalScope;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.util.PsiUtilBase;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.ui.awt.RelativePoint;
+import com.njnu.kai.plugin.viewgenerator.Settings.Settings;
+import com.njnu.kai.plugin.viewgenerator.model.Element;
+import com.njnu.kai.plugin.viewgenerator.model.VGContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -141,10 +142,10 @@ public class Utils {
      * @param file
      * @return
      */
-    public static ArrayList<Element> getIDsFromLayout(final PsiFile file) {
+    public static ArrayList<Element> getIDsFromLayout(final PsiFile file, Project project) {
         final ArrayList<Element> elements = new ArrayList<Element>();
 
-        return getIDsFromLayout(file, elements);
+        return getIDsFromLayout(file, elements, project);
     }
 
     /**
@@ -153,7 +154,7 @@ public class Utils {
      * @param file
      * @return
      */
-    public static ArrayList<Element> getIDsFromLayout(final PsiFile file, final ArrayList<Element> elements) {
+    public static ArrayList<Element> getIDsFromLayout(final PsiFile file, final ArrayList<Element> elements, Project project) {
         file.accept(new XmlRecursiveElementVisitor() {
 
             @Override
@@ -171,7 +172,7 @@ public class Utils {
                             PsiFile include = findLayoutResource(file, project, getLayoutName(layout.getValue()));
 
                             if (include != null) {
-                                getIDsFromLayout(include, elements);
+                                getIDsFromLayout(include, elements, project);
 
                                 return;
                             }
@@ -196,7 +197,7 @@ public class Utils {
                     }
 
                     try {
-                        elements.add(new Element(name, value));
+                        elements.add(new Element(name, value, project));
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
@@ -273,12 +274,21 @@ public class Utils {
      *
      * @return
      */
-    public static String getPrefix() {
+    public static String getPrefix(Project project) {
         if (PropertiesComponent.getInstance().isValueSet(Settings.PREFIX)) {
-            return PropertiesComponent.getInstance().getValue(Settings.PREFIX);
+            String value = PropertiesComponent.getInstance().getValue(Settings.PREFIX);
+            logInfo("getPrefix has butterknifezelezny_prefix: " + value);
+            return value;
         } else {
-            CodeStyleSettingsManager manager = CodeStyleSettingsManager.getInstance();
-            CodeStyleSettings settings = manager.getCurrentSettings();
+            CodeStyleSettings settings;
+            if (project == null) {
+                CodeStyleSettingsManager manager = CodeStyleSettingsManager.getInstance();
+                settings = manager.getCurrentSettings();
+                logInfo("getPrefix use current code style setting: " + settings.FIELD_NAME_PREFIX);
+            } else {
+                settings = CodeStyleSettingsManager.getSettings(project);
+                logInfo("getPrefix use project code style setting: " + settings.FIELD_NAME_PREFIX);
+            }
             return settings.FIELD_NAME_PREFIX;
         }
     }
@@ -410,7 +420,7 @@ public class Utils {
     public static PsiClass getEditedClass(Editor editor, Project project, boolean strict) {
         PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
         PsiElement element = file.findElementAt(editor.getCaretModel().getOffset());
-        if(element != null) {
+        if (element != null) {
             PsiClass target = PsiTreeUtil.getParentOfType(element, PsiClass.class, strict);
             return target instanceof SyntheticElement ? null : target;
         }
@@ -419,7 +429,7 @@ public class Utils {
 
     public static PsiClass getEditedClass(Editor editor, PsiFile file, boolean strict) {
         PsiElement element = file.findElementAt(editor.getCaretModel().getOffset());
-        if(element != null) {
+        if (element != null) {
             PsiClass target = PsiTreeUtil.getParentOfType(element, PsiClass.class, strict);
             return target instanceof SyntheticElement ? null : target;
         }
@@ -443,5 +453,11 @@ public class Utils {
             return fullPkg.substring(0, pos + 1) + getClassEntityName(oriClass);
         }
         return fullPkg;
+    }
+
+    private static final Logger sLOG = Logger.getInstance(Utils.class);
+
+    public static void logInfo(String text) {
+        sLOG.info(text);
     }
 }

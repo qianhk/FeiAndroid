@@ -1,6 +1,7 @@
 package com.njnu.kai.plugin.viewgenerator.model;
 
 
+import com.intellij.openapi.project.Project;
 import com.njnu.kai.plugin.util.Utils;
 
 import java.util.regex.Matcher;
@@ -23,7 +24,10 @@ public class Element {
     public boolean isDeclared = false;//是否已经声明过
     public boolean isInit = false;//是否已经初始化
 
-    public Element(String name, String id) {
+    public Project mProject;
+
+    public Element(String name, String id, Project project) {
+        mProject = project;
         // id
         final Matcher matcher = sIdPattern.matcher(id);
         if (matcher.find() && matcher.groupCount() > 0) {
@@ -75,12 +79,13 @@ public class Element {
     private String getFieldName() {
         String[] words = this.id.split("_");
         StringBuilder sb = new StringBuilder();
-        sb.append(Utils.getPrefix());
+        String prefix = Utils.getPrefix(mProject);
+        sb.append(prefix);
 
         for (int i = 0; i < words.length; i++) {
             String[] idTokens = words[i].split("\\.");
             char[] chars = idTokens[idTokens.length - 1].toCharArray();
-            if (i > 0 || !Utils.isEmptyString(Utils.getPrefix())) {
+            if (i > 0 || !Utils.isEmptyString(prefix)) {
                 chars[0] = Character.toUpperCase(chars[0]);
             }
 

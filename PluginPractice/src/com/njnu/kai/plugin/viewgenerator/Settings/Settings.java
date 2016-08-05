@@ -1,5 +1,6 @@
 package com.njnu.kai.plugin.viewgenerator.Settings;
 
+import com.intellij.openapi.project.Project;
 import com.njnu.kai.plugin.util.Utils;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.options.Configurable;
@@ -55,7 +56,7 @@ public class Settings implements Configurable {
 
     @Override
     public void reset() {
-        mPrefix.setText(Utils.getPrefix());
+        mPrefix.setText(Utils.getPrefix(null));
         mHolderName.setText(Utils.getViewHolderClassName());
     }
 

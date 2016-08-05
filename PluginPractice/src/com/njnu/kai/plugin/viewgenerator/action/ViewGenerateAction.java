@@ -54,7 +54,7 @@ public class ViewGenerateAction extends AnAction implements IConfirmListener, IC
             return;
         }
 
-        ArrayList<Element> elements = Utils.getIDsFromLayout(layout);
+        ArrayList<Element> elements = Utils.getIDsFromLayout(layout, project);
         if (elements.isEmpty()) {
             Utils.showErrorNotification(project, "No IDs found in layout");
             return;
