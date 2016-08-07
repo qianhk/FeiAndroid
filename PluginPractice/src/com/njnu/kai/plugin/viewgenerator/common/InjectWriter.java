@@ -111,10 +111,10 @@ public class InjectWriter extends WriteCommandAction.Simple {
             for (Element element : mElements) {
                 if (element.isClick) {
                     if (isFirst) {
-                        method.append("if(view.getId() == " + element.getFullID() + "){\n\n");
+                        method.append("int viewId = view.getId();\nif (viewId == " + element.getFullID() + "){\n\n");
                         isFirst = false;
                     } else {
-                        method.append("}else if(view.getId() == " + element.getFullID() + "){\n\n");
+                        method.append("} else if (viewId == " + element.getFullID() + "){\n\n");
                     }
                 }
             }
