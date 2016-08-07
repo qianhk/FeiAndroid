@@ -59,6 +59,7 @@ public class InjectWriter extends WriteCommandAction.Simple {
                 method.append("private void initView() {\n");
             } else {
                 method.append("private void initView(View rootView) {\n");
+                method.append("mRootView = rootView;\n");
             }
             for (Element element : mElements) {
                 method.append(generateFindViewByIdText(element)).append("\n");
@@ -182,7 +183,7 @@ public class InjectWriter extends WriteCommandAction.Simple {
             }
 
             injection.delete(0, injection.length());
-            injection.append("protected ");
+            injection.append("private ");
             injection.append(getFieldTypeName(element));
             injection.append(" ");
             injection.append(element.fieldName);
@@ -253,9 +254,9 @@ public class InjectWriter extends WriteCommandAction.Simple {
         // add injections into main class
         StringBuilder injection = new StringBuilder();
 
-        if (!mContext.isActivity() && !mContext.getFieldNameList().contains("rootView")) {
-            injection.delete(0, injection.length());
-            injection.append("protected View rootView;");
+        if (!mContext.isActivity() && !mContext.getFieldNameList().contains("mRootView")) {
+            injection.setLength(0);
+            injection.append("private View mRootView;");
             getPsiClass().add(mFactory.createFieldFromText(injection.toString(), getPsiClass()));
         }
 
@@ -264,8 +265,8 @@ public class InjectWriter extends WriteCommandAction.Simple {
                 continue;
             }
 
-            injection.delete(0, injection.length());
-            injection.append("protected ");
+            injection.setLength(0);
+            injection.append("private ");
             injection.append(getFieldTypeName(element));
             injection.append(" ");
             injection.append(element.fieldName);
@@ -302,7 +303,7 @@ public class InjectWriter extends WriteCommandAction.Simple {
     StringBuilder stringBuilder = new StringBuilder();
 
     protected String generateFindViewByIdText(Element element) {
-        stringBuilder.delete(0, stringBuilder.length());
+        stringBuilder.setLength(0);
         stringBuilder.append(element.fieldName)
                 .append("=(")
                 .append(getFieldTypeName(element));
