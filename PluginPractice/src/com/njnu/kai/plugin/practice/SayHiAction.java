@@ -18,6 +18,6 @@ public class SayHiAction extends AnAction {
 //        final Application application = ApplicationManager.getApplication();
 //        final KaiAppComponent kaiAppComponent = application.getComponent(KaiAppComponent.class);
 //        kaiAppComponent.sayHi();
-        Messages.showMessageDialog("Hello world, Plugin!", "Kai Plugin", Messages.getInformationIcon());
+        Messages.showMessageDialog("Hello world, Music!\nGood good study, day day up.", "Kai Plugin", Messages.getInformationIcon());
     }
 }

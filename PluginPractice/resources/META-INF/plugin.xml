@@ -1,11 +1,12 @@
 <idea-plugin version="2">
     <id>com.njnu.kai.plugin.practice</id>
     <name>Kai Plugin Practice</name>
-    <version>0.0.6</version>
+    <version>0.6.0</version>
     <vendor email="qhk83@qq.com" url="http://qianhk.com">凯凯公司</vendor>
 
     <description><![CDATA[
-      插件的短描述,凯试验<br>
+      本插件可以po->vo<br>
+      本插件可以根据布局自动生成view变量及findViewById<br>
       <em>plugin practice</em>
     ]]></description>
 
@@ -16,12 +17,12 @@
     3. 作用3 <br>
     <br>
     更新历史:<br>
-     ● 0.0.6: Support po mapper to vo.<br>
-     ● 0.0.5: Support generate view.<br>
-     ● 0.0.4: Support bbbbb.<br>
-     ● 0.0.3: Support aaaa.<br>
-     ● 0.0.2: Add yyy.<br>
-     ● 0.0.1: Add xx.<br>
+     ● 0.6.0: Support po mapper to vo.<br>
+     ● 0.5.0: Support generate view.<br>
+     ● 0.4.0: Support bbbbb.<br>
+     ● 0.3.0: Support aaaa.<br>
+     ● 0.2.0: Add yyy.<br>
+     ● 0.1.0: Add xx.<br>
       <em>most HTML tags may be used</em>
     ]]>
     </change-notes>
@@ -38,7 +39,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <!--<applicationService serviceInterface="com.njnu.kai.plugin.practice.KaiAppComponent"-->
         <!--serviceImplementation="com.njnu.kai.plugin.practice.KaiAppComponent" />-->
-        <!--<applicationConfigurable instance="com.njnu.kai.plugin.practice.KaiAppConfigurable" />-->
+
+        <!--<applicationConfigurable instance="com.njnu.kai.plugin.practice.KaiAppConfigurable"/>-->
 
         <!--<applicationConfigurable instance="com.avast.android.butterknifezelezny.Settings" />-->
         <!--<codeInsight.lineMarkerProvider language="JAVA"-->
@@ -49,7 +51,7 @@
     <actions>
         <group id="kai.practice" text="KaiPlugin" description="kai plugin group description插件组描述">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
-            <action id="kai.practice.SayHiAction" class="com.njnu.kai.plugin.practice.SayHiAction" text="Say Hi"
+            <action id="kai.practice.SayHiAction" class="com.njnu.kai.plugin.practice.SayHiAction" text="Say Hi Music"
                     description="Say Hi Action的描述文字"></action>
         </group>
 
