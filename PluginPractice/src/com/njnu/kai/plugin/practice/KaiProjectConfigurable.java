@@ -12,19 +12,19 @@ import javax.swing.*;
  * @version 1.0.0
  * @since 16-7-16
  */
-public class KaiAppConfigurable implements Configurable {
+public class KaiProjectConfigurable implements Configurable {
 
 
     @Nls
     @Override
     public String getDisplayName() {
-        return "Kai全局setting";
+        return "Kai Project setting";
     }
 
     @Nullable
     @Override
     public String getHelpTopic() {
-        return "kai help topic";
+        return null;
     }
 
     @Nullable
