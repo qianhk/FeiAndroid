@@ -22,6 +22,18 @@ public class HelloWorldConfigurationForm {
         data.setMsg(mEdtMsg.getText());
     }
 
+    public void setTitleText(String title) {
+        if (mEdtTitle != null) {
+            mEdtTitle.setText(title);
+        }
+    }
+
+    public void setMsgText(String msg) {
+        if (mEdtMsg != null) {
+            mEdtMsg.setText(msg);
+        }
+    }
+
     public JPanel getRootView() {
         return mRootView;
     }

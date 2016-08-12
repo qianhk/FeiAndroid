@@ -1,7 +1,8 @@
-package com.njnu.kai.plugin.practice;
+package com.njnu.kai.plugin.preference.configurable;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.njnu.kai.plugin.practice.HelloWorldConfigurationForm;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,19 +13,19 @@ import javax.swing.*;
  * @version 1.0.0
  * @since 16-7-16
  */
-public class KaiAppConfigurable implements Configurable {
+public class KaiProjectConfigurable implements Configurable {
 
 
     @Nls
     @Override
     public String getDisplayName() {
-        return "Kai全局setting";
+        return "Kai Project setting";
     }
 
     @Nullable
     @Override
     public String getHelpTopic() {
-        return "kai help topic";
+        return null;
     }
 
     @Nullable
