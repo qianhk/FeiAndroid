@@ -16,6 +16,7 @@ import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.ex.util.LexerEditorHighlighter;
 import com.intellij.openapi.options.BaseConfigurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.project.Project;
 import com.intellij.ui.SeparatorFactory;
 import com.intellij.ui.roots.ToolbarPanel;
 import com.njnu.kai.plugin.preference.persistence.MvpTemplateSettings;
@@ -34,6 +35,8 @@ import java.awt.*;
  */
 public class TemplateConfigurable extends BaseConfigurable {
 
+    private final Project mProject;
+
     private JPanel mEditorPanel = new JPanel(new GridLayout());
     private Editor mEditor;
 
@@ -43,7 +46,8 @@ public class TemplateConfigurable extends BaseConfigurable {
     private final String mTemplateHeaderText;
     private final String mDisplayName;
 
-    public TemplateConfigurable(String displayName, String templateHeaderText, String templateName) {
+    public TemplateConfigurable(Project project, String displayName, String templateHeaderText, String templateName) {
+        mProject = project;
         mDisplayName = displayName;
         mTemplateHeaderText = templateHeaderText;
         mTemplateName = templateName;
@@ -52,7 +56,7 @@ public class TemplateConfigurable extends BaseConfigurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        mMvpTemplateSettings = MvpTemplateSettings.getInstance();
+        mMvpTemplateSettings = MvpTemplateSettings.getInstance(mProject);
         if (mMvpTemplateSettings == null) {
             return new JLabel("TemplateSettings.getInstance() return null : " + mTemplateHeaderText);
         }

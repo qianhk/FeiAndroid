@@ -2,6 +2,7 @@ package com.njnu.kai.plugin.preference.persistence;
 
 import com.google.common.collect.Maps;
 import com.intellij.openapi.components.*;
+import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,8 +26,14 @@ public class MvpTemplateSettings implements PersistentStateComponent<MvpTemplate
 
 //    private TemplatesProvider templatesProvider = new CodeGeneratorFactory.ResourceTemplateProvider();
 
-    public static MvpTemplateSettings getInstance() {
-        return ServiceManager.getService(MvpTemplateSettings.class);
+    private final Project mProject;
+
+    public MvpTemplateSettings(Project project) {
+        mProject = project;
+    }
+
+    public static MvpTemplateSettings getInstance(final Project project) {
+        return ServiceManager.getService(project, MvpTemplateSettings.class);
     }
 
     public Map<String, String> getTemplateValues() {

@@ -2,6 +2,7 @@ package com.njnu.kai.plugin.preference.configurable;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.project.Project;
 import com.njnu.kai.plugin.preference.configurable.template.TemplateConfigurable;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +18,12 @@ import java.awt.*;
 public class MvpProjectConfigurable implements Configurable, Configurable.Composite {
 
     private Configurable[] mConfigurables;
+
+    private final Project mProject;
+
+    public MvpProjectConfigurable(Project project) {
+        mProject = project;
+    }
 
     @Nls
     @Override
@@ -61,10 +68,10 @@ public class MvpProjectConfigurable implements Configurable, Configurable.Compos
     public Configurable[] getConfigurables() {
         if (mConfigurables == null) {
             mConfigurables = new Configurable[]{
-                    new TemplateConfigurable("Activity Template", "Setup Template for Activity code generation:", "Activity_template"),
-                    new TemplateConfigurable("Adapter Template", "Setup Template for Adapter code generation:", "Adapter_template"),
-                    new TemplateConfigurable("Fragment Template", "Setup Template for Fragment code generation:", "Fragment_template"),
-                    new TemplateConfigurable("Menu Template", "Setup Template for Menu code generation:", "Menu_template")
+                    new TemplateConfigurable(mProject, "Activity Template", "Setup Template for Activity code generation:", "Activity_template"),
+                    new TemplateConfigurable(mProject, "Adapter Template", "Setup Template for Adapter code generation:", "Adapter_template"),
+                    new TemplateConfigurable(mProject, "Fragment Template", "Setup Template for Fragment code generation:", "Fragment_template"),
+                    new TemplateConfigurable(mProject, "Menu Template", "Setup Template for Menu code generation:", "Menu_template")
             };
         }
         return mConfigurables;
