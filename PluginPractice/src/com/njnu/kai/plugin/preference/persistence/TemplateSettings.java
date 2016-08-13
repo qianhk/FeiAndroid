@@ -15,7 +15,8 @@ import java.util.Map;
 @State(
         name = "PluginPracticeTemplateSettings",
         storages = {
-                @Storage(file = StoragePathMacros.APP_CONFIG + "/plugin_practice_template_settings.xml")
+                @Storage(id = "default", file = StoragePathMacros.PROJECT_FILE),
+                @Storage(id = "dir", file = StoragePathMacros.PROJECT_CONFIG_DIR + "/plugin_practice_template_settings.xml", scheme = StorageScheme.DIRECTORY_BASED)
         }
 )
 public class TemplateSettings implements PersistentStateComponent<TemplateSettings> {
