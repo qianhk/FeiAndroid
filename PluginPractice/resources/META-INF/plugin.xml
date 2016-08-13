@@ -38,10 +38,9 @@
 
     <extensions defaultExtensionNs="com.intellij">
 
-        <applicationService serviceInterface="com.njnu.kai.plugin.preference.configurable.template.TemplateConfigurable"
-                            serviceImplementation="com.njnu.kai.plugin.preference.configurable.template.TemplateConfigurable"/>
+        <applicationService serviceInterface="com.njnu.kai.plugin.preference.persistence.TemplateSettings"
+                            serviceImplementation="com.njnu.kai.plugin.preference.persistence.TemplateSettings"/>
         <applicationConfigurable instance="com.njnu.kai.plugin.preference.configurable.KaiAppConfigurable"/>
-
 
 
         <projectConfigurable instance="com.njnu.kai.plugin.preference.configurable.KaiProjectConfigurable"/>
@@ -73,14 +72,17 @@
     <!--<implementation-class>com.njnu.kai.plugin.practice.KaiAppComponent</implementation-class>-->
     <!--</component>-->
     <!--</application-components>-->
+
     <!--<project-components>-->
     <!--<component>-->
     <!--<implementation-class>com.njnu.kai.plugin.practice.KaiProjectComponent</implementation-class>-->
     <!--</component>-->
     <!--</project-components>-->
+
     <!--<module-components>-->
     <!--<component>-->
     <!--<implementation-class>com.njnu.kai.plugin.practice.KaiModuleComponent</implementation-class>-->
     <!--</component>-->
     <!--</module-components>-->
+
 </idea-plugin>

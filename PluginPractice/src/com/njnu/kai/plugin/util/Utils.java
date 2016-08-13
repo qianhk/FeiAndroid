@@ -154,7 +154,7 @@ public class Utils {
      * @param file
      * @return
      */
-    public static ArrayList<Element> getIDsFromLayout(final PsiFile file, final ArrayList<Element> elements, Project project) {
+    public static ArrayList<Element> getIDsFromLayout(final PsiFile file, final ArrayList<Element> elements, final Project project) {
         file.accept(new XmlRecursiveElementVisitor() {
 
             @Override
