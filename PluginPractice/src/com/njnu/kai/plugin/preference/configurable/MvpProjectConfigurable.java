@@ -14,14 +14,14 @@ import java.awt.*;
  * @version 1.0.0
  * @since 16-7-16
  */
-public class KaiAppConfigurable implements Configurable, Configurable.Composite {
+public class MvpProjectConfigurable implements Configurable, Configurable.Composite {
 
     private Configurable[] mConfigurables;
 
     @Nls
     @Override
     public String getDisplayName() {
-        return "Kai全局setting";
+        return "MVP Framework";
     }
 
     @Nullable
@@ -34,7 +34,7 @@ public class KaiAppConfigurable implements Configurable, Configurable.Composite 
     @Override
     public JComponent createComponent() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("<html>Here you can edit 'Kai Plugin Practice' settings. In children pages you can edit template for each code generation method.</html>");
+        JLabel label = new JLabel("<html>Here you can edit 'MVP Framework' settings. In children pages you can edit template for each code generation method.</html>");
         label.setVerticalAlignment(SwingConstants.TOP);
         panel.add(label, BorderLayout.PAGE_START);
         return panel;

@@ -13,20 +13,20 @@ import java.util.Map;
  * @since 16/8/13
  */
 @State(
-        name = "PluginPracticeTemplateSettings",
+        name = "MvpTemplateSettings",
         storages = {
                 @Storage(id = "default", file = StoragePathMacros.PROJECT_FILE),
-                @Storage(id = "dir", file = StoragePathMacros.PROJECT_CONFIG_DIR + "/plugin_practice_template_settings.xml", scheme = StorageScheme.DIRECTORY_BASED)
+                @Storage(id = "dir", file = StoragePathMacros.PROJECT_CONFIG_DIR + "/mvp_template_settings.xml", scheme = StorageScheme.DIRECTORY_BASED)
         }
 )
-public class TemplateSettings implements PersistentStateComponent<TemplateSettings> {
+public class MvpTemplateSettings implements PersistentStateComponent<MvpTemplateSettings> {
 
     private Map<String, String> mTemplateValues = Maps.newHashMap();
 
 //    private TemplatesProvider templatesProvider = new CodeGeneratorFactory.ResourceTemplateProvider();
 
-    public static TemplateSettings getInstance() {
-        return ServiceManager.getService(TemplateSettings.class);
+    public static MvpTemplateSettings getInstance() {
+        return ServiceManager.getService(MvpTemplateSettings.class);
     }
 
     public Map<String, String> getTemplateValues() {
@@ -39,13 +39,13 @@ public class TemplateSettings implements PersistentStateComponent<TemplateSettin
 
     @Nullable
     @Override
-    public TemplateSettings getState() {
+    public MvpTemplateSettings getState() {
         return this;
     }
 
     @Override
-    public void loadState(TemplateSettings templateSettings) {
-        XmlSerializerUtil.copyBean(templateSettings, this);
+    public void loadState(MvpTemplateSettings mvpTemplateSettings) {
+        XmlSerializerUtil.copyBean(mvpTemplateSettings, this);
     }
 
     public String provideTemplateForName(String templateName) {

@@ -38,12 +38,12 @@
 
     <extensions defaultExtensionNs="com.intellij">
 
-        <applicationService serviceInterface="com.njnu.kai.plugin.preference.persistence.TemplateSettings"
-                            serviceImplementation="com.njnu.kai.plugin.preference.persistence.TemplateSettings"/>
-        <applicationConfigurable instance="com.njnu.kai.plugin.preference.configurable.KaiAppConfigurable"/>
+        <projectService serviceInterface="com.njnu.kai.plugin.preference.persistence.MvpTemplateSettings"
+                        serviceImplementation="com.njnu.kai.plugin.preference.persistence.MvpTemplateSettings"/>
+        <projectConfigurable instance="com.njnu.kai.plugin.preference.configurable.MvpProjectConfigurable"/>
 
 
-        <projectConfigurable instance="com.njnu.kai.plugin.preference.configurable.KaiProjectConfigurable"/>
+        <!--<projectConfigurable instance="com.njnu.kai.plugin.preference.configurable.KaiProjectConfigurable"/>-->
 
     </extensions>
 

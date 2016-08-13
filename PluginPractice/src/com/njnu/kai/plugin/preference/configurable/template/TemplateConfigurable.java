@@ -18,7 +18,7 @@ import com.intellij.openapi.options.BaseConfigurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.ui.SeparatorFactory;
 import com.intellij.ui.roots.ToolbarPanel;
-import com.njnu.kai.plugin.preference.persistence.TemplateSettings;
+import com.njnu.kai.plugin.preference.persistence.MvpTemplateSettings;
 import com.njnu.kai.plugin.util.DialogsFactory;
 import com.njnu.kai.plugin.util.StringResources;
 import org.jetbrains.annotations.Nls;
@@ -37,7 +37,7 @@ public class TemplateConfigurable extends BaseConfigurable {
     private JPanel mEditorPanel = new JPanel(new GridLayout());
     private Editor mEditor;
 
-    private TemplateSettings mTemplateSettings;
+    private MvpTemplateSettings mMvpTemplateSettings;
 
     private final String mTemplateName;
     private final String mTemplateHeaderText;
@@ -52,11 +52,11 @@ public class TemplateConfigurable extends BaseConfigurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        mTemplateSettings = TemplateSettings.getInstance();
-        if (mTemplateSettings == null) {
+        mMvpTemplateSettings = MvpTemplateSettings.getInstance();
+        if (mMvpTemplateSettings == null) {
             return new JLabel("TemplateSettings.getInstance() return null : " + mTemplateHeaderText);
         }
-        mEditor = createEditorInPanel(mTemplateSettings.provideTemplateForName(mTemplateName));
+        mEditor = createEditorInPanel(mMvpTemplateSettings.provideTemplateForName(mTemplateName));
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(400, 300));
@@ -111,12 +111,12 @@ public class TemplateConfigurable extends BaseConfigurable {
             EditorFactory.getInstance().releaseEditor(mEditor);
             mEditor = null;
         }
-        mTemplateSettings = null;
+        mMvpTemplateSettings = null;
     }
 
     @Override
     public void apply() throws ConfigurationException {
-        mTemplateSettings.setTemplateForName(mTemplateName, mEditor.getDocument().getText());
+        mMvpTemplateSettings.setTemplateForName(mTemplateName, mEditor.getDocument().getText());
         setUnmodified();
     }
 
@@ -124,7 +124,7 @@ public class TemplateConfigurable extends BaseConfigurable {
     public void reset() {
         if (mEditor != null) {
             EditorFactory.getInstance().releaseEditor(mEditor);
-            mEditor = createEditorInPanel(mTemplateSettings.provideTemplateForName(mTemplateName));
+            mEditor = createEditorInPanel(mMvpTemplateSettings.provideTemplateForName(mTemplateName));
         }
         setUnmodified();
     }
@@ -159,11 +159,11 @@ public class TemplateConfigurable extends BaseConfigurable {
         @Override
         public void actionPerformed(AnActionEvent anActionEvent) {
             if (DialogsFactory.openResetTemplateDialog()) {
-                mTemplateSettings.removeTemplateForName(mTemplateName);
+                mMvpTemplateSettings.removeTemplateForName(mTemplateName);
                 ApplicationManager.getApplication().runWriteAction(new Runnable() {
                     @Override
                     public void run() {
-                        mEditor.getDocument().setText(mTemplateSettings.provideTemplateForName(mTemplateName));
+                        mEditor.getDocument().setText(mMvpTemplateSettings.provideTemplateForName(mTemplateName));
                         setUnmodified();
                     }
                 });
@@ -173,7 +173,7 @@ public class TemplateConfigurable extends BaseConfigurable {
         @Override
         public void update(AnActionEvent e) {
             super.update(e);
-            e.getPresentation().setEnabled(mTemplateSettings.isUsingCustomTemplateForName(mTemplateName));
+            e.getPresentation().setEnabled(mMvpTemplateSettings.isUsingCustomTemplateForName(mTemplateName));
         }
     }
 }
