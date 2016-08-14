@@ -26,11 +26,11 @@ public class MvpTemplateSettings implements PersistentStateComponent<MvpTemplate
 
 //    private TemplatesProvider templatesProvider = new CodeGeneratorFactory.ResourceTemplateProvider();
 
-    private final Project mProject;
+//    private final Project mProject;
 
-    public MvpTemplateSettings(Project project) {
-        mProject = project;
-    }
+//    public MvpTemplateSettings(Project project) {
+//        mProject = project;
+//    }
 
     public static MvpTemplateSettings getInstance(final Project project) {
         return ServiceManager.getService(project, MvpTemplateSettings.class);
