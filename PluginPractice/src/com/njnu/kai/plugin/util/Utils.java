@@ -49,7 +49,7 @@ public class Utils {
         INNER_CLASS_PREFIX_LIST.add("dalvik.");
     }
 
-    public static boolean isInnerClass(String className) {
+    public static boolean isJavaInnerClass(String className) {
         if (className == null || className.indexOf('.') < 0) {
             return true;
         }
@@ -486,7 +486,6 @@ public class Utils {
         sLOG.info(text);
     }
 
-
     public static String amendFieldName(String name) {
         if (name.endsWith("PO") || name.endsWith("VO")) {
             name = name.substring(0, name.length() - 2);
@@ -494,15 +493,34 @@ public class Utils {
         return name;
     }
 
+    public static String amendFieldNameWithoutPrefix(String name) {
+        return removeFieldPrefix(amendFieldName(name));
+    }
 
     public static String amendListFieldName(String name) {
         if (name.endsWith("s")) {
             name = name.substring(0, name.length() - 1);
+        }
+        if (name.endsWith("List")) {
+            name = name.substring(0, name.length() - 4);
         }
         if (name.endsWith("PO") || name.endsWith("VO")) {
             name = name.substring(0, name.length() - 2);
         }
         return name + "List";
     }
+
+    public static String amendListFieldNameWithoutPrefix(String name) {
+        return removeFieldPrefix(amendListFieldName(name));
+    }
+
+
+    public static String removeFieldPrefix(String name) {
+        if (name.startsWith("m")) {
+            name = name.substring(1);
+        }
+        return name;
+    }
+
 
 }

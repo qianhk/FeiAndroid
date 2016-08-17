@@ -47,7 +47,22 @@ public class ManagerTotalPO implements Serializable {
     @SuppressWarnings(
             "c"
     )
+    private ManageModule3PO mTestManageModuleHahaPO;
+
+    @SuppressWarnings(
+            "c"
+    )
     private List<ManageModule4> mManageModule4Xx;
+
+    @SuppressWarnings(
+            "c"
+    )
+    private List<ManageModule4> mTestManageModule4List;
+
+    @SuppressWarnings(
+            "c"
+    )
+    private List<ManageModule3PO> mAgainManageModule3POList;
 
     public ManagerTotalPO() {
     }
@@ -122,5 +137,29 @@ public class ManagerTotalPO implements Serializable {
 
     public void setManageModule4Xx(List<ManageModule4> manageModule4Xx) {
         mManageModule4Xx = manageModule4Xx;
+    }
+
+    public List<ManageModule4> getTestManageModule4List() {
+        return mTestManageModule4List;
+    }
+
+    public void setTestManageModule4List(List<ManageModule4> testManageModule4List) {
+        mTestManageModule4List = testManageModule4List;
+    }
+
+    public ManageModule3PO getTestManageModuleHahaPO() {
+        return mTestManageModuleHahaPO;
+    }
+
+    public void setTestManageModuleHahaPO(ManageModule3PO testManageModuleHahaPO) {
+        mTestManageModuleHahaPO = testManageModuleHahaPO;
+    }
+
+    public List<ManageModule3PO> getAgainManageModule3POList() {
+        return mAgainManageModule3POList;
+    }
+
+    public void setAgainManageModule3POList(List<ManageModule3PO> againManageModule3POList) {
+        mAgainManageModule3POList = againManageModule3POList;
     }
 }
