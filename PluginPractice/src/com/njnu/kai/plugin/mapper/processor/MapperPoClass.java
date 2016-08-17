@@ -3,7 +3,6 @@ package com.njnu.kai.plugin.mapper.processor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
-import com.intellij.psi.impl.source.PsiClassReferenceType;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.njnu.kai.plugin.mapper.model.WaitPOItem;
 import com.njnu.kai.plugin.util.Utils;
@@ -54,7 +53,6 @@ public class MapperPoClass {
             "        return mappedObjects;\n" +
             "    }\n\n";
 
-    private static final String JAVA_LIST_TYPE = "java.util.List";
     private static String METHOD_BODY_ITEM = "mappedObject.set$PROPERTY$(originObject.$GETTER$());\n";
     private static String METHOD_BODY_PO_ITEM = "mappedObject.set$PROPERTY$(transform(originObject.$GETTER$()));\n";
     private static String METHOD_BODY_ITEM_LIST = "mappedObject.set$PROPERTY$List(originObject.$GETTER$());\n";
@@ -162,8 +160,8 @@ public class MapperPoClass {
                 final PsiMethod[] methodsByName = mPoClass.findMethodsByName(getter, false);
                 if (methodsByName.length > 0) {
                     final String canonicalText = field.getType().getCanonicalText();
-                    if (canonicalText.startsWith(JAVA_LIST_TYPE)) {
-                        String itemCanonicalText = canonicalText.substring(JAVA_LIST_TYPE.length() + 1, canonicalText.length() - 1);
+                    if (canonicalText.startsWith(Utils.JAVA_LIST_TYPE)) {
+                        String itemCanonicalText = Utils.getListInnerType(canonicalText);
                         String itemEntity = Utils.getClassEntityName(itemCanonicalText);
                         String fieldEntifyName = property;
                         if (fieldEntifyName.endsWith("s")) {
@@ -213,29 +211,24 @@ public class MapperPoClass {
     private static final String FIELD_ITEM = "private %s %s;";
 
     private void generateFields(PsiClass objectClass) {
-        StringBuilder injection = new StringBuilder();
         for (PsiField field : mPoClass.getFields()) {
             if (!field.hasModifierProperty("static")) {
                 final String name = field.getName();
                 final String canonicalText = field.getType().getCanonicalText();
-                if (field.getType() instanceof PsiClassReferenceType) {
-                    if (canonicalText.startsWith(JAVA_LIST_TYPE)) {
-                        String itemCanonicalText = canonicalText.substring(JAVA_LIST_TYPE.length() + 1, canonicalText.length() - 1);
-//                        String itemEntity = Utils.getClassEntityName(itemCanonicalText);
-                        if (Utils.isJavaInnerClass(itemCanonicalText)) {
-                            String filedStr = String.format(FIELD_ITEM_LIST, itemCanonicalText, Utils.amendListFieldName(name));
-                            objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
-                            continue;
-                        } else {
-                            final String voTypeCanonicalName = getVoFieldTypeNameFromPoText(itemCanonicalText);
-                            String filedStr = String.format(FIELD_ITEM_LIST, voTypeCanonicalName, Utils.amendListFieldName(name));
-                            objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
-                            mMapperPoClassListener.notifyFoundFieldInPoClass(itemCanonicalText);
-                            continue;
-                        }
+                if (canonicalText.startsWith(Utils.JAVA_LIST_TYPE)) {
+                    String itemCanonicalText = Utils.getListInnerType(canonicalText);
+                    if (Utils.isJavaInnerClass(itemCanonicalText)) {
+                        String filedStr = String.format(FIELD_ITEM_LIST, itemCanonicalText, Utils.amendListFieldName(name));
+                        objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
+                        continue;
+                    } else {
+                        final String voTypeCanonicalName = getVoFieldTypeNameFromPoText(itemCanonicalText);
+                        String filedStr = String.format(FIELD_ITEM_LIST, voTypeCanonicalName, Utils.amendListFieldName(name));
+                        objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
+                        mMapperPoClassListener.notifyFoundFieldInPoClass(itemCanonicalText);
+                        continue;
                     }
-                }
-                if (Utils.isJavaInnerClass(canonicalText)) {
+                } else if (Utils.isJavaInnerClass(canonicalText)) {
                     objectClass.add(mFactory.createField(name, field.getType()));
                 } else {
                     final String voTypeCanonicalName = getVoFieldTypeNameFromPoField(field);
@@ -265,14 +258,14 @@ public class MapperPoClass {
     private static final String METHOD_SET_FIELD_LIST_ITEM = "public void set{ENTITY}List(java.util.List<{TYPE}> list) {\nm{ENTITY}List = list;\n}";
 
     private void generateMethods(PsiClass objectClass) {
-        final StringBuilder stringBuilder = new StringBuilder();
         for (PsiMethod method : mPoClass.getMethods()) {
+            String fieldName = Utils.getFieldNameFromMethod(method.getText());
             String methodName = method.getName();
             if (methodName.startsWith("set") || methodName.startsWith("get") || methodName.startsWith("is")) {
                 if (methodName.startsWith("get")) {
                     final String canonicalText = method.getReturnType().getCanonicalText();
-                    if (canonicalText.startsWith(JAVA_LIST_TYPE)) {
-                        String itemCanonicalText = canonicalText.substring(JAVA_LIST_TYPE.length() + 1, canonicalText.length() - 1);
+                    if (canonicalText.startsWith(Utils.JAVA_LIST_TYPE)) {
+                        String itemCanonicalText = Utils.getListInnerType(canonicalText);
                         if (Utils.isJavaInnerClass(itemCanonicalText)) {
                             if (methodName.endsWith("s")) {
                                 String itemEntity = methodName.substring(3, methodName.length() - 1);
@@ -283,41 +276,24 @@ public class MapperPoClass {
                                 addNormalMethod(objectClass, method);
                             }
                         } else {
-//                            final String oriMethodText = method.getText();
-//                            String methodText = oriMethodText.replace("VO", "").replace("PO", "VO");
-//                            String itemEntity = Utils.getClassEntityName(itemCanonicalText);
-//                            methodText = methodText.replace(itemEntity + "s", itemEntity + "List").replace("this.", "");
-//                            objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
-
                             String itemEntity = Utils.getClassEntityName(itemCanonicalText);
-                            String methodGetStr = METHOD_GET_FIELD_LIST_ITEM.replace("{TYPE}", itemEntity + "VO").replace("{ENTITY}", itemEntity);
+                            final String amendFieldName = Utils.getListMethodEntifyNameWithoutPrefix(fieldName);
+                            String methodGetStr = METHOD_GET_FIELD_LIST_ITEM.replace("{TYPE}", itemEntity + "VO").replace("{ENTITY}", amendFieldName);
                             objectClass.add(mFactory.createMethodFromText(methodGetStr, objectClass));
                         }
                     } else if (!Utils.isJavaInnerClass(canonicalText)) {
                         String entity = Utils.getClassEntityName(canonicalText);
-                        String methodEntify = Utils.getClassEntityName(methodName.substring(3));
-                        if (entity.equals(methodEntify)) {
-                            String methodGetStr = METHOD_GET_FIELD_ITEM.replace("{TYPE}", entity + "VO").replace("{ENTITY}", entity);
-                            objectClass.add(mFactory.createMethodFromText(methodGetStr, objectClass));
-                        } else {
-                            final String oriMethodText = method.getText();
-                            String methodText = oriMethodText.replace("VO", "").replace("PO", "VO").replace("PO(", "(").replace("VO;", ";");
-                            objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
-                        }
+                        final String amendFieldName = Utils.amendFieldNameWithoutPrefix(fieldName);
+                        String methodGetStr = METHOD_GET_FIELD_ITEM.replace("{TYPE}", entity + "VO").replace("{ENTITY}", amendFieldName);
+                        objectClass.add(mFactory.createMethodFromText(methodGetStr, objectClass));
                     } else {
                         addNormalMethod(objectClass, method);
                     }
                 } else if (methodName.startsWith("set")) {
                     final String paramText = method.getParameterList().getParameters()[0].getType().getCanonicalText();
-                    if (paramText.startsWith(JAVA_LIST_TYPE)) {
-                        String itemCanonicalText = paramText.substring(JAVA_LIST_TYPE.length() + 1, paramText.length() - 1);
-                        if (itemCanonicalText.endsWith("PO")) {
-                            final String oriMethodText = method.getText();
-                            String methodText = oriMethodText.replace("VO", "").replace("PO", "VO");
-                            String itemEntity = Utils.getClassEntityName(itemCanonicalText);
-                            methodText = methodText.replace(itemEntity + "s", itemEntity + "List").replace("this.", "");
-                            objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
-                        } else {
+                    if (paramText.startsWith(Utils.JAVA_LIST_TYPE)) {
+                        String itemCanonicalText = Utils.getListInnerType(paramText);
+                        if (Utils.isJavaInnerClass(itemCanonicalText)) {
                             if (methodName.endsWith("s")) {
                                 String itemEntity = methodName.substring(3, methodName.length() - 1);
                                 final String oriMethodText = method.getText();
@@ -326,19 +302,17 @@ public class MapperPoClass {
                             } else {
                                 addNormalMethod(objectClass, method);
                             }
+                        } else {
+                            String itemEntity = Utils.getClassEntityName(itemCanonicalText);
+                            final String amendFieldName = Utils.getListMethodEntifyNameWithoutPrefix(fieldName);
+                            String methodGetStr = METHOD_SET_FIELD_LIST_ITEM.replace("{TYPE}", itemEntity + "VO").replace("{ENTITY}", amendFieldName);
+                            objectClass.add(mFactory.createMethodFromText(methodGetStr, objectClass));
                         }
                     } else if (!Utils.isJavaInnerClass(paramText)) {
                         String entity = Utils.getClassEntityName(paramText);
-                        String methodEntify = Utils.getClassEntityName(methodName.substring(3));
-                        if (entity.equals(methodEntify)) {
-                            String methodGetStr = METHOD_SET_FIELD_ITEM.replace("{TYPE}", entity + "VO").replace("{ENTITY}", entity);
-                            objectClass.add(mFactory.createMethodFromText(methodGetStr, objectClass));
-                        } else {
-                            final String oriMethodText = method.getText();
-                            String methodText = oriMethodText.replace("VO", "").replace("PO", "VO").replace("VO(", "(")
-                                    .replace("VO)", ")").replace("VO;", ";").replace("VO =", " =");
-                            objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
-                        }
+                        final String amendFieldName = Utils.amendFieldNameWithoutPrefix(fieldName);
+                        String methodGetStr = METHOD_SET_FIELD_ITEM.replace("{TYPE}", entity + "VO").replace("{ENTITY}", amendFieldName);
+                        objectClass.add(mFactory.createMethodFromText(methodGetStr, objectClass));
 
                     } else {
                         addNormalMethod(objectClass, method);

@@ -522,5 +522,55 @@ public class Utils {
         return name;
     }
 
+    public static String getListMethodEntifyNameWithoutPrefix(String name) {
+        return removeFieldPrefix(getListMethodEntifyName(name));
+    }
 
+    public static String getListMethodEntifyName(String name) {
+        if (name.endsWith("s")) {
+            name = name.substring(0, name.length() - 1);
+        }
+        if (name.endsWith("List")) {
+            name = name.substring(0, name.length() - 4);
+        }
+        if (name.endsWith("PO") || name.endsWith("VO")) {
+            name = name.substring(0, name.length() - 2);
+        }
+        return name;
+    }
+
+    public static String getFieldNameFromMethod(String methodText) {
+        String resultStr;
+        final int returnPos = methodText.indexOf("return");
+        if (returnPos > 0) {
+            final int endPos = methodText.indexOf(';', returnPos);
+            if (endPos > 0) {
+                resultStr = methodText.substring(returnPos + 6 + 1, endPos).trim();
+            } else {
+                resultStr = "GetFieldError";
+            }
+        } else {
+            int endPos = methodText.indexOf('=');
+            if (endPos > 0) {
+                int startPos = methodText.indexOf('{');
+                String filedName = methodText.substring(startPos + 1, endPos);
+                filedName = filedName.replace('\n', ' ');
+                resultStr = filedName.trim();
+            } else {
+                resultStr = "SetFieldError";
+            }
+        }
+
+        if (resultStr.startsWith("this.")) {
+            resultStr = resultStr.substring(5);
+        }
+        return resultStr;
+    }
+
+    public static final String JAVA_LIST_TYPE = "java.util.List";
+
+    public static String getListInnerType(String canonicalText) {
+        String itemCanonicalText = canonicalText.substring(JAVA_LIST_TYPE.length() + 1, canonicalText.length() - 1);
+        return itemCanonicalText;
+    }
 }
