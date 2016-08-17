@@ -66,4 +66,27 @@ public class ManagerTotalPO implements Serializable {
         mTestStrings = testStrings;
     }
 
+    public ManageModule1 getManageModule1() {
+        return mManageModule1;
+    }
+
+    public void setManageModule1(ManageModule1 manageModule1) {
+        mManageModule1 = manageModule1;
+    }
+
+    public ManageModule2PO getManageModule2VO() {
+        return mManageModule2VO;
+    }
+
+    public void setManageModule2VO(ManageModule2PO manageModule2VO) {
+        mManageModule2VO = manageModule2VO;
+    }
+
+    public List<ManageModule4> getManageModule4Xx() {
+        return mManageModule4Xx;
+    }
+
+    public void setManageModule4Xx(List<ManageModule4> manageModule4Xx) {
+        mManageModule4Xx = manageModule4Xx;
+    }
 }
