@@ -4,15 +4,49 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ManagerTotalPO implements Serializable {
+    @JSONField(
+            name = "c"
+    )
     private long mManagerGroupId;
+
+    @JSONField(
+        name = "a"
+    )
     private int mManagerGroupMaxCount;
+
+    @JSONField(
+        name = "b"
+    )
     private List<ManagerDetailPO> mManagerDetailVOs;
+
+    @JSONField(
+        name = "c"
+    )
     private List<String> mTestStrings;
+
+    @JSONField(
+            name = "d"
+    )
     private String mManagerGroupName;
 
+    @JSONField(
+            name = "e"
+    )
     private ManageModule1 mManageModule1;
+
+    @JSONField(
+            name = "c"
+    )
     private ManageModule2PO mManageModule2VO;
+
+    @JSONField(
+            name = "c"
+    )
     private ManageModule3PO mManageModule3PO;
+
+    @JSONField(
+            name = "c"
+    )
     private List<ManageModule4> mManageModule4Xx;
 
     public ManagerTotalPO() {

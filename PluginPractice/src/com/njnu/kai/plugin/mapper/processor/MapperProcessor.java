@@ -46,7 +46,7 @@ public class MapperProcessor extends WriteCommandAction.Simple implements Mapper
 
     @Override
     public void notifyFoundFieldInPoClass(String poCanonicalText) {
-        if (poCanonicalText.endsWith("PO")) {
+        if (!Utils.isInnerClass(poCanonicalText)) {
             final Project project = getProject();
             JavaPsiFacade javaPsiFacade = JavaPsiFacade.getInstance(project);
             GlobalSearchScope searchScope = GlobalSearchScope.allScope(project);

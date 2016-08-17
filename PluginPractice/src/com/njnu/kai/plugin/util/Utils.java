@@ -50,6 +50,9 @@ public class Utils {
     }
 
     public static boolean isInnerClass(String className) {
+        if (className == null || className.indexOf('.') < 0) {
+            return true;
+        }
         for (String classPrefix : INNER_CLASS_PREFIX_LIST) {
             if (className.startsWith(classPrefix)) {
                 return true;
@@ -482,4 +485,24 @@ public class Utils {
     public static void logInfo(String text) {
         sLOG.info(text);
     }
+
+
+    public static String amendFieldName(String name) {
+        if (name.endsWith("PO") || name.endsWith("VO")) {
+            name = name.substring(0, name.length() - 2);
+        }
+        return name;
+    }
+
+
+    public static String amendListFieldName(String name) {
+        if (name.endsWith("s")) {
+            name = name.substring(0, name.length() - 1);
+        }
+        if (name.endsWith("PO") || name.endsWith("VO")) {
+            name = name.substring(0, name.length() - 2);
+        }
+        return name + "List";
+    }
+
 }

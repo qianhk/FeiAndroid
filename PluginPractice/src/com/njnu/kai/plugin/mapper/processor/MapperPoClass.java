@@ -218,7 +218,7 @@ public class MapperPoClass {
                     if (canonicalText.startsWith(JAVA_LIST_TYPE)) {
                         String itemCanonicalText = canonicalText.substring(JAVA_LIST_TYPE.length() + 1, canonicalText.length() - 1);
 //                        String itemEntity = Utils.getClassEntityName(itemCanonicalText);
-                        if (itemCanonicalText.endsWith("PO")) {
+                        if (!Utils.isInnerClass(itemCanonicalText)) {
                             String filedStr = field.getText();
 //                            String filedStr = String.format("private %s<%sVO> m%sList;\n", JAVA_LIST_TYPE, itemEntity, itemEntity);
                             if (name.endsWith("s")) {
@@ -239,13 +239,13 @@ public class MapperPoClass {
                         }
                     }
                 }
-                if (name.endsWith("PO")) {
+                if (!Utils.isInnerClass(canonicalText)) {
                     injection.setLength(0);
                     injection.append("private ");
                     final String voTypeCanonicalName = getVoFieldTypeNameFromPoField(field);
                     injection.append(voTypeCanonicalName);
                     injection.append(" ");
-                    injection.append(name.substring(0, name.length() - 2));
+                    injection.append(Utils.amendFieldName(name));
                     injection.append(";");
 //                    objectClass.add(mFactory.createImportStatementOnDemand(voTypeCanonicalName));
                     objectClass.add(mFactory.createFieldFromText(injection.toString(), objectClass));
