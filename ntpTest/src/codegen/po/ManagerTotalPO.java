@@ -7,22 +7,23 @@ public class ManagerTotalPO implements Serializable {
     private long mManagerGroupId;
     private int mManagerGroupMaxCount;
     private List<ManagerDetailPO> mManagerDetailVOs;
-    private List<ManageModule2> mManageModule2Xx;
     private List<String> mTestStrings;
     private String mManagerGroupName;
-    private ManageModulePO mManageModulePO;
+
+    private ManageModule1 mManageModule1;
     private ManageModule2PO mManageModule2VO;
-    private ManageModule mManageModule;
+    private ManageModule3PO mManageModule3PO;
+    private List<ManageModule4> mManageModule4Xx;
 
     public ManagerTotalPO() {
     }
 
-    public ManageModulePO getManageModulePO() {
-        return mManageModulePO;
+    public ManageModule3PO getManageModule3PO() {
+        return mManageModule3PO;
     }
 
-    public void setManageModulePO(ManageModulePO manageModulePO) {
-        mManageModulePO = manageModulePO;
+    public void setManageModule3PO(ManageModule3PO manageModule3PO) {
+        mManageModule3PO = manageModule3PO;
     }
 
     public long getManagerGroupId() {
@@ -65,27 +66,4 @@ public class ManagerTotalPO implements Serializable {
         mTestStrings = testStrings;
     }
 
-    public List<ManageModule2> getManageModule2Xx() {
-        return mManageModule2Xx;
-    }
-
-    public void setManageModule2Xx(List<ManageModule2> manageModule2Xx) {
-        mManageModule2Xx = manageModule2Xx;
-    }
-
-    public ManageModule2PO getManageModule2VO() {
-        return mManageModule2VO;
-    }
-
-    public void setManageModule2VO(ManageModule2PO manageModule2VO) {
-        mManageModule2VO = manageModule2VO;
-    }
-
-    public ManageModule getManageModule() {
-        return mManageModule;
-    }
-
-    public void setManageModule(ManageModule manageModule) {
-        mManageModule = manageModule;
-    }
 }

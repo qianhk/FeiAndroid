@@ -7,18 +7,18 @@ public class ManagerOneOtherPO implements Serializable {
     private long mManagerGroupId;
     private int mManagerGroupMaxCount;
     private String mManagerGroupName;
-    private ManageModulePO mManageModulePO;
-    private List<ManageModulePO> mManageModuleVOs;
+    private ManageModule3PO mManageModule3PO;
+    private List<ManageModule3PO> mManageModuleVOs;
 
     public ManagerOneOtherPO() {
     }
 
-    public ManageModulePO getManageModulePO() {
-        return mManageModulePO;
+    public ManageModule3PO getManageModule3PO() {
+        return mManageModule3PO;
     }
 
-    public void setManageModulePO(ManageModulePO manageModulePO) {
-        mManageModulePO = manageModulePO;
+    public void setManageModule3PO(ManageModule3PO manageModule3PO) {
+        mManageModule3PO = manageModule3PO;
     }
 
     public long getManagerGroupId() {
@@ -45,11 +45,11 @@ public class ManagerOneOtherPO implements Serializable {
         this.mManagerGroupName = value;
     }
 
-    public List<ManageModulePO> getManageModuleVOs() {
+    public List<ManageModule3PO> getManageModuleVOs() {
         return mManageModuleVOs;
     }
 
-    public void setManageModuleVOs(List<ManageModulePO> manageModuleVOs) {
+    public void setManageModuleVOs(List<ManageModule3PO> manageModuleVOs) {
         mManageModuleVOs = manageModuleVOs;
     }
 }

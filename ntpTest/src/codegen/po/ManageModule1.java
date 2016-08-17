@@ -2,13 +2,14 @@ package codegen.po;
 
 import java.io.Serializable;
 
-public class ManageModulePO implements Serializable {
+public class ManageModule1 implements Serializable {
+
     private int mBubble;
     private boolean mAllowed;
     private boolean mAllowed2;
     private String mName;
 
-    public ManageModulePO() {
+    public ManageModule1() {
     }
 
     public int getBubble() {
