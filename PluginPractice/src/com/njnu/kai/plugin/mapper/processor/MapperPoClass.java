@@ -7,6 +7,7 @@ import com.intellij.psi.impl.source.PsiClassReferenceType;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.njnu.kai.plugin.mapper.model.WaitPOItem;
 import com.njnu.kai.plugin.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -208,6 +209,9 @@ public class MapperPoClass {
         }
     }
 
+    private static final String FIELD_ITEM_LIST = "private java.util.List<%s> %s;"; //原来的field已经有前缀如m,不用再加了
+    private static final String FIELD_ITEM = "private %s %s;";
+
     private void generateFields(PsiClass objectClass) {
         StringBuilder injection = new StringBuilder();
         for (PsiField field : mPoClass.getFields()) {
@@ -218,40 +222,27 @@ public class MapperPoClass {
                     if (canonicalText.startsWith(JAVA_LIST_TYPE)) {
                         String itemCanonicalText = canonicalText.substring(JAVA_LIST_TYPE.length() + 1, canonicalText.length() - 1);
 //                        String itemEntity = Utils.getClassEntityName(itemCanonicalText);
-                        if (!Utils.isInnerClass(itemCanonicalText)) {
-                            String filedStr = field.getText();
-//                            String filedStr = String.format("private %s<%sVO> m%sList;\n", JAVA_LIST_TYPE, itemEntity, itemEntity);
-                            if (name.endsWith("s")) {
-                                filedStr = filedStr.replace(name, name.substring(0, name.length() - 1) + "List");
-                            }
-                            filedStr = filedStr.replace("VO", "").replace("PO", "VO").replace(" List<", " " + JAVA_LIST_TYPE+ "<");
+                        if (Utils.isInnerClass(itemCanonicalText)) {
+                            String filedStr = String.format(FIELD_ITEM_LIST, itemCanonicalText, Utils.amendListFieldName(name));
                             objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
-                            mMapperPoClassListener.notifyFoundFieldInPoClass(itemCanonicalText);
                             continue;
                         } else {
-                            String filedStr = field.getText();
-                            if (name.endsWith("s")) {
-                                filedStr = filedStr.replace(name, name.substring(0, name.length() - 1) + "List");
-                            }
-                            filedStr = filedStr.replace(" List<", " " + JAVA_LIST_TYPE+ "<");
+                            final String voTypeCanonicalName = getVoFieldTypeNameFromPoText(itemCanonicalText);
+                            String filedStr = String.format(FIELD_ITEM_LIST, voTypeCanonicalName, Utils.amendListFieldName(name));
                             objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
+                            mMapperPoClassListener.notifyFoundFieldInPoClass(itemCanonicalText);
                             continue;
                         }
                     }
                 }
-                if (!Utils.isInnerClass(canonicalText)) {
-                    injection.setLength(0);
-                    injection.append("private ");
-                    final String voTypeCanonicalName = getVoFieldTypeNameFromPoField(field);
-                    injection.append(voTypeCanonicalName);
-                    injection.append(" ");
-                    injection.append(Utils.amendFieldName(name));
-                    injection.append(";");
-//                    objectClass.add(mFactory.createImportStatementOnDemand(voTypeCanonicalName));
-                    objectClass.add(mFactory.createFieldFromText(injection.toString(), objectClass));
-                    mMapperPoClassListener.notifyFoundFieldInPoClass(field);
-                } else {
+                if (Utils.isInnerClass(canonicalText)) {
                     objectClass.add(mFactory.createField(name, field.getType()));
+                } else {
+                    final String voTypeCanonicalName = getVoFieldTypeNameFromPoField(field);
+                    String filedStr = String.format(FIELD_ITEM, voTypeCanonicalName, Utils.amendFieldName(name));
+//                    objectClass.add(mFactory.createImportStatementOnDemand(voTypeCanonicalName));
+                    objectClass.add(mFactory.createFieldFromText(filedStr, objectClass));
+                    mMapperPoClassListener.notifyFoundFieldInPoClass(field);
                 }
             }
         }
@@ -259,6 +250,11 @@ public class MapperPoClass {
 
     private String getVoFieldTypeNameFromPoField(PsiField field) {
         final String canonicalText = field.getType().getCanonicalText();
+        return getVoFieldTypeNameFromPoText(canonicalText);
+    }
+
+    @NotNull
+    private String getVoFieldTypeNameFromPoText(String canonicalText) {
         return Utils.replaceFullPkgWithGivenClass(mWaitPOItem.getVoClassCanonicalName(), canonicalText) + "VO";
     }
 
