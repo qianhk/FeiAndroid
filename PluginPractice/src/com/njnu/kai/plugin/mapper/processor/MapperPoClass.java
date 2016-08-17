@@ -28,35 +28,35 @@ public class MapperPoClass {
     private PsiClass mMapperClass;
 
     private static String OBJECT_TRANSFORM_METHOD = "/**\n" +
-            "        * @param originObject origin object\n" +
-            "        * @return mapped object\n" +
+            "        * @param po persist object\n" +
+            "        * @return view object\n" +
             "        */\n" +
-            "        public static $MAPPED_CLASS$ transform($ORIGIN_CLASS$ originObject) {\n" +
-            "        $MAPPED_CLASS$  mappedObject = new $MAPPED_CLASS$();\n\n" +
+            "        public static $MAPPED_CLASS$ transform($ORIGIN_CLASS$ po) {\n" +
+            "        $MAPPED_CLASS$  vo = new $MAPPED_CLASS$();\n\n" +
             "        $BODY$\n" +
-            "        return mappedObject;\n" +
+            "        return vo;\n" +
             "    }\n\n";
 
     private static String OBJECT_LIST_TRANSFORM_METHOD = "/**\n" +
-            "        * @param originObjectList list of origin object\n" +
-            "        * @return list of mapped object \n" +
+            "        * @param poList list of persist object \n" +
+            "        * @return list of view object \n" +
             "        */ \n" +
-            "        public static List<$MAPPED_CLASS$> transform$ENTITY$List(List<$ORIGIN_CLASS$> originObjectList) {\n" +
-            "        List<$MAPPED_CLASS$>  mappedObjects = new ArrayList<>();\n\n" +
-            "        if (originObjectList != null) {" +
-            "        for ($ORIGIN_CLASS$ originObject : originObjectList) {\n" +
-            "        if (originObject != null) {\n" +
-            "        mappedObjects.add(transform(originObject));\n" +
+            "        public static List<$MAPPED_CLASS$> transform$ENTITY$List(List<$ORIGIN_CLASS$> poList) {\n" +
+            "        List<$MAPPED_CLASS$>  voList = new ArrayList<>();\n\n" +
+            "        if (poList != null) {" +
+            "        for ($ORIGIN_CLASS$ po : poList) {\n" +
+            "        if (po != null) {\n" +
+            "        voList.add(transform(po));\n" +
             "        }\n" +
             "        }\n" +
             "        }\n" +
-            "        return mappedObjects;\n" +
+            "        return voList;\n" +
             "    }\n\n";
 
-    private static String METHOD_BODY_ITEM = "mappedObject.set$PROPERTY$(originObject.$GETTER$());\n";
-    private static String METHOD_BODY_PO_ITEM = "mappedObject.set$PROPERTY$(transform(originObject.$GETTER$()));\n";
-    private static String METHOD_BODY_ITEM_LIST = "mappedObject.set$PROPERTY$List(originObject.$GETTER$());\n";
-    private static String METHOD_BODY_PO_ITEM_LIST = "mappedObject.set$PROPERTY$List(transform$PROPERTY$List(originObject.$GETTER$()));\n";
+    private static String METHOD_BODY_ITEM = "vo.set$PROPERTY$(po.$GETTER$());\n";
+    private static String METHOD_BODY_PO_ITEM = "vo.set$PROPERTY$(transform(po.$GETTER$()));\n";
+    private static String METHOD_BODY_ITEM_LIST = "vo.set$PROPERTY$List(po.$GETTER$());\n";
+    private static String METHOD_BODY_PO_ITEM_LIST = "vo.set$PROPERTY$List(transform$ENTITY$List(po.$GETTER$()));\n";
 
     public MapperPoClass(Project project, MapperPoClassListener mapperPoClassListener, WaitPOItem waitPOItem) {
         mProject = project;
@@ -138,52 +138,58 @@ public class MapperPoClass {
                 continue;
             }
 
-            String property = field.getName();
-            if (property.startsWith("m")) {
-                property = property.substring(1);
+            String fieldName = field.getName();
+            if (fieldName.startsWith("m")) {
+                fieldName = fieldName.substring(1);
             }
+            final String canonicalText = field.getType().getCanonicalText();
+
             if (PsiType.BOOLEAN.equals(field.getType())) {
-                String getter = "get" + property;
+                String getter = "get" + fieldName;
                 PsiMethod[] methodsByName = mPoClass.findMethodsByName(getter, false);
                 if (methodsByName.length == 0) {
-                    getter = "is" + property;
+                    getter = "is" + fieldName;
                     methodsByName = mPoClass.findMethodsByName(getter, false);
                 }
                 if (methodsByName.length > 0) {
                     final String methodItem = METHOD_BODY_ITEM
                             .replace("$GETTER$", getter)
-                            .replace("$PROPERTY$", property);
+                            .replace("$PROPERTY$", fieldName);
                     methodBody.append(methodItem);
                 }
             } else {
-                String getter = "get" + property;
+                String getter = "get" + fieldName;
                 final PsiMethod[] methodsByName = mPoClass.findMethodsByName(getter, false);
                 if (methodsByName.length > 0) {
-                    final String canonicalText = field.getType().getCanonicalText();
                     if (canonicalText.startsWith(Utils.JAVA_LIST_TYPE)) {
                         String itemCanonicalText = Utils.getListInnerType(canonicalText);
-                        String itemEntity = Utils.getClassEntityName(itemCanonicalText);
-                        String fieldEntifyName = property;
-                        if (fieldEntifyName.endsWith("s")) {
-                            fieldEntifyName = fieldEntifyName.substring(0, fieldEntifyName.length() - 1);
-                        }
-                        if (fieldEntifyName.startsWith("m")) {
-                            fieldEntifyName = fieldEntifyName.substring(1);
-                        }
-                        if (itemCanonicalText.endsWith("PO")) {
-                            final String methodItem = METHOD_BODY_PO_ITEM_LIST
-                                    .replace("$PROPERTY$", itemEntity)
+                        final String amendFieldName = Utils.getListMethodEntifyNameWithoutPrefix(fieldName);
+                        if (Utils.isJavaInnerClass(itemCanonicalText)) {
+                            final String methodItem = METHOD_BODY_ITEM_LIST
+                                    .replace("$PROPERTY$", amendFieldName)
                                     .replace("$GETTER$", getter);
                             methodBody.append(methodItem);
                         } else {
-                            final String methodItem = METHOD_BODY_ITEM_LIST
-                                    .replace("$PROPERTY$", fieldEntifyName)
+                            final String methodItem = METHOD_BODY_PO_ITEM_LIST
+                                    .replace("$PROPERTY$", amendFieldName)
+                                    .replace("$ENTITY$", Utils.getClassEntityName(itemCanonicalText))
                                     .replace("$GETTER$", getter);
                             methodBody.append(methodItem);
                         }
-
                     } else {
-                        addNormalMapperBodyItem(methodBody, property);
+                        //补充list的mapper set
+                        final String amendFieldName = Utils.amendFieldNameWithoutPrefix(fieldName);
+                        if (Utils.isJavaInnerClass(canonicalText)) {
+                            final String methodItem = METHOD_BODY_ITEM
+                                    .replace("$PROPERTY$", amendFieldName)
+                                    .replace("$GETTER$", getter);
+                            methodBody.append(methodItem);
+                        } else {
+                            final String methodItem = METHOD_BODY_PO_ITEM
+                                    .replace("$PROPERTY$", amendFieldName)
+                                    .replace("$GETTER$", getter);
+                            methodBody.append(methodItem);
+                        }
                     }
                 }
             }
@@ -192,20 +198,6 @@ public class MapperPoClass {
         return methodBody.toString();
     }
 
-    private void addNormalMapperBodyItem(StringBuilder methodBody, String property) {
-        String getter = "get" + property;
-        if (property.endsWith("PO")) {
-            final String methodItem = METHOD_BODY_PO_ITEM
-                    .replace("$PROPERTY$", Utils.getClassEntityName(property))
-                    .replace("$GETTER$", getter);
-            methodBody.append(methodItem);
-        } else {
-            final String methodItem = METHOD_BODY_ITEM
-                    .replace("$PROPERTY$", Utils.getClassEntityName(property))
-                    .replace("$GETTER$", getter);
-            methodBody.append(methodItem);
-        }
-    }
 
     private static final String FIELD_ITEM_LIST = "private java.util.List<%s> %s;"; //原来的field已经有前缀如m,不用再加了
     private static final String FIELD_ITEM = "private %s %s;";
