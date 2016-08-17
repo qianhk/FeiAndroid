@@ -36,6 +36,28 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
+    private static final ArrayList<String> INNER_CLASS_PREFIX_LIST;
+
+    static {
+        INNER_CLASS_PREFIX_LIST = new ArrayList<String>();
+        INNER_CLASS_PREFIX_LIST.add("android.");
+        INNER_CLASS_PREFIX_LIST.add("java.");
+        INNER_CLASS_PREFIX_LIST.add("org.");
+        INNER_CLASS_PREFIX_LIST.add("javax.");
+        INNER_CLASS_PREFIX_LIST.add("com.android.");
+        INNER_CLASS_PREFIX_LIST.add("junit.");
+        INNER_CLASS_PREFIX_LIST.add("dalvik.");
+    }
+
+    public static boolean isInnerClass(String className) {
+        for (String classPrefix : INNER_CLASS_PREFIX_LIST) {
+            if (className.startsWith(classPrefix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Is using Android SDK?
      */
