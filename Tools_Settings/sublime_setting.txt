@@ -1,0 +1,22 @@
+
+//Preferences.sublime-settings
+
+{
+	"highlight_line":true,
+	"highlight_modified_tabs": true,
+	"word_wrap": "true",
+	"font_size": 12
+}
+
+
+//Default (OSX).sublime-keymap
+
+[
+	{ "keys": ["option+up"], "command": "swap_line_up" },
+	{ "keys": ["option+down"], "command": "swap_line_down" },
+	{ "keys": ["super+option+down"], "command": "duplicate_line" },
+	{ "keys": ["super+d"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Line.sublime-macro"} }
+]
+
+
+
