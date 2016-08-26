@@ -15,6 +15,7 @@ public class SettingDialog extends JDialog {
     private JButton buttonCancel;
     private JTextField mVoClass;
     private JTextField mMapperClass;
+    private JCheckBox mCbCascade;
 
     public SettingDialog(TmpRuntimeParams tmpRuntimeParams) {
         mTmpRuntimeParams = tmpRuntimeParams;

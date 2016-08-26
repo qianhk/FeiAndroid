@@ -14,11 +14,20 @@ public class TmpRuntimeParams {
     PsiClass mOriginClass;
     String mVoClassCanonicalName;
     String mMapperClassCanonicalName;
+    boolean mCascadeMapper;
 
     public TmpRuntimeParams(Action action, Project project, PsiClass originClass) {
         mAction = action;
         mProject = project;
         mOriginClass = originClass;
+    }
+
+    public void setCascadeMapper(boolean cascadeMapper) {
+        mCascadeMapper = cascadeMapper;
+    }
+
+    public boolean isCascadeMapper() {
+        return mCascadeMapper;
     }
 
     public Action getAction() {

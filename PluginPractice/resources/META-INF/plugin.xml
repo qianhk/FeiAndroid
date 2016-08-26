@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.njnu.kai.plugin.practice</id>
     <name>Kai Plugin Practice</name>
-    <version>0.7.0</version>
+    <version>0.7.1</version>
     <vendor email="qhk83@qq.com" url="http://qianhk.com">凯凯公司</vendor>
 
     <description><![CDATA[
@@ -17,6 +17,7 @@
     3. 作用3 <br>
     <br>
     更新历史:<br>
+     ● 0.7.1: 增加选项不级联mapper, 用于临时mapper一个po.<br>
      ● 0.7.0: 重写大部分mapper转换代码, 使之适应更通用的情况.<br>
      ● 0.6.0: Support po mapper to vo.<br>
      ● 0.5.0: Support generate view.<br>
