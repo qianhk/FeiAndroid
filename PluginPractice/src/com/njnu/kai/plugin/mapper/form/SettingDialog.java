@@ -65,6 +65,8 @@ public class SettingDialog extends JDialog {
         if (mapperClassCanonicalName == null) return;
         mTmpRuntimeParams.setMapperClassCanonicalName(mapperClassCanonicalName);
 
+        mTmpRuntimeParams.setCascadeMapper(mCbCascade.isSelected());
+
         mTmpRuntimeParams.getAction().run(mTmpRuntimeParams);
 
         dispose();
