@@ -61,6 +61,12 @@ public class MvpTemplateSettings implements PersistentStateComponent<MvpTemplate
         }
         if (templateName.contains("Activity")) {
             return ACTIVITY_DEFAULT_TEMPLATE;
+        } else if (templateName.contains("Adapter")) {
+            return "noAdapter";
+        } else if (templateName.contains("Fragment")) {
+            return FRAGMENT_DEFAULT_TEMPLATE;
+        } else if (templateName.contains("xxx")) {
+            return "no xx";
         } else {
             return String.format("Not setting default template for %s.", templateName);
         }
@@ -78,6 +84,52 @@ public class MvpTemplateSettings implements PersistentStateComponent<MvpTemplate
     public void setTemplateForName(String templateName, String template) {
         mTemplateValues.put(templateName, template);
     }
+
+    private static final String FRAGMENT_DEFAULT_TEMPLATE = "public class ${DataItemType}ListFragment extends PagingListWithActionBarFragment<${DataItemType}> {\n" +
+            "\n" +
+            "    @Override\n" +
+            "    protected void onInitActionBar() {\n" +
+            "        super.onInitActionBar();\n" +
+            "        setTitle(\"${DataItemType} Page\");\n" +
+            "    }\n" +
+            "\n" +
+            "    @Override\n" +
+            "    protected IPagingListAdapter<${DataItemType}> onCreateAdapter(Context context) {\n" +
+            "        resetSDate();\n" +
+            "        return new ${DataItemType}ListAdapter();\n" +
+            "    }\n" +
+            "\n" +
+            "    @Override\n" +
+            "    public void onReloadData(int page, boolean auto) {\n" +
+            "        // DataFetcher.fetch(this, , this::updateDataListWithResult);\n" +
+            "    }\n" +
+            "\n" +
+            "    @Override\n" +
+            "    protected CharSequence lastPageFooterText(int count) {\n" +
+            "        return String.format(\"共%d条明细\", count);\n" +
+            "    }\n" +
+            "\n" +
+            "    @Override\n" +
+            "    protected void onListItemClick(int position, long id, ${DataItemType} item, View view) {\n" +
+            "        super.onListItemClick(position, id, item, view);\n" +
+            "        \n" +
+            "    }\n" +
+            "\n" +
+            "    @Override\n" +
+            "    public void onNewResume() {\n" +
+            "        super.onNewResume();\n" +
+            "        if (sFlushFromNet) {\n" +
+            "            reloadData();\n" +
+            "        }\n" +
+            "        resetSDate();\n" +
+            "    }\n" +
+            "\n" +
+            "    private void resetSDate() {\n" +
+            "        sFlushFromNet = false;\n" +
+            "    }\n" +
+            "\n" +
+            "    public static boolean sFlushFromNet;\n" +
+            "}";
 
     private static final String ACTIVITY_DEFAULT_TEMPLATE = "import android.os.Bundle;\n" +
             "import android.app.Activity;\n" +
