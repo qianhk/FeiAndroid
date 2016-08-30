@@ -71,4 +71,46 @@ interface MvpDefaultTemplate {
             "\n" +
             "    ${METHODS}\n" +
             "}";
+
+    String ADAPTER_DEFAULT_TEMPLATE = "public class ${DataItemType}Adapter extends PagingListAdapter<${DataItemType}> {\n" +
+            "\n" +
+            "    private View.OnClickListener mOnClickListener = new View.OnClickListener() {\n" +
+            "\n" +
+            "        @Override\n" +
+            "        public void onClick(View v) {\n" +
+            "            ${DataItemType}ViewHolder viewHolder = (${DataItemType}ViewHolder) v.getTag(R.id.tag_view_holder);\n" +
+            "            int viewId = v.getId();\n" +
+            "        }\n" +
+            "    };\n" +
+            "\n" +
+            "    @Override\n" +
+            "    public long getItemId(int position) {\n" +
+            "        return position;\n" +
+            "    }\n" +
+            "\n" +
+            "    @Override\n" +
+            "    public View getView(int position, View convertView, ViewGroup parent) {\n" +
+            "        if (convertView == null) {\n" +
+            "            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout., parent, false);\n" +
+            "            convertView.setTag(R.id.tag_view_holder, new ${DataItemType}ViewHolder(convertView, mOnClickListener));\n" +
+            "        }\n" +
+            "        ${DataItemType}ViewHolder viewHolder = (${DataItemType}ViewHolder) convertView.getTag(R.id.tag_view_holder);\n" +
+            "        viewHolder.flushView(getItem(position));\n" +
+            "        return convertView;\n" +
+            "    }\n" +
+            "\n" +
+            "    public static class ${DataItemType}ViewHolder {\n" +
+            "\n" +
+            "        private View mRootView;\n" +
+            "\n" +
+            "        public ${DataItemType}ViewHolder(View view, View.OnClickListener onClickListener) {\n" +
+            "            mRootView = view;\n" +
+            "        }\n" +
+            "\n" +
+            "        public void flushView(${DataItemType} data) {\n" +
+            "        }\n" +
+            "\n" +
+            "    }\n" +
+            "\n" +
+            "}";
 }

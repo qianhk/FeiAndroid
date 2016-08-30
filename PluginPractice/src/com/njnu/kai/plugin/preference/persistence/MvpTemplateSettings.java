@@ -62,7 +62,7 @@ public class MvpTemplateSettings implements PersistentStateComponent<MvpTemplate
         if (templateName.contains("Activity")) {
             return MvpDefaultTemplate.ACTIVITY_DEFAULT_TEMPLATE;
         } else if (templateName.contains("Adapter")) {
-            return "noAdapter";
+            return MvpDefaultTemplate.ADAPTER_DEFAULT_TEMPLATE;
         } else if (templateName.contains("Fragment")) {
             return MvpDefaultTemplate.FRAGMENT_DEFAULT_TEMPLATE;
         } else if (templateName.contains("xxx")) {
