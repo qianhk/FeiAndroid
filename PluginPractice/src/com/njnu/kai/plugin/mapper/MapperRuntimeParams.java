@@ -3,10 +3,10 @@ package com.njnu.kai.plugin.mapper;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 
-public class TmpRuntimeParams {
+public class MapperRuntimeParams {
 
     public interface Action {
-        void run(TmpRuntimeParams context);
+        void run(MapperRuntimeParams context);
     }
 
     Action mAction;
@@ -16,7 +16,7 @@ public class TmpRuntimeParams {
     String mMapperClassCanonicalName;
     boolean mCascadeMapper;
 
-    public TmpRuntimeParams(Action action, Project project, PsiClass originClass) {
+    public MapperRuntimeParams(Action action, Project project, PsiClass originClass) {
         mAction = action;
         mProject = project;
         mOriginClass = originClass;

@@ -67,6 +67,9 @@
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
+        <action id="kai.mvp_generate" class="com.njnu.kai.plugin.mvp.MvpGenerateAction" text="Mvp Code Generate" description="自动创建mvp样本代码">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
+        </action>
     </actions>
 
     <!--<application-components>-->

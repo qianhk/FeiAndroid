@@ -1,7 +1,7 @@
 package com.njnu.kai.plugin.mapper.form;
 
 import com.intellij.openapi.ui.Messages;
-import com.njnu.kai.plugin.mapper.TmpRuntimeParams;
+import com.njnu.kai.plugin.mapper.MapperRuntimeParams;
 import com.njnu.kai.plugin.util.Utils;
 import org.apache.http.util.TextUtils;
 
@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class SettingDialog extends JDialog {
-    private final TmpRuntimeParams mTmpRuntimeParams;
+    private final MapperRuntimeParams mMapperRuntimeParams;
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -17,8 +17,8 @@ public class SettingDialog extends JDialog {
     private JTextField mMapperClass;
     private JCheckBox mCbCascade;
 
-    public SettingDialog(TmpRuntimeParams tmpRuntimeParams) {
-        mTmpRuntimeParams = tmpRuntimeParams;
+    public SettingDialog(MapperRuntimeParams mapperRuntimeParams) {
+        mMapperRuntimeParams = mapperRuntimeParams;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -50,24 +50,24 @@ public class SettingDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-//        System.err.println("SettingDialog tmpRuntimeParams=" + tmpRuntimeParams);
-        final String voClassFullName = Utils.replaceFullPkgWithGivenClass(tmpRuntimeParams.getVoClassCanonicalName(), tmpRuntimeParams.getOriginClass().getName()) + "VO";
+//        System.err.println("SettingDialog mapperRuntimeParams=" + mapperRuntimeParams);
+        final String voClassFullName = Utils.replaceFullPkgWithGivenClass(mapperRuntimeParams.getVoClassCanonicalName(), mapperRuntimeParams.getOriginClass().getName()) + "VO";
         mVoClass.setText(voClassFullName);
-        mMapperClass.setText(Utils.replaceFullPkgWithGivenClass(tmpRuntimeParams.getMapperClassCanonicalName(), tmpRuntimeParams.getOriginClass().getQualifiedName()) + "Mapper");
+        mMapperClass.setText(Utils.replaceFullPkgWithGivenClass(mapperRuntimeParams.getMapperClassCanonicalName(), mapperRuntimeParams.getOriginClass().getQualifiedName()) + "Mapper");
     }
 
     private void onOK() {
         String objectClassCanonicalName = getClassCanonicalName(mVoClass);
         if (objectClassCanonicalName == null) return;
-        mTmpRuntimeParams.setVoClassCanonicalName(objectClassCanonicalName);
+        mMapperRuntimeParams.setVoClassCanonicalName(objectClassCanonicalName);
 
         String mapperClassCanonicalName = getClassCanonicalName(mMapperClass);
         if (mapperClassCanonicalName == null) return;
-        mTmpRuntimeParams.setMapperClassCanonicalName(mapperClassCanonicalName);
+        mMapperRuntimeParams.setMapperClassCanonicalName(mapperClassCanonicalName);
 
-        mTmpRuntimeParams.setCascadeMapper(mCbCascade.isSelected());
+        mMapperRuntimeParams.setCascadeMapper(mCbCascade.isSelected());
 
-        mTmpRuntimeParams.getAction().run(mTmpRuntimeParams);
+        mMapperRuntimeParams.getAction().run(mMapperRuntimeParams);
 
         dispose();
     }
@@ -76,7 +76,7 @@ public class SettingDialog extends JDialog {
         String canonicalName = textField.getText().replaceAll(" ", "").replaceAll(".java$", "");
 
         if (TextUtils.isEmpty(canonicalName) || canonicalName.endsWith(".")) {
-            Messages.showMessageDialog(mTmpRuntimeParams.getProject(), "error", "the class name is not allowed", Messages.getErrorIcon());
+            Messages.showMessageDialog(mMapperRuntimeParams.getProject(), "error", "the class name is not allowed", Messages.getErrorIcon());
             return null;
         }
         return canonicalName;

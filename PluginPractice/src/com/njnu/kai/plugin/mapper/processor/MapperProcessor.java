@@ -6,18 +6,18 @@ import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.njnu.kai.plugin.mapper.TmpRuntimeParams;
+import com.njnu.kai.plugin.mapper.MapperRuntimeParams;
 import com.njnu.kai.plugin.mapper.model.WaitPOItem;
 import com.njnu.kai.plugin.mapper.model.WaitPOManager;
 import com.njnu.kai.plugin.util.Utils;
 
 public class MapperProcessor extends WriteCommandAction.Simple implements MapperPoClass.MapperPoClassListener {
 
-    private TmpRuntimeParams mTmpRuntimeParams;
+    private MapperRuntimeParams mMapperRuntimeParams;
 
-    public MapperProcessor(final TmpRuntimeParams params) {
+    public MapperProcessor(final MapperRuntimeParams params) {
         super(params.getProject(), "po-to-vo-mapper-command");
-        mTmpRuntimeParams = params;
+        mMapperRuntimeParams = params;
         final WaitPOItem waitPOItem = new WaitPOItem();
         waitPOItem.setPoClass(params.getOriginClass());
         waitPOItem.setVoClassCanonicalName(params.getVoClassCanonicalName());
@@ -46,7 +46,7 @@ public class MapperProcessor extends WriteCommandAction.Simple implements Mapper
 
     @Override
     public void notifyFoundFieldInPoClass(String poCanonicalText) {
-        if (mTmpRuntimeParams.isCascadeMapper() && !Utils.isJavaInnerClass(poCanonicalText)) {
+        if (mMapperRuntimeParams.isCascadeMapper() && !Utils.isJavaInnerClass(poCanonicalText)) {
             final Project project = getProject();
             JavaPsiFacade javaPsiFacade = JavaPsiFacade.getInstance(project);
             GlobalSearchScope searchScope = GlobalSearchScope.allScope(project);
@@ -54,9 +54,9 @@ public class MapperProcessor extends WriteCommandAction.Simple implements Mapper
             if (typePoClass != null) {
                 final WaitPOItem waitPOItem = new WaitPOItem();
                 waitPOItem.setPoClass(typePoClass);
-                String voClassFullName = Utils.replaceFullPkgWithGivenClass(mTmpRuntimeParams.getVoClassCanonicalName(), typePoClass.getName()) + "VO";
+                String voClassFullName = Utils.replaceFullPkgWithGivenClass(mMapperRuntimeParams.getVoClassCanonicalName(), typePoClass.getName()) + "VO";
                 waitPOItem.setVoClassCanonicalName(voClassFullName);
-                waitPOItem.setMapperClassCanonicalName(mTmpRuntimeParams.getMapperClassCanonicalName());
+                waitPOItem.setMapperClassCanonicalName(mMapperRuntimeParams.getMapperClassCanonicalName());
                 WaitPOManager.getInstance().push(waitPOItem);
             } else {
                 System.err.println("notifyFoundFieldInPoClass but not found class: " + poCanonicalText);

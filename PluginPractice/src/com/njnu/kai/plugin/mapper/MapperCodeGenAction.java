@@ -8,8 +8,6 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.njnu.kai.plugin.mapper.form.SettingDialog;
-import com.njnu.kai.plugin.mapper.model.WaitPOItem;
-import com.njnu.kai.plugin.mapper.model.WaitPOManager;
 import com.njnu.kai.plugin.mapper.processor.MapperProcessor;
 import com.njnu.kai.plugin.util.Utils;
 
@@ -36,9 +34,9 @@ public class MapperCodeGenAction extends AnAction {
             return;
         }
 
-        final TmpRuntimeParams params = new TmpRuntimeParams(new TmpRuntimeParams.Action() {
+        final MapperRuntimeParams params = new MapperRuntimeParams(new MapperRuntimeParams.Action() {
             @Override
-            public void run(TmpRuntimeParams params) {
+            public void run(MapperRuntimeParams params) {
                 final Rectangle bounds = mDialog.getBounds();
                 PropertiesComponent.getInstance().setValue(BOUND_X, bounds.x, 100);
                 PropertiesComponent.getInstance().setValue(BOUND_Y, bounds.y, 100);
@@ -56,12 +54,12 @@ public class MapperCodeGenAction extends AnAction {
         mDialog.setVisible(true);
     }
 
-    private void loadProperties(TmpRuntimeParams context) {
+    private void loadProperties(MapperRuntimeParams context) {
         context.setVoClassCanonicalName(PropertiesComponent.getInstance().getValue(VO_CLASS_CANONICAL_NAME, "com.example.app.model.NewObject"));
         context.setMapperClassCanonicalName(PropertiesComponent.getInstance().getValue(MAPPER_CLASS_CANONICAL_NAME, "com.example.app.mapper.NewObjectMapper"));
     }
 
-    private void saveProperties(TmpRuntimeParams context) {
+    private void saveProperties(MapperRuntimeParams context) {
         PropertiesComponent.getInstance().setValue(VO_CLASS_CANONICAL_NAME, context.getVoClassCanonicalName());
         PropertiesComponent.getInstance().setValue(MAPPER_CLASS_CANONICAL_NAME, context.getMapperClassCanonicalName());
     }
