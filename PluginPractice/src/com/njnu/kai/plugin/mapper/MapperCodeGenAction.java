@@ -17,10 +17,10 @@ public class MapperCodeGenAction extends AnAction {
 
     private static final String VO_CLASS_CANONICAL_NAME = "voClassCanonicalName";
     private static final String MAPPER_CLASS_CANONICAL_NAME = "mapperClassCanonicalName";
-    private static final String BOUND_X = "bound_x";
-    private static final String BOUND_Y = "bound_y";
-    private static final String BOUND_WIDTH = "bound_width";
-    private static final String BOUND_HEIGHT = "bound_height";
+    private static final String BOUND_X = "mapper_bound_x";
+    private static final String BOUND_Y = "mapper_bound_y";
+    private static final String BOUND_WIDTH = "mapper_bound_width";
+    private static final String BOUND_HEIGHT = "mapper_bound_height";
 
     private SettingDialog mDialog;
 

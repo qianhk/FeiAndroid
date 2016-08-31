@@ -1,5 +1,7 @@
 package com.njnu.kai.plugin.mvp;
 
+import com.njnu.kai.plugin.util.Utils;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -13,8 +15,12 @@ public class MvpChoiceDialog extends JDialog {
     private JCheckBox mCbAdapter;
     private JTextField mEdtFragment;
     private JTextField mEdtAdapter;
+    private JTextField mEdtEntityName;
 
-    public MvpChoiceDialog() {
+    private MvpRuntimeParams mParams;
+
+    public MvpChoiceDialog(MvpRuntimeParams params) {
+        mParams = params;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -47,20 +53,36 @@ public class MvpChoiceDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    private String getFullPackageName(JTextField field) {
+        String packageName = field.getText().trim();
+        int length = packageName.length();
+        if (length > 0 && packageName.endsWith(".")) {
+            packageName = packageName.substring(0, length -1 );
+        }
+        return packageName;
+    }
+
     private void onOK() {
-        // add your code here
+        mParams.setActivityCanonicalName(getFullPackageName(mEdtActivity));
+        mParams.setFragmentCanonicalName(getFullPackageName(mEdtFragment));
+        mParams.setAdapterCanonicalName(getFullPackageName(mEdtAdapter));
+        mParams.setCheckActivity(mCbActivity.isSelected());
+        mParams.setCheckFragment(mCbFragment.isSelected());
+        mParams.setCheckAdapter(mCbAdapter.isSelected());
+        mParams.setEntityName(mEdtEntityName.getName().trim());
+
+        if (Utils.isEmptyString(mParams.getEntityName())) {
+            Utils.showErrorNotification(mParams.getProject(), "请填写页面实体名称");
+            return;
+        }
+
+        mParams.run();
+
         dispose();
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 
-    public static void main(String[] args) {
-        MvpChoiceDialog dialog = new MvpChoiceDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
 }
