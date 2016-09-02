@@ -62,6 +62,6 @@ public class MvpGenerateAction extends AnAction {
     private void saveProperties(MvpRuntimeParams context) {
         PropertiesComponent.getInstance().setValue(MVP_ACTIVITY_CANONICAL_NAME, context.getActivityCanonicalName());
         PropertiesComponent.getInstance().setValue(MVP_FRAGMENT_CANONICAL_NAME, context.getFragmentCanonicalName());
-        PropertiesComponent.getInstance().setValue(MVP_FRAGMENT_CANONICAL_NAME, context.getAdapterCanonicalName());
+        PropertiesComponent.getInstance().setValue(MVP_ADAPTER_CANONICAL_NAME, context.getAdapterCanonicalName());
     }
 }

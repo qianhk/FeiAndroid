@@ -51,6 +51,10 @@ public class MvpChoiceDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        mEdtActivity.setText(params.getActivityCanonicalName());
+        mEdtFragment.setText(params.getFragmentCanonicalName());
+        mEdtAdapter.setText(params.getAdapterCanonicalName());
     }
 
     private String getFullPackageName(JTextField field) {
@@ -69,7 +73,7 @@ public class MvpChoiceDialog extends JDialog {
         mParams.setCheckActivity(mCbActivity.isSelected());
         mParams.setCheckFragment(mCbFragment.isSelected());
         mParams.setCheckAdapter(mCbAdapter.isSelected());
-        mParams.setEntityName(mEdtEntityName.getName().trim());
+        mParams.setEntityName(mEdtEntityName.getText().trim());
 
         if (Utils.isEmptyString(mParams.getEntityName())) {
             Utils.showErrorNotification(mParams.getProject(), "请填写页面实体名称");
