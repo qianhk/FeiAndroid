@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
+import com.njnu.kai.plugin.mvp.processor.MvpProcessor;
 import com.njnu.kai.plugin.util.Utils;
 
 import java.awt.*;
@@ -40,8 +41,7 @@ public class MvpGenerateAction extends AnAction {
                 PropertiesComponent.getInstance().setValue(BOUND_WIDTH, bounds.width, 800);
                 PropertiesComponent.getInstance().setValue(BOUND_HEIGHT, bounds.height, 300);
                 saveProperties(params);
-//                new MapperProcessor(params).execute();
-                Utils.showSimpleInfo(project, "run " + params.getEntityName() + " " + params.getFragmentCanonicalName());
+                new MvpProcessor(params).execute();
             }
         }, project);
         loadProperties(params);

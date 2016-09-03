@@ -25,7 +25,10 @@ public class PsiFileUtils {
         int i = classPath.lastIndexOf(".");
         String packagePath = classPath.substring(0, i);
         String className = classPath.substring(i + 1);
+        return createClass(project, packagePath, className, keepFile);
+    }
 
+    public static PsiClass createClass(Project project, String packagePath, String className, boolean keepFile) {
         PsiDirectory directory = createDirectory(project, packagePath);
         PsiFile file = directory.findFile(className + ".java");
         if (keepFile && file != null) {
