@@ -36,6 +36,9 @@ public class GenerateMvpFile {
 
     public void execute() {
         PsiClass psiClass = PsiFileUtils.createClass(mProject, mPackageName, mClassName, false);
-        psiClass.add(mFactory.createClass(mTemplate));
+//        InputStream inputStream = psiClass.getContainingFile().getVirtualFile().getout();
+        PsiClass templateClass = mFactory.createClassFromText(mTemplate, psiClass);
+//        psiClass.add(templateClass);
+        String text = psiClass.getText();
     }
 }
