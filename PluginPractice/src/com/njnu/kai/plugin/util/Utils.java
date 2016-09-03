@@ -289,6 +289,12 @@ public class Utils {
                 .show(RelativePoint.getCenterOf(statusBar.getComponent()), Balloon.Position.atRight);
     }
 
+    /**
+     * 直接在状态栏上显示文本
+     *
+     * @param project project
+     * @param text    text
+     */
     public static void showSimpleInfo(Project project, String text) {
         StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);
         statusBar.setInfo(text);

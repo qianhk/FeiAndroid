@@ -5,6 +5,7 @@ import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.njnu.kai.plugin.mapper.model.WaitPOItem;
+import com.njnu.kai.plugin.util.PsiFileUtils;
 import com.njnu.kai.plugin.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,8 +68,8 @@ public class MapperPoClass {
 
     public void execute(boolean newMapperClass) {
         mPoClass = mWaitPOItem.getPoClass();
-        mVoClass = createClass(mWaitPOItem.getVoClassCanonicalName(), false);
-        mMapperClass = createClass(mWaitPOItem.getMapperClassCanonicalName(), newMapperClass);
+        mVoClass = PsiFileUtils.createClass(mProject, mWaitPOItem.getVoClassCanonicalName(), false);
+        mMapperClass = PsiFileUtils.createClass(mProject, mWaitPOItem.getMapperClassCanonicalName(), newMapperClass);
         generateObjectClass();
         generateMapperClass();
     }
@@ -77,14 +78,14 @@ public class MapperPoClass {
         generateFields(mVoClass);
         generateMethods(mVoClass);
 
-        optimizeStyle(mVoClass);
+        PsiFileUtils.optimizeStyle(mProject, mVoClass);
     }
 
     private void generateMapperClass() {
         generateImports(mMapperClass);
         generateObjectTransformMethod(mMapperClass);
         generateObjectListTransformMethod(mMapperClass);
-        optimizeStyle(mMapperClass);
+        PsiFileUtils.optimizeStyle(mProject, mMapperClass);
     }
 
     private void generateObjectTransformMethod(PsiClass mapperClass) {
@@ -323,66 +324,7 @@ public class MapperPoClass {
         objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
     }
 
-    private void optimizeStyle(PsiClass clazz) {
-        JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(mProject);
-        PsiJavaFile file = (PsiJavaFile) clazz.getContainingFile();
-        styleManager.optimizeImports(file);
-        styleManager.shortenClassReferences(clazz);
-    }
 
-    private PsiClass createClass(String classPath, boolean keepFile) {
-        int i = classPath.lastIndexOf(".");
-        String packagePath = classPath.substring(0, i);
-        String className = classPath.substring(i + 1);
-
-        PsiDirectory directory = createDirectory(packagePath);
-        PsiFile file = directory.findFile(className + ".java");
-        if (keepFile && file != null) {
-            PsiJavaFile psiJavaFile = (PsiJavaFile) file;
-            final PsiClass[] classes = psiJavaFile.getClasses();
-            if (classes.length > 0) {
-                return classes[0];
-            } else {
-                file.delete();
-                return JavaDirectoryService.getInstance().createClass(directory, className);
-            }
-        } else {
-            if (file != null) {
-                file.delete();
-            }
-            return JavaDirectoryService.getInstance().createClass(directory, className);
-        }
-    }
-
-    private PsiDirectory createDirectory(String packagePath) {
-        PsiPackage pkg = JavaPsiFacade.getInstance(mProject).findPackage(packagePath);
-        List<String> packageSegments = new ArrayList();
-        while (pkg == null) {
-            int i = packagePath.lastIndexOf(".");
-            packageSegments.add(packagePath.substring(i + 1));
-            packagePath = packagePath.substring(0, i);
-            pkg = JavaPsiFacade.getInstance(mProject).findPackage(packagePath);
-        }
-        PsiDirectory directory = createDirectory(pkg);
-        for (int i = packageSegments.size() - 1; i >= 0; --i) {
-            directory = directory.createSubdirectory(packageSegments.get(i));
-        }
-        return directory;
-    }
-
-    private PsiDirectory createDirectory(PsiPackage pkg) {
-        PsiDirectory[] directories = pkg.getDirectories();
-        if (directories.length == 1) {
-            return directories[0];
-        }
-        for (PsiDirectory directory : directories) {
-            final String canonicalPath = directory.getVirtualFile().getCanonicalPath();
-            if (canonicalPath.contains("/src/")) {
-                return directory;
-            }
-        }
-        return null;
-    }
 
     public interface MapperPoClassListener {
 
