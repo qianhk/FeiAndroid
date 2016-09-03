@@ -1,11 +1,14 @@
 package com.njnu.kai.plugin.mvp.processor;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElementFactory;
 import com.njnu.kai.plugin.mvp.MvpRuntimeParams;
 import com.njnu.kai.plugin.util.PsiFileUtils;
+
+import java.io.IOException;
 
 /**
  * @author hongkai.qian
@@ -34,11 +37,17 @@ public class GenerateMvpFile {
         mTemplate = template;
     }
 
-    public void execute() {
+    public void execute() throws IOException {
         PsiClass psiClass = PsiFileUtils.createClass(mProject, mPackageName, mClassName, false);
 //        InputStream inputStream = psiClass.getContainingFile().getVirtualFile().getout();
         PsiClass templateClass = mFactory.createClassFromText(mTemplate, psiClass);
 //        psiClass.add(templateClass);
         String text = psiClass.getText();
+
+//        VirtualFile createdFile = VirtualFileUtils.createOrFindFile(mProject, fileName, folderPath);
+
+        VirtualFile virtualFile = psiClass.getContainingFile().getVirtualFile();
+        virtualFile.setBinaryContent(mTemplate.getBytes());
+
     }
 }
