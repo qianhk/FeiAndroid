@@ -23,10 +23,14 @@ public class MvpProcessor extends WriteCommandAction.Simple {
         String entityName = mRuntimeParams.getEntityName();
         MvpTemplateSettings settings = MvpTemplateSettings.getInstance(mRuntimeParams.getProject());
         if (mRuntimeParams.isCheckActivity()) {
-            GenerateMvpFile activityGenerate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getActivityCanonicalName(), entityName + "Activity", entityName
+            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getActivityCanonicalName(), entityName + "Activity", entityName
                     , settings.provideTemplateForName("Activity"));
-            activityGenerate.execute();
+            generate.execute();
         }
-
+        if (mRuntimeParams.isCheckFragment()) {
+            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getFragmentCanonicalName(), entityName + "Fragment", entityName
+                    , settings.provideTemplateForName("Fragment"));
+            generate.execute();
+        }
     }
 }

@@ -32,15 +32,15 @@ public class VirtualFileUtils {
         return folder.findOrCreateChildData(project, fileName);
     }
 
-    public static VirtualFile setFileContent(Project project, VirtualFile createdFile, String code) throws IOException {
-        createdFile.setBinaryContent(code.getBytes());
-        openFileInEditor(project, createdFile);
-        return createdFile;
-    }
+//    public static VirtualFile setFileContent(Project project, VirtualFile createdFile, String code) throws IOException {
+//        createdFile.setBinaryContent(code.getBytes());
+//        openFileInEditor(project, createdFile);
+//        return createdFile;
+//    }
 
-    private static void openFileInEditor(Project project, VirtualFile fileWithGeneratedCode) {
-        FileEditorManager.getInstance(project).openFile(fileWithGeneratedCode, true);
-    }
+//    private static void openFileInEditor(Project project, VirtualFile fileWithGeneratedCode) {
+//        FileEditorManager.getInstance(project).openFile(fileWithGeneratedCode, true);
+//    }
 
     private static VirtualFile createFolderIfNotExist(Project project, String folder) throws IOException {
         VirtualFile directory = project.getBaseDir();
