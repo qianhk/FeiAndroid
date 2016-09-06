@@ -11,6 +11,8 @@ import com.njnu.kai.plugin.preference.persistence.MvpTemplateSettings;
  */
 public class MvpProcessor extends WriteCommandAction.Simple {
 
+    private static final String KEY_DATAITEMTYPE = "${DataItemType}";
+
     private MvpRuntimeParams mRuntimeParams;
 
     public MvpProcessor(MvpRuntimeParams params) {
@@ -28,8 +30,10 @@ public class MvpProcessor extends WriteCommandAction.Simple {
             generate.execute();
         }
         if (mRuntimeParams.isCheckFragment()) {
+            String fragmentStr = settings.provideTemplateForName("Fragment");
+            fragmentStr = fragmentStr.replace(KEY_DATAITEMTYPE, entityName);
             GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getFragmentCanonicalName(), entityName + "Fragment", entityName
-                    , settings.provideTemplateForName("Fragment"));
+                    , fragmentStr);
             generate.execute();
         }
     }

@@ -1,15 +1,15 @@
-public class ${DataItemType}ListFragment extends PagingListWithActionBarFragment<${DataItemType}> {
+public class TestListFragment extends PagingListWithActionBarFragment<Test> {
 
     @Override
     protected void onInitActionBar() {
         super.onInitActionBar();
-        setTitle("${DataItemType} Page");
+        setTitle("Test Page");
     }
 
     @Override
-    protected IPagingListAdapter<${DataItemType}> onCreateAdapter(Context context) {
+    protected IPagingListAdapter<Test> onCreateAdapter(Context context) {
         resetSDate();
-        return new ${DataItemType}ListAdapter();
+        return new TestListAdapter();
     }
 
     @Override
@@ -23,7 +23,7 @@ public class ${DataItemType}ListFragment extends PagingListWithActionBarFragment
     }
 
     @Override
-    protected void onListItemClick(int position, long id, ${DataItemType} item, View view) {
+    protected void onListItemClick(int position, long id, Test item, View view) {
         super.onListItemClick(position, id, item, view);
         
     }

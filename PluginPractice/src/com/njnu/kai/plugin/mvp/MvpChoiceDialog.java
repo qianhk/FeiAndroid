@@ -55,6 +55,8 @@ public class MvpChoiceDialog extends JDialog {
         mEdtActivity.setText(params.getActivityCanonicalName());
         mEdtFragment.setText(params.getFragmentCanonicalName());
         mEdtAdapter.setText(params.getAdapterCanonicalName());
+
+        mEdtEntityName.requestFocus();
     }
 
     private String getFullPackageName(JTextField field) {
