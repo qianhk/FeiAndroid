@@ -19,6 +19,8 @@ import java.util.List;
  */
 public class VirtualFileUtils {
 
+    private static final String FILE_PROTOCOL = "file://";
+
     public static boolean fileExists(Project project, String fileName, String folderPath) throws IOException {
         try {
             return project.getBaseDir().findFileByRelativePath(folderPath).findFileByRelativePath(fileName).exists();
@@ -44,6 +46,7 @@ public class VirtualFileUtils {
 
     private static VirtualFile createFolderIfNotExist(Project project, String folder) throws IOException {
         VirtualFile directory = project.getBaseDir();
+        folder = pathRelativeToProjectBasePath(project, folder);
         String[] folders = folder.split("/");
         for (String childFolder : folders) {
             VirtualFile childDirectory = directory.findChild(childFolder);
@@ -54,6 +57,20 @@ public class VirtualFileUtils {
             }
         }
         return directory;
+    }
+
+    public static String pathRelativeToProjectBasePath(Project project, String folder) {
+        String basePath = project.getBasePath();
+        if (basePath.startsWith(FILE_PROTOCOL)) {
+            basePath = basePath.substring(FILE_PROTOCOL.length());
+        }
+        if (folder.startsWith(basePath)) {
+            folder = folder.substring(basePath.length() + 1); //basePath最后不带/,所以多跳过1个字符
+//            if (folder.length() > 0 && folder.charAt(0) == '/') {
+//                folder = folder.substring(1);
+//            }
+        }
+        return folder;
     }
 
     public static List<String> getSourceRootPathList(Project project, AnActionEvent event) {

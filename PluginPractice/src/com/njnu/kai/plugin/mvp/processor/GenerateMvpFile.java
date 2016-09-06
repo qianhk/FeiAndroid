@@ -43,7 +43,7 @@ public class GenerateMvpFile {
         PsiDirectory directory = PsiFileUtils.createDirectory(mProject, mPackageName);
 //        PsiClass psiClass = PsiFileUtils.createClass(mProject, mPackageName, mClassName, false);
         String fileName = mClassName + ".java";
-        VirtualFile virtualFile = VirtualFileUtils.createOrFindFile(mProject, fileName, "file://" + directory.getVirtualFile().getCanonicalPath() + "/");
+        VirtualFile virtualFile = VirtualFileUtils.createOrFindFile(mProject, fileName, directory.getVirtualFile().getCanonicalPath());
         virtualFile.setBinaryContent(mTemplate.getBytes());
     }
 }
