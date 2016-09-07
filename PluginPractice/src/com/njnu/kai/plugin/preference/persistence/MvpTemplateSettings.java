@@ -65,8 +65,8 @@ public class MvpTemplateSettings implements PersistentStateComponent<MvpTemplate
             return MvpDefaultTemplate.ADAPTER_DEFAULT_TEMPLATE;
         } else if (templateName.contains("Fragment")) {
             return MvpDefaultTemplate.FRAGMENT_DEFAULT_TEMPLATE;
-        } else if (templateName.contains("xxx")) {
-            return "no xx";
+        } else if (templateName.contains("Presenter")) {
+            return MvpDefaultTemplate.PRESENTER_DEFAULT_TEMPLATE;
         } else {
             return String.format("Not setting default template for %s.", templateName);
         }

@@ -16,6 +16,8 @@ public class MvpChoiceDialog extends JDialog {
     private JTextField mEdtFragment;
     private JTextField mEdtAdapter;
     private JTextField mEdtEntityName;
+    private JCheckBox mCbPesenter;
+    private JTextField mEdtPresenter;
 
     private MvpRuntimeParams mParams;
 
@@ -55,6 +57,7 @@ public class MvpChoiceDialog extends JDialog {
         mEdtActivity.setText(params.getActivityCanonicalName());
         mEdtFragment.setText(params.getFragmentCanonicalName());
         mEdtAdapter.setText(params.getAdapterCanonicalName());
+        mEdtPresenter.setText(params.getPresenterCanonicalName());
 
         mEdtEntityName.requestFocus();
     }
@@ -72,9 +75,11 @@ public class MvpChoiceDialog extends JDialog {
         mParams.setActivityCanonicalName(getFullPackageName(mEdtActivity));
         mParams.setFragmentCanonicalName(getFullPackageName(mEdtFragment));
         mParams.setAdapterCanonicalName(getFullPackageName(mEdtAdapter));
+        mParams.setPresenterCanonicalName(getFullPackageName(mEdtPresenter));
         mParams.setCheckActivity(mCbActivity.isSelected());
         mParams.setCheckFragment(mCbFragment.isSelected());
         mParams.setCheckAdapter(mCbAdapter.isSelected());
+        mParams.setCheckPresenter(mCbPesenter.isSelected());
         mParams.setEntityName(mEdtEntityName.getText().trim());
 
         if (Utils.isEmptyString(mParams.getEntityName())) {

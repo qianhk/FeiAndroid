@@ -113,4 +113,42 @@ interface MvpDefaultTemplate {
             "    }\n" +
             "\n" +
             "}";
+
+    String PRESENTER_DEFAULT_TEMPLATE = "public class ${DataItemType}Presenter extends BasePresenter<${DataItemType}InfoVO, I${DataItemType}View> {\n" +
+            "\n" +
+            "    private static final String TAG = \"{DataItemType}Presenter\";\n" +
+            "    private long mId;\n" +
+            "\n" +
+            "    /**\n" +
+            "     * @param pageDataLoadingView pageDataLoadingView\n" +
+            "     * @param id id\n" +
+            "     */\n" +
+            "    public ${DataItemType}Presenter(I${DataItemType}View pageDataLoadingView, long id) {\n" +
+            "        super(pageDataLoadingView);\n" +
+            "        mId = id;\n" +
+            "    }\n" +
+            "\n" +
+            "    @Override\n" +
+            "    protected void load(final int loadingPage, boolean isForceRefresh) {\n" +
+            "//        execute(new ${DataItemType}UseCase(Repository.getInstance()).xxx(mId), new ${DataItemType}Subscriber());\n" +
+            "    }\n" +
+            "\n" +
+            "    public class ${DataItemType}Subscriber extends APISubscriber<List<${DataItemType}InfoVO>> {\n" +
+            "\n" +
+            "        @Override\n" +
+            "        public void onError(Throwable t) {\n" +
+            "            super.onError(t);\n" +
+            "            handleLoadFailure(t);\n" +
+            "        }\n" +
+            "\n" +
+            "        @Override\n" +
+            "        public void onNext(List<${MODEL}> list) {\n" +
+            "            try {\n" +
+            "                handleLoadSuccess(null, 0, 1);\n" +
+            "            } catch (Exception e) {\n" +
+            "                e.printStackTrace();\n" +
+            "            }\n" +
+            "        }\n" +
+            "    }\n" +
+            "}";
 }

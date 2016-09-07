@@ -19,10 +19,12 @@ public class MvpRuntimeParams {
     private String mActivityCanonicalName;
     private String mFragmentCanonicalName;
     private String mAdapterCanonicalName;
+    private String mPresenterCanonicalName;
 
     private boolean mCheckActivity;
     private boolean mCheckFragment;
     private boolean mCheckAdapter;
+    private boolean mCheckPresenter;
 
     private String mEntityName;
 
@@ -89,6 +91,22 @@ public class MvpRuntimeParams {
 
     public Project getProject() {
         return mProject;
+    }
+
+    public String getPresenterCanonicalName() {
+        return mPresenterCanonicalName;
+    }
+
+    public void setPresenterCanonicalName(String presenterCanonicalName) {
+        mPresenterCanonicalName = presenterCanonicalName;
+    }
+
+    public boolean isCheckPresenter() {
+        return mCheckPresenter;
+    }
+
+    public void setCheckPresenter(boolean checkPresenter) {
+        mCheckPresenter = checkPresenter;
     }
 
     public void run() {

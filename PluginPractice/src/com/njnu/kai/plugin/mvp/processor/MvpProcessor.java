@@ -45,5 +45,11 @@ public class MvpProcessor extends WriteCommandAction.Simple {
                     , adapterStr);
             generate.execute();
         }
+        if (mRuntimeParams.isCheckPresenter()) {
+            String presenterStr = settings.provideTemplateForName("Presenter");
+            presenterStr = presenterStr.replace(KEY_DATAITEMTYPE, entityName);
+            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getPresenterCanonicalName(), entityName + "Presenter", entityName, presenterStr);
+            generate.execute();
+        }
     }
 }

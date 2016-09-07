@@ -19,6 +19,7 @@ public class MvpGenerateAction extends AnAction {
     private static final String MVP_ACTIVITY_CANONICAL_NAME = "mvp_activity_CanonicalName";
     private static final String MVP_FRAGMENT_CANONICAL_NAME = "mvp_fragment_CanonicalName";
     private static final String MVP_ADAPTER_CANONICAL_NAME = "mvp_adapter_CanonicalName";
+    private static final String MVP_PRESENTER_CANONICAL_NAME = "mvp_presenter_CanonicalName";
 
     private static final String BOUND_X = "mvp_bound_x";
     private static final String BOUND_Y = "mvp_bound_y";
@@ -57,11 +58,13 @@ public class MvpGenerateAction extends AnAction {
         context.setActivityCanonicalName(PropertiesComponent.getInstance().getValue(MVP_ACTIVITY_CANONICAL_NAME, "com.example.app.activity"));
         context.setFragmentCanonicalName(PropertiesComponent.getInstance().getValue(MVP_FRAGMENT_CANONICAL_NAME, "com.example.app.fragment"));
         context.setAdapterCanonicalName(PropertiesComponent.getInstance().getValue(MVP_ADAPTER_CANONICAL_NAME, "com.example.app.adapter"));
+        context.setPresenterCanonicalName(PropertiesComponent.getInstance().getValue(MVP_PRESENTER_CANONICAL_NAME, "com.example.app.presenter"));
     }
 
     private void saveProperties(MvpRuntimeParams context) {
         PropertiesComponent.getInstance().setValue(MVP_ACTIVITY_CANONICAL_NAME, context.getActivityCanonicalName());
         PropertiesComponent.getInstance().setValue(MVP_FRAGMENT_CANONICAL_NAME, context.getFragmentCanonicalName());
         PropertiesComponent.getInstance().setValue(MVP_ADAPTER_CANONICAL_NAME, context.getAdapterCanonicalName());
+        PropertiesComponent.getInstance().setValue(MVP_PRESENTER_CANONICAL_NAME, context.getPresenterCanonicalName());
     }
 }
