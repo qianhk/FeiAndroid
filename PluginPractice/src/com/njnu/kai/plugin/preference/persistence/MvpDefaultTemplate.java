@@ -53,23 +53,19 @@ interface MvpDefaultTemplate {
             "    public static boolean sFlushFromNet;\n" +
             "}";
 
-    String ACTIVITY_DEFAULT_TEMPLATE = "import android.os.Bundle;\n" +
-            "import android.app.Activity;\n" +
-            "${IMPORTS}\n" +
-            "\n" +
-            "public class ${CLASS_NAME}Activity extends Activity ${INTERFACES} {\n" +
-            "\n" +
-            "    ${FIELDS}\n" +
+    String ACTIVITY_DEFAULT_TEMPLATE = "\n" +
+            "public class ${DataItemType}Activity extends WrapFragmentActionBarActivity {\n" +
             "\n" +
             "    @Override\n" +
-            "    protected void onCreate(Bundle savedInstanceState) {\n" +
-            "        super.onCreate(savedInstanceState);\n" +
-            "        setContentView(R.layout.${RESOURCE_NAME});\n" +
-            "\n" +
-            "        ${ASSIGNMENTS}\n" +
+            "    protected String getActionBarTitle() {\n" +
+            "        return \"title\";\n" +
             "    }\n" +
             "\n" +
-            "    ${METHODS}\n" +
+            "    @Override\n" +
+            "    protected Class wrapFragmentClass() {\n" +
+            "        return ${FragmentClass}.class;\n" +
+            "    }\n" +
+            "\n" +
             "}";
 
     String LIST_ADAPTER_DEFAULT_TEMPLATE = "public class ${DataItemType}ListAdapter extends PagingListAdapter<${DataItemType}> {\n" +
