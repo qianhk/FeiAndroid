@@ -112,4 +112,22 @@ public class MvpRuntimeParams {
     public void run() {
         mAction.run(this);
     }
+
+
+
+    public String getActivityClassName() {
+        return mEntityName + "Activity";
+    }
+
+    public String getListFragmentClassName() {
+        return mEntityName + "ListFragment";
+    }
+
+    public String getListAdapterClassName() {
+        return mEntityName + "ListAdapter";
+    }
+
+    public String getListPresenterClassName() {
+        return mEntityName + "ListPresenter";
+    }
 }
