@@ -11,13 +11,13 @@ public class MvpChoiceDialog extends JDialog {
     private JButton buttonCancel;
     private JCheckBox mCbActivity;
     private JTextField mEdtActivity;
-    private JCheckBox mCbFragment;
-    private JCheckBox mCbAdapter;
-    private JTextField mEdtFragment;
-    private JTextField mEdtAdapter;
+    private JCheckBox mCbListFragment;
+    private JCheckBox mCbListAdapter;
+    private JTextField mEdtListFragment;
+    private JTextField mEdtListAdapter;
     private JTextField mEdtEntityName;
-    private JCheckBox mCbPesenter;
-    private JTextField mEdtPresenter;
+    private JCheckBox mCbListPesenter;
+    private JTextField mEdtListPresenter;
 
     private MvpRuntimeParams mParams;
 
@@ -55,9 +55,9 @@ public class MvpChoiceDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         mEdtActivity.setText(params.getActivityCanonicalName());
-        mEdtFragment.setText(params.getFragmentCanonicalName());
-        mEdtAdapter.setText(params.getAdapterCanonicalName());
-        mEdtPresenter.setText(params.getPresenterCanonicalName());
+        mEdtListFragment.setText(params.getListFragmentCanonicalName());
+        mEdtListAdapter.setText(params.getListAdapterCanonicalName());
+        mEdtListPresenter.setText(params.getListPresenterCanonicalName());
 
         mEdtEntityName.requestFocus();
     }
@@ -73,13 +73,13 @@ public class MvpChoiceDialog extends JDialog {
 
     private void onOK() {
         mParams.setActivityCanonicalName(getFullPackageName(mEdtActivity));
-        mParams.setFragmentCanonicalName(getFullPackageName(mEdtFragment));
-        mParams.setAdapterCanonicalName(getFullPackageName(mEdtAdapter));
-        mParams.setPresenterCanonicalName(getFullPackageName(mEdtPresenter));
+        mParams.setListFragmentCanonicalName(getFullPackageName(mEdtListFragment));
+        mParams.setListAdapterCanonicalName(getFullPackageName(mEdtListAdapter));
+        mParams.setListPresenterCanonicalName(getFullPackageName(mEdtListPresenter));
         mParams.setCheckActivity(mCbActivity.isSelected());
-        mParams.setCheckFragment(mCbFragment.isSelected());
-        mParams.setCheckAdapter(mCbAdapter.isSelected());
-        mParams.setCheckPresenter(mCbPesenter.isSelected());
+        mParams.setCheckListFragment(mCbListFragment.isSelected());
+        mParams.setCheckListAdapter(mCbListAdapter.isSelected());
+        mParams.setCheckListPresenter(mCbListPesenter.isSelected());
         mParams.setEntityName(mEdtEntityName.getText().trim());
 
         if (Utils.isEmptyString(mParams.getEntityName())) {

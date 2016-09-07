@@ -78,25 +78,25 @@
             </constraints>
             <properties/>
           </component>
-          <component id="b40b6" class="javax.swing.JCheckBox" binding="mCbFragment">
+          <component id="b40b6" class="javax.swing.JCheckBox" binding="mCbListFragment">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <selected value="true"/>
-              <text value="Fragment包名"/>
+              <text value="ListFragment"/>
             </properties>
           </component>
-          <component id="bc1eb" class="javax.swing.JCheckBox" binding="mCbAdapter">
+          <component id="bc1eb" class="javax.swing.JCheckBox" binding="mCbListAdapter">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <selected value="true"/>
-              <text value="Adapter包名"/>
+              <text value="ListAdapter"/>
             </properties>
           </component>
-          <component id="b9048" class="javax.swing.JTextField" binding="mEdtFragment">
+          <component id="b9048" class="javax.swing.JTextField" binding="mEdtListFragment">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -104,7 +104,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="23278" class="javax.swing.JTextField" binding="mEdtAdapter">
+          <component id="23278" class="javax.swing.JTextField" binding="mEdtListAdapter">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -127,19 +127,19 @@
               </grid>
             </constraints>
             <properties>
-              <text value=""/>
+              <text value="Test"/>
             </properties>
           </component>
-          <component id="2c87d" class="javax.swing.JCheckBox" binding="mCbPesenter">
+          <component id="2c87d" class="javax.swing.JCheckBox" binding="mCbListPesenter">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <selected value="true"/>
-              <text value="Pesenter包名"/>
+              <text value="ListPesenter"/>
             </properties>
           </component>
-          <component id="3c67a" class="javax.swing.JTextField" binding="mEdtPresenter">
+          <component id="3c67a" class="javax.swing.JTextField" binding="mEdtListPresenter">
             <constraints>
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>

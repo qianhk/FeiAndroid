@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import com.njnu.kai.plugin.mvp.MvpConstant;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -59,14 +60,14 @@ public class MvpTemplateSettings implements PersistentStateComponent<MvpTemplate
         if (isUsingCustomTemplateForName(templateName)) {
             return mTemplateValues.get(templateName);
         }
-        if (templateName.contains("Activity")) {
+        if (MvpConstant.TEMPLATE_NAME_ACTIVITY.equals(templateName)) {
             return MvpDefaultTemplate.ACTIVITY_DEFAULT_TEMPLATE;
-        } else if (templateName.contains("Adapter")) {
-            return MvpDefaultTemplate.ADAPTER_DEFAULT_TEMPLATE;
-        } else if (templateName.contains("Fragment")) {
-            return MvpDefaultTemplate.FRAGMENT_DEFAULT_TEMPLATE;
-        } else if (templateName.contains("Presenter")) {
-            return MvpDefaultTemplate.PRESENTER_DEFAULT_TEMPLATE;
+        } else if (MvpConstant.TEMPLATE_NAME_LIST_ADAPTER.equals(templateName)) {
+            return MvpDefaultTemplate.LIST_ADAPTER_DEFAULT_TEMPLATE;
+        } else if (MvpConstant.TEMPLATE_NAME_LIST_FRAGMENT.equals(templateName)) {
+            return MvpDefaultTemplate.LIST_FRAGMENT_DEFAULT_TEMPLATE;
+        } else if (MvpConstant.TEMPLATE_NAME_LIST_PRESENTER.equals(templateName)) {
+            return MvpDefaultTemplate.LIST_PRESENTER_DEFAULT_TEMPLATE;
         } else {
             return String.format("Not setting default template for %s.", templateName);
         }

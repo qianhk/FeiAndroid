@@ -3,6 +3,7 @@ package com.njnu.kai.plugin.preference.configurable;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
+import com.njnu.kai.plugin.mvp.MvpConstant;
 import com.njnu.kai.plugin.preference.configurable.template.TemplateConfigurable;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -68,10 +69,10 @@ public class MvpProjectConfigurable implements Configurable, Configurable.Compos
     public Configurable[] getConfigurables() {
         if (mConfigurables == null) {
             mConfigurables = new Configurable[]{
-                    new TemplateConfigurable(mProject, "Activity Template", "Setup Template for Activity code generation:", "Activity_template"),
-                    new TemplateConfigurable(mProject, "Adapter Template", "Setup Template for Adapter code generation:", "Adapter_template"),
-                    new TemplateConfigurable(mProject, "Fragment Template", "Setup Template for Fragment code generation:", "Fragment_template"),
-                    new TemplateConfigurable(mProject, "Menu Template", "Setup Template for Menu code generation:", "Menu_template")
+                    new TemplateConfigurable(mProject, "Activity Template", "生成Activity的模板:", MvpConstant.TEMPLATE_NAME_ACTIVITY),
+                    new TemplateConfigurable(mProject, "List Adapter Template", "生成列表adapter的模板:", MvpConstant.TEMPLATE_NAME_LIST_ADAPTER),
+                    new TemplateConfigurable(mProject, "List Fragment Template", "生成列表Fragment的模板:", MvpConstant.TEMPLATE_NAME_LIST_FRAGMENT),
+                    new TemplateConfigurable(mProject, "List Presenter Template", "生成列表Presenter的模板:", MvpConstant.TEMPLATE_NAME_LIST_PRESENTER)
             };
         }
         return mConfigurables;

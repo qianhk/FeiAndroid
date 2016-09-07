@@ -7,7 +7,7 @@ package com.njnu.kai.plugin.preference.persistence;
  */
 interface MvpDefaultTemplate {
 
-    String FRAGMENT_DEFAULT_TEMPLATE = "public class ${DataItemType}ListFragment extends PagingListWithActionBarFragment<${DataItemType}> {\n" +
+    String LIST_FRAGMENT_DEFAULT_TEMPLATE = "public class ${DataItemType}ListFragment extends PagingListWithActionBarFragment<${DataItemType}> {\n" +
             "\n" +
             "    @Override\n" +
             "    protected void onInitActionBar() {\n" +
@@ -72,7 +72,7 @@ interface MvpDefaultTemplate {
             "    ${METHODS}\n" +
             "}";
 
-    String ADAPTER_DEFAULT_TEMPLATE = "public class ${DataItemType}Adapter extends PagingListAdapter<${DataItemType}> {\n" +
+    String LIST_ADAPTER_DEFAULT_TEMPLATE = "public class ${DataItemType}Adapter extends PagingListAdapter<${DataItemType}> {\n" +
             "\n" +
             "    private View.OnClickListener mOnClickListener = new View.OnClickListener() {\n" +
             "\n" +
@@ -114,7 +114,7 @@ interface MvpDefaultTemplate {
             "\n" +
             "}";
 
-    String PRESENTER_DEFAULT_TEMPLATE = "public class ${DataItemType}Presenter extends BasePresenter<${DataItemType}InfoVO, I${DataItemType}View> {\n" +
+    String LIST_PRESENTER_DEFAULT_TEMPLATE = "public class ${DataItemType}Presenter extends BasePresenter<${DataItemType}InfoVO, I${DataItemType}View> {\n" +
             "\n" +
             "    private static final String TAG = \"{DataItemType}Presenter\";\n" +
             "    private long mId;\n" +

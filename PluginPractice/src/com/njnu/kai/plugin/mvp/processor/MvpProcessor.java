@@ -1,6 +1,7 @@
 package com.njnu.kai.plugin.mvp.processor;
 
 import com.intellij.openapi.command.WriteCommandAction;
+import com.njnu.kai.plugin.mvp.MvpConstant;
 import com.njnu.kai.plugin.mvp.MvpRuntimeParams;
 import com.njnu.kai.plugin.preference.persistence.MvpTemplateSettings;
 
@@ -25,30 +26,30 @@ public class MvpProcessor extends WriteCommandAction.Simple {
         String entityName = mRuntimeParams.getEntityName();
         MvpTemplateSettings settings = MvpTemplateSettings.getInstance(mRuntimeParams.getProject());
         if (mRuntimeParams.isCheckActivity()) {
-            String activityStr = settings.provideTemplateForName("Activity");
+            String activityStr = settings.provideTemplateForName(MvpConstant.TEMPLATE_NAME_ACTIVITY);
             activityStr = activityStr.replace(KEY_DATAITEMTYPE, entityName);
             GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getActivityCanonicalName(), entityName + "Activity", entityName
                     , activityStr);
             generate.execute();
         }
-        if (mRuntimeParams.isCheckFragment()) {
-            String fragmentStr = settings.provideTemplateForName("Fragment");
+        if (mRuntimeParams.isCheckListFragment()) {
+            String fragmentStr = settings.provideTemplateForName(MvpConstant.TEMPLATE_NAME_LIST_FRAGMENT);
             fragmentStr = fragmentStr.replace(KEY_DATAITEMTYPE, entityName);
-            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getFragmentCanonicalName(), entityName + "Fragment", entityName
+            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getListFragmentCanonicalName(), entityName + "Fragment", entityName
                     , fragmentStr);
             generate.execute();
         }
-        if (mRuntimeParams.isCheckAdapter()) {
-            String adapterStr = settings.provideTemplateForName("Adapter");
+        if (mRuntimeParams.isCheckListAdapter()) {
+            String adapterStr = settings.provideTemplateForName(MvpConstant.TEMPLATE_NAME_LIST_ADAPTER);
             adapterStr = adapterStr.replace(KEY_DATAITEMTYPE, entityName);
-            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getAdapterCanonicalName(), entityName + "Adapter", entityName
+            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getListAdapterCanonicalName(), entityName + "Adapter", entityName
                     , adapterStr);
             generate.execute();
         }
-        if (mRuntimeParams.isCheckPresenter()) {
-            String presenterStr = settings.provideTemplateForName("Presenter");
+        if (mRuntimeParams.isCheckListPresenter()) {
+            String presenterStr = settings.provideTemplateForName(MvpConstant.TEMPLATE_NAME_LIST_PRESENTER);
             presenterStr = presenterStr.replace(KEY_DATAITEMTYPE, entityName);
-            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getPresenterCanonicalName(), entityName + "Presenter", entityName, presenterStr);
+            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getListPresenterCanonicalName(), entityName + "Presenter", entityName, presenterStr);
             generate.execute();
         }
     }

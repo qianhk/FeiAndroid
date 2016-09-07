@@ -6,7 +6,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
 import com.njnu.kai.plugin.mvp.processor.MvpProcessor;
-import com.njnu.kai.plugin.util.Utils;
 
 import java.awt.*;
 
@@ -56,15 +55,15 @@ public class MvpGenerateAction extends AnAction {
 
     private void loadProperties(MvpRuntimeParams context) {
         context.setActivityCanonicalName(PropertiesComponent.getInstance().getValue(MVP_ACTIVITY_CANONICAL_NAME, "com.example.app.activity"));
-        context.setFragmentCanonicalName(PropertiesComponent.getInstance().getValue(MVP_FRAGMENT_CANONICAL_NAME, "com.example.app.fragment"));
-        context.setAdapterCanonicalName(PropertiesComponent.getInstance().getValue(MVP_ADAPTER_CANONICAL_NAME, "com.example.app.adapter"));
-        context.setPresenterCanonicalName(PropertiesComponent.getInstance().getValue(MVP_PRESENTER_CANONICAL_NAME, "com.example.app.presenter"));
+        context.setListFragmentCanonicalName(PropertiesComponent.getInstance().getValue(MVP_FRAGMENT_CANONICAL_NAME, "com.example.app.fragment"));
+        context.setListAdapterCanonicalName(PropertiesComponent.getInstance().getValue(MVP_ADAPTER_CANONICAL_NAME, "com.example.app.adapter"));
+        context.setListPresenterCanonicalName(PropertiesComponent.getInstance().getValue(MVP_PRESENTER_CANONICAL_NAME, "com.example.app.presenter"));
     }
 
     private void saveProperties(MvpRuntimeParams context) {
         PropertiesComponent.getInstance().setValue(MVP_ACTIVITY_CANONICAL_NAME, context.getActivityCanonicalName());
-        PropertiesComponent.getInstance().setValue(MVP_FRAGMENT_CANONICAL_NAME, context.getFragmentCanonicalName());
-        PropertiesComponent.getInstance().setValue(MVP_ADAPTER_CANONICAL_NAME, context.getAdapterCanonicalName());
-        PropertiesComponent.getInstance().setValue(MVP_PRESENTER_CANONICAL_NAME, context.getPresenterCanonicalName());
+        PropertiesComponent.getInstance().setValue(MVP_FRAGMENT_CANONICAL_NAME, context.getListFragmentCanonicalName());
+        PropertiesComponent.getInstance().setValue(MVP_ADAPTER_CANONICAL_NAME, context.getListAdapterCanonicalName());
+        PropertiesComponent.getInstance().setValue(MVP_PRESENTER_CANONICAL_NAME, context.getListPresenterCanonicalName());
     }
 }

@@ -17,14 +17,14 @@ public class MvpRuntimeParams {
     private Project mProject;
 
     private String mActivityCanonicalName;
-    private String mFragmentCanonicalName;
-    private String mAdapterCanonicalName;
-    private String mPresenterCanonicalName;
+    private String mListFragmentCanonicalName;
+    private String mListAdapterCanonicalName;
+    private String mListPresenterCanonicalName;
 
     private boolean mCheckActivity;
-    private boolean mCheckFragment;
-    private boolean mCheckAdapter;
-    private boolean mCheckPresenter;
+    private boolean mCheckListFragment;
+    private boolean mCheckListAdapter;
+    private boolean mCheckListPresenter;
 
     private String mEntityName;
 
@@ -41,20 +41,20 @@ public class MvpRuntimeParams {
         mActivityCanonicalName = activityCanonicalName;
     }
 
-    public String getFragmentCanonicalName() {
-        return mFragmentCanonicalName;
+    public String getListFragmentCanonicalName() {
+        return mListFragmentCanonicalName;
     }
 
-    public void setFragmentCanonicalName(String fragmentCanonicalName) {
-        mFragmentCanonicalName = fragmentCanonicalName;
+    public void setListFragmentCanonicalName(String listFragmentCanonicalName) {
+        mListFragmentCanonicalName = listFragmentCanonicalName;
     }
 
-    public String getAdapterCanonicalName() {
-        return mAdapterCanonicalName;
+    public String getListAdapterCanonicalName() {
+        return mListAdapterCanonicalName;
     }
 
-    public void setAdapterCanonicalName(String adapterCanonicalName) {
-        mAdapterCanonicalName = adapterCanonicalName;
+    public void setListAdapterCanonicalName(String listAdapterCanonicalName) {
+        mListAdapterCanonicalName = listAdapterCanonicalName;
     }
 
     public boolean isCheckActivity() {
@@ -65,20 +65,20 @@ public class MvpRuntimeParams {
         mCheckActivity = checkActivity;
     }
 
-    public boolean isCheckFragment() {
-        return mCheckFragment;
+    public boolean isCheckListFragment() {
+        return mCheckListFragment;
     }
 
-    public void setCheckFragment(boolean checkFragment) {
-        mCheckFragment = checkFragment;
+    public void setCheckListFragment(boolean checkListFragment) {
+        mCheckListFragment = checkListFragment;
     }
 
-    public boolean isCheckAdapter() {
-        return mCheckAdapter;
+    public boolean isCheckListAdapter() {
+        return mCheckListAdapter;
     }
 
-    public void setCheckAdapter(boolean checkAdapter) {
-        mCheckAdapter = checkAdapter;
+    public void setCheckListAdapter(boolean checkListAdapter) {
+        mCheckListAdapter = checkListAdapter;
     }
 
     public String getEntityName() {
@@ -93,20 +93,20 @@ public class MvpRuntimeParams {
         return mProject;
     }
 
-    public String getPresenterCanonicalName() {
-        return mPresenterCanonicalName;
+    public String getListPresenterCanonicalName() {
+        return mListPresenterCanonicalName;
     }
 
-    public void setPresenterCanonicalName(String presenterCanonicalName) {
-        mPresenterCanonicalName = presenterCanonicalName;
+    public void setListPresenterCanonicalName(String listPresenterCanonicalName) {
+        mListPresenterCanonicalName = listPresenterCanonicalName;
     }
 
-    public boolean isCheckPresenter() {
-        return mCheckPresenter;
+    public boolean isCheckListPresenter() {
+        return mCheckListPresenter;
     }
 
-    public void setCheckPresenter(boolean checkPresenter) {
-        mCheckPresenter = checkPresenter;
+    public void setCheckListPresenter(boolean checkListPresenter) {
+        mCheckListPresenter = checkListPresenter;
     }
 
     public void run() {
