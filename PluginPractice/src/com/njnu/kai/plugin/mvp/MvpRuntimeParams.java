@@ -130,4 +130,22 @@ public class MvpRuntimeParams {
     public String getListPresenterClassName() {
         return mEntityName + "ListPresenter";
     }
+
+
+    //可选带包名的全名称,便于修正import时自动导入
+    public String getFullActivityClassName() {
+        return mActivityCanonicalName + "." + mEntityName + "Activity";
+    }
+
+    public String getFullListFragmentClassName() {
+        return mListFragmentCanonicalName + "." + mEntityName + "ListFragment";
+    }
+
+    public String getFullListAdapterClassName() {
+        return mListAdapterCanonicalName + "." + mEntityName + "ListAdapter";
+    }
+
+    public String getFullListPresenterClassName() {
+        return mListPresenterCanonicalName + "." + mEntityName + "ListPresenter";
+    }
 }

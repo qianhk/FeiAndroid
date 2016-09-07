@@ -58,7 +58,7 @@ public class MvpProcessor extends WriteCommandAction.Simple {
 
     private String replaceTemplateString(String text) {
         text = text.replace(KEY_DATA_ITEM_TYPE, mRuntimeParams.getEntityName());
-        text = text.replace(KEY_FRAGMENT_CLASS, mRuntimeParams.getListFragmentClassName());
+        text = text.replace(KEY_FRAGMENT_CLASS, mRuntimeParams.getFullListFragmentClassName());
         return text;
     }
 }
