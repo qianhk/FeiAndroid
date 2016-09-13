@@ -5,7 +5,7 @@
     <string name="app_name">手机信息</string>
     <string name="tab_general">常规</string>
     <string name="tab_task">任务</string>
-    <string name="tab_gpu">GPU参数</string>
+    <string name="tab_gpu">GPU</string>
     <string name="tab_hardware">硬件</string>
     <string name="tab_about">关于</string>
 </resources>

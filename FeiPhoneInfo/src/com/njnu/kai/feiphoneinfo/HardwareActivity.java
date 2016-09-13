@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -262,15 +263,22 @@ public class HardwareActivity extends Activity implements OnItemClickListener {
         // map.put("no", 11);
         list.add(map);
 
+
         Runtime runtime = Runtime.getRuntime();
         int maxMemory = ((int) runtime.maxMemory()) / 1024 / 1024;
         //应用程序已获得内存
         long totalMemory = ((int) runtime.totalMemory()) / 1024 / 1024;
         //应用程序已获得内存中未使用内存
         long freeMemory = ((int) runtime.freeMemory()) / 1024 / 1024;
+
+        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        int heapMemory = am.getMemoryClass();
+        int largeHeapMemory = am.getLargeMemoryClass();
+//        /system/build.prop  dalvik.vm.heapstartsize dalvik.vm.heapgrowthlimit dalvik.vm.heapsize=512m
         map = new HashMap<String, Object>();
         map.put("title", "App Memory");
-        map.put("info", "maxMemory=" + maxMemory + "M, totalMemory=" + totalMemory + "M, freeMemory=" + freeMemory + "M");
+        map.put("info", String.format(Locale.getDefault(), "maxMemory=%dM, totalMemory=%dM, freeMemory=%dM, heapMemory=%dM, largeHeapMemory=%dM(可能还是heap, 待验证)"
+                , maxMemory, totalMemory, freeMemory, heapMemory, largeHeapMemory));
         // map.put("no", 12);
         list.add(map);
 
