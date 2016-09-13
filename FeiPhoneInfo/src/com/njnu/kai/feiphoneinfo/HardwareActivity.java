@@ -262,6 +262,18 @@ public class HardwareActivity extends Activity implements OnItemClickListener {
         // map.put("no", 11);
         list.add(map);
 
+        Runtime runtime = Runtime.getRuntime();
+        int maxMemory = ((int) runtime.maxMemory()) / 1024 / 1024;
+        //应用程序已获得内存
+        long totalMemory = ((int) runtime.totalMemory()) / 1024 / 1024;
+        //应用程序已获得内存中未使用内存
+        long freeMemory = ((int) runtime.freeMemory()) / 1024 / 1024;
+        map = new HashMap<String, Object>();
+        map.put("title", "App Memory");
+        map.put("info", "maxMemory=" + maxMemory + "M, totalMemory=" + totalMemory + "M, freeMemory=" + freeMemory + "M");
+        // map.put("no", 12);
+        list.add(map);
+
         return list;
     }
 
