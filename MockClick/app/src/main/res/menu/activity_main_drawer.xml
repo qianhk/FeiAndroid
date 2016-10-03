@@ -7,14 +7,6 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Import"/>
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery"/>
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow"/>
-        <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools"/>
@@ -23,13 +15,17 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
-            <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_test_click"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send"/>
+                android:title="测试单次点击(App内部)"/>
+            <item
+                android:id="@+id/nav_test_click_multi"
+                android:icon="@drawable/ic_menu_send"
+                android:title="连续点100次(App内部)"/>
+            <item
+                android:id="@+id/nav_test_click_multi_1000"
+                android:icon="@drawable/ic_menu_send"
+                android:title="连续点1000次(App内部)"/>
         </menu>
     </item>
 

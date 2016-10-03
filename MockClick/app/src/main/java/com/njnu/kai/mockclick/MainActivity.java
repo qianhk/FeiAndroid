@@ -1,6 +1,8 @@
 package com.njnu.kai.mockclick;
 
+import android.app.Instrumentation;
 import android.os.Bundle;
+import android.os.HandlerThread;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.view.MotionEvent;
@@ -23,6 +25,9 @@ public class MainActivity extends AppCompatActivity
     private Toolbar mToolbar;
     private View mLayoutContent;
     private TextView mTvResult;
+
+    private HandlerThread mHandlerThread;
+    private ClickHandler mClickHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mHandlerThread = new HandlerThread("kai-mock-click–thread");
+        mHandlerThread.start();
+        mClickHandler = new ClickHandler(mHandlerThread.getLooper());
     }
 
     @Override
@@ -87,27 +96,41 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+    public boolean onNavigationItemSelected(final MenuItem item) {
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+        mLayoutContent.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                executeMenu(item.getItemId());
+            }
+        }, 500);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void executeMenu(int menuId) {
+        if (menuId == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (menuId == R.id.nav_manage) {
+
+        } else if (menuId == R.id.nav_test_click) {
+            mClickHandler.sendEmptyMessage(menuId);
+        } else if (menuId == R.id.nav_test_click_multi) {
+            mClickHandler.sendEmptyMessage(menuId);
+        } else if (menuId == R.id.nav_test_click_multi_1000) {
+            mClickHandler.sendEmptyMessage(menuId);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mClickHandler.removeCallbacksAndMessages(null);
+        if (mHandlerThread != null) {
+            mHandlerThread.quit();
+        }
+        super.onDestroy();
     }
 
     private StringBuilder mBuilder = new StringBuilder();
