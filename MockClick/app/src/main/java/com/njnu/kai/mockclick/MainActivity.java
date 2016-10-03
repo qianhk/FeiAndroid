@@ -1,24 +1,22 @@
 package com.njnu.kai.mockclick;
 
-import android.app.Instrumentation;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.HandlerThread;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
-import android.view.MotionEvent;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.njnu.kai.mockclick.util.Injector;
 import com.njnu.kai.mockclick.util.ToastUtils;

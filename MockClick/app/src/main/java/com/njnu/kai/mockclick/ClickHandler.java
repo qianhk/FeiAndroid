@@ -21,7 +21,8 @@ public class ClickHandler extends Handler {
 
     public static final int METHOD_INSTRUMENTATION = 1;
     public static final int METHOD_SU_INPUT = 2;
-    public static final int METHOD_INVOKE_JAVA = 3;
+    public static final int METHOD_SEND_EVENT = 3;
+    public static final int METHOD_INVOKE_JAVA = 4;
 
     private static final String TAG = "ClickHandler";
 
@@ -42,6 +43,8 @@ public class ClickHandler extends Handler {
                 doTestClick(METHOD_INSTRUMENTATION, 672, 112);
             } else if (what == R.id.nav_test_click_multi_100) {
                 doTestClickMulti(METHOD_INSTRUMENTATION, 100);
+            } else if (what == R.id.nav_test_click_multi_1000) {
+                doTestClickMulti(METHOD_INSTRUMENTATION, 1000);
             } else if (what == R.id.nav_su_test_click) {
                 doTestClick(METHOD_SU_INPUT, 672, 112);
             } else if (what == R.id.nav_su_test_click_multi_10) {
@@ -50,6 +53,10 @@ public class ClickHandler extends Handler {
                 doTestClickMulti(METHOD_SU_INPUT, 100);
             } else if (what == R.id.nav_su_test_click_multi_1000) {
                 doTestClickMulti(METHOD_SU_INPUT, 1000);
+            } else if (what == R.id.nav_se_test_click) {
+                doTestClick(METHOD_SEND_EVENT, 672, 112);
+            } else if (what == R.id.nav_se_test_click_multi_10) {
+                doTestClickMulti(METHOD_SEND_EVENT, 10);
             }
         } catch (Throwable t) {
             Log.e(TAG, "handleMessage kai found exception", t);
