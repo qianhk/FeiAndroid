@@ -57,6 +57,8 @@ public class ClickHandler extends Handler {
                 doTestClick(METHOD_SEND_EVENT, 672, 112);
             } else if (what == R.id.nav_se_test_click_multi_10) {
                 doTestClickMulti(METHOD_SEND_EVENT, 10);
+            } else if (what == R.id.nav_se_test_click_multi_100) {
+                doTestClickMulti(METHOD_SEND_EVENT, 100);
             }
         } catch (Throwable t) {
             Log.e(TAG, "handleMessage kai found exception", t);
@@ -73,7 +75,16 @@ public class ClickHandler extends Handler {
             if (canLargeExecuteCommand) {
                 Injector.beginCommand2();
             }
-            Injector.touch2(x, y);
+            Injector.touch2UseInputTap(x, y);
+            if (canLargeExecuteCommand) {
+                Injector.endCommand2();
+            }
+        } else if (method == METHOD_SEND_EVENT) {
+            boolean canLargeExecuteCommand = Injector.canLargeExecuteCommand();
+            if (canLargeExecuteCommand) {
+                Injector.beginCommand2();
+            }
+            Injector.touch2UseSendEvent(x, y);
             if (canLargeExecuteCommand) {
                 Injector.endCommand2();
             }
@@ -81,7 +92,7 @@ public class ClickHandler extends Handler {
     }
 
     private void doTestClickMulti(int method, int times) throws IOException, InterruptedException {
-        if (method == METHOD_SU_INPUT) {
+        if (method == METHOD_SU_INPUT || method == METHOD_SEND_EVENT) {
             Injector.beginCommand2();
         }
 
@@ -99,7 +110,7 @@ public class ClickHandler extends Handler {
             }
             doTestClick(method, x, y);
         }
-        if (method == METHOD_SU_INPUT) {
+        if (method == METHOD_SU_INPUT || method == METHOD_SEND_EVENT) {
             Injector.endCommand2();
         }
     }

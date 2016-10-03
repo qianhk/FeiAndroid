@@ -153,11 +153,15 @@ public class Injector {
         long beginTime = SystemClock.elapsedRealtime();
         sDataOutputStream.writeBytes(command + '\n');
         sDataOutputStream.flush();
-        LogUtils.i(TAG, "executeCommand2 time:%d", SystemClock.elapsedRealtime() - beginTime);
+//        LogUtils.i(TAG, "executeCommand2 time:%d", SystemClock.elapsedRealtime() - beginTime);
     }
 
-    public static void touch2(int x, int y) throws IOException, InterruptedException {
+    public static void touch2UseInputTap(int x, int y) throws IOException, InterruptedException {
         executeCommand2(String.format(Locale.getDefault(), "input tap %d %d", x, y));
+    }
+
+    public static void touch2UseSendEvent(int x, int y) throws IOException, InterruptedException {
+        executeCommand2(makeClickCommandForHongMi3s(x, y));
     }
 
     public static boolean endCommand2() throws InterruptedException, IOException {
@@ -173,5 +177,24 @@ public class Injector {
         } else {
             return true;
         }
+    }
+    
+    private static int sEventIndex = 0;
+
+
+    private static String makeClickCommandForHongMi3s(int x, int y) {
+        StringBuilder builder = new StringBuilder();
+        
+        builder.append("sendevent /dev/input/event1 3 57 " + (++sEventIndex));
+        builder.append("\nsendevent /dev/input/event1 3 53 " + x);
+        builder.append("\nsendevent /dev/input/event1 3 54 " + y);
+        builder.append("\nsendevent /dev/input/event1 1 330 1");
+        builder.append("\nsendevent /dev/input/event1 0 0 0");
+
+        builder.append("\nsendevent /dev/input/event1 3 57 -1");
+        builder.append("\nsendevent /dev/input/event1 1 330 0");
+        builder.append("\nsendevent /dev/input/event1 0 0 0");
+
+        return builder.toString();
     }
 }

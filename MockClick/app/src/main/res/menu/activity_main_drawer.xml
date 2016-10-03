@@ -25,7 +25,7 @@
         </menu>
     </item>
 
-    <item android:title="可App外部(需Root、adb sendevent)">
+    <item android:title="跨进程、sendevent、1秒5次">
         <menu>
             <item
                 android:id="@+id/nav_se_test_click"
@@ -35,10 +35,18 @@
                 android:id="@+id/nav_se_test_click_multi_10"
                 android:icon="@drawable/ic_menu_send"
                 android:title="连续点10次"/>
+
+            <item
+                android:id="@+id/nav_se_test_click_multi_100"
+                android:icon="@drawable/ic_menu_send"
+                android:title="连续点100次"/>
+
         </menu>
     </item>
 
-    <item android:title="可App外部(需Root、adb input、速度慢, 每秒1个)">
+    <item
+        android:title="跨进程、input、1秒1次"
+        >
         <menu>
             <item
                 android:id="@+id/nav_su_test_click"
@@ -51,11 +59,13 @@
             <item
                 android:id="@+id/nav_su_test_click_multi_100"
                 android:icon="@drawable/ic_menu_send"
+                android:visible="false"
                 android:title="连续点100次"/>
             <item
                 android:id="@+id/nav_su_test_click_multi_1000"
                 android:icon="@drawable/ic_menu_send"
-                android:title="连续点1000次"/>
+                android:title="连续点1000次(太慢,不可完成的任务,大概要1000秒)"
+                android:visible="false"/>
         </menu>
     </item>
 
