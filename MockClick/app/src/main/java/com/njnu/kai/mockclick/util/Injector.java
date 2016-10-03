@@ -164,7 +164,9 @@ public class Injector {
         if (sSuShell != null) {
             sDataOutputStream.writeBytes("exit\n");
             sDataOutputStream.flush();
+            sDataOutputStream.close();
             int waitResult = sSuShell.waitFor();
+            LogUtils.i(TAG, "executeCommand2 sSuShell.waitFor finish");
             sDataOutputStream = null;
             sSuShell = null;
             return waitResult == 0;

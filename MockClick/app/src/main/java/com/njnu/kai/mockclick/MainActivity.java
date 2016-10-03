@@ -1,10 +1,12 @@
 package com.njnu.kai.mockclick;
 
 import android.app.Instrumentation;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.HandlerThread;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void executeMenu(int menuId) {
+    private void executeMenu(final int menuId) {
         if (menuId == R.id.nav_manage) {
 
         } else {
@@ -125,6 +127,34 @@ public class MainActivity extends AppCompatActivity
                     ) {
                 if (!Injector.canLargeExecuteCommand()) {
                     ToastUtils.showToast(this, "请等待现有命令执行完毕");
+                    return;
+                }
+                if (menuId == R.id.nav_su_test_click_multi_100 || menuId == R.id.nav_su_test_click_multi_1000) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("大循环次数确认");
+                    builder.setMessage(String.format(Locale.getDefault()
+                            , "即将循环 %d 次点击, 中途不可停止, 会影响手机使用, 确定吗?"
+                            , menuId == R.id.nav_su_test_click_multi_100 ? 100 : 1000));
+                    builder.setNegativeButton("放弃", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ToastUtils.showToast(MainActivity.this, "已取消循环点击任务");
+                        }
+                    });
+                    builder.setPositiveButton("走起", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mClickHandler.sendEmptyMessage(menuId);
+                        }
+                    });
+                    builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            ToastUtils.showToast(MainActivity.this, "自动取消循环点击");
+                        }
+                    });
+                    builder.show();
+                    return;
                 }
             }
             mClickHandler.sendEmptyMessage(menuId);
