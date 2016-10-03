@@ -1,10 +1,10 @@
 package com.njnu.kai.mockclick.util;
 
 import android.os.SystemClock;
-import android.util.Log;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.Locale;
 
 /**
@@ -115,7 +115,6 @@ public class Injector {
      * @throws InterruptedException
      */
     private static boolean executeCommand(String command) throws IOException, InterruptedException {
-//        Process suShell = Runtime.getRuntime().exec(command);
         long beginTime = SystemClock.elapsedRealtime();
         Process suShell = Runtime.getRuntime().exec("su");
         DataOutputStream commandLine = new DataOutputStream(suShell.getOutputStream());
@@ -129,9 +128,42 @@ public class Injector {
 
 //        String result = StringUtils.stringFromInputStream(suShell.getInputStream());
 //        Log.i(TAG, "resultFromBash " + result);
-        int waitResult = 0 ; //suShell.waitFor();
+        int waitResult = suShell.waitFor();
         long elapsed = SystemClock.elapsedRealtime() - beginTime;
-        Log.i(TAG, String.format("executeCommand elpaseTime:%d mid:%d", elapsed, middleTime - beginTime));
+        LogUtils.i(TAG, "executeCommand totalTime:%d mid:%d", elapsed, middleTime - beginTime);
         return waitResult == 0;
+    }
+
+    private static Process sSuShell;
+    private static DataOutputStream sDataOutputStream;
+
+    public static boolean canLargeExecuteCommand() {
+        return sSuShell == null;
+    }
+
+    public static void beginCommand() throws IOException, InterruptedException {
+        if (sSuShell != null) {
+            throw new InterruptedIOException("shell exists");
+        }
+        sSuShell = Runtime.getRuntime().exec("su");
+        sDataOutputStream = new DataOutputStream(sSuShell.getOutputStream());
+    }
+
+    public static void executeCommand(DataOutputStream stream, String command) throws IOException {
+        sDataOutputStream.writeBytes(command + '\n');
+        sDataOutputStream.flush();
+    }
+
+    public static boolean endCommand(DataOutputStream stream) throws InterruptedException, IOException {
+        if (sSuShell != null) {
+            sDataOutputStream.writeBytes("exit\n");
+            sDataOutputStream.flush();
+            int waitResult = sSuShell.waitFor();
+            sDataOutputStream = null;
+            sSuShell = null;
+            return waitResult == 0;
+        } else {
+            return true;
+        }
     }
 }

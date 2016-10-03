@@ -40,12 +40,14 @@ public class ClickHandler extends Handler {
 
             } else if (what == R.id.nav_test_click) {
                 doTestClick(METHOD_INSTRUMENTATION, 672, 112);
-            } else if (what == R.id.nav_test_click_multi) {
-                doTestClickMulti(METHOD_INSTRUMENTATION);
+            } else if (what == R.id.nav_test_click_multi_100) {
+                doTestClickMulti100(METHOD_INSTRUMENTATION);
             } else if (what == R.id.nav_su_test_click) {
                 doTestClick(METHOD_SU_INPUT, 672, 112);
-            } else if (what == R.id.nav_su_test_click_multi) {
-                doTestClickMulti(METHOD_SU_INPUT);
+            } else if (what == R.id.nav_su_test_click_multi_10) {
+                doTestClickMulti10(METHOD_SU_INPUT);
+            } else if (what == R.id.nav_su_test_click_multi_100) {
+                doTestClickMulti100(METHOD_SU_INPUT);
             } else if (what == R.id.nav_su_test_click_multi_1000) {
                 doTestClickMulti1000(METHOD_SU_INPUT);
             }
@@ -64,10 +66,17 @@ public class ClickHandler extends Handler {
         }
     }
 
-    private void doTestClickMulti(int method) throws IOException, InterruptedException {
+    private void doTestClickMulti10(int method) throws IOException, InterruptedException {
+        int widthPixels = DisplayUtils.getWidthPixels();
+        for (int idx = 0; idx < 10; ++idx) {
+            doTestClick(method, widthPixels - idx - 1, idx + 400);
+        }
+    }
+
+    private void doTestClickMulti100(int method) throws IOException, InterruptedException {
         int widthPixels = DisplayUtils.getWidthPixels();
         for (int idx = 0; idx < 100; ++idx) {
-            doTestClick(method, widthPixels - idx - 1, idx + 200);
+            doTestClick(method, widthPixels - idx - 1, idx + 300);
         }
     }
 

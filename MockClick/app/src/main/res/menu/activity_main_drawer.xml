@@ -15,7 +15,7 @@
                 android:icon="@drawable/ic_menu_send"
                 android:title="测试单次点击"/>
             <item
-                android:id="@+id/nav_test_click_multi"
+                android:id="@+id/nav_test_click_multi_100"
                 android:icon="@drawable/ic_menu_send"
                 android:title="连续点100次"/>
             <!--<item-->
@@ -33,7 +33,11 @@
                 android:icon="@drawable/ic_menu_send"
                 android:title="测试单次点击"/>
             <item
-                android:id="@+id/nav_su_test_click_multi"
+                android:id="@+id/nav_su_test_click_multi_10"
+                android:icon="@drawable/ic_menu_send"
+                android:title="连续点10次"/>
+            <item
+                android:id="@+id/nav_su_test_click_multi_100"
                 android:icon="@drawable/ic_menu_send"
                 android:title="连续点100次"/>
             <item

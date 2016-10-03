@@ -16,6 +16,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.njnu.kai.mockclick.util.Injector;
+import com.njnu.kai.mockclick.util.ToastUtils;
 
 import java.util.Locale;
 
@@ -114,6 +118,15 @@ public class MainActivity extends AppCompatActivity
         if (menuId == R.id.nav_manage) {
 
         } else {
+            if (menuId == R.id.nav_su_test_click
+                    || menuId == R.id.nav_su_test_click_multi_10
+                    || menuId == R.id.nav_su_test_click_multi_100
+                    || menuId == R.id.nav_su_test_click_multi_1000
+                    ) {
+                if (!Injector.canLargeExecuteCommand()) {
+                    ToastUtils.showToast(this, "请等待现有命令执行完毕");
+                }
+            }
             mClickHandler.sendEmptyMessage(menuId);
         }
     }
