@@ -74,6 +74,11 @@ public class ClickHandler extends Handler {
                 doTestClickMulti(METHOD_INVOKE_SYS_JAVA, 100);
             } else if (what == R.id.nav_sys_java_input_click_multi_1000) {
                 doTestClickMulti(METHOD_INVOKE_SYS_JAVA, 1000);
+            } else if (what == R.id.nav_sys_java_input_click_second_5) {
+                if (mInput == null) {
+                    mInput = new KaiInput();
+                }
+                mInput.sendTapTime(444, 777, 5000);
             }
         } catch (Throwable t) {
             Log.e(TAG, "handleMessage kai found exception", t);
@@ -112,6 +117,15 @@ public class ClickHandler extends Handler {
     }
 
     private void doTestClickMulti(int method, int times) throws IOException, InterruptedException {
+
+        if (method == METHOD_INVOKE_SYS_JAVA) {
+            if (mInput == null) {
+                mInput = new KaiInput();
+            }
+            mInput.sendTapTimes(333, 666, times);
+            return;
+        }
+
         if (method == METHOD_SU_INPUT || method == METHOD_SEND_EVENT) {
             Injector.beginCommand2();
         }

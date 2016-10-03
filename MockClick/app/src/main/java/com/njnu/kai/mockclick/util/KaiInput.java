@@ -65,7 +65,7 @@ public class KaiInput {
             if (command.equals("text")) {
                 if (length == 2) {
                     inputSource = getSource(inputSource, InputDevice.SOURCE_KEYBOARD);
-                    sendText(inputSource, args[index+1]);
+                    sendText(inputSource, args[index + 1]);
                     return;
                 }
             } else if (command.equals("keyevent")) {
@@ -87,8 +87,22 @@ public class KaiInput {
             } else if (command.equals("tap")) {
                 if (length == 3) {
                     inputSource = getSource(inputSource, InputDevice.SOURCE_TOUCHSCREEN);
-                    sendTap(inputSource, Float.parseFloat(args[index+1]),
-                            Float.parseFloat(args[index+2]));
+                    sendTap(inputSource, Float.parseFloat(args[index + 1]),
+                            Float.parseFloat(args[index + 2]));
+                    return;
+                }
+            } else if (command.equals("tap_times")) {
+                if (length == 4) {
+//                    inputSource = getSource(inputSource, InputDevice.SOURCE_TOUCHSCREEN);
+                    sendTapTimes(Float.parseFloat(args[index + 1]), Float.parseFloat(args[index + 2])
+                            , Integer.parseInt(args[index + 3]));
+                    return;
+                }
+            } else if (command.equals("tap_time")) {
+                if (length == 4) {
+//                    inputSource = getSource(inputSource, InputDevice.SOURCE_TOUCHSCREEN);
+                    sendTapTime(Float.parseFloat(args[index + 1]), Float.parseFloat(args[index + 2])
+                            , Integer.parseInt(args[index + 3]));
                     return;
                 }
             } else if (command.equals("swipe")) {
@@ -96,11 +110,11 @@ public class KaiInput {
                 inputSource = getSource(inputSource, InputDevice.SOURCE_TOUCHSCREEN);
                 switch (length) {
                     case 6:
-                        duration = Integer.parseInt(args[index+5]);
+                        duration = Integer.parseInt(args[index + 5]);
                     case 5:
                         sendSwipe(inputSource,
-                                Float.parseFloat(args[index+1]), Float.parseFloat(args[index+2]),
-                                Float.parseFloat(args[index+3]), Float.parseFloat(args[index+4]),
+                                Float.parseFloat(args[index + 1]), Float.parseFloat(args[index + 2]),
+                                Float.parseFloat(args[index + 3]), Float.parseFloat(args[index + 4]),
                                 duration);
                         return;
                 }
@@ -113,8 +127,8 @@ public class KaiInput {
             } else if (command.equals("roll")) {
                 inputSource = getSource(inputSource, InputDevice.SOURCE_TRACKBALL);
                 if (length == 3) {
-                    sendMove(inputSource, Float.parseFloat(args[index+1]),
-                            Float.parseFloat(args[index+2]));
+                    sendMove(inputSource, Float.parseFloat(args[index + 1]),
+                            Float.parseFloat(args[index + 2]));
                     return;
                 }
             } else {
@@ -139,7 +153,7 @@ public class KaiInput {
         StringBuffer buff = new StringBuffer(text);
 
         boolean escapeFlag = false;
-        for (int i=0; i<buff.length(); i++) {
+        for (int i = 0; i < buff.length(); i++) {
             if (escapeFlag) {
                 escapeFlag = false;
                 if (buff.charAt(i) == 's') {
@@ -156,7 +170,7 @@ public class KaiInput {
 
         KeyCharacterMap kcm = KeyCharacterMap.load(KeyCharacterMap.VIRTUAL_KEYBOARD);
         KeyEvent[] events = kcm.getEvents(chars);
-        for(int i = 0; i < events.length; i++) {
+        for (int i = 0; i < events.length; i++) {
             KeyEvent e = events[i];
             if (source != e.getSource()) {
                 e.setSource(source);
@@ -190,6 +204,19 @@ public class KaiInput {
         injectMotionEvent(InputDevice.SOURCE_TOUCHSCREEN, MotionEvent.ACTION_UP, now, x, y, 0.0f);
     }
 
+    public void sendTapTimes(float x, float y, int times) {
+        for (int idx = 0; idx < times; ++idx) {
+            sendTap(x, y);
+        }
+    }
+
+    public void sendTapTime(float x, float y, int time) {
+        long beginElapseTime = SystemClock.elapsedRealtime();
+        do {
+            sendTap(x, y);
+        } while (SystemClock.elapsedRealtime() - beginElapseTime < time);
+    }
+
     private void sendSwipe(int inputSource, float x1, float y1, float x2, float y2, int duration) {
         if (duration < 0) {
             duration = 300;
@@ -212,8 +239,8 @@ public class KaiInput {
      * Sends a simple zero-pressure move event.
      *
      * @param inputSource the InputDevice.SOURCE_* sending the input event
-     * @param dx change in x coordinate due to move
-     * @param dy change in y coordinate due to move
+     * @param dx          change in x coordinate due to move
+     * @param dy          change in y coordinate due to move
      */
     private void sendMove(int inputSource, float dx, float dy) {
         long now = SystemClock.uptimeMillis();
@@ -231,15 +258,18 @@ public class KaiInput {
 //                InputManager.INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH);
     }
 
+    private static Reflect sInputManagerInstance;
+    private static Object sWaitForFinishValue;
+
     /**
      * Builds a MotionEvent and injects it into the event stream.
      *
      * @param inputSource the InputDevice.SOURCE_* sending the input event
-     * @param action the MotionEvent.ACTION_* for the event
-     * @param when the value of SystemClock.uptimeMillis() at which the event happened
-     * @param x x coordinate of event
-     * @param y y coordinate of event
-     * @param pressure pressure of event
+     * @param action      the MotionEvent.ACTION_* for the event
+     * @param when        the value of SystemClock.uptimeMillis() at which the event happened
+     * @param x           x coordinate of event
+     * @param y           y coordinate of event
+     * @param pressure    pressure of event
      */
     private void injectMotionEvent(int inputSource, int action, long when, float x, float y, float pressure) {
         final float DEFAULT_SIZE = 1.0f;
@@ -253,9 +283,11 @@ public class KaiInput {
                 DEFAULT_EDGE_FLAGS);
         event.setSource(inputSource);
 
-        Reflect getInstance = Reflect.on(InputManager.class).call("getInstance");
-        Object waitForFinishValue = getInstance.get("INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH");
-        getInstance.call("injectInputEvent", event, waitForFinishValue);
+        if (sInputManagerInstance == null) {
+            sInputManagerInstance = Reflect.on(InputManager.class).call("getInstance");
+            sWaitForFinishValue = sInputManagerInstance.get("INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH");
+        }
+        sInputManagerInstance.call("injectInputEvent", event, sWaitForFinishValue);
 
 //        InputManager.getInstance().injectInputEvent(event,
 //                InputManager.INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH);
@@ -286,7 +318,7 @@ public class KaiInput {
                 + " (Default: touchscreen)");
         System.err.println("      press (Default: trackball)");
         System.err.println("      roll <dx> <dy> (Default: trackball)");
-        System.err.println("      tap_time <dx> <dy> <time by second> (Default: touchscreen)");
-        System.err.println("      tap_times <dx> <dy> <times> (Default: touchscreen)");
+        System.err.println("      tap_time <dx> <dy> <time by second> (only touchscreen)");
+        System.err.println("      tap_times <dx> <dy> <times> (only touchscreen)");
     }
 }

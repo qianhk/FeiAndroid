@@ -22,7 +22,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-task taskJar(type:Jar, dependsOn: compileJava) {
-    from 'build/classes'
+task taskJar(type:Jar) {
+    from 'build/intermediates/classes/debug/com/njnu/kai/mockclick/util/'
     destinationDir = file('build/libs')
 }

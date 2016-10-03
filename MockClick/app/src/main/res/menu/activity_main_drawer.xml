@@ -46,6 +46,11 @@
                 android:icon="@drawable/ic_menu_send"
                 android:title="连续点1000次"/>
 
+            <item
+                android:id="@+id/nav_sys_java_input_click_second_5"
+                android:icon="@drawable/ic_menu_send"
+                android:title="连续点5秒"/>
+
         </menu>
     </item>
 
