@@ -3,30 +3,50 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import"/>
-        <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools"/>
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="app内部点(Instrumentation)">
         <menu>
             <item
                 android:id="@+id/nav_test_click"
                 android:icon="@drawable/ic_menu_send"
-                android:title="测试单次点击(App内部)"/>
+                android:title="测试单次点击"/>
             <item
                 android:id="@+id/nav_test_click_multi"
                 android:icon="@drawable/ic_menu_send"
-                android:title="连续点100次(App内部)"/>
-            <item
-                android:id="@+id/nav_test_click_multi_1000"
-                android:icon="@drawable/ic_menu_send"
-                android:title="连续点1000次(App内部)"/>
+                android:title="连续点100次"/>
+            <!--<item-->
+                <!--android:id="@+id/nav_test_click_multi_1000"-->
+                <!--android:icon="@drawable/ic_menu_send"-->
+                <!--android:title="连续点1000次"/>-->
         </menu>
+    </item>
+
+
+    <item android:title="可App外部(需Root、adb input)">
+        <menu>
+            <item
+                android:id="@+id/nav_su_test_click"
+                android:icon="@drawable/ic_menu_send"
+                android:title="测试单次点击"/>
+            <item
+                android:id="@+id/nav_su_test_click_multi"
+                android:icon="@drawable/ic_menu_send"
+                android:title="连续点100次"/>
+            <item
+                android:id="@+id/nav_su_test_click_multi_1000"
+                android:icon="@drawable/ic_menu_send"
+                android:title="连续点1000次"/>
+        </menu>
+    </item>
+
+    <item android:title="可App外部(不需Root、java调Instrumentation)">
+    </item>
+
+    <item android:title="可App外部(需Root、adb sendevent)">
     </item>
 
 </menu>

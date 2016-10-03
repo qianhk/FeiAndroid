@@ -1,5 +1,8 @@
 package com.njnu.kai.mockclick.util;
 
+import android.os.SystemClock;
+import android.util.Log;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Locale;
@@ -10,6 +13,8 @@ import java.util.Locale;
  *         Needs root-access to Device and App needs superuser-rights (you will be asked for that at execution-time).
  */
 public class Injector {
+
+    private static final String TAG = "Injector";
 
     /**
      * Injects Swipe-Event from right to left
@@ -110,14 +115,23 @@ public class Injector {
      * @throws InterruptedException
      */
     private static boolean executeCommand(String command) throws IOException, InterruptedException {
+//        Process suShell = Runtime.getRuntime().exec(command);
+        long beginTime = SystemClock.elapsedRealtime();
         Process suShell = Runtime.getRuntime().exec("su");
         DataOutputStream commandLine = new DataOutputStream(suShell.getOutputStream());
-
+//
         commandLine.writeBytes(command + '\n');
         commandLine.flush();
         commandLine.writeBytes("exit\n");
         commandLine.flush();
 
-        return suShell.waitFor() == 0;
+        long middleTime = SystemClock.elapsedRealtime();
+
+//        String result = StringUtils.stringFromInputStream(suShell.getInputStream());
+//        Log.i(TAG, "resultFromBash " + result);
+        int waitResult = 0 ; //suShell.waitFor();
+        long elapsed = SystemClock.elapsedRealtime() - beginTime;
+        Log.i(TAG, String.format("executeCommand elpaseTime:%d mid:%d", elapsed, middleTime - beginTime));
+        return waitResult == 0;
     }
 }

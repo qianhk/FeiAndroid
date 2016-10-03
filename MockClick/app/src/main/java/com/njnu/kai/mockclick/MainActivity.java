@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 executeMenu(item.getItemId());
             }
-        }, 500);
+        }, 1000);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -111,15 +111,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void executeMenu(int menuId) {
-        if (menuId == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (menuId == R.id.nav_manage) {
+        if (menuId == R.id.nav_manage) {
 
-        } else if (menuId == R.id.nav_test_click) {
-            mClickHandler.sendEmptyMessage(menuId);
-        } else if (menuId == R.id.nav_test_click_multi) {
-            mClickHandler.sendEmptyMessage(menuId);
-        } else if (menuId == R.id.nav_test_click_multi_1000) {
+        } else {
             mClickHandler.sendEmptyMessage(menuId);
         }
     }
@@ -150,7 +144,7 @@ public class MainActivity extends AppCompatActivity
         int rawY = (int) event.getRawY();
         switch (actionMasked) {
             case MotionEvent.ACTION_DOWN:
-                if (SystemClock.elapsedRealtime() - mLastElapsedTime > 600) {
+                if (SystemClock.elapsedRealtime() - mLastElapsedTime > 2000) {
                     mClickCount = 0;
                     mFirstElapsedTime = SystemClock.elapsedRealtime();
                 }
