@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 executeMenu(item.getItemId());
             }
-        }, 1000);
+        }, 500);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

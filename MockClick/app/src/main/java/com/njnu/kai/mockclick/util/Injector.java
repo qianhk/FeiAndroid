@@ -141,7 +141,7 @@ public class Injector {
         return sSuShell == null;
     }
 
-    public static void beginCommand() throws IOException, InterruptedException {
+    public static void beginCommand2() throws IOException, InterruptedException {
         if (sSuShell != null) {
             throw new InterruptedIOException("shell exists");
         }
@@ -149,12 +149,18 @@ public class Injector {
         sDataOutputStream = new DataOutputStream(sSuShell.getOutputStream());
     }
 
-    public static void executeCommand(DataOutputStream stream, String command) throws IOException {
+    public static void executeCommand2(String command) throws IOException {
+        long beginTime = SystemClock.elapsedRealtime();
         sDataOutputStream.writeBytes(command + '\n');
         sDataOutputStream.flush();
+        LogUtils.i(TAG, "executeCommand2 time:%d", SystemClock.elapsedRealtime() - beginTime);
     }
 
-    public static boolean endCommand(DataOutputStream stream) throws InterruptedException, IOException {
+    public static void touch2(int x, int y) throws IOException, InterruptedException {
+        executeCommand2(String.format(Locale.getDefault(), "input tap %d %d", x, y));
+    }
+
+    public static boolean endCommand2() throws InterruptedException, IOException {
         if (sSuShell != null) {
             sDataOutputStream.writeBytes("exit\n");
             sDataOutputStream.flush();

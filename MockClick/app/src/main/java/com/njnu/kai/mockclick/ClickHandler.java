@@ -41,15 +41,15 @@ public class ClickHandler extends Handler {
             } else if (what == R.id.nav_test_click) {
                 doTestClick(METHOD_INSTRUMENTATION, 672, 112);
             } else if (what == R.id.nav_test_click_multi_100) {
-                doTestClickMulti100(METHOD_INSTRUMENTATION);
+                doTestClickMulti(METHOD_INSTRUMENTATION, 100);
             } else if (what == R.id.nav_su_test_click) {
                 doTestClick(METHOD_SU_INPUT, 672, 112);
             } else if (what == R.id.nav_su_test_click_multi_10) {
-                doTestClickMulti10(METHOD_SU_INPUT);
+                doTestClickMulti(METHOD_SU_INPUT, 10);
             } else if (what == R.id.nav_su_test_click_multi_100) {
-                doTestClickMulti100(METHOD_SU_INPUT);
+                doTestClickMulti(METHOD_SU_INPUT, 100);
             } else if (what == R.id.nav_su_test_click_multi_1000) {
-                doTestClickMulti1000(METHOD_SU_INPUT);
+                doTestClickMulti(METHOD_SU_INPUT, 1000);
             }
         } catch (Throwable t) {
             Log.e(TAG, "handleMessage kai found exception", t);
@@ -62,34 +62,38 @@ public class ClickHandler extends Handler {
             inst.sendPointerSync(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, x, y, 0));
             inst.sendPointerSync(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, x, y, 0));
         } else if (method == METHOD_SU_INPUT) {
-            Injector.touch(x, y);
+            boolean canLargeExecuteCommand = Injector.canLargeExecuteCommand();
+            if (canLargeExecuteCommand) {
+                Injector.beginCommand2();
+            }
+            Injector.touch2(x, y);
+            if (canLargeExecuteCommand) {
+                Injector.endCommand2();
+            }
         }
     }
 
-    private void doTestClickMulti10(int method) throws IOException, InterruptedException {
-        int widthPixels = DisplayUtils.getWidthPixels();
-        for (int idx = 0; idx < 10; ++idx) {
-            doTestClick(method, widthPixels - idx - 1, idx + 400);
+    private void doTestClickMulti(int method, int times) throws IOException, InterruptedException {
+        if (method == METHOD_SU_INPUT) {
+            Injector.beginCommand2();
         }
-    }
 
-    private void doTestClickMulti100(int method) throws IOException, InterruptedException {
         int widthPixels = DisplayUtils.getWidthPixels();
-        for (int idx = 0; idx < 100; ++idx) {
-            doTestClick(method, widthPixels - idx - 1, idx + 300);
-        }
-    }
-
-    private void doTestClickMulti1000(int method) throws IOException, InterruptedException {
-        int widthPixels = DisplayUtils.getWidthPixels();
-        for (int idx = 0; idx < 1000; ++idx) {
-            int x = widthPixels - idx - 1;
-            if (x < 0) {
-                x = -x;
-            } else if (x == 0) {
+        int heightPixels = DisplayUtils.getHeightPixels();
+        for (int idx = 0; idx < times; ++idx) {
+            int x = idx % widthPixels;
+            x = widthPixels - x;
+            if (x <= 0 || x >= widthPixels) {
                 x = 88;
             }
-            doTestClick(method, x, idx + 200);
+            int y = idx % (heightPixels - 222) + 222;
+            if (y >= heightPixels) {
+                y = 288;
+            }
+            doTestClick(method, x, y);
+        }
+        if (method == METHOD_SU_INPUT) {
+            Injector.endCommand2();
         }
     }
 }
