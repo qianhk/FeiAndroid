@@ -118,21 +118,21 @@ public class MainActivity extends AppCompatActivity
         if (menuId == R.id.nav_manage) {
 
         } else {
-            if (menuId == R.id.nav_su_test_click
-                    || menuId == R.id.nav_su_test_click_multi_10
-                    || menuId == R.id.nav_su_test_click_multi_100
-                    || menuId == R.id.nav_su_test_click_multi_1000
+            if (menuId == R.id.nav_su_input_click
+                    || menuId == R.id.nav_su_input_click_multi_10
+                    || menuId == R.id.nav_su_input_click_multi_100
+                    || menuId == R.id.nav_su_input_click_multi_1000
                     ) {
                 if (!Injector.canLargeExecuteCommand()) {
                     ToastUtils.showToast(this, "请等待现有命令执行完毕");
                     return;
                 }
-                if (menuId == R.id.nav_su_test_click_multi_100 || menuId == R.id.nav_su_test_click_multi_1000) {
+                if (menuId == R.id.nav_su_input_click_multi_100 || menuId == R.id.nav_su_input_click_multi_1000) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("大循环次数确认");
                     builder.setMessage(String.format(Locale.getDefault()
                             , "即将循环 %d 次点击, 中途不可停止, 会影响手机使用, 确定吗?"
-                            , menuId == R.id.nav_su_test_click_multi_100 ? 100 : 1000));
+                            , menuId == R.id.nav_su_input_click_multi_100 ? 100 : 1000));
                     builder.setNegativeButton("放弃", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity
         int rawY = (int) event.getRawY();
         switch (actionMasked) {
             case MotionEvent.ACTION_DOWN:
-                if (SystemClock.elapsedRealtime() - mLastElapsedTime > 2000) {
+                if (SystemClock.elapsedRealtime() - mLastElapsedTime > 300) {
                     mClickCount = 0;
                     mFirstElapsedTime = SystemClock.elapsedRealtime();
                 }

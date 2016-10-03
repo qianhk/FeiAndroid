@@ -8,36 +8,60 @@
             android:title="Tools"/>
     </group>
 
-    <item android:title="app内部点(Instrumentation)">
+    <item android:title="app内部点 Instrumentation 1秒130次">
         <menu>
             <item
-                android:id="@+id/nav_test_click"
+                android:id="@+id/nav_instrumentation_click"
                 android:icon="@drawable/ic_menu_send"
                 android:title="测试单次点击"/>
             <item
-                android:id="@+id/nav_test_click_multi_100"
+                android:id="@+id/nav_instrumentation_click_multi_100"
                 android:icon="@drawable/ic_menu_send"
                 android:title="连续点100次"/>
             <item
-                android:id="@+id/nav_test_click_multi_1000"
+                android:id="@+id/nav_instrumentation_click_multi_1000"
                 android:icon="@drawable/ic_menu_send"
                 android:title="连续点1000次"/>
+        </menu>
+    </item>
+
+    <item android:title="跨进程、java input、1秒30次">
+        <menu>
+            <item
+                android:id="@+id/nav_sys_java_input_click"
+                android:icon="@drawable/ic_menu_send"
+                android:title="测试单次点击"/>
+            <item
+                android:id="@+id/nav_sys_java_input_click_multi_10"
+                android:icon="@drawable/ic_menu_send"
+                android:title="连续点10次"/>
+
+            <item
+                android:id="@+id/nav_sys_java_input_click_multi_100"
+                android:icon="@drawable/ic_menu_send"
+                android:title="连续点100次"/>
+
+            <item
+                android:id="@+id/nav_sys_java_input_click_multi_1000"
+                android:icon="@drawable/ic_menu_send"
+                android:title="连续点1000次"/>
+
         </menu>
     </item>
 
     <item android:title="跨进程、sendevent、1秒5次">
         <menu>
             <item
-                android:id="@+id/nav_se_test_click"
+                android:id="@+id/nav_sys_event_click"
                 android:icon="@drawable/ic_menu_send"
                 android:title="测试单次点击"/>
             <item
-                android:id="@+id/nav_se_test_click_multi_10"
+                android:id="@+id/nav_sys_event_click_multi_10"
                 android:icon="@drawable/ic_menu_send"
                 android:title="连续点10次"/>
 
             <item
-                android:id="@+id/nav_se_test_click_multi_100"
+                android:id="@+id/nav_sys_event_click_multi_100"
                 android:icon="@drawable/ic_menu_send"
                 android:title="连续点100次"/>
 
@@ -49,20 +73,20 @@
         >
         <menu>
             <item
-                android:id="@+id/nav_su_test_click"
+                android:id="@+id/nav_su_input_click"
                 android:icon="@drawable/ic_menu_send"
                 android:title="测试单次点击"/>
             <item
-                android:id="@+id/nav_su_test_click_multi_10"
+                android:id="@+id/nav_su_input_click_multi_10"
                 android:icon="@drawable/ic_menu_send"
                 android:title="连续点10次"/>
             <item
-                android:id="@+id/nav_su_test_click_multi_100"
+                android:id="@+id/nav_su_input_click_multi_100"
                 android:icon="@drawable/ic_menu_send"
                 android:visible="false"
                 android:title="连续点100次"/>
             <item
-                android:id="@+id/nav_su_test_click_multi_1000"
+                android:id="@+id/nav_su_input_click_multi_1000"
                 android:icon="@drawable/ic_menu_send"
                 android:title="连续点1000次(太慢,不可完成的任务,大概要1000秒)"
                 android:visible="false"/>

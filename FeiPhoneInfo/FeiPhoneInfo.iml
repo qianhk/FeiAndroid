@@ -10,6 +10,9 @@
   <component name="FacetManager">
     <facet type="android" name="Android">
       <configuration>
+        <proGuardCfgFiles>
+          <file>file://$APPLICATION_HOME_DIR$/jre/jdk/Contents/Home/tools/proguard/proguard-android.txt</file>
+        </proGuardCfgFiles>
         <option name="UPDATE_PROPERTY_FILES" value="false" />
       </configuration>
     </facet>
@@ -24,4 +27,3 @@
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
-
