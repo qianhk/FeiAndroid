@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
         } else if (id == R.id.action_float_window) {
             if (mFloatViewController == null) {
-                mFloatViewController = new FloatViewController(this, "test content");
+                mFloatViewController = new FloatViewController(this);
                 mFloatViewController.setViewDismissHandler(mFloatViewDismissHandler);
                 mFloatViewController.show();
             } else {
