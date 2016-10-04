@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.njnu.kai.mockclick.util.Injector;
 import com.njnu.kai.mockclick.util.ToastUtils;
+import com.njnu.kai.mockclick.win.FloatViewController;
 
 import java.util.Locale;
 
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity
 
     private HandlerThread mHandlerThread;
     private ClickHandler mClickHandler;
+
+    private FloatViewController mFloatViewController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +83,17 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_float_window);
+        menuItem.setTitle(mFloatViewController != null ? "隐藏悬浮按钮" : "显示悬浮按钮");
         return true;
     }
+
+    private FloatViewController.ViewDismissHandler mFloatViewDismissHandler = new FloatViewController.ViewDismissHandler() {
+        @Override
+        public void onViewDismiss() {
+            mFloatViewController = null;
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -89,13 +101,23 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        boolean result = true;
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+        } else if (id == R.id.action_float_window) {
+            if (mFloatViewController == null) {
+                mFloatViewController = new FloatViewController(this, "test content");
+                mFloatViewController.setViewDismissHandler(mFloatViewDismissHandler);
+                mFloatViewController.show();
+            } else {
+                mFloatViewController.removePoppedViewAndClear();
+                mFloatViewController = null;
+            }
+        } else {
+            result = super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
+        return result;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
