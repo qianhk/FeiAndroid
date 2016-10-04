@@ -26,8 +26,11 @@ public final class FloatViewController implements View.OnClickListener, View.OnT
     private View mContentView;
     private ViewDismissHandler mViewDismissHandler;
 
-    public FloatViewController(Context application) {
+    private View.OnClickListener mOutOnclickListener;
+
+    public FloatViewController(Context application, View.OnClickListener onClickListener) {
         mContext = application;
+        mOutOnclickListener = onClickListener;
         mWindowManager = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
     }
 
@@ -48,16 +51,27 @@ public final class FloatViewController implements View.OnClickListener, View.OnT
 
         int floatWindowSize = mContext.getResources().getDimensionPixelSize(R.dimen.float_window_size);
 
-        int flags = 0;
+        // 设置Window flag
+//        params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+//                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        /*
+         * 下面的flags属性的效果形同“锁定”。 悬浮窗不可触摸，不接受任何事件,同时不影响后面的事件响应。
+         * wmParams.flags=LayoutParams.FLAG_NOT_TOUCH_MODAL |
+         * LayoutParams.FLAG_NOT_FOCUSABLE | LayoutParams.FLAG_NOT_TOUCHABLE;
+         */
+
+        int flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+
         int type;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            type = WindowManager.LayoutParams.TYPE_TOAST;
-        } else {
-            type = WindowManager.LayoutParams.TYPE_PHONE;
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            type = WindowManager.LayoutParams.TYPE_TOAST;
+//        } else {
+//            type = WindowManager.LayoutParams.TYPE_PHONE;
+//        }
+        type = WindowManager.LayoutParams.TYPE_PHONE;
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-                , type, flags, PixelFormat.TRANSLUCENT);
+                , type, flags, PixelFormat.RGBA_8888);
         layoutParams.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
 
         mWindowManager.addView(mWholeView, layoutParams);
@@ -66,7 +80,11 @@ public final class FloatViewController implements View.OnClickListener, View.OnT
     @Override
     public void onClick(View v) {
 //        removePoppedViewAndClear();
-        ToastUtils.showToast(mContext, "click float windows");
+        if (mOutOnclickListener != null) {
+            mOutOnclickListener.onClick(v);
+        } else {
+            ToastUtils.showToast(mContext, "浮动按钮被点击, 请设置click处理事件");
+        }
     }
 
     public void removePoppedViewAndClear() {

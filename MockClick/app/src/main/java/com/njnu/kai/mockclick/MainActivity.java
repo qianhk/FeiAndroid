@@ -83,15 +83,28 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem menuItem = menu.findItem(R.id.action_float_window);
         menuItem.setTitle(mFloatViewController != null ? "隐藏悬浮按钮" : "显示悬浮按钮");
-        return true;
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private FloatViewController.ViewDismissHandler mFloatViewDismissHandler = new FloatViewController.ViewDismissHandler() {
         @Override
         public void onViewDismiss() {
             mFloatViewController = null;
+        }
+    };
+
+    private View.OnClickListener mOnFloatViewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int viewId = v.getId();
+            executeMenu(R.id.nav_sys_event_click_multi_100);
         }
     };
 
@@ -106,7 +119,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
         } else if (id == R.id.action_float_window) {
             if (mFloatViewController == null) {
-                mFloatViewController = new FloatViewController(this);
+                mFloatViewController = new FloatViewController(this, mOnFloatViewClickListener);
                 mFloatViewController.setViewDismissHandler(mFloatViewDismissHandler);
                 mFloatViewController.show();
             } else {
