@@ -7,6 +7,7 @@ package com.njnu.kai.mockclick.win;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -31,10 +32,36 @@ public final class FloatViewController implements View.OnClickListener, View.OnT
     private View.OnClickListener mOutOnclickListener;
     private WindowManager.LayoutParams mFloatLayoutParams;
 
+    private GestureDetector mGestureDetector;
+
+    private GestureDetector.SimpleOnGestureListener mOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+//            LogUtils.e(TAG, "lookGesture onScroll e1=%.2f,%.2f e2=%.2f,%.2f dx=%.2f dy=%.2f"
+//                    , e1.getX(), e1.getY(), e2.getX(), e2.getY(), distanceX, distanceY);
+            mFloatLayoutParams.x = (int) (e2.getRawX() - e1.getX());
+            mFloatLayoutParams.y = (int) (e2.getRawY() - e1.getY() - DisplayUtils.getStatusBarHeight());
+            mWindowManager.updateViewLayout(mWholeView, mFloatLayoutParams);
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+//            LogUtils.e(TAG, "lookGesture onSingleTapConfirmed e=%.2f %.2f", e.getX(), e.getY());
+            if (mOutOnclickListener != null) {
+                mOutOnclickListener.onClick(mWholeView);
+            } else {
+                ToastUtils.showToast(mContext, "浮动按钮被点击, 请设置click处理事件");
+            }
+            return true;
+        }
+    };
+
     public FloatViewController(Context application, View.OnClickListener onClickListener) {
         mContext = application;
         mOutOnclickListener = onClickListener;
         mWindowManager = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
+        mGestureDetector = new GestureDetector(application, mOnGestureListener);
     }
 
     public void setViewDismissHandler(ViewDismissHandler viewDismissHandler) {
@@ -110,11 +137,11 @@ public final class FloatViewController implements View.OnClickListener, View.OnT
         mWholeView.setKeyEventHandler(null);
     }
 
-    private int mTouchStartX;
-    private int mTouchStartY;
-
-    private int mRawX;
-    private int mRawY;
+//    private int mTouchStartX;
+//    private int mTouchStartY;
+//
+//    private int mRawX;
+//    private int mRawY;
 
     /**
      * touch the outside of the content view, remove the popped view
@@ -130,35 +157,37 @@ public final class FloatViewController implements View.OnClickListener, View.OnT
 //            removePoppedViewAndClear();
 //        }
 
-        mRawX = (int) event.getRawX();
-        mRawY = (int) event.getRawY();
-        LogUtils.e(TAG, "onTouch rawX=%d rawY=%d action=%d", mRawX, mRawY, event.getAction());
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:    //捕获手指触摸按下动作
-                //获取相对View的坐标，即以此View左上角为原点
-                mTouchStartX = (int) event.getX();
-                mTouchStartY = (int) (event.getY() + DisplayUtils.getStatusBarHeight());
-//                Log.i("startP", "startX" + mTouchStartX + "====startY" + mTouchStartY);
-                break;
+//        mRawX = (int) event.getRawX();
+//        mRawY = (int) event.getRawY();
+//        LogUtils.e(TAG, "onTouch rawX=%d rawY=%d action=%d", mRawX, mRawY, event.getAction());
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:    //捕获手指触摸按下动作
+//                //获取相对View的坐标，即以此View左上角为原点
+//                mTouchStartX = (int) event.getX();
+//                mTouchStartY = (int) (event.getY() + DisplayUtils.getStatusBarHeight());
+////                Log.i("startP", "startX" + mTouchStartX + "====startY" + mTouchStartY);
+//                break;
+//
+//            case MotionEvent.ACTION_MOVE:   //捕获手指触摸移动动作
+//                updateViewPosition();
+//                break;
+//
+//            case MotionEvent.ACTION_UP:    //捕获手指触摸离开动作
+//                updateViewPosition();
+//                mTouchStartX = mTouchStartY = 0;
+//                break;
+//        }
+//        return false;
 
-            case MotionEvent.ACTION_MOVE:   //捕获手指触摸移动动作
-                updateViewPosition();
-                break;
-
-            case MotionEvent.ACTION_UP:    //捕获手指触摸离开动作
-                updateViewPosition();
-                mTouchStartX = mTouchStartY = 0;
-                break;
-        }
-        return false;
+        return mGestureDetector.onTouchEvent(event);
     }
 
-    private void updateViewPosition() {
-        //更新浮动窗口位置参数
-        mFloatLayoutParams.x = mRawX - mTouchStartX;
-        mFloatLayoutParams.y = mRawY - mTouchStartY;
-        mWindowManager.updateViewLayout(mWholeView, mFloatLayoutParams);
-    }
+//    private void updateViewPosition() {
+//        //更新浮动窗口位置参数
+//        mFloatLayoutParams.x = mRawX - mTouchStartX;
+//        mFloatLayoutParams.y = mRawY - mTouchStartY;
+//        mWindowManager.updateViewLayout(mWholeView, mFloatLayoutParams);
+//    }
 
     @Override
     public void onKeyEvent(KeyEvent event) {
