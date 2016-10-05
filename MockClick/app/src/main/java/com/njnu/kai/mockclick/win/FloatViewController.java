@@ -7,7 +7,6 @@ package com.njnu.kai.mockclick.win;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -16,10 +15,13 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.njnu.kai.mockclick.R;
+import com.njnu.kai.mockclick.util.DisplayUtils;
+import com.njnu.kai.mockclick.util.LogUtils;
 import com.njnu.kai.mockclick.util.ToastUtils;
 
 public final class FloatViewController implements View.OnClickListener, View.OnTouchListener, ViewContainer.KeyEventHandler {
 
+    private static final String TAG = "FloatViewController";
     private WindowManager mWindowManager;
     private Context mContext;
     private ViewContainer mWholeView;
@@ -27,6 +29,7 @@ public final class FloatViewController implements View.OnClickListener, View.OnT
     private ViewDismissHandler mViewDismissHandler;
 
     private View.OnClickListener mOutOnclickListener;
+    private WindowManager.LayoutParams mFloatLayoutParams;
 
     public FloatViewController(Context application, View.OnClickListener onClickListener) {
         mContext = application;
@@ -45,7 +48,7 @@ public final class FloatViewController implements View.OnClickListener, View.OnT
         mContentView = mWholeView.findViewById(R.id.pop_view_content_view);
 
         // event listeners
-        mContentView.setOnClickListener(this);
+//        mContentView.setOnClickListener(this);
         mWholeView.setOnTouchListener(this);
 //        mWholeView.setKeyEventHandler(this);
 
@@ -70,11 +73,14 @@ public final class FloatViewController implements View.OnClickListener, View.OnT
 //        }
         type = WindowManager.LayoutParams.TYPE_PHONE;
 
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        mFloatLayoutParams = new WindowManager.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                 , type, flags, PixelFormat.RGBA_8888);
-        layoutParams.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
+//        mFloatLayoutParams.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
+        mFloatLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
+        mFloatLayoutParams.x = DisplayUtils.getWidthPixels() - floatWindowSize;
+        mFloatLayoutParams.y = DisplayUtils.getHeightPixels() / 2;
 
-        mWindowManager.addView(mWholeView, layoutParams);
+        mWindowManager.addView(mWholeView, mFloatLayoutParams);
     }
 
     @Override
@@ -104,19 +110,54 @@ public final class FloatViewController implements View.OnClickListener, View.OnT
         mWholeView.setKeyEventHandler(null);
     }
 
+    private int mTouchStartX;
+    private int mTouchStartY;
+
+    private int mRawX;
+    private int mRawY;
+
     /**
      * touch the outside of the content view, remove the popped view
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
+
+//        int x = event.getX();
+//        int y = event.getY();
 //        Rect rect = new Rect();
 //        mContentView.getGlobalVisibleRect(rect);
 //        if (!rect.contains(x, y)) {
 //            removePoppedViewAndClear();
 //        }
+
+        mRawX = (int) event.getRawX();
+        mRawY = (int) event.getRawY();
+        LogUtils.e(TAG, "onTouch rawX=%d rawY=%d action=%d", mRawX, mRawY, event.getAction());
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:    //捕获手指触摸按下动作
+                //获取相对View的坐标，即以此View左上角为原点
+                mTouchStartX = (int) event.getX();
+                mTouchStartY = (int) (event.getY() + DisplayUtils.getStatusBarHeight());
+//                Log.i("startP", "startX" + mTouchStartX + "====startY" + mTouchStartY);
+                break;
+
+            case MotionEvent.ACTION_MOVE:   //捕获手指触摸移动动作
+                updateViewPosition();
+                break;
+
+            case MotionEvent.ACTION_UP:    //捕获手指触摸离开动作
+                updateViewPosition();
+                mTouchStartX = mTouchStartY = 0;
+                break;
+        }
         return false;
+    }
+
+    private void updateViewPosition() {
+        //更新浮动窗口位置参数
+        mFloatLayoutParams.x = mRawX - mTouchStartX;
+        mFloatLayoutParams.y = mRawY - mTouchStartY;
+        mWindowManager.updateViewLayout(mWholeView, mFloatLayoutParams);
     }
 
     @Override
