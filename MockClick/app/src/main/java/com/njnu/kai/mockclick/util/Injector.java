@@ -127,7 +127,7 @@ public class Injector {
         long middleTime = SystemClock.elapsedRealtime();
 
 //        String result = StringUtils.stringFromInputStream(suShell.getInputStream());
-//        Log.i(TAG, "resultFromBash " + result);
+//        LogUtils.i(TAG, "executeCommand resultFromBash " + result);
         int waitResult = suShell.waitFor();
         long elapsed = SystemClock.elapsedRealtime() - beginTime;
         LogUtils.i(TAG, "executeCommand totalTime:%d mid:%d", elapsed, middleTime - beginTime);
@@ -196,5 +196,9 @@ public class Injector {
         builder.append("\nsendevent /dev/input/event1 0 0 0");
 
         return builder.toString();
+    }
+
+    public static boolean kaiInputTapTime(int x, int y, int time) throws IOException, InterruptedException {
+        return executeCommand(String.format(Locale.getDefault(), " /data/local/tmp/kaiinput tap_time %d %d %d", x, y, time));
     }
 }

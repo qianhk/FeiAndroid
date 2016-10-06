@@ -79,6 +79,8 @@ public class ClickHandler extends Handler {
                     mInput = new KaiInput();
                 }
                 mInput.sendTapTime(444, 777, 5000);
+            } else if (what == R.id.nav_kai_java_input_click_second_8) {
+                Injector.kaiInputTapTime(350, 700, 8000);
             }
         } catch (Throwable t) {
             Log.e(TAG, "handleMessage kai found exception", t);

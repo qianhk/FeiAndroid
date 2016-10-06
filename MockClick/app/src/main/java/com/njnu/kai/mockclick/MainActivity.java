@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onClick(View v) {
             int viewId = v.getId();
-            executeMenu(R.id.nav_sys_event_click_multi_100);
+            executeMenu(R.id.nav_kai_java_input_click_second_8);
         }
     };
 

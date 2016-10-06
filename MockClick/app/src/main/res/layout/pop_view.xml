@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:text="5秒"
+            android:text="8秒"
             android:textColor="@android:color/white"
             android:textSize="14sp"/>
 
