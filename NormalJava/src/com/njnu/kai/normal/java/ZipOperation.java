@@ -10,7 +10,7 @@ public class ZipOperation {
     public static void main(String[] args) {
         String ret = "";
         ZipFile zipfile = null;
-        String sourceDir = "/OnGit/YiDaoZou/App/build/outputs/apk/App-yidaozou-debug-assistant91.apk";
+        String sourceDir = "/the/path/of/apk.apk";
         try {
             zipfile = new ZipFile(sourceDir);
             Enumeration<?> entries = zipfile.entries();
