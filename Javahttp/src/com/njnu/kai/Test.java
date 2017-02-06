@@ -23,5 +23,11 @@ public class Test {
         System.err.println(shortD5);
         System.err.println((byte)shortD5);
 //        System.err.println(Integer.parseInt("0xca"));
+
+        String str = "haha h好 a";
+        String str2 = "haha \"h好\" \"a\"";
+        System.out.println("ori str2=" + str2);
+        System.out.println("str1=" + str.replaceAll("\"", ""));
+        System.out.println("str2=" + str2.replaceAll("\"", "_"));
     }
 }
