@@ -3,7 +3,6 @@ package com.njnu.kai.plugin.mapper.form;
 import com.intellij.openapi.ui.Messages;
 import com.njnu.kai.plugin.mapper.MapperRuntimeParams;
 import com.njnu.kai.plugin.util.Utils;
-import org.apache.http.util.TextUtils;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -75,7 +74,7 @@ public class SettingDialog extends JDialog {
     private String getClassCanonicalName(JTextField textField) {
         String canonicalName = textField.getText().replaceAll(" ", "").replaceAll(".java$", "");
 
-        if (TextUtils.isEmpty(canonicalName) || canonicalName.endsWith(".")) {
+        if (canonicalName == null || canonicalName.isEmpty()|| canonicalName.endsWith(".")) {
             Messages.showMessageDialog(mMapperRuntimeParams.getProject(), "error", "the class name is not allowed", Messages.getErrorIcon());
             return null;
         }
