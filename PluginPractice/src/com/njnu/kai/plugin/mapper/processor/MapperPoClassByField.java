@@ -9,15 +9,12 @@ import com.njnu.kai.plugin.util.PsiFileUtils;
 import com.njnu.kai.plugin.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author hongkai.qian
  * @version 1.0.0
  * @since 16-7-29
  */
-public class MapperPoClass {
+public class MapperPoClassByField {
 
     private Project mProject;
     private MapperPoClassListener mMapperPoClassListener;
@@ -59,7 +56,7 @@ public class MapperPoClass {
     private static String METHOD_BODY_ITEM_LIST = "vo.set$PROPERTY$List(po.$GETTER$());\n";
     private static String METHOD_BODY_PO_ITEM_LIST = "vo.set$PROPERTY$List(transform$ENTITY$List(po.$GETTER$()));\n";
 
-    public MapperPoClass(Project project, MapperPoClassListener mapperPoClassListener, WaitPOItem waitPOItem) {
+    public MapperPoClassByField(Project project, MapperPoClassListener mapperPoClassListener, WaitPOItem waitPOItem) {
         mProject = project;
         mMapperPoClassListener = mapperPoClassListener;
         mWaitPOItem = waitPOItem;
@@ -324,12 +321,4 @@ public class MapperPoClass {
         objectClass.add(mFactory.createMethodFromText(methodText, objectClass));
     }
 
-
-
-    public interface MapperPoClassListener {
-
-        void notifyFoundFieldInPoClass(PsiField field);
-
-        void notifyFoundFieldInPoClass(String poCanonicalText);
-    }
 }

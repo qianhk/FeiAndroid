@@ -11,7 +11,7 @@ import com.njnu.kai.plugin.mapper.model.WaitPOItem;
 import com.njnu.kai.plugin.mapper.model.WaitPOManager;
 import com.njnu.kai.plugin.util.Utils;
 
-public class MapperProcessor extends WriteCommandAction.Simple implements MapperPoClass.MapperPoClassListener {
+public class MapperProcessor extends WriteCommandAction.Simple implements MapperPoClassListener {
 
     private MapperRuntimeParams mMapperRuntimeParams;
 
@@ -33,7 +33,7 @@ public class MapperProcessor extends WriteCommandAction.Simple implements Mapper
             final WaitPOItem waitPOItem = instance.pop();
             if (waitPOItem != null) {
                 ++index;
-                new MapperPoClass(getProject(), this, waitPOItem).execute(index > 1);
+                new MapperPoClassByField(getProject(), this, waitPOItem).execute(index > 1);
             }
         }
         instance.clear();
