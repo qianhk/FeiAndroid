@@ -7,62 +7,62 @@ public class ManagerTotalPO implements Serializable {
     @SuppressWarnings(
             "c"
     )
-    private long mManagerGroupId;
+    public long mManagerGroupId;
 
     @SuppressWarnings(
             "a"
     )
-    private int mManagerGroupMaxCount;
+    public int mManagerGroupMaxCount;
 
     @SuppressWarnings(
             "b"
     )
-    private List<ManagerDetailPO> mManagerDetailVOs;
+    public List<ManagerDetailPO> mManagerDetailVOs;
 
     @SuppressWarnings(
             "c"
     )
-    private List<String> mTestStrings;
+    public List<String> mTestStrings;
 
     @SuppressWarnings(
             "d"
     )
-    private String mManagerGroupName;
+    public String mManagerGroupName;
 
     @SuppressWarnings(
             "e"
     )
-    private ManageModule1 mManageModule1;
+    public ManageModule1 mManageModule1;
 
     @SuppressWarnings(
             "c"
     )
-    private ManageModule2PO mManageModule2VO;
+    public ManageModule2PO mManageModule2VO;
 
     @SuppressWarnings(
             "c"
     )
-    private ManageModule3PO mManageModule3PO;
+    public ManageModule3PO mManageModule3PO;
 
     @SuppressWarnings(
             "c"
     )
-    private ManageModule3PO mTestManageModuleHahaPO;
+    public ManageModule3PO mTestManageModuleHahaPO;
 
     @SuppressWarnings(
             "c"
     )
-    private List<ManageModule4> mManageModule4Xx;
+    public List<ManageModule4> mManageModule4Xx;
 
     @SuppressWarnings(
             "c"
     )
-    private List<ManageModule4> mTestManageModule4List;
+    public List<ManageModule4> mTestManageModule4List;
 
     @SuppressWarnings(
             "c"
     )
-    private List<ManageModule3PO> mAgainManageModule3POList;
+    public List<ManageModule3PO> mAgainManageModule3POList;
 
     public ManagerTotalPO() {
     }
