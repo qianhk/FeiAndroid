@@ -1,8 +1,8 @@
-package codegen.po2.po;
+package codegen.po2;
 
 import java.io.Serializable;
 
-public class ManageModule2PO implements Serializable {
+public class ManageModule4 implements Serializable {
 
     public int mBubble;
     public boolean mAllowed;

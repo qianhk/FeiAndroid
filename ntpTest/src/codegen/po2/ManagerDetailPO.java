@@ -1,4 +1,4 @@
-package codegen.po2.po;
+package codegen.po2;
 
 import java.io.Serializable;
 
