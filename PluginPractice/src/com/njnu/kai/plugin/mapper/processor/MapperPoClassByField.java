@@ -53,8 +53,8 @@ public class MapperPoClassByField {
 
     private static String METHOD_BODY_ITEM = "vo.$PROPERTY$ = po.$GETTER$;\n";
     private static String METHOD_BODY_PO_ITEM = "vo.$PROPERTY$ = transform(po.$GETTER$);\n";
-    private static String METHOD_BODY_ITEM_LIST = "vo.$PROPERTY$List = po.$GETTER$;\n";
-    private static String METHOD_BODY_PO_ITEM_LIST = "vo.$PROPERTY$List = transform$ENTITY$List(po.$GETTER$);\n";
+    private static String METHOD_BODY_ITEM_LIST = "vo.$PROPERTY$ = po.$GETTER$;\n";
+    private static String METHOD_BODY_PO_ITEM_LIST = "vo.$PROPERTY$ = transform$ENTITY$List(po.$GETTER$);\n";
 
     public MapperPoClassByField(Project project, MapperPoClassListener mapperPoClassListener, WaitPOItem waitPOItem) {
         mProject = project;
