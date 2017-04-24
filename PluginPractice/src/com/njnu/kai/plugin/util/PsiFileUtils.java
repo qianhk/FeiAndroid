@@ -5,22 +5,24 @@ import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 通用方法
- FilenameIndex.getFilesByName()通过给定名称（不包含具体路径）搜索对应文件
- ReferencesSearch.search()类似于IDE中的Find Usages操作
- RefactoringFactory.createRename()重命名
- FileContentUtil.reparseFiles()通过VirtualFile重建PSI
-
- Java专用方法
- ClassInheritorsSearch.search()搜索一个类的所有子类
- JavaPsiFacade.findClass()通过类名查找类
- PsiShortNamesCache.getInstance().getClassesByName()通过一个短名称（例如LogUtil）查找类
- PsiClass.getSuperClass()查找一个类的直接父类
- JavaPsiFacade.getInstance().findPackage()获取Java类所在的Package
- OverridingMethodsSearch.search()查找被特定方法重写的方法
+ * FilenameIndex.getFilesByName()通过给定名称（不包含具体路径）搜索对应文件
+ * ReferencesSearch.search()类似于IDE中的Find Usages操作
+ * RefactoringFactory.createRename()重命名
+ * FileContentUtil.reparseFiles()通过VirtualFile重建PSI
+ * <p>
+ * Java专用方法
+ * ClassInheritorsSearch.search()搜索一个类的所有子类
+ * JavaPsiFacade.findClass()通过类名查找类
+ * PsiShortNamesCache.getInstance().getClassesByName()通过一个短名称（例如LogUtil）查找类
+ * PsiClass.getSuperClass()查找一个类的直接父类
+ * JavaPsiFacade.getInstance().findPackage()获取Java类所在的Package
+ * OverridingMethodsSearch.search()查找被特定方法重写的方法
  *
  * @author hongkai.qian
  * @version 1.0.0
@@ -52,14 +54,21 @@ public class PsiFileUtils {
                 return classes[0];
             } else {
                 file.delete();
-                return JavaDirectoryService.getInstance().createClass(directory, className);
+                return createClassUseJavaDirectoryService(directory, className);
             }
         } else {
             if (file != null) {
                 file.delete();
             }
-            return JavaDirectoryService.getInstance().createClass(directory, className);
+            return createClassUseJavaDirectoryService(directory, className);
         }
+    }
+
+    private static PsiClass createClassUseJavaDirectoryService(PsiDirectory directory, String className) {
+//        return JavaDirectoryService.getInstance().createClass(directory, className);
+        Map<String, String> additionalProperties = new HashMap<>();
+        additionalProperties.put("VISIBILITY", "PUBLIC");
+        return JavaDirectoryService.getInstance().createClass(directory, className, "Class", false, additionalProperties);
     }
 
     public static PsiDirectory createDirectory(Project project, String packagePath) {
