@@ -76,9 +76,14 @@ public class VGContext {
                     String statementAsString = psiStatement.getText();
                     if (statementAsString.contains(Definitions.FindViewById)) {//声明语句
                         statementAsString = Utils.replaceBlank(statementAsString);
-                        String fieldName = statementAsString.substring(0, statementAsString.indexOf("="));
-                        String id = statementAsString.substring(statementAsString.indexOf("(R.id.") + 1, statementAsString.indexOf(");"));
-                        elementsIdNameMap.put(id, fieldName);
+                        int endIndex = statementAsString.indexOf("=");
+                        if (endIndex > 0) { //contentView.findViewById(R.id.xxxxxxx).setOnClickListener(this); will crash
+                            String fieldName = statementAsString.substring(0, endIndex);
+                            String id = statementAsString.substring(statementAsString.indexOf("(R.id.") + 1, statementAsString.indexOf(");"));
+                            elementsIdNameMap.put(id, fieldName);
+                        } else {
+                            continue;
+                        }
                     }
 
                     if (statementAsString.contains(Definitions.SetOnClickListener)) {//监听语句
