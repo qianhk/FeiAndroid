@@ -55,6 +55,8 @@
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <action id="kai.practice.SayHiAction" class="com.njnu.kai.plugin.practice.SayHiAction" text="Say Hi Music"
                     description="Say Hi Action的描述文字"></action>
+            <action id="kai.practice.TestXml" class="com.njnu.kai.plugin.practice.TestXmlAction" text="Test xml operate"
+                    description="测试xml操作"></action>
         </group>
 
         <action id="kai.viewgeneration" class="com.njnu.kai.plugin.viewgenerator.action.ViewGenerateAction"
