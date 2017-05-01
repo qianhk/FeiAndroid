@@ -3,7 +3,7 @@
  * Author: ${USER}
  * Created on ${DATE}
  */
-public class ${NAME}Activity extends WrapFragmentActionBarActivity {
+public class ${ENTITY}Activity2 extends WrapFragmentActionBarActivity {
             
                 @Override
                 protected String getActionBarTitle() {

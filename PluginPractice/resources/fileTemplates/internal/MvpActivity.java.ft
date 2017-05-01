@@ -7,7 +7,7 @@ public class ${NAME}Activity extends WrapFragmentActionBarActivity {
             
                 @Override
                 protected String getActionBarTitle() {
-                    return "title2";
+                    return "title";
                 }
             
                 @Override
