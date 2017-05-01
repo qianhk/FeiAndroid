@@ -47,9 +47,7 @@
 
 
         <!--<projectConfigurable instance="com.njnu.kai.plugin.preference.configurable.KaiProjectConfigurable"/>-->
-        <internalFileTemplate name="MvpActivity" />
-        <!--<internalFileTemplate id="MvpActivityId" name="MvpActivity" />-->
-        <!--<internalFileTemplate id="MvpActivityId2" name="MvpActivity2" subject="Subject"/>-->
+        <internalFileTemplate name="MvpActivity" subject="subjectN" />
 
     </extensions>
 

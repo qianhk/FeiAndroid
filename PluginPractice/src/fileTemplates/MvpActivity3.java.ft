@@ -1,13 +1,13 @@
-#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != )package ${PACKAGE_NAME};#end
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
 /**
  * Author: ${USER}
  * Created on ${DATE}
  */
-public class ${NAME}Activity extends WrapFragmentActionBarActivity {
+public class ${ENTITY}Activity2 extends WrapFragmentActionBarActivity {
             
                 @Override
                 protected String getActionBarTitle() {
-                    return "title2";
+                    return "title2 src";
                 }
             
                 @Override

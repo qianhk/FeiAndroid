@@ -25,7 +25,7 @@ public class TestTemplateAction extends AnAction {
             protected void run() throws Throwable {
                 Map<String, String> properties = new HashMap<String, String>();
                 properties.put("ENTITY", "Abc");
-                PsiFileUtils.createClass(project, "codegen.template", properties.get("ENTITY") + "Activity", false, "MvpActivity", properties);
+                PsiFileUtils.createClass(project, "codegen.template", properties.get("ENTITY") + "Activity", false, "MvpActivity3", properties);
             }
         }.execute();
     }
