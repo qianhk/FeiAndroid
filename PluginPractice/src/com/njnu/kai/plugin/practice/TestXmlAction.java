@@ -2,6 +2,7 @@ package com.njnu.kai.plugin.practice;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.project.Project;
@@ -35,7 +36,7 @@ public class TestXmlAction extends AnAction {
         if (xmlFile != null) {
             XmlDocument document = xmlFile.getDocument();
             if (document != null) {
-                XmlTag rootTag = document.getRootTag();
+                final XmlTag rootTag = document.getRootTag();
                 if (rootTag != null) {
                     XmlTag[] subTags = rootTag.getSubTags();
                     for (XmlTag tag : subTags) {
@@ -47,6 +48,16 @@ public class TestXmlAction extends AnAction {
                             Utils.logInfo(String.format("xml tag: %s, no attribute.", tag.getName()));
                         }
                     }
+
+                    //Throwable: Threading assertion.  Under write: false
+//                    rootTag.setAttribute("timeK", String.valueOf(System.currentTimeMillis()));
+
+                    new WriteCommandAction.Simple(project, "kai-write-xml") {
+                        @Override
+                        protected void run() throws Throwable {
+                            rootTag.setAttribute("timeK", String.valueOf(System.currentTimeMillis()));
+                        }
+                    }.execute();
                 }
             }
         }
