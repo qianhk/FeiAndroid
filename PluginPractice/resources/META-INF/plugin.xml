@@ -47,6 +47,8 @@
 
 
         <!--<projectConfigurable instance="com.njnu.kai.plugin.preference.configurable.KaiProjectConfigurable"/>-->
+        <internalFileTemplate id="MvpActivityId" name="MvpActivity" />
+        <internalFileTemplate id="MvpActivityId2" name="MvpActivity2" subject="Subject"/>
 
     </extensions>
 
@@ -57,6 +59,8 @@
                     description="Say Hi Action的描述文字"></action>
             <action id="kai.practice.TestXml" class="com.njnu.kai.plugin.practice.TestXmlAction" text="Test xml operate"
                     description="测试xml操作"></action>
+            <action id="kai.practice.template" class="com.njnu.kai.plugin.practice.TestTemplateAction" text="Test template operate"
+                    description="测试模板操作"></action>
         </group>
 
         <action id="kai.viewgeneration" class="com.njnu.kai.plugin.viewgenerator.action.ViewGenerateAction"

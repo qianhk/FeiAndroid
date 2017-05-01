@@ -4,10 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 通用方法
@@ -44,7 +41,8 @@ public class PsiFileUtils {
         return createClass(project, packagePath, className, keepFile);
     }
 
-    public static PsiClass createClass(Project project, String packagePath, String className, boolean keepFile) {
+    public static PsiClass createClass(Project project, String packagePath, String className, boolean keepFile
+            , String templateName, Map<String, String> properties) {
         PsiDirectory directory = createDirectory(project, packagePath);
         PsiFile file = directory.findFile(className + ".java");
         if (keepFile && file != null) {
@@ -54,21 +52,29 @@ public class PsiFileUtils {
                 return classes[0];
             } else {
                 file.delete();
-                return createClassUseJavaDirectoryService(directory, className);
+                return createClassUseJavaDirectoryService(directory, className, templateName, properties);
             }
         } else {
             if (file != null) {
                 file.delete();
             }
-            return createClassUseJavaDirectoryService(directory, className);
+            return createClassUseJavaDirectoryService(directory, className, templateName, properties);
         }
     }
 
-    private static PsiClass createClassUseJavaDirectoryService(PsiDirectory directory, String className) {
-//        return JavaDirectoryService.getInstance().createClass(directory, className);
-        Map<String, String> additionalProperties = new HashMap<>();
-        additionalProperties.put("VISIBILITY", "PUBLIC");
-        return JavaDirectoryService.getInstance().createClass(directory, className, "Class", false, additionalProperties);
+    public static PsiClass createClass(Project project, String packagePath, String className, boolean keepFile) {
+        return createClass(project, packagePath, className, keepFile, "Class", null);
+    }
+
+    private static PsiClass createClassUseJavaDirectoryService(PsiDirectory directory, String className
+            , String templateName, Map<String, String> properties) {
+        if (properties == null || properties == Collections.EMPTY_MAP) {
+            properties = new HashMap<>();
+        }
+        if (!properties.containsKey("VISIBILITY")) {
+            properties.put("VISIBILITY", "PUBLIC");
+        }
+        return JavaDirectoryService.getInstance().createClass(directory, className, templateName, false, properties);
     }
 
     public static PsiDirectory createDirectory(Project project, String packagePath) {
