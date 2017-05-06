@@ -30,6 +30,9 @@ public class MapperPoClassByField {
             "        * @return view object\n" +
             "        */\n" +
             "        public static $MAPPED_CLASS$ transform($ORIGIN_CLASS$ po) {\n" +
+            "        if (null == po) {\n" +
+            "        return null;\n" +
+            "        }\n\n" +
             "        $MAPPED_CLASS$  vo = new $MAPPED_CLASS$();\n\n" +
             "        $BODY$\n" +
             "        return vo;\n" +
