@@ -7,6 +7,7 @@ package com.njnu.kai.normal.java;
 
 import sun.misc.Launcher;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 
 public class HelloClassLoaderTest {
@@ -61,6 +62,12 @@ mv KaiPerson.jar $JAVA_HOME/jre/lib/ext/
                     classLoader = classLoader.getParent();
                     System.out.println("compiled parent: " + classLoader.getClass().getName());  //java.lang.BootClassLoader
                 }
+                Field userIdField = person2.getDeclaredField("mUserId");
+                Field nameField = person2.getDeclaredField("mName");
+                Object obj = person2.newInstance();
+                userIdField.set(obj, 1224);
+                nameField.set(obj, "KaiKai");
+                System.out.println("compiledperson2 instance is: " + obj);
             } else {
                 System.out.println("compiledperson2 load failed");
             }
