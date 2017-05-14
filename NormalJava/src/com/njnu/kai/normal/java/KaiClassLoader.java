@@ -11,6 +11,14 @@ import java.io.FileInputStream;
  */
 public class KaiClassLoader extends ClassLoader {
 
+    public KaiClassLoader() {
+        super();
+    }
+
+    public KaiClassLoader(ClassLoader parent) {
+        super(parent);
+    }
+
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         byte[] classData = getClassData(new File(String.format("class/%s.class", name.replace('.', File.separatorChar))));

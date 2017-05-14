@@ -24,7 +24,7 @@ public class HelloClassLoaderTest {
             System.out.println("ClassLoader.getSystemClassLoader(): " + appClassLoader.getClass().getName());  //sun.misc.Launcher$AppClassLoader
             ClassLoader classLoader1 = appClassLoader.loadClass("com.njnu.kai.normal.java.Person").getClassLoader();
             System.out.println("pojo1: " + classLoader1.getClass().getName());  //sun.misc.Launcher$AppClassLoader
-            while(classLoader1.getParent() != null) {
+            while (classLoader1.getParent() != null) {
                 classLoader1 = classLoader1.getParent();
                 System.out.println("parent1: " + classLoader1.getClass().getName());  //sun.misc.Launcher$ExtClassLoader
             }
@@ -34,7 +34,7 @@ public class HelloClassLoaderTest {
 
         ClassLoader classLoader2 = Class.forName("com.njnu.kai.normal.java.Person2").getClassLoader();
         System.out.println("pojo2: " + classLoader2.getClass().getName());  //sun.misc.Launcher$AppClassLoader
-        while(classLoader2.getParent() != null) {
+        while (classLoader2.getParent() != null) {
             classLoader2 = classLoader2.getParent();
             System.out.println("parent2: " + classLoader2.getClass().getName());  //sun.misc.Launcher$ExtClassLoader
         }
@@ -42,12 +42,16 @@ public class HelloClassLoaderTest {
 
 
         /*
-javac com.njnu.kai.normal.java.Person2
-jar cvf KaiPerson.jar  ./src/com/njnu/kai/normal/java/Person.class
+javac com.njnu.kai.compiled.Person
+jar cvf KaiPerson.jar  com/njnu/kai/compiled/Person.class
 mv KaiPerson.jar $JAVA_HOME/jre/lib/ext/
+
+//http://www.jianshu.com/p/61cfa1347894 jar打包
  */
 
-        new HelloClassLoaderTest().onTest03();
+        HelloClassLoaderTest test = new HelloClassLoaderTest();
+//        test.onTest03();
+        test.onTest04();
 
     }
 
@@ -71,10 +75,32 @@ mv KaiPerson.jar $JAVA_HOME/jre/lib/ext/
             } else {
                 System.out.println("compiledperson2 load failed");
             }
+
+            Class<?> aClass = kaiClassLoader.loadClass("java.lang.String");
+            System.out.println("compiledperson2 load : " + aClass
+                    + " loader=" + (aClass.getClassLoader() != null ? aClass.getClassLoader().getClass().getName() : "null"));
+
         } catch (Exception e) {
             //UnsupportedOperationException can't load this type of class file
             //http://blog.csdn.net/jiangwei0910410003/article/details/17679823
             System.err.println(e);
+        }
+    }
+
+    private void onTest04() {
+        Class<?> aClass = null;
+        try {
+            ClassLoader appClassLoader = ClassLoader.getSystemClassLoader();
+            aClass = appClassLoader.loadClass("com.njnu.kai.compiled.Person");
+            if (aClass != null) {
+                System.out.println("onTest04 load success");
+                ClassLoader classLoader = aClass.getClassLoader();
+                System.out.println("onTest04, loader is " + classLoader.getClass().getName());
+            } else {
+                System.out.println("onTest04 load failed");
+            }
+        } catch (ClassNotFoundException e) {
+            System.err.println("onTest04 exception: " + e);
         }
     }
 
