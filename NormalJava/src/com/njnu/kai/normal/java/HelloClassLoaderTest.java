@@ -50,7 +50,7 @@ mv KaiPerson.jar $JAVA_HOME/jre/lib/ext/
  */
 
         HelloClassLoaderTest test = new HelloClassLoaderTest();
-//        test.onTest03();
+        test.onTest03();
         test.onTest04();
 
     }
@@ -61,29 +61,29 @@ mv KaiPerson.jar $JAVA_HOME/jre/lib/ext/
             Class<?> person2 = kaiClassLoader.loadClass("com.njnu.kai.compiled.Person");
             if (person2 != null) {
                 ClassLoader classLoader = person2.getClassLoader();
-                System.out.println("compiled person2 load success, loader is " + classLoader.getClass().getName());
+                System.out.println("onTest03 load success, loader is " + classLoader.getClass().getName());
                 while (classLoader.getParent() != null) {
                     classLoader = classLoader.getParent();
-                    System.out.println("compiled parent: " + classLoader.getClass().getName());  //java.lang.BootClassLoader
+                    System.out.println("onTest03 compiled parent: " + classLoader.getClass().getName());  //java.lang.BootClassLoader
                 }
                 Field userIdField = person2.getDeclaredField("mUserId");
                 Field nameField = person2.getDeclaredField("mName");
                 Object obj = person2.newInstance();
                 userIdField.set(obj, 1224);
                 nameField.set(obj, "KaiKai");
-                System.out.println("compiledperson2 instance is: " + obj);
+                System.out.println("onTest03 instance is: " + obj);
             } else {
-                System.out.println("compiledperson2 load failed");
+                System.out.println("onTest03 load failed");
             }
 
             Class<?> aClass = kaiClassLoader.loadClass("java.lang.String");
-            System.out.println("compiledperson2 load : " + aClass
+            System.out.println("onTest03 load : " + aClass
                     + " loader=" + (aClass.getClassLoader() != null ? aClass.getClassLoader().getClass().getName() : "null"));
 
         } catch (Exception e) {
             //UnsupportedOperationException can't load this type of class file
             //http://blog.csdn.net/jiangwei0910410003/article/details/17679823
-            System.err.println(e);
+            System.err.println("onTest03: " + e);
         }
     }
 
@@ -96,10 +96,12 @@ mv KaiPerson.jar $JAVA_HOME/jre/lib/ext/
                 System.out.println("onTest04 load success");
                 ClassLoader classLoader = aClass.getClassLoader();
                 System.out.println("onTest04, loader is " + classLoader.getClass().getName());
+                Object obj = aClass.newInstance();
+                System.out.println("onTest04 obj=" + obj);
             } else {
                 System.out.println("onTest04 load failed");
             }
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             System.err.println("onTest04 exception: " + e);
         }
     }
