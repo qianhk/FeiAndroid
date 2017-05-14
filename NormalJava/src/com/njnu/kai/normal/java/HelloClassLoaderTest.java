@@ -88,10 +88,9 @@ mv KaiPerson.jar $JAVA_HOME/jre/lib/ext/
     }
 
     private void onTest04() {
-        Class<?> aClass = null;
         try {
             ClassLoader appClassLoader = ClassLoader.getSystemClassLoader();
-            aClass = appClassLoader.loadClass("com.njnu.kai.compiled.Person");
+            Class<?> aClass = appClassLoader.loadClass("com.njnu.kai.compiled.Person");
             if (aClass != null) {
                 System.out.println("onTest04 load success");
                 ClassLoader classLoader = aClass.getClassLoader();
