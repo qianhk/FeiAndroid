@@ -47,7 +47,10 @@
 
 
         <!--<projectConfigurable instance="com.njnu.kai.plugin.preference.configurable.KaiProjectConfigurable"/>-->
-        <internalFileTemplate name="MvpActivity" subject="subjectN" />
+        <internalFileTemplate name="MvpListActivity"/>
+        <internalFileTemplate name="MvpListFragment"/>
+        <internalFileTemplate name="MvpListAdapter"/>
+        <internalFileTemplate name="MvpListPresenter"/>
 
     </extensions>
 
@@ -73,9 +76,14 @@
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
-        <action id="kai.mvp_generate" class="com.njnu.kai.plugin.mvp.MvpGenerateAction" text="Mvp Code Generate" description="自动创建mvp样本代码">
+        <!--<action id="kai.mvp_generate" class="com.njnu.kai.plugin.mvp.MvpGenerateAction" text="Mvp Code Generate" description="自动创建mvp样本代码">-->
+        <!--<add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>-->
+        <!--</action>-->
+
+        <action id="kai.template_mvp_generate" class="com.njnu.kai.plugin.mvp.TemplateMvpGenerateAction" text="Mvp Code Generate" description="自动创建mvp样本代码">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
         </action>
+
     </actions>
 
     <!--<application-components>-->
