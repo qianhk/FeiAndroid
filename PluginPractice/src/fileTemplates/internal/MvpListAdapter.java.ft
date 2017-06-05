@@ -1,0 +1,30 @@
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+/**
+ * Author: ${USER}
+ * Created on ${DATE}
+ */
+public class ${ENTITY}ListAdapter extends XxxListAdapter<${ENTITY}VO, ${ENTITY}ViewHolder> {
+
+    @Override
+    public ${ENTITY}ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout., null);
+        View view = new TextView(parent.getContext());
+        return new ${ENTITY}ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(${ENTITY}ViewHolder holder, int position) {
+        holder.bind(getItem(position));
+    }
+
+    public static class ${ENTITY}ViewHolder extends RecyclerView.ViewHolder {
+
+        public ${ENTITY}ViewHolder(View view) {
+            super(view);
+        }
+
+        public void bind(${ENTITY}VO item) {
+
+        }
+    }
+}

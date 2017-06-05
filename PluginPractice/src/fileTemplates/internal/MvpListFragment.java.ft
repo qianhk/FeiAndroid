@@ -1,0 +1,24 @@
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+/**
+ * Author: ${USER}
+ * Created on ${DATE}
+ */
+public class ${ENTITY}Fragment extends RecyclerViewListFragment {
+
+@Override
+    protected XxxListPresenter onCreatePresenter() {
+        return new ${ENTITY}ListPresenter;
+    }
+
+    @Override
+        protected XxxListAdapter onCreateAdapter() {
+        #if (${USE_NUWA} && ${USE_NUWA} == "TRUE")
+           NUWAListAdapter adapter = new NUWAListAdapter();
+
+        #else
+            XxxListAdapter adapter = new ${ENTITY}ListAdapter();
+        #end
+           return adapter;
+
+        }
+}
