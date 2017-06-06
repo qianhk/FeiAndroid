@@ -12,6 +12,7 @@ import com.intellij.psi.PsiPackage;
 import com.intellij.psi.impl.file.PsiJavaDirectoryImpl;
 import com.intellij.ui.content.ContentManager;
 import com.njnu.kai.plugin.mvp.processor.MvpProcessor;
+import com.njnu.kai.plugin.mvp.processor.TemplateMvpProcessor;
 import com.njnu.kai.plugin.util.VirtualFileUtils;
 
 import java.awt.*;
@@ -57,11 +58,11 @@ public class TemplateMvpGenerateAction extends AnAction {
                 PropertiesComponent.getInstance().setValue(BOUND_Y, bounds.y, 100);
                 PropertiesComponent.getInstance().setValue(BOUND_WIDTH, bounds.width, 800);
                 PropertiesComponent.getInstance().setValue(BOUND_HEIGHT, bounds.height, 300);
-                new MvpProcessor(params).execute();
+                new TemplateMvpProcessor(params).execute();
             }
         }, project);
         String presentationPkg = qualifiedName + ".presentation";
-        String viewPkg = presentationPkg + ".presentation.view";
+        String viewPkg = presentationPkg + ".view";
         params.setActivityCanonicalName(viewPkg + ".activity");
         params.setListFragmentCanonicalName(viewPkg + ".fragment");
         params.setListAdapterCanonicalName(viewPkg + ".adapter");

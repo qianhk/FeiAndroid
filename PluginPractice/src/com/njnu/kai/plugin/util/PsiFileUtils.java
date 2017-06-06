@@ -66,7 +66,7 @@ public class PsiFileUtils {
         return createClass(project, packagePath, className, keepFile, "Class", null);
     }
 
-    private static PsiClass createClassUseJavaDirectoryService(PsiDirectory directory, String className
+    public static PsiClass createClassUseJavaDirectoryService(PsiDirectory directory, String className
             , String templateName, Map<String, String> properties) {
         if (properties == null || properties == Collections.EMPTY_MAP) {
             properties = new HashMap<>();

@@ -30,7 +30,7 @@ public class MvpProcessor extends WriteCommandAction.Simple {
             String activityStr = settings.provideTemplateForName(MvpConstant.TEMPLATE_NAME_ACTIVITY);
             activityStr = replaceTemplateString(activityStr);
             GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getActivityCanonicalName()
-                    , mRuntimeParams.getActivityClassName(), entityName, activityStr);
+                    , mRuntimeParams.getListActivityClassName(), entityName, activityStr);
             generate.execute();
         }
         if (mRuntimeParams.isCheckListFragment()) {

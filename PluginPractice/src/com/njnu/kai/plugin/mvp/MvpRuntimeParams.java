@@ -130,8 +130,8 @@ public class MvpRuntimeParams {
 
 
 
-    public String getActivityClassName() {
-        return mEntityName + "Activity";
+    public String getListActivityClassName() {
+        return mEntityName + "ListActivity";
     }
 
     public String getListFragmentClassName() {
@@ -148,8 +148,8 @@ public class MvpRuntimeParams {
 
 
     //可选带包名的全名称,便于修正import时自动导入
-    public String getFullActivityClassName() {
-        return mActivityCanonicalName + "." + mEntityName + "Activity";
+    public String getFullListActivityClassName() {
+        return mActivityCanonicalName + "." + mEntityName + "ListActivity";
     }
 
     public String getFullListFragmentClassName() {
