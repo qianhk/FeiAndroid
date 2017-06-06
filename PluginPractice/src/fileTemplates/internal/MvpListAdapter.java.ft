@@ -3,7 +3,7 @@
  * Author: ${USER}
  * Created on ${DATE}
  */
-public class ${ENTITY}ListAdapter extends XxxListAdapter<${ENTITY}VO, ${ENTITY}ViewHolder> {
+public class ${ENTITY}ListAdapter extends XxxListAdapter<${ENTITY}VO, ${ENTITY}ListAdapter.${ENTITY}ViewHolder> {
 
     @Override
     public ${ENTITY}ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

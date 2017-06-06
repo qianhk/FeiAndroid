@@ -23,8 +23,27 @@ public class TemplateMvpProcessor extends WriteCommandAction.Simple {
     @Override
     protected void run() throws Throwable {
         HashMap<String, String> properties = new HashMap<>();
-        PsiDirectory directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getActivityCanonicalName());
         properties.put("ENTITY", mParams.getEntityName());
+        properties.put("FRAGMENT", mParams.getFullListFragmentClassName());
+        properties.put("PRESENTER", mParams.getFullListPresenterClassName());
+        properties.put("ADAPTER", mParams.getFullListAdapterClassName());
+
+        if (mParams.isUseNuwa()) {
+            properties.put("USE_NUWA", "TRUE");
+        }
+
+        PsiDirectory directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getListActivityPackageName());
         PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListActivityClassName(), "MvpListActivity", properties);
+
+        directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getListFragmentPackageName());
+        PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListFragmentClassName(), "MvpListFragment", properties);
+
+        directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getListPresenterPackageName());
+        PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListPresenterClassName(), "MvpListPresenter", properties);
+
+        if (!mParams.isUseNuwa()) {
+            directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getListAdapterPackageName());
+            PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListAdapterClassName(), "MvpListAdapter", properties);
+        }
     }
 }

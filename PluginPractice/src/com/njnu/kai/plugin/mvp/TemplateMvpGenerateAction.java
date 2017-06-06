@@ -5,13 +5,9 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
-import com.intellij.pom.Navigatable;
 import com.intellij.psi.JavaPsiFacade;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiPackage;
 import com.intellij.psi.impl.file.PsiJavaDirectoryImpl;
-import com.intellij.ui.content.ContentManager;
-import com.njnu.kai.plugin.mvp.processor.MvpProcessor;
 import com.njnu.kai.plugin.mvp.processor.TemplateMvpProcessor;
 import com.njnu.kai.plugin.util.VirtualFileUtils;
 
@@ -63,10 +59,10 @@ public class TemplateMvpGenerateAction extends AnAction {
         }, project);
         String presentationPkg = qualifiedName + ".presentation";
         String viewPkg = presentationPkg + ".view";
-        params.setActivityCanonicalName(viewPkg + ".activity");
-        params.setListFragmentCanonicalName(viewPkg + ".fragment");
-        params.setListAdapterCanonicalName(viewPkg + ".adapter");
-        params.setListPresenterCanonicalName(presentationPkg + ".presenter");
+        params.setListActivityPackageName(viewPkg + ".activity");
+        params.setListFragmentPackageName(viewPkg + ".fragment");
+        params.setListAdapterPackageName(viewPkg + ".adapter");
+        params.setListPresenterPackageName(presentationPkg + ".presenter");
 
         mDialog = new TemplateMvpChoiceDialog(params);
 

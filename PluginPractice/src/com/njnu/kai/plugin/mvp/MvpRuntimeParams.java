@@ -31,10 +31,10 @@ public class MvpRuntimeParams {
 
     private Project mProject;
 
-    private String mActivityCanonicalName;
-    private String mListFragmentCanonicalName;
-    private String mListAdapterCanonicalName;
-    private String mListPresenterCanonicalName;
+    private String mListActivityPackageName;
+    private String mListFragmentPackageName;
+    private String mListAdapterPackageName;
+    private String mListPresenterPackageName;
 
     private boolean mCheckActivity;
     private boolean mCheckListFragment;
@@ -48,28 +48,28 @@ public class MvpRuntimeParams {
         mProject = project;
     }
 
-    public String getActivityCanonicalName() {
-        return mActivityCanonicalName;
+    public String getListActivityPackageName() {
+        return mListActivityPackageName;
     }
 
-    public void setActivityCanonicalName(String activityCanonicalName) {
-        mActivityCanonicalName = activityCanonicalName;
+    public void setListActivityPackageName(String listActivityPackageName) {
+        mListActivityPackageName = listActivityPackageName;
     }
 
-    public String getListFragmentCanonicalName() {
-        return mListFragmentCanonicalName;
+    public String getListFragmentPackageName() {
+        return mListFragmentPackageName;
     }
 
-    public void setListFragmentCanonicalName(String listFragmentCanonicalName) {
-        mListFragmentCanonicalName = listFragmentCanonicalName;
+    public void setListFragmentPackageName(String listFragmentPackageName) {
+        mListFragmentPackageName = listFragmentPackageName;
     }
 
-    public String getListAdapterCanonicalName() {
-        return mListAdapterCanonicalName;
+    public String getListAdapterPackageName() {
+        return mListAdapterPackageName;
     }
 
-    public void setListAdapterCanonicalName(String listAdapterCanonicalName) {
-        mListAdapterCanonicalName = listAdapterCanonicalName;
+    public void setListAdapterPackageName(String listAdapterPackageName) {
+        mListAdapterPackageName = listAdapterPackageName;
     }
 
     public boolean isCheckActivity() {
@@ -108,12 +108,12 @@ public class MvpRuntimeParams {
         return mProject;
     }
 
-    public String getListPresenterCanonicalName() {
-        return mListPresenterCanonicalName;
+    public String getListPresenterPackageName() {
+        return mListPresenterPackageName;
     }
 
-    public void setListPresenterCanonicalName(String listPresenterCanonicalName) {
-        mListPresenterCanonicalName = listPresenterCanonicalName;
+    public void setListPresenterPackageName(String listPresenterPackageName) {
+        mListPresenterPackageName = listPresenterPackageName;
     }
 
     public boolean isCheckListPresenter() {
@@ -149,18 +149,18 @@ public class MvpRuntimeParams {
 
     //可选带包名的全名称,便于修正import时自动导入
     public String getFullListActivityClassName() {
-        return mActivityCanonicalName + "." + mEntityName + "ListActivity";
+        return mListActivityPackageName + "." + mEntityName + "ListActivity";
     }
 
     public String getFullListFragmentClassName() {
-        return mListFragmentCanonicalName + "." + mEntityName + "ListFragment";
+        return mListFragmentPackageName + "." + mEntityName + "ListFragment";
     }
 
     public String getFullListAdapterClassName() {
-        return mListAdapterCanonicalName + "." + mEntityName + "ListAdapter";
+        return mListAdapterPackageName + "." + mEntityName + "ListAdapter";
     }
 
     public String getFullListPresenterClassName() {
-        return mListPresenterCanonicalName + "." + mEntityName + "ListPresenter";
+        return mListPresenterPackageName + "." + mEntityName + "ListPresenter";
     }
 }

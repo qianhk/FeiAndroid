@@ -1,9 +1,12 @@
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+import ${FRAGMENT};
+
 /**
  * Author: ${USER}
  * Created on ${DATE}
  */
-public class ${ENTITY}Activity extends WrapFragmentActionBarActivity {
+public class ${ENTITY}ListActivity extends WrapFragmentActionBarActivity {
             
                 @Override
                 protected String getActionBarTitle() {
@@ -12,7 +15,7 @@ public class ${ENTITY}Activity extends WrapFragmentActionBarActivity {
             
                 @Override
                 protected Class wrapFragmentClass() {
-                    return ${ENTITY}Fragment.class;
+                    return ${ENTITY}ListFragment.class;
                 }
             
             };

@@ -1,9 +1,16 @@
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+import ${PRESENTER};
+#if (${USE_NUWA} && ${USE_NUWA} == "TRUE")
+#else
+import ${ADAPTER};
+#end
+
 /**
  * Author: ${USER}
  * Created on ${DATE}
  */
-public class ${ENTITY}Fragment extends RecyclerViewListFragment {
+public class ${ENTITY}ListFragment extends RecyclerViewListFragment {
 
 @Override
     protected XxxListPresenter onCreatePresenter() {

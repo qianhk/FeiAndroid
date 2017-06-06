@@ -29,28 +29,28 @@ public class MvpProcessor extends WriteCommandAction.Simple {
         if (mRuntimeParams.isCheckActivity()) {
             String activityStr = settings.provideTemplateForName(MvpConstant.TEMPLATE_NAME_ACTIVITY);
             activityStr = replaceTemplateString(activityStr);
-            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getActivityCanonicalName()
+            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getListActivityPackageName()
                     , mRuntimeParams.getListActivityClassName(), entityName, activityStr);
             generate.execute();
         }
         if (mRuntimeParams.isCheckListFragment()) {
             String fragmentStr = settings.provideTemplateForName(MvpConstant.TEMPLATE_NAME_LIST_FRAGMENT);
             fragmentStr = replaceTemplateString(fragmentStr);
-            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getListFragmentCanonicalName()
+            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getListFragmentPackageName()
                     , mRuntimeParams.getListFragmentClassName(), entityName, fragmentStr);
             generate.execute();
         }
         if (mRuntimeParams.isCheckListAdapter()) {
             String adapterStr = settings.provideTemplateForName(MvpConstant.TEMPLATE_NAME_LIST_ADAPTER);
             adapterStr = replaceTemplateString(adapterStr);
-            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getListAdapterCanonicalName()
+            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getListAdapterPackageName()
                     , mRuntimeParams.getListAdapterClassName(), entityName, adapterStr);
             generate.execute();
         }
         if (mRuntimeParams.isCheckListPresenter()) {
             String presenterStr = settings.provideTemplateForName(MvpConstant.TEMPLATE_NAME_LIST_PRESENTER);
             presenterStr = replaceTemplateString(presenterStr);
-            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getListPresenterCanonicalName()
+            GenerateMvpFile generate = new GenerateMvpFile(mRuntimeParams, mRuntimeParams.getListPresenterPackageName()
                     , mRuntimeParams.getListPresenterClassName(), entityName, presenterStr);
             generate.execute();
         }
