@@ -5,7 +5,14 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
+import com.intellij.pom.Navigatable;
+import com.intellij.psi.JavaPsiFacade;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiPackage;
+import com.intellij.psi.impl.file.PsiJavaDirectoryImpl;
+import com.intellij.ui.content.ContentManager;
 import com.njnu.kai.plugin.mvp.processor.MvpProcessor;
+import com.njnu.kai.plugin.util.VirtualFileUtils;
 
 import java.awt.*;
 
@@ -26,6 +33,21 @@ public class TemplateMvpGenerateAction extends AnAction {
     public void actionPerformed(AnActionEvent event) {
 
         final Project project = event.getData(PlatformDataKeys.PROJECT);
+        PsiJavaDirectoryImpl psiJavaDirectory = (PsiJavaDirectoryImpl) event.getData(PlatformDataKeys.PSI_ELEMENT);
+        String dirPath = psiJavaDirectory.getVirtualFile().getCanonicalPath();
+        String srcRelativePath = VirtualFileUtils.pathRelativeToProjectBasePath(project, dirPath);
+        JavaPsiFacade javaPsiFacade = JavaPsiFacade.getInstance(project);
+
+        String choosePackage = srcRelativePath.replace('/', '.');
+        PsiPackage aPackage = javaPsiFacade.findPackage(choosePackage);
+
+        int pos = choosePackage.indexOf('.');
+        for (; aPackage == null && pos >= 0; ) {
+            choosePackage = choosePackage.substring(pos + 1);
+            aPackage = javaPsiFacade.findPackage(choosePackage);
+            pos = choosePackage.indexOf('.');
+        }
+        String qualifiedName = aPackage.getQualifiedName();
 
         final MvpRuntimeParams params = new MvpRuntimeParams(new MvpRuntimeParams.Action() {
             @Override
@@ -38,6 +60,12 @@ public class TemplateMvpGenerateAction extends AnAction {
                 new MvpProcessor(params).execute();
             }
         }, project);
+        String presentationPkg = qualifiedName + ".presentation";
+        String viewPkg = presentationPkg + ".presentation.view";
+        params.setActivityCanonicalName(viewPkg + ".activity");
+        params.setListFragmentCanonicalName(viewPkg + ".fragment");
+        params.setListAdapterCanonicalName(viewPkg + ".adapter");
+        params.setListPresenterCanonicalName(presentationPkg + ".presenter");
 
         mDialog = new TemplateMvpChoiceDialog(params);
 

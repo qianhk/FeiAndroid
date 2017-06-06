@@ -1,5 +1,7 @@
 package com.njnu.kai.plugin.mvp;
 
+import com.njnu.kai.plugin.util.Utils;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -7,8 +9,8 @@ public class TemplateMvpChoiceDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField mEdtEntity;
-    private JCheckBox m是否使用nuwaCheckBox;
+    private JTextField mEdtEntityName;
+    private JCheckBox mCbNuwa;
     private MvpRuntimeParams mParams;
 
     public TemplateMvpChoiceDialog(MvpRuntimeParams params) {
@@ -46,12 +48,19 @@ public class TemplateMvpChoiceDialog extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+        mParams.setEntityName(mEdtEntityName.getText().trim());
+        if (Utils.isEmptyString(mParams.getEntityName())) {
+            Utils.showErrorNotification(mParams.getProject(), "请填写页面名称");
+            return;
+        }
+        mParams.setUseNuwa(mCbNuwa.isSelected());
+
+        mParams.run();
+
         dispose();
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 

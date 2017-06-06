@@ -8,6 +8,21 @@ import com.intellij.openapi.project.Project;
  */
 public class MvpRuntimeParams {
 
+    private boolean mUseNuwa;
+
+    public void setUseNuwa(boolean useNuwa) {
+        mUseNuwa = useNuwa;
+    }
+
+    public boolean isUseNuwa() {
+        return mUseNuwa;
+    }
+
+    private String mEntityName;
+
+
+
+
     public interface Action {
         void run(MvpRuntimeParams context);
     }
@@ -26,7 +41,7 @@ public class MvpRuntimeParams {
     private boolean mCheckListAdapter;
     private boolean mCheckListPresenter;
 
-    private String mEntityName;
+
 
     public MvpRuntimeParams(Action action, Project project) {
         mAction = action;
