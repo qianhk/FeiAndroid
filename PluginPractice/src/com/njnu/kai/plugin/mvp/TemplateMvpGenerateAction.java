@@ -24,7 +24,7 @@ public class TemplateMvpGenerateAction extends AnAction {
     private static final String BOUND_WIDTH = "mvp_bound_width";
     private static final String BOUND_HEIGHT = "mvp_bound_height";
 
-    private TemplateMvpChoiceDialog mDialog;
+    private com.njnu.kai.plugin.mvp.TemplateMvpChoiceDialog mDialog;
 
     @Override
     public void actionPerformed(AnActionEvent event) {
@@ -46,9 +46,9 @@ public class TemplateMvpGenerateAction extends AnAction {
         }
         String qualifiedName = aPackage.getQualifiedName();
 
-        final MvpRuntimeParams params = new MvpRuntimeParams(new MvpRuntimeParams.Action() {
+        final com.njnu.kai.plugin.mvp.MvpRuntimeParams params = new com.njnu.kai.plugin.mvp.MvpRuntimeParams(new com.njnu.kai.plugin.mvp.MvpRuntimeParams.Action() {
             @Override
-            public void run(MvpRuntimeParams params) {
+            public void run(com.njnu.kai.plugin.mvp.MvpRuntimeParams params) {
                 final Rectangle bounds = mDialog.getBounds();
                 PropertiesComponent.getInstance().setValue(BOUND_X, bounds.x, 100);
                 PropertiesComponent.getInstance().setValue(BOUND_Y, bounds.y, 100);
@@ -63,6 +63,9 @@ public class TemplateMvpGenerateAction extends AnAction {
         params.setListFragmentPackageName(viewPkg + ".fragment");
         params.setListAdapterPackageName(viewPkg + ".adapter");
         params.setListPresenterPackageName(presentationPkg + ".presenter");
+        params.setNuwaBinderPackageName(viewPkg + ".nuwabinder");
+        params.setNuwaVOPackageName(viewPkg + ".nuwavo");
+
 
         mDialog = new TemplateMvpChoiceDialog(params);
 

@@ -47,10 +47,12 @@
 
 
         <!--<projectConfigurable instance="com.njnu.kai.plugin.preference.configurable.KaiProjectConfigurable"/>-->
-        <internalFileTemplate name="MvpListActivity"/>
-        <internalFileTemplate name="MvpListFragment"/>
-        <internalFileTemplate name="MvpListAdapter"/>
-        <internalFileTemplate name="MvpListPresenter"/>
+        <internalFileTemplate name="TTMvpListActivity"/>
+        <internalFileTemplate name="TTMvpListFragment"/>
+        <internalFileTemplate name="TTMvpListAdapter"/>
+        <internalFileTemplate name="TTMvpListPresenter"/>
+        <internalFileTemplate name="TTNuwaBinder"/>
+        <internalFileTemplate name="TTNuwaVO"/>
 
     </extensions>
 

@@ -10,6 +10,17 @@ public class MvpRuntimeParams {
 
     private boolean mUseNuwa;
 
+    private boolean mUserCreateNuwaBinder;
+
+    public MvpRuntimeParams setUserCreateNuwaBinder(boolean userCreateNuwaBinder) {
+        mUserCreateNuwaBinder = userCreateNuwaBinder;
+        return this;
+    }
+
+    public boolean isUserCreateNuwaBinder() {
+        return mUserCreateNuwaBinder;
+    }
+
     public void setUseNuwa(boolean useNuwa) {
         mUseNuwa = useNuwa;
     }
@@ -36,6 +47,9 @@ public class MvpRuntimeParams {
     private String mListAdapterPackageName;
     private String mListPresenterPackageName;
 
+    private String mNuwaBinderPackageName;
+    private String mNuwaVOPackageName;
+
     private boolean mCheckActivity;
     private boolean mCheckListFragment;
     private boolean mCheckListAdapter;
@@ -46,6 +60,24 @@ public class MvpRuntimeParams {
     public MvpRuntimeParams(Action action, Project project) {
         mAction = action;
         mProject = project;
+    }
+
+    public String getNuwaBinderPackageName() {
+        return mNuwaBinderPackageName;
+    }
+
+    public MvpRuntimeParams setNuwaBinderPackageName(String nuwaBinderPackageName) {
+        mNuwaBinderPackageName = nuwaBinderPackageName;
+        return this;
+    }
+
+    public String getNuwaVOPackageName() {
+        return mNuwaVOPackageName;
+    }
+
+    public MvpRuntimeParams setNuwaVOPackageName(String nuwaVOPackageName) {
+        mNuwaVOPackageName = nuwaVOPackageName;
+        return this;
     }
 
     public String getListActivityPackageName() {
@@ -146,6 +178,14 @@ public class MvpRuntimeParams {
         return mEntityName + "ListPresenter";
     }
 
+    public String getNuwaBinderClassName() {
+        return mEntityName + "NuwaBinder";
+    }
+
+    public String getNuwaVOClassName() {
+        return mEntityName + "NwaVO";
+    }
+
 
     //可选带包名的全名称,便于修正import时自动导入
     public String getFullListActivityClassName() {
@@ -158,6 +198,14 @@ public class MvpRuntimeParams {
 
     public String getFullListAdapterClassName() {
         return mListAdapterPackageName + "." + mEntityName + "ListAdapter";
+    }
+
+    public String getFullNuwaBinderClassName() {
+        return mNuwaBinderPackageName + "." + mEntityName + "NuwaBinder";
+    }
+
+    public String getFullNuwaVOClassName() {
+        return mNuwaBinderPackageName + "." + mEntityName + "NuwaVO";
     }
 
     public String getFullListPresenterClassName() {

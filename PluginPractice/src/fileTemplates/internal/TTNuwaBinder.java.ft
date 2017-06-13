@@ -1,0 +1,22 @@
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+/**
+ * Author: ${USER}
+ * Created on ${DATE}
+ */
+public class ${ENTITY}NuwaBinder extends DefaultNuwaItemBinder<${ENTITY}NuwaVO> {
+    private ${ENTITY}NuwaVO mNuwaVO;
+ @Override
+    public View onCreateView(View view, ViewGroup viewGroup, LayoutInflater layoutInflater) {
+        if (view == null) {
+            view = layoutInflater.inflate(, viewGroup, false);
+        }
+        return view;
+    }
+
+    @Override
+    public void onBindView(int position, View view, ViewGroup viewGroup, ${ENTITY}NuwaVO VO) {
+        mNuwaVO = VO;
+
+    }
+}

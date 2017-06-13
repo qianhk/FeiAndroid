@@ -28,22 +28,36 @@ public class TemplateMvpProcessor extends WriteCommandAction.Simple {
         properties.put("PRESENTER", mParams.getFullListPresenterClassName());
         properties.put("ADAPTER", mParams.getFullListAdapterClassName());
 
+
         if (mParams.isUseNuwa()) {
             properties.put("USE_NUWA", "TRUE");
+            if (mParams.isUserCreateNuwaBinder()) {
+                properties.put("NUWAVO", mParams.getFullNuwaVOClassName());
+                properties.put("NUWA_BINDER", mParams.getFullNuwaBinderClassName());
+                properties.put("USE_NUWA_BINDER", "TRUE");
+            }
         }
 
         PsiDirectory directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getListActivityPackageName());
-        PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListActivityClassName(), "MvpListActivity", properties);
+        PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListActivityClassName(), "TTMvpListActivity", properties);
 
         directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getListFragmentPackageName());
-        PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListFragmentClassName(), "MvpListFragment", properties);
+        PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListFragmentClassName(), "TTMvpListFragment", properties);
 
         directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getListPresenterPackageName());
-        PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListPresenterClassName(), "MvpListPresenter", properties);
+        PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListPresenterClassName(), "TTMvpListPresenter", properties);
 
         if (!mParams.isUseNuwa()) {
             directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getListAdapterPackageName());
-            PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListAdapterClassName(), "MvpListAdapter", properties);
+            PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListAdapterClassName(), "TTMvpListAdapter", properties);
+        } else {
+            if (mParams.isUserCreateNuwaBinder()) {
+                directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getNuwaBinderPackageName());
+                PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getNuwaBinderClassName(), "TTNuwaBinder", properties);
+
+                directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getNuwaVOPackageName());
+                PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getNuwaVOClassName(), "TTNuwaVO", properties);
+            }
         }
     }
 }
