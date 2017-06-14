@@ -1,11 +1,12 @@
 <idea-plugin version="2">
     <id>com.njnu.kai.plugin.practice</id>
     <name>Kai Plugin</name>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <vendor email="qhk83@qq.com" url="http://qianhk.com">凯凯公司</vendor>
 
     <description><![CDATA[
       本插件可以po->vo<br>
+      本插件可以生成mvp框架代码<br>
       本插件可以根据布局自动生成view变量及findViewById<br>
       <em>plugin practice</em>
     ]]></description>
@@ -17,6 +18,7 @@
     3. 作用3 <br>
     <br>
     更新历史:<br>
+     ● 1.1.0: 生成mvp框架代码.<br>
      ● 1.0.0: po -> vo 改成成员变量形式.<br>
      ● 0.7.1: 增加选项不级联mapper, 用于临时mapper一个po.<br>
      ● 0.7.0: 重写大部分mapper转换代码, 使之适应更通用的情况.<br>

@@ -1,40 +1,41 @@
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
 
-import ${PRESENTER};
 #if (${USE_NUWA} && ${USE_NUWA} == "TRUE")
+import XxxNuwaRecyclerViewAdapter;
 #else
 import ${ADAPTER};
 import ${NUWA_BINDER};
 #end
 
-#if (${USE_NUWA_BINDER} && ${USE_NUWA_BINDER} == "TRUE"){
+#if (${USE_NUWA_BINDER} && ${USE_NUWA_BINDER} == "TRUE")
 import ${NUWAVO};
 import ${NUWA_BINDER};
-}
-#else
 #end
 
+import ${PRESENTER};
 
 /**
  * Author: ${USER}
  * Created on ${DATE}
  */
-public class ${ENTITY}ListFragment extends RecyclerViewListFragment {
+public class ${ENTITY}ListFragment extends XxxxViewFragment<XxxView> {
 
-@Override
-    protected XxxListPresenter onCreatePresenter() {
-        return new ${ENTITY}ListPresenter;
+    @Override
+    protected XxxPresenter<XxxView> onCreatePresenter() {
+        return new ${ENTITY}ListPresenter(this);
     }
 
     @Override
-        protected XxxListAdapter onCreateAdapter() {
+    protected IPagingListAdapter onCreateAdapter() {
         #if (${USE_NUWA} && ${USE_NUWA} == "TRUE")
            NUWAListAdapter adapter = new NUWAListAdapter();
            adapter.register(${ENTITY}NuwaVO.class, ${ENTITY}NuwaBinder.class);
+            NuwaRecyclerViewAdapter adapter = new NuwaRecyclerViewAdapter();
         #else
-            XxxListAdapter adapter = new ${ENTITY}ListAdapter();
+            ${ENTITY}ListAdapter adapter = new ${ENTITY}ListAdapter();
         #end
-           return adapter;
 
-        }
+        return adapter;
+
+    }
 }

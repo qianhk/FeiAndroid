@@ -46,6 +46,7 @@ public class MvpRuntimeParams {
     private String mListFragmentPackageName;
     private String mListAdapterPackageName;
     private String mListPresenterPackageName;
+    private String mListVoPackageName;
 
     private String mNuwaBinderPackageName;
     private String mNuwaVOPackageName;
@@ -156,6 +157,14 @@ public class MvpRuntimeParams {
         mCheckListPresenter = checkListPresenter;
     }
 
+    public String getListVoPackageName() {
+        return mListVoPackageName;
+    }
+
+    public void setListVoPackageName(String listVoPackageName) {
+        mListVoPackageName = listVoPackageName;
+    }
+
     public void run() {
         mAction.run(this);
     }
@@ -186,6 +195,9 @@ public class MvpRuntimeParams {
         return mEntityName + "NwaVO";
     }
 
+    public String getListVoClassName() {
+        return mEntityName + "VO";
+    }
 
     //可选带包名的全名称,便于修正import时自动导入
     public String getFullListActivityClassName() {
@@ -210,5 +222,9 @@ public class MvpRuntimeParams {
 
     public String getFullListPresenterClassName() {
         return mListPresenterPackageName + "." + mEntityName + "ListPresenter";
+    }
+
+    public String getFullListVoClassName() {
+        return mListVoPackageName + "." + mEntityName + "VO";
     }
 }

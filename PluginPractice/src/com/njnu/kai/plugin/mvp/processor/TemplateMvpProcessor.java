@@ -27,6 +27,7 @@ public class TemplateMvpProcessor extends WriteCommandAction.Simple {
         properties.put("FRAGMENT", mParams.getFullListFragmentClassName());
         properties.put("PRESENTER", mParams.getFullListPresenterClassName());
         properties.put("ADAPTER", mParams.getFullListAdapterClassName());
+        properties.put("VO", mParams.getFullListVoClassName());
 
 
         if (mParams.isUseNuwa()) {
@@ -50,6 +51,9 @@ public class TemplateMvpProcessor extends WriteCommandAction.Simple {
         if (!mParams.isUseNuwa()) {
             directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getListAdapterPackageName());
             PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListAdapterClassName(), "TTMvpListAdapter", properties);
+
+            directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getListVoPackageName());
+            PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getListVoClassName(), "Class", properties);
         } else {
             if (mParams.isUserCreateNuwaBinder()) {
                 directory = PsiFileUtils.createDirectory(mParams.getProject(), mParams.getNuwaBinderPackageName());
@@ -59,5 +63,6 @@ public class TemplateMvpProcessor extends WriteCommandAction.Simple {
                 PsiFileUtils.createClassUseJavaDirectoryService(directory, mParams.getNuwaVOClassName(), "TTNuwaVO", properties);
             }
         }
+
     }
 }

@@ -1,7 +1,21 @@
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+
 /**
  * Author: ${USER}
  * Created on ${DATE}
  */
-public class ${ENTITY}Presenter extends XxxListPresenter {
+public class ${ENTITY}ListPresenter extends XXXPresenter<XxxView> {
+
+    /**
+     * @param pageDataLoadingView pageDataLoadingView
+     */
+    public ${ENTITY}ListPresenter(XxxView pageDataLoadingView) {
+        super(pageDataLoadingView);
+    }
+
+    @Override
+    protected void load(int page, boolean force) {
+
+    }
 }

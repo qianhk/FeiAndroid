@@ -7,16 +7,16 @@ import ${FRAGMENT};
  * Created on ${DATE}
  */
 public class ${ENTITY}ListActivity extends WrapFragmentActionBarActivity {
-            
-                @Override
-                protected String getActionBarTitle() {
-                    return "title src";
-                }
-            
-                @Override
-                protected Class wrapFragmentClass() {
-                    return ${ENTITY}ListFragment.class;
-                }
-            
-            };
-            
+
+    @Override
+    protected void onInitActionBar() {
+        super.onInitActionBar();
+//        setTitle("");
+    }
+
+    @Override
+    protected Class wrapFragmentClass() {
+        return ${ENTITY}ListFragment.class;
+    }
+
+}

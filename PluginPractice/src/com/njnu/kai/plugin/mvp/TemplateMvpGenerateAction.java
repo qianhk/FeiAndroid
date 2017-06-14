@@ -65,7 +65,7 @@ public class TemplateMvpGenerateAction extends AnAction {
         params.setListPresenterPackageName(presentationPkg + ".presenter");
         params.setNuwaBinderPackageName(viewPkg + ".nuwabinder");
         params.setNuwaVOPackageName(viewPkg + ".nuwavo");
-
+        params.setListVoPackageName(presentationPkg + ".vo");
 
         mDialog = new TemplateMvpChoiceDialog(params);
 
