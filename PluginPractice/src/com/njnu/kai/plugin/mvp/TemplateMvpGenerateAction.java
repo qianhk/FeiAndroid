@@ -19,6 +19,7 @@ import com.njnu.kai.plugin.mvp.processor.TemplateMvpProcessor;
 import com.njnu.kai.plugin.util.VirtualFileUtils;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -75,27 +76,46 @@ public class TemplateMvpGenerateAction extends AnAction {
         params.setNuwaVOPackageName(viewPkg + ".nuwavo");
         params.setListVoPackageName(presentationPkg + ".vo");
 
+        VirtualFile manifestFile = null;
         Module module = ModuleUtil.findModuleForPsiElement(psiJavaDirectory);
-        FileBasedIndex instance = FileBasedIndex.getInstance();
-        GlobalSearchScope allScope = GlobalSearchScope.allScope(project); //ProjectAndLibrariesScope
-        GlobalSearchScope everythingScope = GlobalSearchScope.everythingScope(project); //ProjectScope$5$1
-        Collection<VirtualFile> fileList = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", allScope); //size=79
-        Collection<VirtualFile> fileList2 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", everythingScope); //size=79
+        if (module != null) {
+            FileBasedIndex instance = FileBasedIndex.getInstance();
+            GlobalSearchScope allScope = GlobalSearchScope.allScope(project); //ProjectAndLibrariesScope
+            GlobalSearchScope everythingScope = GlobalSearchScope.everythingScope(project); //ProjectScope$5$1
+            Collection<VirtualFile> fileList = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", allScope); //size=79
+            Collection<VirtualFile> fileList2 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", everythingScope); //size=79
 
-        GlobalSearchScope moduleContentScope = module.getModuleContentScope(); //ModuleWithDependenciesScope
-        Collection<VirtualFile> fileList3 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleContentScope); //size=25
+            GlobalSearchScope moduleContentScope = module.getModuleContentScope(); //ModuleWithDependenciesScope
+            Collection<VirtualFile> fileList3 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleContentScope); //size=25
+            if (fileList3 != null && fileList3.size() > 0) {
+                ArrayList<VirtualFile> manifestFileList = new ArrayList<>();
+                for (VirtualFile virtualFile : fileList3) {
+                    String canonicalPath = virtualFile.getCanonicalPath();
+                    if (!canonicalPath.contains("/build/")) {
+                        manifestFileList.add(virtualFile);
+                    }
+                }
+                if (manifestFileList.size() > 0) {
+                    manifestFile = manifestFileList.get(0);
+                }
+            }
 
-        GlobalSearchScope moduleContentWithDependenciesScope = module.getModuleContentWithDependenciesScope(); //ModuleWithDependenciesScope
-        Collection<VirtualFile> fileList4 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleContentWithDependenciesScope);//size=45
+            GlobalSearchScope moduleRuntimeScope = module.getModuleRuntimeScope(false); //ModuleWithDependenciesScope
+            Collection<VirtualFile> fileList4 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleRuntimeScope); //size=1 jar:///AndroidDev/android-sdk-macosx/platforms/android-23/android.jar!/AndroidManifest.xml
 
-        GlobalSearchScope moduleScope = module.getModuleScope(false); //ModuleWithDependenciesScope
-        Collection<VirtualFile> fileList5 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleScope); //size=0
 
-        GlobalSearchScope moduleWithDependentsScope = module.getModuleWithDependentsScope(); //ModuleWithDependentsScope
-        Collection<VirtualFile> fileList6 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleWithDependentsScope); //size=25
+            GlobalSearchScope moduleContentWithDependenciesScope = module.getModuleContentWithDependenciesScope(); //ModuleWithDependenciesScope
+            Collection<VirtualFile> fileList5 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleContentWithDependenciesScope);//size=45
 
-        GlobalSearchScope moduleWithDependenciesAndLibrariesScope = module.getModuleWithDependenciesAndLibrariesScope(false); //ModuleWithDependenciesScope
-        Collection<VirtualFile> fileList7 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleWithDependenciesAndLibrariesScope); //size=1 jar:///AndroidDev/android-sdk-macosx/platforms/android-23/android.jar!/AndroidManifest.xml
+            GlobalSearchScope moduleScope = module.getModuleScope(false); //ModuleWithDependenciesScope
+            Collection<VirtualFile> fileList6 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleScope); //size=0
+
+            GlobalSearchScope moduleWithDependentsScope = module.getModuleWithDependentsScope(); //ModuleWithDependentsScope
+            Collection<VirtualFile> fileList7 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleWithDependentsScope); //size=25
+
+            GlobalSearchScope moduleWithDependenciesAndLibrariesScope = module.getModuleWithDependenciesAndLibrariesScope(false); //ModuleWithDependenciesScope
+            Collection<VirtualFile> fileList8 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleWithDependenciesAndLibrariesScope); //size=1 jar:///AndroidDev/android-sdk-macosx/platforms/android-23/android.jar!/AndroidManifest.xml
+        }
 
         mDialog = new TemplateMvpChoiceDialog(params);
 
