@@ -4,14 +4,22 @@ import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiPackage;
 import com.intellij.psi.impl.file.PsiJavaDirectoryImpl;
+import com.intellij.psi.search.FilenameIndex;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.search.GlobalSearchScopeUtil;
+import com.intellij.util.indexing.FileBasedIndex;
 import com.njnu.kai.plugin.mvp.processor.TemplateMvpProcessor;
 import com.njnu.kai.plugin.util.VirtualFileUtils;
 
 import java.awt.*;
+import java.util.Collection;
 
 /**
  * Created by kai
@@ -24,7 +32,7 @@ public class TemplateMvpGenerateAction extends AnAction {
     private static final String BOUND_WIDTH = "mvp_bound_width";
     private static final String BOUND_HEIGHT = "mvp_bound_height";
 
-    private com.njnu.kai.plugin.mvp.TemplateMvpChoiceDialog mDialog;
+    private TemplateMvpChoiceDialog mDialog;
 
     @Override
     public void actionPerformed(AnActionEvent event) {
@@ -46,7 +54,7 @@ public class TemplateMvpGenerateAction extends AnAction {
         }
         String qualifiedName = aPackage.getQualifiedName();
 
-        final com.njnu.kai.plugin.mvp.MvpRuntimeParams params = new com.njnu.kai.plugin.mvp.MvpRuntimeParams(new com.njnu.kai.plugin.mvp.MvpRuntimeParams.Action() {
+        final MvpRuntimeParams params = new MvpRuntimeParams(new com.njnu.kai.plugin.mvp.MvpRuntimeParams.Action() {
             @Override
             public void run(com.njnu.kai.plugin.mvp.MvpRuntimeParams params) {
                 final Rectangle bounds = mDialog.getBounds();
@@ -66,6 +74,28 @@ public class TemplateMvpGenerateAction extends AnAction {
         params.setNuwaBinderPackageName(viewPkg + ".nuwabinder");
         params.setNuwaVOPackageName(viewPkg + ".nuwavo");
         params.setListVoPackageName(presentationPkg + ".vo");
+
+        Module module = ModuleUtil.findModuleForPsiElement(psiJavaDirectory);
+        FileBasedIndex instance = FileBasedIndex.getInstance();
+        GlobalSearchScope allScope = GlobalSearchScope.allScope(project); //ProjectAndLibrariesScope
+        GlobalSearchScope everythingScope = GlobalSearchScope.everythingScope(project); //ProjectScope$5$1
+        Collection<VirtualFile> fileList = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", allScope); //size=79
+        Collection<VirtualFile> fileList2 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", everythingScope); //size=79
+
+        GlobalSearchScope moduleContentScope = module.getModuleContentScope(); //ModuleWithDependenciesScope
+        Collection<VirtualFile> fileList3 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleContentScope); //size=25
+
+        GlobalSearchScope moduleContentWithDependenciesScope = module.getModuleContentWithDependenciesScope(); //ModuleWithDependenciesScope
+        Collection<VirtualFile> fileList4 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleContentWithDependenciesScope);//size=45
+
+        GlobalSearchScope moduleScope = module.getModuleScope(false); //ModuleWithDependenciesScope
+        Collection<VirtualFile> fileList5 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleScope); //size=0
+
+        GlobalSearchScope moduleWithDependentsScope = module.getModuleWithDependentsScope(); //ModuleWithDependentsScope
+        Collection<VirtualFile> fileList6 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleWithDependentsScope); //size=25
+
+        GlobalSearchScope moduleWithDependenciesAndLibrariesScope = module.getModuleWithDependenciesAndLibrariesScope(false); //ModuleWithDependenciesScope
+        Collection<VirtualFile> fileList7 = FilenameIndex.getVirtualFilesByName(project, "AndroidManifest.xml", moduleWithDependenciesAndLibrariesScope); //size=1 jar:///AndroidDev/android-sdk-macosx/platforms/android-23/android.jar!/AndroidManifest.xml
 
         mDialog = new TemplateMvpChoiceDialog(params);
 
