@@ -8,13 +8,14 @@ public class SortDemo {
         System.out.println("\n----------    Sort Demo    ----------");
 
         int[] originNumberList = {8, 7, 3, -4, 2, 1, -1, 4, 6, -5, -3, -2, 5, 9, 0};
-        System.out.println("Original number list : " + Arrays.toString(originNumberList));
+        System.out.println("Original number list : \n" + Arrays.toString(originNumberList));
 
         ArrayList<IArraySort> list = new ArrayList<>();
         list.add(new BubbleSort());
         list.add(new SelectionSort());
         list.add(new InsertionSort());
         list.add(new ShellSort());
+        list.add(new MergeSort());
         for (IArraySort sort : list) {
             System.out.println(sort.name());
             int[] tmpArray = Arrays.copyOf(originNumberList, originNumberList.length);
