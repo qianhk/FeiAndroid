@@ -1,5 +1,7 @@
 package com.njnu.kai.java;
 
+import com.njnu.kai.java.sort.SortDemo;
+
 /**
  * @author hongkai.qian
  * @version 1.0.0
@@ -9,5 +11,7 @@ public class Demo {
 
     public static void main(String[] args) {
         System.out.println("haha , this is a gradle build java project.");
+
+        SortDemo.entry();
     }
 }
