@@ -1,5 +1,6 @@
 package com.njnu.kai.java;
 
+import com.njnu.kai.java.leetcode.TopKFrequent692;
 import com.njnu.kai.java.sort.SortDemo;
 
 /**
@@ -13,5 +14,6 @@ public class Demo {
         System.out.println("haha , this is a gradle build java project.");
 
         SortDemo.entry();
+        TopKFrequent692.entry();;
     }
 }

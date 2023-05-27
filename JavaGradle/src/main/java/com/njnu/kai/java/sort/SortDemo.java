@@ -1,7 +1,6 @@
 package com.njnu.kai.java.sort;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class SortDemo {
     static public void entry() {
@@ -28,5 +27,8 @@ public class SortDemo {
             sort.sort(tmpArray);
             System.out.println(Arrays.toString(tmpArray));
         }
+//        PriorityQueue<Integer> xx = new PriorityQueue<>((o1, o2) -> o2 - o1);
+        Map<String, Integer> countMap = new HashMap<>();
+        countMap.getOrDefault("haha", 0);
     }
 }
