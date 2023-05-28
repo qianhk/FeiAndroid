@@ -2,6 +2,7 @@ package com.njnu.kai.java;
 
 import com.njnu.kai.java.leetcode.TopKFrequent692;
 import com.njnu.kai.java.sort.SortDemo;
+import com.njnu.kai.java.string.KMP;
 
 /**
  * @author hongkai.qian
@@ -11,9 +12,12 @@ import com.njnu.kai.java.sort.SortDemo;
 public class Demo {
 
     public static void main(String[] args) {
-        System.out.println("haha , this is a gradle build java project.");
+        System.out.println("\nkai: this is a gradle build java project.");
 
         SortDemo.entry();
-        TopKFrequent692.entry();;
+        TopKFrequent692.entry();
+        KMP.entry();
+
+        System.out.println("\nkai : end main");
     }
 }
