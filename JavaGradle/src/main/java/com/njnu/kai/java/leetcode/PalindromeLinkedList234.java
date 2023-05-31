@@ -2,6 +2,8 @@ package com.njnu.kai.java.leetcode;
 
 import java.util.ArrayDeque;
 
+// 是否回文链表
+// https://leetcode.cn/problems/palindrome-linked-list
 public class PalindromeLinkedList234 {
     static public void entry() {
         System.out.println("\n----------    PalindromeLinkedList 234    ----------");

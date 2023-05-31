@@ -28,4 +28,17 @@ public class ListNode {
         }
         return head;
     }
+
+    public static String toString(ListNode head) {
+        StringBuilder str = new StringBuilder();
+        str.append("Link[");
+        ListNode node = head;
+        while (node != null) {
+            str.append(node.val);
+            str.append(' ');
+            node = node.next;
+        }
+        str.append(']');
+        return str.toString();
+    }
 }

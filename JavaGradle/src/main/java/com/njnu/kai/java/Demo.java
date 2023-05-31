@@ -1,6 +1,7 @@
 package com.njnu.kai.java;
 
 import com.njnu.kai.java.leetcode.PalindromeLinkedList234;
+import com.njnu.kai.java.leetcode.SortLinkList148;
 import com.njnu.kai.java.leetcode.TopKFrequent692;
 import com.njnu.kai.java.sort.SortDemo;
 import com.njnu.kai.java.string.KMP;
@@ -19,6 +20,7 @@ public class Demo {
         TopKFrequent692.entry();
         PalindromeLinkedList234.entry();
         KMP.entry();
+        SortLinkList148.entry();
 
         System.out.println("\nkai : end main");
     }
