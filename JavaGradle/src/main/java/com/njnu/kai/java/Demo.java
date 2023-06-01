@@ -1,5 +1,6 @@
 package com.njnu.kai.java;
 
+import com.njnu.kai.java.leetcode.LongestPalindrome2131;
 import com.njnu.kai.java.leetcode.PalindromeLinkedList234;
 import com.njnu.kai.java.leetcode.SortLinkList148;
 import com.njnu.kai.java.leetcode.TopKFrequent692;
@@ -21,6 +22,7 @@ public class Demo {
         PalindromeLinkedList234.entry();
         KMP.entry();
         SortLinkList148.entry();
+        LongestPalindrome2131.entry();;
 
         System.out.println("\nkai : end main");
     }
