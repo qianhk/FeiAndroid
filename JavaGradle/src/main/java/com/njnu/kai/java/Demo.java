@@ -1,5 +1,6 @@
 package com.njnu.kai.java;
 
+import com.njnu.kai.java.btc.BtcAddressTest;
 import com.njnu.kai.java.leetcode.*;
 import com.njnu.kai.java.sort.SortDemo;
 import com.njnu.kai.java.string.KMP;
@@ -21,6 +22,7 @@ public class Demo {
         SortLinkList148.entry();
         LongestPalindrome2131.entry();
         NumBusesToDestination815.entry();
+        BtcAddressTest.entry();
 
         System.out.println("\nkai : end main");
     }
