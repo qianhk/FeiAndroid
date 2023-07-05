@@ -29,7 +29,7 @@ public class HitAddress implements Runnable {
 
             SegwitAddress segwitAddress = SegwitAddress.fromHash(network, pubKeyHash);
             String bech32 = segwitAddress.toBech32();
-            System.out.println("bc1开头的地址：" + bech32);
+//            System.out.println("bc1开头的地址：" + bech32);
         }
     }
 }
