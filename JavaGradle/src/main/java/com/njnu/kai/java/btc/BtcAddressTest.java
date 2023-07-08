@@ -76,7 +76,7 @@ public class BtcAddressTest {
 //        segwitAddress = SegwitAddress.fromKey(network, ecKey);
 //        System.out.println("bc1开头的地址2：" + segwitAddress.toBech32());
 
-        int mThreadAmount = 6;
+        int mThreadAmount = 4;
         List<HitAddress> hitArray = new ArrayList<>();
         for (int i = 0; i < mThreadAmount; ++i) {
             HitAddress hitAddress = new HitAddress();
